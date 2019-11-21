@@ -19,6 +19,17 @@ const App = () => {
     setCurrentUser({});
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log('token found!');
+      api.auth.getCurrentUser().then(user => {
+        console.log(user);
+        setCurrentUser(user);
+      });
+    }
+  }, []);
+
   return (
     <div>
       <Router>

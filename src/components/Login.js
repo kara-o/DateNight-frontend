@@ -23,7 +23,6 @@ const Login = props => {
         props.history.push('/');
       } else {
         setError(true);
-        debugger;
       }
     });
   };

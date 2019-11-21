@@ -20,12 +20,12 @@ const getUsers = () => {
 
 const getCurrentUser = () => {
   return fetch(`${API_ROOT}/current_user`, {
-    headers: { ...headers, Authorization: token }
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 };
 
 const login = userData => {
-  debugger;
   return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
     headers: headers,
@@ -37,11 +37,11 @@ const login = userData => {
 
 export const api = {
   auth: {
-    login
+    login,
+    getCurrentUser
   },
   users: {
     createUser,
-    getUsers,
-    getCurrentUser
+    getUsers
   }
 };
