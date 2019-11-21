@@ -1,8 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import Home from
+import Login from
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
+
+  const loggedIn = !!currentUser.id;
+
+  return (
+    <div>
+      <Router>
+        <Route exact path='/'>
+          {loggedIn ? <Home /> : <Redirect to='/login' />}
+        </Route>
+        <Route path='/login' render={props => <Login {...props} />} />
+      </Router>
+    </div>
+  );
 
   // const [users, setUsers] = useState('');
 
