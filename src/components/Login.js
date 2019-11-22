@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
-// import Signup from './Signup';
+import { Link } from 'react-router-dom';
 
 const Login = props => {
   const [formData, setFormData] = useState({
@@ -20,6 +20,7 @@ const Login = props => {
     e.preventDefault();
     api.auth.login(formData).then(res => {
       if (!res.error) {
+        debugger;
         props.handleLogin(res);
         props.history.push('/');
       } else {
@@ -30,10 +31,6 @@ const Login = props => {
       username: '',
       password: ''
     });
-  };
-
-  const handleSignup = e => {
-    props.signupUser();
   };
 
   return (
@@ -64,7 +61,7 @@ const Login = props => {
           />
         </label>
         <input type='submit' value='Login' />
-        <input type='button' value='Signup' onClick={handleSignup} />
+        <Link to='/signup'>New user? Sign up for an account</Link>
       </form>
     </div>
   );
