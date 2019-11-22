@@ -17,15 +17,15 @@ const getUsers = () => {
   return fetch(`${API_ROOT}/users/`).then(res => res.json());
 };
 
-const getCurrentUser = () => {
-  return fetch(`${API_ROOT}/current_user`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
-  }).then(res => res.json());
-};
+// const getCurrentUser = () => {
+//   return fetch(`${API_ROOT}/current_user`, {
+//     method: 'GET',
+//     headers: {
+//       ...headers,
+//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//     }
+//   }).then(res => res.json());
+// };
 
 const login = userData => {
   return fetch(`${API_ROOT}/auth`, {
@@ -39,8 +39,7 @@ const login = userData => {
 
 export const api = {
   auth: {
-    login,
-    getCurrentUser
+    login
   },
   users: {
     createUser,
