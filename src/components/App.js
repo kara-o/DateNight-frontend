@@ -34,9 +34,15 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Navbar handleLogout={logoutUser} currentUser={currentUser} />
         <Route exact path='/'>
-          {loggedIn ? <Home /> : <Redirect to='/login' />}
+          {loggedIn ? (
+            <div>
+              <Navbar handleLogout={logoutUser} currentUser={currentUser} />
+              <Home />
+            </div>
+          ) : (
+            <Redirect to='/login' />
+          )}
         </Route>
         <Route
           path='/login'
