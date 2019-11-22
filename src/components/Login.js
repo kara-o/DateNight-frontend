@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
+// import Signup from './Signup';
 
 const Login = props => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,10 @@ const Login = props => {
     });
   };
 
+  const handleSignup = e => {
+    props.signupUser();
+  };
+
   return (
     <div>
       {error ? (
@@ -59,6 +64,7 @@ const Login = props => {
           />
         </label>
         <input type='submit' value='Login' />
+        <input type='button' value='Signup' onClick={handleSignup} />
       </form>
     </div>
   );
