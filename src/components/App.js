@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../services/api';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Navbar from './Navbar';
 import Signup from './Signup';
+import Request from './Request';
+import './App.css';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('dataObj');
@@ -29,6 +30,7 @@ const App = () => {
 
   return (
     <div>
+      {loggedIn ? <Navbar logoutUser={logoutUser} /> : null}
       <Switch>
         <Route
           path='/login'
@@ -40,11 +42,21 @@ const App = () => {
             )
           }
         />
-        <Route path='/signup' render={props => <Signup {...props} />} />
+        <Route
+          path='/signup'
+          render={props =>
+            !loggedIn ? <Signup {...props} /> : <Redirect to='/' />
+          }
+        />
+        <Route
+          path='/request'
+          render={props =>
+            loggedIn ? <Request {...props} currentUser={currentUser} /> : null
+          }
+        />
         <Route path='/'>
           {loggedIn ? (
             <div>
-              <Navbar logoutUser={logoutUser} />
               <Home currentUser={currentUser} />
             </div>
           ) : (
