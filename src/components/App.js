@@ -7,9 +7,8 @@ import Navbar from './Navbar';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
-  const loggedIn = !!currentUser.id;
-  console.log(currentUser);
-  console.log(loggedIn);
+  const token = localStorage.getItem('token');
+  const loggedIn = !!token;
 
   const loginUser = data => {
     localStorage.setItem('token', data.jwt);
@@ -22,7 +21,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     if (token) {
       console.log('token found!');
       api.auth.getCurrentUser().then(data => {
@@ -34,11 +32,11 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Route exact path='/'>
+        <Route path='/'>
           {loggedIn ? (
             <div>
-              <Navbar handleLogout={logoutUser} currentUser={currentUser} />
               <Home />
+              <Navbar handleLogout={logoutUser} currentUser={currentUser} />
             </div>
           ) : (
             <Redirect to='/login' />
@@ -46,7 +44,13 @@ const App = () => {
         </Route>
         <Route
           path='/login'
-          render={props => <Login {...props} handleLogin={loginUser} />}
+          render={props =>
+            !loggedIn ? (
+              <Login {...props} handleLogin={loginUser} />
+            ) : (
+              <Redirect to='/' />
+            )
+          }
         />
       </Router>
     </div>
