@@ -1,5 +1,4 @@
 const API_ROOT = `http://localhost:3000/api/v1`;
-const token = localStorage.getItem('token');
 
 const headers = {
   'Content-Type': 'application/json',
@@ -21,7 +20,10 @@ const getUsers = () => {
 const getCurrentUser = () => {
   return fetch(`${API_ROOT}/current_user`, {
     method: 'GET',
-    headers: { ...headers, Authorization: `Bearer ${token}` }
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
   }).then(res => res.json());
 };
 

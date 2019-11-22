@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Navbar from './Navbar';
+import Signup from './Signup';
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const token = localStorage.getItem('token');
-  const loggedIn = !!token;
+  const loggedIn = !!currentUser;
 
   useEffect(() => {
     if (token) {
@@ -17,7 +18,7 @@ const App = () => {
         setCurrentUser(data.user);
       });
     }
-  }, []);
+  }, [token]);
 
   const loginUser = data => {
     localStorage.setItem('token', data.jwt);
@@ -26,41 +27,34 @@ const App = () => {
 
   const logoutUser = () => {
     localStorage.removeItem('token');
-    setCurrentUser({});
-  };
-
-  const signupUser = data => {
-    api.users.createUser(data).then(res => console.log(res));
+    setCurrentUser(null);
   };
 
   return (
     <div>
-      <Router>
-        <Route path='/'>
-          {loggedIn ? (
-            <div>
-              <Home />
-              <Navbar handleLogout={logoutUser} currentUser={currentUser} />
-            </div>
-          ) : (
-            <Redirect to='/login' />
-          )}
-        </Route>
+      <Switch>
         <Route
           path='/login'
           render={props =>
             !loggedIn ? (
-              <Login
-                {...props}
-                handleLogin={loginUser}
-                handleSignup={signupUser}
-              />
+              <Login {...props} handleLogin={loginUser} />
             ) : (
               <Redirect to='/' />
             )
           }
         />
-      </Router>
+        <Route path='/signup' render={props => <Signup {...props} />} />
+        <Route path='/'>
+          {loggedIn ? (
+            <div>
+              <Navbar logoutUser={logoutUser} currentUser={currentUser} />
+              <Home />
+            </div>
+          ) : (
+            <Redirect to='/login' />
+          )}
+        </Route>
+      </Switch>
     </div>
   );
 };
