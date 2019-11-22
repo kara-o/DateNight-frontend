@@ -8,6 +8,8 @@ import Navbar from './Navbar';
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const loggedIn = !!currentUser.id;
+  console.log(currentUser);
+  console.log(loggedIn);
 
   const loginUser = data => {
     localStorage.setItem('token', data.jwt);
@@ -23,9 +25,8 @@ const App = () => {
     const token = localStorage.getItem('token');
     if (token) {
       console.log('token found!');
-      api.auth.getCurrentUser().then(user => {
-        console.log(user);
-        setCurrentUser(user);
+      api.auth.getCurrentUser().then(data => {
+        setCurrentUser(data.user);
       });
     }
   }, []);
