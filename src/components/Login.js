@@ -25,6 +25,10 @@ const Login = props => {
         setError(true);
       }
     });
+    setFormData({
+      username: '',
+      password: ''
+    });
   };
 
   return (
