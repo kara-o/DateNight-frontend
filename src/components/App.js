@@ -7,27 +7,24 @@ import Navbar from './Navbar';
 import Signup from './Signup';
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const token = localStorage.getItem('token');
-  const loggedIn = !!currentUser;
+  const loggedIn = !!localStorage.getItem('dataObj');
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    if (token) {
-      console.log('token found!');
-      api.auth.getCurrentUser().then(data => {
-        setCurrentUser(data.user);
-      });
+    if (loggedIn) {
+      const user = JSON.parse(localStorage.getItem('dataObj')).user;
+      setCurrentUser(user);
     }
-  }, [token]);
+  }, [loggedIn]);
 
   const loginUser = data => {
-    localStorage.setItem('token', data.jwt);
+    localStorage.setItem('dataObj', JSON.stringify(data));
     setCurrentUser(data.user);
   };
 
   const logoutUser = () => {
-    localStorage.removeItem('token');
-    setCurrentUser(null);
+    localStorage.removeItem('dataObj');
+    setCurrentUser({});
   };
 
   return (

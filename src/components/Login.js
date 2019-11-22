@@ -20,7 +20,6 @@ const Login = props => {
     e.preventDefault();
     api.auth.login(formData).then(res => {
       if (!res.error) {
-        debugger;
         props.handleLogin(res);
         props.history.push('/');
       } else {
