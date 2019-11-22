@@ -10,6 +10,15 @@ const App = () => {
   const token = localStorage.getItem('token');
   const loggedIn = !!token;
 
+  useEffect(() => {
+    if (token) {
+      console.log('token found!');
+      api.auth.getCurrentUser().then(data => {
+        setCurrentUser(data.user);
+      });
+    }
+  }, []);
+
   const loginUser = data => {
     localStorage.setItem('token', data.jwt);
     setCurrentUser(data.user);
@@ -20,14 +29,9 @@ const App = () => {
     setCurrentUser({});
   };
 
-  useEffect(() => {
-    if (token) {
-      console.log('token found!');
-      api.auth.getCurrentUser().then(data => {
-        setCurrentUser(data.user);
-      });
-    }
-  }, []);
+  const signupUser = data => {
+    api.users.createUser(data).then(res => console.log(res));
+  };
 
   return (
     <div>
@@ -46,7 +50,11 @@ const App = () => {
           path='/login'
           render={props =>
             !loggedIn ? (
-              <Login {...props} handleLogin={loginUser} />
+              <Login
+                {...props}
+                handleLogin={loginUser}
+                handleSignup={signupUser}
+              />
             ) : (
               <Redirect to='/' />
             )
