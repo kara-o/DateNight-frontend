@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
+import { Link } from 'react-router-dom';
 
 const Signup = props => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const Signup = props => {
     first_name: '',
     last_name: ''
   });
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState(null);
 
   const handleChange = e => {
     setFormData({
@@ -21,19 +22,29 @@ const Signup = props => {
   const handleSubmit = e => {
     e.preventDefault();
     api.users.createUser(formData).then(res => {
-      if (!res.error) {
+      if (!res.errors) {
         props.history.push('/login');
       } else {
-        setError(true);
+        setErrors({
+          errorObj: res.errors.error_obj,
+          fullMessages: res.errors.full_messages
+        });
       }
     });
   };
 
+  const renderErrors = errors => {
+    let inputFields = Object.keys(errors.errorObj);
+    inputFields.forEach(field => {
+      //TODO - focus on input
+      document.getElementsByName(field)[0].style.borderColor = 'red';
+    });
+    return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
+  };
+
   return (
     <div>
-      {error ? (
-        <h2>One or more of your entries are invalid. Please try again.</h2>
-      ) : null}
+      <ul>{errors ? renderErrors(errors) : null}</ul>
       <form onSubmit={handleSubmit}>
         <label>
           Username:
@@ -82,6 +93,7 @@ const Signup = props => {
         </label>
         <input type='submit' value='Signup' />
       </form>
+      <Link to='/login'>Back</Link>
     </div>
   );
 };
