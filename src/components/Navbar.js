@@ -12,6 +12,7 @@ const Navbar = props => {
       >
         Logout
       </Link>
+      <p>This is the Navbar</p>
     </div>
   );
 };
