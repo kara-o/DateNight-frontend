@@ -1,4 +1,9 @@
+body {
+  margin: 0;
+}
+
 #main-container {
+  height: 100%;
   display: grid;
   grid-template-areas:
     'nav'
@@ -11,18 +16,40 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  margin: 0;
+  background: #c0c5c1;
 }
 
 @media all and (max-width: 500px) {
   .main-nav {
-    flex-direction: column;
+    justify-content: space-around;
   }
+  .main-nav a {
+    text-decoration: none;
+    padding: 10px;
+  }
+}
+
+.main-nav a {
+  padding: 1em;
+  text-decoration: none;
+  display: block;
+}
+
+.main-nav a:hover {
+  background: #7d8491;
 }
 
 .content {
   grid-area: content;
   display: flex;
+  justify-content: center;
+}
+
+.home {
+  display: flex;
   flex-flow: row wrap;
+  height: 100%;
 }
 
 .content > * {
@@ -31,4 +58,11 @@
 
 .main-footer {
   grid-area: footer;
+}
+
+.login {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: 1px black;
 }
