@@ -1,20 +1,22 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ logoutUser }) => {
   return (
     <nav className='main-nav'>
-      <NavLink to='/' className='navbar-logo'>
+      <Link to='/' className='navbar-logo'>
         dN
-      </NavLink>
-      <NavLink
-        to='/login'
-        onClick={() => {
-          logoutUser();
-        }}
-      >
-        Logout
-      </NavLink>
+      </Link>
+      <div className='navbar-list'>
+        <Link
+          to='/login'
+          onClick={() => {
+            logoutUser();
+          }}
+        >
+          Logout
+        </Link>
+      </div>
     </nav>
   );
 };

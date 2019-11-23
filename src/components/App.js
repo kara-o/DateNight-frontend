@@ -57,9 +57,7 @@ const App = () => {
           />
           <Route path='/'>
             {loggedIn ? (
-              <div>
-                <Home currentUser={currentUser} />
-              </div>
+              <Home currentUser={currentUser} />
             ) : (
               <Redirect to='/login' />
             )}

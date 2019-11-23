@@ -33,7 +33,7 @@ const Login = props => {
   };
 
   return (
-    <div>
+    <div className='login'>
       {error ? (
         <h2>
           Username and/or password is incorrect. Please try again or signup for
