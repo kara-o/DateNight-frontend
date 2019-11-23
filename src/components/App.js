@@ -5,7 +5,7 @@ import Login from './Login';
 import Navbar from './Navbar';
 import Signup from './Signup';
 import Request from './Request';
-import './App.css';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('dataObj');
@@ -29,7 +29,8 @@ const App = () => {
   };
 
   return (
-    <div>
+    <>
+      <CssBaseline />
       {loggedIn ? <Navbar logoutUser={logoutUser} /> : null}
       <Switch>
         <Route
@@ -64,7 +65,7 @@ const App = () => {
           )}
         </Route>
       </Switch>
-    </div>
+    </>
   );
 };
 
