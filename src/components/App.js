@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
-import Navbar from './Navbar';
+import Navbar from './layout/Navbar';
+import Footer from './layout/Footer';
 import Signup from './Signup';
 import Request from './Request';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('dataObj');
@@ -30,41 +30,43 @@ const App = () => {
 
   return (
     <>
-      <CssBaseline />
       {loggedIn ? <Navbar logoutUser={logoutUser} /> : null}
-      <Switch>
-        <Route
-          path='/login'
-          render={props =>
-            !loggedIn ? (
-              <Login {...props} handleLogin={loginUser} />
+      <div className='content'>
+        <Switch>
+          <Route
+            path='/login'
+            render={props =>
+              !loggedIn ? (
+                <Login {...props} handleLogin={loginUser} />
+              ) : (
+                <Redirect to='/' />
+              )
+            }
+          />
+          <Route
+            path='/signup'
+            render={props =>
+              !loggedIn ? <Signup {...props} /> : <Redirect to='/' />
+            }
+          />
+          <Route
+            path='/request'
+            render={props =>
+              loggedIn ? <Request {...props} currentUser={currentUser} /> : null
+            }
+          />
+          <Route path='/'>
+            {loggedIn ? (
+              <div>
+                <Home currentUser={currentUser} />
+              </div>
             ) : (
-              <Redirect to='/' />
-            )
-          }
-        />
-        <Route
-          path='/signup'
-          render={props =>
-            !loggedIn ? <Signup {...props} /> : <Redirect to='/' />
-          }
-        />
-        <Route
-          path='/request'
-          render={props =>
-            loggedIn ? <Request {...props} currentUser={currentUser} /> : null
-          }
-        />
-        <Route path='/'>
-          {loggedIn ? (
-            <div>
-              <Home currentUser={currentUser} />
-            </div>
-          ) : (
-            <Redirect to='/login' />
-          )}
-        </Route>
-      </Switch>
+              <Redirect to='/login' />
+            )}
+          </Route>
+        </Switch>
+      </div>
+      <Footer />
     </>
   );
 };

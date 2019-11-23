@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import 'typeface-roboto';
+import './main.css';
 
 ReactDOM.render(
   <Router>
     <App />
   </Router>,
-  document.getElementById('root')
+  document.getElementById('main-container')
 );

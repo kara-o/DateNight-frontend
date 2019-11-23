@@ -1,0 +1,34 @@
+#main-container {
+  display: grid;
+  grid-template-areas:
+    'nav'
+    'content'
+    'footer';
+}
+
+.main-nav {
+  grid-area: nav;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+@media all and (max-width: 500px) {
+  .main-nav {
+    flex-direction: column;
+  }
+}
+
+.content {
+  grid-area: content;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.content > * {
+  flex: 1 100%;
+}
+
+.main-footer {
+  grid-area: footer;
+}
