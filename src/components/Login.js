@@ -33,14 +33,14 @@ const Login = props => {
   };
 
   return (
-    <div className='login'>
+    <div className='login container'>
       {error ? (
         <h2>
           Username and/or password is incorrect. Please try again or signup for
           a new account.
         </h2>
       ) : null}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='login form'>
         <label>
           Username:
           <input
@@ -60,8 +60,8 @@ const Login = props => {
           />
         </label>
         <input type='submit' value='Login' />
-        <Link to='/signup'>New user? Sign up for an account</Link>
       </form>
+      <Link to='/signup'>New user? Sign up for an account</Link>
     </div>
   );
 };

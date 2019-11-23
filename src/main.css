@@ -52,17 +52,27 @@ body {
   height: 100%;
 }
 
-.content > * {
+/* .content > * {
   flex: 1 100%;
-}
+} */
 
 .main-footer {
   grid-area: footer;
 }
 
 .login {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  border: 1px black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login.form {
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 20px;
+}
+
+form > label,
+form > input {
+  padding: 10px;
 }
