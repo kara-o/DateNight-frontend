@@ -35,26 +35,22 @@ const Login = props => {
 
   return (
     <div className='container'>
-      <form className='form container'>
+      <form className='container'>
         <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-        <label>
-          Username:
-          <input
-            type='text'
-            name='username'
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
+        <input
+          type='text'
+          name='username'
+          value={formData.username}
+          onChange={handleChange}
+          placeholder='Username'
+        />
+        <input
+          type='password'
+          name='password'
+          value={formData.password}
+          onChange={handleChange}
+          placeholder='Password'
+        />
         <Button type='submit' onClick={handleSubmit}>
           Login
         </Button>

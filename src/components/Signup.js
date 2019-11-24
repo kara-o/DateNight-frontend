@@ -40,53 +40,43 @@ const Signup = props => {
 
   return (
     <div className='container'>
-      <form className='form container'>
+      <form className='container'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        <label>
-          Username:
-          <input
-            type='text'
-            name='username'
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type='text'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          First Name:
-          <input
-            type='text'
-            name='first_name'
-            value={formData.first_name}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            type='text'
-            name='last_name'
-            value={formData.last_name}
-            onChange={handleChange}
-          />
-        </label>
+        <input
+          type='text'
+          name='username'
+          value={formData.username}
+          onChange={handleChange}
+          placeholder='Username'
+        />
+        <input
+          type='password'
+          name='password'
+          value={formData.password}
+          onChange={handleChange}
+          placeholder='Password'
+        />
+        <input
+          type='text'
+          name='email'
+          value={formData.email}
+          onChange={handleChange}
+          placeholder='Email'
+        />
+        <input
+          type='text'
+          name='first_name'
+          value={formData.first_name}
+          onChange={handleChange}
+          placeholder='First Name'
+        />
+        <input
+          type='text'
+          name='last_name'
+          value={formData.last_name}
+          onChange={handleChange}
+          placeholder='Last Name'
+        />
         <Button type='submit' onClick={handleSubmit}>
           Signup
         </Button>
