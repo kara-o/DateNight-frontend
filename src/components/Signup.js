@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
 import { Link } from 'react-router-dom';
+import Button from './layout/Button';
 
 const Signup = props => {
   const [formData, setFormData] = useState({
@@ -34,18 +35,13 @@ const Signup = props => {
   };
 
   const renderErrors = errors => {
-    let inputFields = Object.keys(errors.errorObj);
-    inputFields.forEach(field => {
-      //TODO - focus on input
-      document.getElementsByName(field)[0].style.borderColor = 'red';
-    });
     return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
   };
 
   return (
-    <div>
-      <ul>{errors ? renderErrors(errors) : null}</ul>
-      <form onSubmit={handleSubmit}>
+    <div className='container'>
+      <form className='form container'>
+        <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         <label>
           Username:
           <input
@@ -91,7 +87,9 @@ const Signup = props => {
             onChange={handleChange}
           />
         </label>
-        <input type='submit' value='Signup' />
+        <Button type='submit' onClick={handleSubmit}>
+          Signup
+        </Button>
       </form>
       <Link to='/login'>Back</Link>
     </div>
