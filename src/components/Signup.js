@@ -22,7 +22,7 @@ const Signup = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    api.users.createUser(formData).then(res => {
+    api.createUser(formData).then(res => {
       if (!res.errors) {
         props.history.push('/login');
       } else {

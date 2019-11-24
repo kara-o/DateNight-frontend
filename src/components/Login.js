@@ -19,7 +19,7 @@ const Login = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    api.auth.login(formData).then(res => {
+    api.login(formData).then(res => {
       if (!res.error) {
         props.handleLogin(res);
         props.history.push('/');
