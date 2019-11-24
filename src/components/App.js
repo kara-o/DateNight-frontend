@@ -9,24 +9,24 @@ import Signup from './Signup';
 import Request from './Request';
 
 const App = () => {
-  const loggedIn = !!localStorage.getItem('dataObj');
-  const [currentUser, setCurrentUser] = useState({});
+  const loggedIn = !!localStorage.getItem('userData');
+  const [currentUserData, setCurrentUserData] = useState({});
 
   useEffect(() => {
     if (loggedIn) {
-      const user = JSON.parse(localStorage.getItem('dataObj')).user;
-      setCurrentUser(user);
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      setCurrentUserData(userData);
     }
   }, [loggedIn]);
 
   const loginUser = data => {
-    localStorage.setItem('dataObj', JSON.stringify(data));
-    setCurrentUser(data.user);
+    localStorage.setItem('userData', JSON.stringify(data));
+    setCurrentUserData(data);
   };
 
   const logoutUser = () => {
-    localStorage.removeItem('dataObj');
-    setCurrentUser({});
+    localStorage.removeItem('userData');
+    setCurrentUserData({});
   };
 
   return (
@@ -55,8 +55,8 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Sidebar currentUser={currentUser} />
-                  <Request {...props} currentUser={currentUser} />
+                  <Sidebar currentUserData={currentUserData} />
+                  <Request {...props} currentUserData={currentUserData} />
                 </>
               ) : null
             }
@@ -64,8 +64,8 @@ const App = () => {
           <Route path='/'>
             {loggedIn ? (
               <>
-                <Sidebar currentUser={currentUser} />
-                <Main currentUser={currentUser} />
+                <Sidebar currentUserData={currentUserData} />
+                <Main currentUserData={currentUserData} />
               </>
             ) : (
               <Redirect to='/login' />

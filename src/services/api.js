@@ -23,11 +23,15 @@ const login = userData => {
   }).then(res => res.json());
 };
 
-export const api = {
-  auth: {
-    login
-  },
-  users: {
-    createUser
-  }
+const createRequest = (requestData, userId, token) => {
+  console.log('here in createRequest!');
+  return fetch(`${API_ROOT}/users/${userId}/requests`, {
+    method: 'POST',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      request: requestData
+    })
+  }).then(res => res.json());
 };
+
+export const api = { createUser, login, createRequest };
