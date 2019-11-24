@@ -3,20 +3,18 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ logoutUser }) => {
   return (
-    <nav className='main-nav'>
-      <Link to='/' className='navbar-logo'>
-        dN
+    <nav className='nav'>
+      <Link
+        to='/login'
+        onClick={() => {
+          logoutUser();
+        }}
+      >
+        Logout
       </Link>
-      <div className='navbar-list'>
-        <Link
-          to='/login'
-          onClick={() => {
-            logoutUser();
-          }}
-        >
-          Logout
-        </Link>
-      </div>
+      <Link to='/' className='navbar-logo'>
+        Home
+      </Link>
     </nav>
   );
 };

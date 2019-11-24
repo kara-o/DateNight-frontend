@@ -12,7 +12,7 @@ body {
   justify-content: center;
 }
 
-.main-nav {
+.nav {
   flex: 1 100%;
   display: flex;
   flex-flow: row wrap;
@@ -22,27 +22,42 @@ body {
 }
 
 @media all and (max-width: 500px) {
-  .main-nav {
+  .nav {
     justify-content: center;
   }
-  .main-nav a {
+  .nav a {
     text-decoration: none;
     padding: 10px;
   }
 }
 
 a {
-  text-align: center;
-  padding: 1em;
-}
-
-.main-nav a {
   text-decoration: none;
   display: block;
+  text-align: center;
+  padding: 1em;
+  color: black;
+  background: #c0c5c1;
 }
 
-.main-nav a:hover {
+a.request {
+  background: #c0c5c1;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  width: 25%;
+  margin: auto;
+}
+
+a:hover,
+button:hover {
   background: #7d8491;
+}
+
+.button {
+  background: #c0c5c1;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  margin: 20px;
 }
 
 .content {
@@ -55,13 +70,16 @@ a {
 
 .sidebar {
   flex: 1;
+  border-right: 1px solid lightgray;
 }
 
 .main {
-  flex: 2;
+  flex: 4;
+  display: flex;
+  flex-direction: column;
 }
 
-.main-footer {
+.footer {
   flex: 1 100%;
   text-align: center;
 }
@@ -70,17 +88,20 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.form {
-  border-radius: 10px;
   border: 1px solid lightgray;
-  padding: 20px;
 }
 
-form > label,
-form > input {
-  padding: 10px;
+form.container {
+  padding: 20px 20px 0px 20px;
+}
+
+input {
+  border-bottom: 1px solid lightgray;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+  padding: 20px 20px 5px 20px;
 }
 
 .errors {
