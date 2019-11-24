@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Main = () => {
   return (
     <div className='main'>
-      <Link className='request' to='/request'>
+      <Link className='request-link' to='/request'>
         Make a New Request!
       </Link>
     </div>
