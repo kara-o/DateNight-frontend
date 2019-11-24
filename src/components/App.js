@@ -53,7 +53,12 @@ const App = () => {
           <Route
             path='/request'
             render={props =>
-              loggedIn ? <Request {...props} currentUser={currentUser} /> : null
+              loggedIn ? (
+                <>
+                  <Sidebar currentUser={currentUser} />
+                  <Request {...props} currentUser={currentUser} />
+                </>
+              ) : null
             }
           />
           <Route path='/'>
