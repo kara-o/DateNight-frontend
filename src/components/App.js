@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import Home from './Home';
+import Sidebar from './Sidebar';
+import Main from './Main';
 import Login from './Login';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -57,7 +58,10 @@ const App = () => {
           />
           <Route path='/'>
             {loggedIn ? (
-              <Home currentUser={currentUser} />
+              <>
+                <Sidebar currentUser={currentUser} />
+                <Main currentUser={currentUser} />
+              </>
             ) : (
               <Redirect to='/login' />
             )}
