@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
-import Navbar from './layout/Navbar';
-import Footer from './layout/Footer';
+import Navbar from './Navbar';
+import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
 

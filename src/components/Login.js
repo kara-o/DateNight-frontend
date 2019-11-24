@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
 import { Link } from 'react-router-dom';
+import Button from './layout/Button';
 
 const Login = props => {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = e => {
     setFormData({
@@ -23,7 +24,7 @@ const Login = props => {
         props.handleLogin(res);
         props.history.push('/');
       } else {
-        setError(true);
+        setError(res.error);
       }
     });
     setFormData({
@@ -33,14 +34,9 @@ const Login = props => {
   };
 
   return (
-    <div className='login container'>
-      {error ? (
-        <h2>
-          Username and/or password is incorrect. Please try again or signup for
-          a new account.
-        </h2>
-      ) : null}
-      <form onSubmit={handleSubmit} className='login form'>
+    <div className='container'>
+      <form className='form container'>
+        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
         <label>
           Username:
           <input
@@ -59,7 +55,9 @@ const Login = props => {
             onChange={handleChange}
           />
         </label>
-        <input type='submit' value='Login' />
+        <Button type='submit' onClick={handleSubmit}>
+          Login
+        </Button>
       </form>
       <Link to='/signup'>New user? Sign up for an account</Link>
     </div>
