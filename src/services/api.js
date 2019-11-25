@@ -24,14 +24,41 @@ const login = userData => {
 };
 
 const createRequest = (requestData, userId, token) => {
-  console.log('here in createRequest!');
+  console.log(requestData);
   return fetch(`${API_ROOT}/users/${userId}/requests`, {
     method: 'POST',
     headers: { ...headers, Authorization: `Bearer ${token}` },
     body: JSON.stringify({
-      request: requestData
+      request: { ...requestData, user_id: userId }
     })
   }).then(res => res.json());
 };
 
-export const api = { createUser, login, createRequest };
+const fetchOptions = (type, token) => {
+  return fetch(`${API_ROOT}/${type}/`, {
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  }).then(res => res.json());
+};
+
+const createSelection = (requestId, optionId, optionType, token) => {
+  return (
+    fetch(`${API_ROOT}/users/${requestId}/${optionType}s_requests`),
+    {
+      method: 'POST',
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        request_id: requestId,
+        [`${optionType}_id`]: optionId
+      })
+    }.then(res => res.json())
+  );
+};
+
+export const api = {
+  createUser,
+  login,
+  createRequest,
+  createSelection,
+  fetchOptions
+};
