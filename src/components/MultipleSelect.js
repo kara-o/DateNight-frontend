@@ -1,6 +1,11 @@
 import React from 'react';
 
-const MultipleSelect = () => {
+const MultipleSelect = ({
+  type,
+  optionsArray,
+  displayAttribute,
+  setOptions
+}) => {
   const handleMultipleChange = e => {
     const { options } = e.target;
     const values = [];
@@ -9,30 +14,22 @@ const MultipleSelect = () => {
         values.push(options[i].value);
       }
     }
-    console.log(values);
+    setOptions(values);
+  };
+
+  const renderOptions = (optionsArray, displayAttribute) => {
+    return optionsArray.map(option => (
+      <option key={option.id} value={option.id}>
+        {option[`${displayAttribute}`]}
+      </option>
+    ));
   };
 
   return (
     <>
-      <label htmlFor='cuisine'> Cuisine(s) </label>
-      <select
-        id='cuisine'
-        name='cuisine'
-        onChange={handleMultipleChange}
-        multiple
-      >
-        {renderOptions(cuisines)}
+      <select id={type} name={type} onChange={handleMultipleChange} multiple>
+        {renderOptions(optionsArray, displayAttribute)}
       </select>
-      <label htmlFor='neighborhood'> Neighborhood(s) </label>
-      <select
-        id='neighborhood'
-        name='neighborhood'
-        onChange={handleMultipleChange}
-        multiple
-      >
-        {renderOptions(neighborhoods)}
-      </select>
-      <label htmlFor='price'> Price Range </label>
     </>
   );
 };
