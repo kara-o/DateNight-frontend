@@ -71,11 +71,25 @@ button:hover {
 .sidebar {
   flex: 1;
   border-right: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#sidebar-list {
+  list-style: none;
+  padding: 0;
+}
+
+#avatar {
+  width: 200px;
+  height: 200px;
 }
 
 .main,
 .request {
-  flex: 4;
+  flex: 5;
   display: flex;
   flex-direction: column;
 }
