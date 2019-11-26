@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { api } from '../services/api';
 
 const RequestShow = props => {
-  console.log('here!', props);
+  const currentUser = props.currentUserData.user;
+  const token = props.currentUserData.jwt;
+  const requestId = props.match.params.id;
 
-  const fetchRequest = () => {
-    fetch(
-      `http://localhost:3000/api/v1/users/${props.currentUserData.user.id}/requests/${props.match.params.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${props.currentUserData.jwt}`
-        }
-      }
-    )
-      .then(res => res.json())
-      .then(console.log);
+  const [request, setRequest] = useState(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      api
+        .fetchRequest(token, currentUser.id, requestId)
+        .then(res => setRequest(res.request));
+    }
+  }, [currentUser]);
+
+  const renderSelections = (array, attribute) => {
+    console.log(array);
+    return array.map(selection => {
+      return <li>{selection[`${attribute}`]}</li>;
+    });
   };
 
-  return <div>{props.currentUserData.user ? fetchRequest() : null}</div>;
+  return (
+    <>
+      {request ? (
+        <div className='request show'>
+          <p>Date: {request.date}</p>
+          <p>Window: {request.start + ' - ' + request.end}</p>
+          <p>Party Size: {request.size}</p>
+          <p>
+            Cuisines:<ul>{renderSelections(request.cuisines, 'category')}</ul>
+          </p>
+          <p>
+            Neighborhoods:
+            <ul>{renderSelections(request.neighborhoods, 'name')}</ul>
+          </p>
+          <p>
+            Prices:<ul>{renderSelections(request.prices, 'amount')}</ul>
+          </p>
+          <p>Created: {request.created_at}</p>
+        </div>
+      ) : null}
+    </>
+  );
 };
 
 export default RequestShow;
