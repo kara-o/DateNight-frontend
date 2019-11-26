@@ -23,12 +23,28 @@ const login = userData => {
   }).then(res => res.json());
 };
 
-const createRequest = (requestData, userId, token) => {
+const createRequest = (
+  requestData,
+  userId,
+  token,
+  cuisines,
+  neighborhoods,
+  prices
+) => {
   return fetch(`${API_ROOT}/users/${userId}/requests`, {
     method: 'POST',
     headers: { ...headers, Authorization: `Bearer ${token}` },
     body: JSON.stringify({
-      request: { ...requestData, user_id: userId }
+      request: {
+        date: requestData.date,
+        start_time: requestData.start_time,
+        end_time: requestData.end_time,
+        size: requestData.size,
+        user_id: userId,
+        cuisines_requests_attributes: cuisines,
+        neighborhoods_requests_attributes: neighborhoods,
+        prices_requests_attributes: prices
+      }
     })
   }).then(res => res.json());
 };
@@ -40,24 +56,9 @@ const fetchOptions = (type, token) => {
   }).then(res => res.json());
 };
 
-const createSelection = (user_id, requestId, optionId, optionType, token) => {
-  return fetch(
-    `${API_ROOT}/users/${user_id}/requests/${requestId}/${optionType}s_requests/`,
-    {
-      method: 'POST',
-      headers: { ...headers, Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        request_id: requestId,
-        [`${optionType}_id`]: optionId
-      })
-    }
-  ).then(res => res.text().then(console.log));
-};
-
 export const api = {
   createUser,
   login,
   createRequest,
-  createSelection,
   fetchOptions
 };

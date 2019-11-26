@@ -14,9 +14,9 @@ const Request = ({ currentUserData }) => {
   });
   const [errors, setErrors] = useState(null);
   const [cuisines, setCuisines] = useState([]);
-  const [cuisinePickIds, setCuisinePickIds] = useState([]);
+  const [cuisinePicks, setCuisinePicks] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
-  const [neighborhoodPickIds, setNeighborhoodPickIds] = useState([]);
+  const [neighborhoodPicks, setNeighborhoodPicks] = useState([]);
   const [prices, setPrices] = useState([]);
   const [requestId, setRequestId] = useState('');
 
@@ -62,115 +62,83 @@ const Request = ({ currentUserData }) => {
     e.preventDefault();
     const userId = currentUserData.user.id;
     const token = currentUserData.jwt;
+    const prices = document.getElementsByName('price-checkbox');
+    console.log(prices);
+    const checkedPrices = prices.filter(p => p.checked).map(p => p.id);
+    console.log('checkedPrices', checkedPrices);
     api
-      .createRequest(formData, userId, token)
-      .then(res => setRequestId(res.request.id));
-  };
-
-  const handleOptionsSubmit = e => {
-    e.preventDefault();
-    const token = currentUserData.jwt;
-    const userId = currentUserData.user.id;
-    cuisinePickIds.forEach(c => {
-      debugger;
-      api
-        .createSelection(userId, requestId, c, 'cuisine', token)
-        .then(console.log);
-    });
-    neighborhoodPickIds.forEach(n => {
-      api
-        .createSelection(userId, requestId, n, 'neighborhood', token)
-        .then(console.log);
-    });
-    const priceCheckboxes = document.getElementsByName('price-checkbox');
-    priceCheckboxes.forEach(p => {
-      if (p.checked) {
-        api
-          .createSelection(userId, requestId, p.value, 'price', token)
-          .then(console.log);
-      }
-    });
-  };
-
-  const handleResponse = res => {
-    if (!res.error) {
-      console.log('Success!');
-    } else {
-      console.log(res.error);
-    }
+      .createRequest(
+        formData,
+        userId,
+        token,
+        cuisinePicks,
+        neighborhoodPicks,
+        checkedPrices
+      )
+      .then(console.log);
   };
 
   return (
     <>
       <form className='request' autoComplete='off'>
-        {requestId ? (
-          <div id='form-part-two'>
-            <MultipleSelect
-              type='cuisines'
-              optionsArray={cuisines}
-              displayAttribute='category'
-              setOptions={setCuisinePickIds}
-            />
-            <MultipleSelect
-              type='neighborhoods'
-              optionsArray={neighborhoods}
-              displayAttribute='name'
-              setOptions={setNeighborhoodPickIds}
-            />
-            {renderPrices()}
-            <Button type='submit' onClick={handleOptionsSubmit}>
-              Submit
-            </Button>
-          </div>
-        ) : (
-          <div id='form-part-one'>
-            <label htmlFor='date'> Date </label>
-            <DatePicker
-              id='date'
-              selected={formData.date}
-              onChange={value => handleChange(value, 'date')}
-            />
-            <label htmlFor='start-time'> Start Time </label>
-            <DatePicker
-              id='start-time'
-              selected={formData.start_time}
-              onChange={value => handleChange(value, 'start_time')}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={30}
-              timeCaption='Time'
-              dateFormat='h:mm aa'
-            />
-            <label htmlFor='end-time'> End Time </label>
-            <DatePicker
-              id='end-time'
-              selected={formData.end_time}
-              onChange={value => handleChange(value, 'end_time')}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={30}
-              timeCaption='Time'
-              dateFormat='h:mm aa'
-            />
-            <label htmlFor='party-size'> Party Size </label>
-            <select
-              id='party-size'
-              name='size'
-              onChange={e => {
-                handleChange(e.target.value, 'size');
-              }}
-              defaultValue='2'
-            >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-            </select>
-            <Button type='submit' onClick={handleSubmit}>
-              Continue
-            </Button>
-          </div>
-        )}
+        <label htmlFor='date'> Date </label>
+        <DatePicker
+          id='date'
+          selected={formData.date}
+          onChange={value => handleChange(value, 'date')}
+        />
+        <label htmlFor='start-time'> Start Time </label>
+        <DatePicker
+          id='start-time'
+          selected={formData.start_time}
+          onChange={value => handleChange(value, 'start_time')}
+          showTimeSelect
+          showTimeSelectOnly
+          timeIntervals={30}
+          timeCaption='Time'
+          dateFormat='h:mm aa'
+        />
+        <label htmlFor='end-time'> End Time </label>
+        <DatePicker
+          id='end-time'
+          selected={formData.end_time}
+          onChange={value => handleChange(value, 'end_time')}
+          showTimeSelect
+          showTimeSelectOnly
+          timeIntervals={30}
+          timeCaption='Time'
+          dateFormat='h:mm aa'
+        />
+        <label htmlFor='party-size'> Party Size </label>
+        <select
+          id='party-size'
+          name='size'
+          onChange={e => {
+            handleChange(e.target.value, 'size');
+          }}
+          defaultValue='2'
+        >
+          <option value='1'>1</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+        </select>
+        <MultipleSelect
+          type='cuisines'
+          optionsArray={cuisines}
+          displayAttribute='category'
+          setOptions={setCuisinePicks}
+        />
+        <MultipleSelect
+          type='neighborhoods'
+          optionsArray={neighborhoods}
+          displayAttribute='name'
+          setOptions={setNeighborhoodPicks}
+        />
+        {renderPrices()}
+        <Button type='submit' onClick={handleSubmit}>
+          Submit
+        </Button>
       </form>
     </>
   );
