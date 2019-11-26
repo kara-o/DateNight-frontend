@@ -66,7 +66,7 @@ const Request = props => {
     const checkedPrices = [];
     for (const checkbox of prices) {
       if (checkbox.checked) {
-        checkedPrices.push(checkbox.value);
+        checkedPrices.push({ ['price_id']: checkbox.value });
       }
     }
     api
