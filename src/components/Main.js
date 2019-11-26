@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import itinerary from '../images/itinerary1.png';
 
 const Main = ({ currentUserData }) => {
   const currentUser = currentUserData.user;
@@ -19,8 +20,8 @@ const Main = ({ currentUserData }) => {
     if (currentUser) {
       return currentUser.requests.map(r => {
         return (
-          <tr key={r.id}>
-            <Link to={`/requests/${r.id}`} id='table-link'>
+          <Link to={`/requests/${r.id}`} id='table-link'>
+            <tr key={r.id}>
               <td>{new Date(r.date).toDateString()}</td>
               <td>
                 {convertTime(
@@ -36,8 +37,11 @@ const Main = ({ currentUserData }) => {
               <td>
                 <i>{r.status}</i>
               </td>
-            </Link>
-          </tr>
+              <td>
+                <img src={itinerary} alt='itinerary icon' />
+              </td>
+            </tr>
+          </Link>
         );
       });
     }
