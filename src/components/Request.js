@@ -80,6 +80,8 @@ const Request = props => {
       )
       .then(res => {
         if (!res.errors) {
+          console.log('created response:', res);
+          // props.pushNewRequest(res.request)
           props.history.push('/');
         } else {
           setErrors({

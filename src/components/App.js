@@ -12,11 +12,13 @@ import RequestShow from './RequestShow';
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
   const [currentUserData, setCurrentUserData] = useState({});
+  // const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     if (loggedIn) {
       const userData = JSON.parse(localStorage.getItem('userData'));
       setCurrentUserData(userData);
+      // setRequests(userData.user.requests);
     }
   }, [loggedIn]);
 
@@ -29,6 +31,10 @@ const App = () => {
     localStorage.removeItem('userData');
     setCurrentUserData({});
   };
+
+  // const pushNewRequest = request => {
+  //   setRequests([...currentUserData.user.requests, request]);
+  // };
 
   return (
     <>
@@ -57,7 +63,11 @@ const App = () => {
               loggedIn ? (
                 <>
                   <Sidebar currentUserData={currentUserData} />
-                  <Request {...props} currentUserData={currentUserData} />
+                  <Request
+                    {...props}
+                    currentUserData={currentUserData}
+                    // pushNewRequest={pushNewRequest}
+                  />
                 </>
               ) : null
             }

@@ -4,27 +4,39 @@ import { Link } from 'react-router-dom';
 const Main = ({ currentUserData }) => {
   const currentUser = currentUserData.user;
 
+  const convertTime = string => {
+    let end = '';
+    const arr = string.split(':');
+    let first = parseInt(arr[0], 10);
+    if (first > 12) {
+      end = 'PM';
+      first -= 12;
+    }
+    return `${first}:${arr[1]} ${end}`;
+  };
+
   const renderRequests = () => {
     if (currentUser) {
       return currentUser.requests.map(r => {
         return (
           <tr key={r.id}>
-            <td>
-              <Link to={`/requests/${r.id}`}>
-                {new Date(r.date).toDateString()}
-              </Link>
-            </td>
-            <td>
-              <Link>{new Date(r.start_time).toTimeString()}</Link>
-            </td>
-            <td>
-              <Link>{new Date(r.end_time).toTimeString()}</Link>
-            </td>
-            <td>
-              <Link>{r.size}</Link>
-            </td>
-            <td></td>
-            <td></td>
+            <Link to={`/requests/${r.id}`} id='table-link'>
+              <td>{new Date(r.date).toDateString()}</td>
+              <td>
+                {convertTime(
+                  new Date(r.start_time).toTimeString().split(':00 ')[0]
+                )}
+              </td>
+              <td>
+                {convertTime(
+                  new Date(r.end_time).toTimeString().split(':00 ')[0]
+                )}
+              </td>
+              <td>{r.size}</td>
+              <td>
+                <i>{r.status}</i>
+              </td>
+            </Link>
           </tr>
         );
       });
