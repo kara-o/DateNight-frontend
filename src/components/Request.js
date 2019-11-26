@@ -5,7 +5,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { api } from '../services/api';
 import MultipleSelect from './MultipleSelect';
 
-const Request = ({ currentUserData }) => {
+const Request = props => {
+  const { currentUserData } = props;
   const [formData, setFormData] = useState({
     date: new Date(),
     start_time: '',
@@ -18,7 +19,6 @@ const Request = ({ currentUserData }) => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [neighborhoodPicks, setNeighborhoodPicks] = useState([]);
   const [prices, setPrices] = useState([]);
-  const [requestId, setRequestId] = useState('');
 
   //TODO add loading
   useEffect(() => {
@@ -69,7 +69,6 @@ const Request = ({ currentUserData }) => {
         checkedPrices.push(checkbox.value);
       }
     }
-    console.log('checkedPrices', checkedPrices);
     api
       .createRequest(
         formData,
@@ -79,19 +78,33 @@ const Request = ({ currentUserData }) => {
         neighborhoodPicks,
         checkedPrices
       )
-      .then(console.log);
+      .then(res => {
+        if (!res.errors) {
+          props.history.push('/');
+        } else {
+          setErrors({
+            errorObj: res.errors.error_obj,
+            fullMessages: res.errors.full_messages
+          });
+        }
+      });
+  };
+
+  const renderErrors = errors => {
+    return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
   };
 
   return (
     <>
       <form className='request' autoComplete='off'>
-        <label htmlFor='date'> Date </label>
+        <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
+        Date
         <DatePicker
           id='date'
           selected={formData.date}
           onChange={value => handleChange(value, 'date')}
         />
-        <label htmlFor='start-time'> Start Time </label>
+        Start Time
         <DatePicker
           id='start-time'
           selected={formData.start_time}
@@ -102,7 +115,7 @@ const Request = ({ currentUserData }) => {
           timeCaption='Time'
           dateFormat='h:mm aa'
         />
-        <label htmlFor='end-time'> End Time </label>
+        End Time
         <DatePicker
           id='end-time'
           selected={formData.end_time}
@@ -113,7 +126,7 @@ const Request = ({ currentUserData }) => {
           timeCaption='Time'
           dateFormat='h:mm aa'
         />
-        <label htmlFor='party-size'> Party Size </label>
+        Party Size
         <select
           id='party-size'
           name='size'
@@ -127,18 +140,21 @@ const Request = ({ currentUserData }) => {
           <option value='3'>3</option>
           <option value='4'>4</option>
         </select>
+        Cuisine(s)
         <MultipleSelect
           type='cuisine'
           optionsArray={cuisines}
           displayAttribute='category'
           setOptions={setCuisinePicks}
         />
+        Neighborhood(s)
         <MultipleSelect
           type='neighborhood'
           optionsArray={neighborhoods}
           displayAttribute='name'
           setOptions={setNeighborhoodPicks}
         />
+        Price Range(s)
         {renderPrices()}
         <Button type='submit' onClick={handleSubmit}>
           Submit
