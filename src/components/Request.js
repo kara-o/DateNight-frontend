@@ -63,8 +63,12 @@ const Request = ({ currentUserData }) => {
     const userId = currentUserData.user.id;
     const token = currentUserData.jwt;
     const prices = document.getElementsByName('price-checkbox');
-    console.log(prices);
-    const checkedPrices = prices.filter(p => p.checked).map(p => p.id);
+    const checkedPrices = [];
+    for (const checkbox of prices) {
+      if (checkbox.checked) {
+        checkedPrices.push(checkbox.value);
+      }
+    }
     console.log('checkedPrices', checkedPrices);
     api
       .createRequest(
@@ -124,13 +128,13 @@ const Request = ({ currentUserData }) => {
           <option value='4'>4</option>
         </select>
         <MultipleSelect
-          type='cuisines'
+          type='cuisine'
           optionsArray={cuisines}
           displayAttribute='category'
           setOptions={setCuisinePicks}
         />
         <MultipleSelect
-          type='neighborhoods'
+          type='neighborhood'
           optionsArray={neighborhoods}
           displayAttribute='name'
           setOptions={setNeighborhoodPicks}

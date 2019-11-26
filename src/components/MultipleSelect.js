@@ -6,12 +6,14 @@ const MultipleSelect = ({
   displayAttribute,
   setOptions
 }) => {
-  const handleMultipleChange = e => {
+  const handleChange = e => {
     const { options } = e.target;
     const values = [];
     for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
-        values.push(options[i].value);
+        values.push({
+          [`${type}_id`]: options[i].value
+        });
       }
     }
     setOptions(values);
@@ -27,7 +29,12 @@ const MultipleSelect = ({
 
   return (
     <>
-      <select id={type} name={type} onChange={handleMultipleChange} multiple>
+      <select
+        id={`${type}-select`}
+        name={`${type}-select`}
+        onChange={handleChange}
+        multiple
+      >
         {renderOptions(optionsArray, displayAttribute)}
       </select>
     </>
