@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
+import RequestShow from './RequestShow';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
@@ -57,6 +58,17 @@ const App = () => {
                 <>
                   <Sidebar currentUserData={currentUserData} />
                   <Request {...props} currentUserData={currentUserData} />
+                </>
+              ) : null
+            }
+          />
+          <Route
+            path='/requests/:id'
+            render={props =>
+              loggedIn ? (
+                <>
+                  <Sidebar currentUserData={currentUserData} />
+                  <RequestShow {...props} currentUserData={currentUserData} />
                 </>
               ) : null
             }

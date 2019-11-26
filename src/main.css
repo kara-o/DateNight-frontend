@@ -45,7 +45,7 @@ a.request-link {
   border-radius: 10px;
   border: 1px solid lightgray;
   width: 25%;
-  margin: auto;
+  margin: 50px;
 }
 
 a:hover,
@@ -91,7 +91,27 @@ button:hover {
 .request {
   flex: 5;
   display: flex;
+}
+
+.request {
   flex-direction: column;
+}
+
+.main {
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: center;
+}
+
+.request-list {
+  flex: 1 100%;
 }
 
 .footer {

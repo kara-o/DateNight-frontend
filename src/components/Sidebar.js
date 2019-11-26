@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 const Sidebar = ({ currentUserData }) => {
   const currentUser = currentUserData.user;
-  console.log(currentUser);
 
   const renderInitials = () => {
     return currentUser
