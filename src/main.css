@@ -110,6 +110,19 @@ td {
   text-align: center;
 }
 
+#table-link,
+tr {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1 100%;
+}
+
+tbody {
+  display: flex;
+  flex-direction: column;
+}
+
 .request-list {
   flex: 1 100%;
 }
