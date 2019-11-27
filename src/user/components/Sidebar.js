@@ -1,9 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 
-const Sidebar = ({ currentUserData }) => {
-  const currentUser = currentUserData.user;
-
+const Sidebar = ({ currentUser }) => {
   const renderInitials = () => {
     return currentUser
       ? `${currentUser.first_name.slice(0, 1)}` +

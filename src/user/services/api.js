@@ -56,6 +56,13 @@ const fetchOptions = (type, token) => {
   }).then(res => res.json());
 };
 
+const fetchRequests = (userId, token) => {
+  return fetch(`${API_ROOT}/users/${userId}/requests`, {
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  }).then(res => res.json());
+};
+
 const fetchRequest = (token, userId, requestId) => {
   return fetch(`${API_ROOT}/users/${userId}/requests/${requestId}`, {
     method: 'GET',
@@ -68,5 +75,6 @@ export const api = {
   login,
   createRequest,
   fetchOptions,
+  fetchRequests,
   fetchRequest
 };

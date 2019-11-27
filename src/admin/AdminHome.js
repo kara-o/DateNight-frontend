@@ -3,7 +3,7 @@ import { fetchRequests } from './api';
 import { Link } from 'react-router-dom';
 
 const AdminHome = ({ token }) => {
-  const [allRequests, setAllRequests] = useState([]);
+  const [allRequests, setAllRequests] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -12,17 +12,20 @@ const AdminHome = ({ token }) => {
   }, [token]);
 
   const renderRequests = () => {
-    return allRequests.map(r => {
-      return (
-        <li key={r.id}>
-          <Link to={`/requests/${r.id}`}>
-            <ul id='admin-list'>
-              <li>{r.date}</li>
-            </ul>
-          </Link>
-        </li>
-      );
-    });
+    if (allRequests) {
+      const pendingRequests = allRequests.filter(r => r.status !== 'completed');
+      return pendingRequests.map(r => {
+        return (
+          <li key={r.id}>
+            <Link to={`/requests/${r.id}`}>
+              <ul id='admin-list'>
+                <li>{r.date}</li>
+              </ul>
+            </Link>
+          </li>
+        );
+      });
+    }
   };
 
   return (
