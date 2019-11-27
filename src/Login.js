@@ -22,7 +22,11 @@ const Login = props => {
     api.login(formData).then(res => {
       if (!res.error) {
         props.handleLogin(res);
-        props.history.push('/');
+        if (props.admin) {
+          props.history.push('/admin-home');
+        } else {
+          props.history.push('/');
+        }
       } else {
         setError(res.error);
       }
@@ -34,29 +38,41 @@ const Login = props => {
   };
 
   return (
-    <div className='container'>
-      <form className='container'>
-        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-        <input
-          type='text'
-          name='username'
-          value={formData.username}
-          onChange={handleChange}
-          placeholder='Username'
-        />
-        <input
-          type='password'
-          name='password'
-          value={formData.password}
-          onChange={handleChange}
-          placeholder='Password'
-        />
-        <Button type='submit' onClick={handleSubmit}>
-          Login
-        </Button>
-      </form>
-      <Link to='/signup'>New user? Sign up for an account</Link>
-    </div>
+    <>
+      <div className='container'>
+        <h2>{props.admin ? 'ADMIN LOGIN' : null}</h2>
+        <form className='container'>
+          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
+          <input
+            type='text'
+            name='username'
+            value={formData.username}
+            onChange={handleChange}
+            placeholder='Username'
+          />
+          <input
+            type='password'
+            name='password'
+            value={formData.password}
+            onChange={handleChange}
+            placeholder='Password'
+          />
+          <Button type='submit' onClick={handleSubmit}>
+            Login
+          </Button>
+        </form>
+        {!props.admin ? (
+          <Link to='/signup'>New user? Sign up for an account</Link>
+        ) : null}
+      </div>
+      <Link
+        id='corner-link'
+        to={props.admin ? '/login' : '/admin-login'}
+        onClick={() => setError(null)}
+      >
+        {!props.admin ? 'Admin' : 'Login'}
+      </Link>
+    </>
   );
 };
 

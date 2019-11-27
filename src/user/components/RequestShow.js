@@ -28,6 +28,7 @@ const RequestShow = props => {
       {request ? (
         <>
           <div id='request-show'>
+            {currentUser.admin ? request.user.username : null} -----TODO!!!
             <p>Date: {request.date}</p>
             <p>Window: {request.start + ' - ' + request.end}</p>
             <p>Party Size: {request.size}</p>
