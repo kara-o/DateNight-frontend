@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
 
 const RequestShow = props => {
-  const currentUser = props.currentUserData.user;
-  const token = props.currentUserData.jwt;
+  const { currentUser, token } = props;
   const requestId = props.match.params.id;
-
   const [request, setRequest] = useState(null);
 
   useEffect(() => {
@@ -17,7 +15,6 @@ const RequestShow = props => {
   }, [currentUser]);
 
   const renderSelections = (array, attribute) => {
-    console.log(array);
     return array.map(selection => {
       return <li>{selection[`${attribute}`]}</li>;
     });
@@ -28,7 +25,7 @@ const RequestShow = props => {
       {request ? (
         <>
           <div id='request-show'>
-            {currentUser.admin ? request.user.username : null} -----TODO!!!
+            {currentUser.admin ? <h2>{request.user.username}</h2> : null}
             <p>Date: {request.date}</p>
             <p>Window: {request.start + ' - ' + request.end}</p>
             <p>Party Size: {request.size}</p>

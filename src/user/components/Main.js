@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 import itinerary from '../images/itinerary1.png';
 
-const Main = ({ currentUserData, renderItinerary }) => {
-  const currentUser = currentUserData.user;
+const Main = ({ currentUser, token }) => {
+  const [requests, setRequests] = useState(null);
 
   const convertTime = string => {
     let end = '';
@@ -17,13 +18,18 @@ const Main = ({ currentUserData, renderItinerary }) => {
   };
 
   const handleClick = e => {
-    console.log(e.target);
-    renderItinerary();
+    console.log('itinerary!');
   };
 
-  const renderRequests = () => {
+  useEffect(() => {
     if (currentUser) {
-      return currentUser.requests.map(r => {
+      api.fetchRequests(currentUser.id, token).then(res => setRequests(res));
+    }
+  }, [currentUser]);
+
+  const renderRequests = () => {
+    if (requests) {
+      return requests.map(r => {
         return (
           <div key={r.id} id='request-row'>
             <Link to={`/requests/${r.id}`} id='request-row-link'>

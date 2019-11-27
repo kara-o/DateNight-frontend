@@ -13,13 +13,11 @@ import AdminHome from '../../admin/AdminHome';
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
   const [currentUserData, setCurrentUserData] = useState({});
-  // const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     if (loggedIn) {
       const userData = JSON.parse(localStorage.getItem('userData'));
       setCurrentUserData(userData);
-      // setRequests(userData.user.requests);
     }
   }, [loggedIn]);
 
@@ -31,14 +29,6 @@ const App = () => {
   const logoutUser = () => {
     localStorage.removeItem('userData');
     setCurrentUserData({});
-  };
-
-  // const pushNewRequest = request => {
-  //   setRequests([...currentUserData.user.requests, request]);
-  // };
-
-  const renderItinerary = () => {
-    console.log('need to render itinerary!');
   };
 
   return (
@@ -67,11 +57,11 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Sidebar currentUserData={currentUserData} />
+                  <Sidebar currentUser={currentUserData.user} />
                   <Request
                     {...props}
-                    currentUserData={currentUserData}
-                    // pushNewRequest={pushNewRequest}
+                    token={currentUserData.jwt}
+                    currentUser={currentUserData.user}
                   />
                 </>
               ) : null
@@ -82,8 +72,12 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Sidebar currentUserData={currentUserData} />
-                  <RequestShow {...props} currentUserData={currentUserData} />
+                  <Sidebar currentUser={currentUserData.user} />
+                  <RequestShow
+                    {...props}
+                    currentUser={currentUserData.user}
+                    token={currentUserData.jwt}
+                  />
                 </>
               ) : null
             }
@@ -101,10 +95,10 @@ const App = () => {
           <Route path='/'>
             {loggedIn ? (
               <>
-                <Sidebar currentUserData={currentUserData} />
+                <Sidebar currentUser={currentUserData.user} />
                 <Main
-                  currentUserData={currentUserData}
-                  renderItinerary={renderItinerary}
+                  currentUser={currentUserData.user}
+                  token={currentUserData.jwt}
                 />
               </>
             ) : (

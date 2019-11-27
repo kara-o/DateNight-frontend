@@ -6,7 +6,7 @@ import { api } from '../services/api';
 import MultipleSelect from './MultipleSelect';
 
 const Request = props => {
-  const { currentUserData } = props;
+  const { currentUser, token } = props;
   const [formData, setFormData] = useState({
     date: new Date(),
     start_time: '',
@@ -23,18 +23,16 @@ const Request = props => {
 
   //TODO add loading
   useEffect(() => {
-    if (currentUserData.jwt) {
-      api.fetchOptions('cuisines', currentUserData.jwt).then(res => {
+    if (token) {
+      api.fetchOptions('cuisines', token).then(res => {
         setCuisines(res);
       });
-      api.fetchOptions('neighborhoods', currentUserData.jwt).then(res => {
+      api.fetchOptions('neighborhoods', token).then(res => {
         setNeighborhoods(res);
       });
-      api
-        .fetchOptions('prices', currentUserData.jwt)
-        .then(res => setPrices(res));
+      api.fetchOptions('prices', token).then(res => setPrices(res));
     }
-  }, [currentUserData]);
+  }, [token]);
 
   const renderPrices = () => {
     return prices.map(p => {
@@ -60,10 +58,7 @@ const Request = props => {
   };
 
   const handleSubmit = e => {
-    console.log(e.target.innerText);
     e.preventDefault();
-    const userId = currentUserData.user.id;
-    const token = currentUserData.jwt;
     const prices = document.getElementsByName('price-checkbox');
     const checkedPrices = [];
     for (const checkbox of prices) {
@@ -74,7 +69,7 @@ const Request = props => {
     api
       .createRequest(
         formData,
-        userId,
+        currentUser.id,
         token,
         cuisinePicks,
         neighborhoodPicks,
@@ -82,8 +77,6 @@ const Request = props => {
       )
       .then(res => {
         if (!res.errors) {
-          console.log('created response:', res);
-          // props.pushNewRequest(res.request)
           props.history.push('/');
         } else {
           setErrors({
