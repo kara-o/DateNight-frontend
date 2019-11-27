@@ -65,6 +65,7 @@ button:hover {
   flex: 1 100%;
   flex-flow: row wrap;
   align-items: stretch;
+  justify-content: center;
 }
 
 .sidebar {

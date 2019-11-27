@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import Login from './Login';
+import Login from '../../Login';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Signup from './Signup';
