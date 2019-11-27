@@ -11,3 +11,13 @@ export const fetchRequests = token => {
     headers: { ...headers, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 };
+
+export const updateStatus = (token, requestId, value) => {
+  return fetch(`${API_ROOT}/requests/${requestId}`, {
+    method: 'PATCH',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      status: value
+    })
+  }).then(res => res.json());
+};

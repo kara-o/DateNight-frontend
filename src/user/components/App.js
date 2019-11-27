@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Main from './Main';
+import UserHome from './UserHome';
 import Login from '../../Login';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -13,15 +13,11 @@ import AdminHome from '../../admin/AdminHome';
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
   const [currentUserData, setCurrentUserData] = useState({});
-  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     if (loggedIn) {
       const userData = JSON.parse(localStorage.getItem('userData'));
       setCurrentUserData(userData);
-      if (userData.user.admin) {
-        setAdmin(true);
-      }
     }
   }, [loggedIn]);
 
@@ -37,8 +33,13 @@ const App = () => {
 
   return (
     <>
-      {loggedIn ? <Navbar logoutUser={logoutUser} /> : null}
-      <div className='content'>
+      {loggedIn ? (
+        <>
+          <Navbar logoutUser={logoutUser} currentUser={currentUserData.user} />
+          <Sidebar currentUser={currentUserData.user} />
+        </>
+      ) : null}
+      <>
         <Switch>
           <Route
             path='/login'
@@ -61,7 +62,6 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Sidebar currentUser={currentUserData.user} />
                   <Request
                     {...props}
                     token={currentUserData.jwt}
@@ -76,7 +76,6 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Sidebar currentUser={currentUserData.user} />
                   <RequestShow
                     {...props}
                     currentUser={currentUserData.user}
@@ -95,9 +94,8 @@ const App = () => {
           <Route
             path='/admin-home'
             render={props =>
-              admin ? (
+              loggedIn && currentUserData.user && currentUserData.user.admin ? (
                 <>
-                  <Sidebar admin={admin} currentUser={currentUserData.user} />
                   <AdminHome {...props} token={currentUserData.jwt} />
                 </>
               ) : (
@@ -108,9 +106,7 @@ const App = () => {
           <Route path='/'>
             {loggedIn ? (
               <>
-                <Sidebar currentUser={currentUserData.user} />
-                <Main
-                  admin={admin}
+                <UserHome
                   currentUser={currentUserData.user}
                   token={currentUserData.jwt}
                 />
@@ -120,7 +116,7 @@ const App = () => {
             )}
           </Route>
         </Switch>
-      </div>
+      </>
       <Footer />
     </>
   );

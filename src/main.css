@@ -8,7 +8,7 @@ body {
   margin: 0;
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 }
 
@@ -60,14 +60,6 @@ button:hover {
   margin: 20px;
 }
 
-.content {
-  display: flex;
-  flex: 1 100%;
-  flex-flow: row wrap;
-  align-items: stretch;
-  justify-content: center;
-}
-
 .sidebar {
   flex: 1;
   border-right: 1px solid lightgray;
@@ -87,8 +79,9 @@ button:hover {
   height: 200px;
 }
 
-.main,
-.request,
+#main-page,
+#admin-main-page,
+#request-form-page,
 #show-page {
   flex: 5;
   display: flex;
@@ -98,7 +91,8 @@ button:hover {
   flex-direction: column;
 }
 
-.main {
+#main-page,
+#admin-main-page {
   flex-flow: row wrap;
   justify-content: center;
 }
