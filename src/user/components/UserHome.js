@@ -42,7 +42,7 @@ const UserHome = ({ currentUser, token }) => {
                   <i>{r.status}</i>
                 </li>
                 <li>
-                  {r.status === 'complete' ? (
+                  {r.status === 'completed' ? (
                     <img
                       src={itinerary}
                       alt='itinerary icon'

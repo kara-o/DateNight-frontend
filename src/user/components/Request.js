@@ -139,7 +139,7 @@ const Request = props => {
               />
             </div>
             <div id='party-size'>
-              Party Size
+              Party Size{' '}
               <select
                 onChange={e => {
                   handleChange(e.target.value, 'size');
@@ -158,7 +158,7 @@ const Request = props => {
           </div>
         ) : (
           <div id='form-part-two'>
-            <div id='cuisine-select'>
+            <div id='cuisine-select' className='select'>
               Cuisine(s){' '}
               <MultipleSelect
                 type='cuisine'
@@ -167,7 +167,7 @@ const Request = props => {
                 setOptions={setCuisinePicks}
               />
             </div>
-            <div id='neighborhood-select'>
+            <div id='neighborhood-select' className='select'>
               Neighborhood(s){' '}
               <MultipleSelect
                 type='neighborhood'
@@ -176,7 +176,7 @@ const Request = props => {
                 setOptions={setNeighborhoodPicks}
               />
             </div>
-            <div id='price-select'>
+            <div id='price-select' className='select'>
               Price Range(s)
               {renderPrices()}
             </div>
