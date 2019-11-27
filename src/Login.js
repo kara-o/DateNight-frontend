@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { api } from '../services/api';
+import { api } from './user/services/api';
 import { Link } from 'react-router-dom';
-import Button from './layout/Button';
+import Button from './user/components/layout/Button';
 
 const Login = props => {
   const [formData, setFormData] = useState({

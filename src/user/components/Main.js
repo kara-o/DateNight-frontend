@@ -25,7 +25,7 @@ const Main = ({ currentUserData, renderItinerary }) => {
     if (currentUser) {
       return currentUser.requests.map(r => {
         return (
-          <div id='request-row'>
+          <div key={r.id} id='request-row'>
             <Link to={`/requests/${r.id}`} id='request-row-link'>
               <ul className='link-list'>
                 <li>{new Date(r.date).toDateString()}</li>
