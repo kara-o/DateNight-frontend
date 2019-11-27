@@ -102,7 +102,7 @@ const Request = props => {
   };
 
   return (
-    <>
+    <div id='request-form-page'>
       <form id='new-request-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         {partOne ? (
@@ -196,7 +196,7 @@ const Request = props => {
           </div>
         )}
       </form>
-    </>
+    </div>
   );
 };
 

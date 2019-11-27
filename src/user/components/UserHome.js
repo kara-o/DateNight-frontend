@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import itinerary from '../images/itinerary1.png';
 
-const Main = ({ currentUser, token }) => {
+const UserHome = ({ currentUser, token }) => {
   const [requests, setRequests] = useState(null);
 
   // const convertTime = string => {
@@ -59,7 +59,7 @@ const Main = ({ currentUser, token }) => {
   };
 
   return (
-    <div className='main'>
+    <div id='main-page'>
       <Link className='new-request-link' to='/request'>
         Make a New Request!
       </Link>
@@ -77,4 +77,4 @@ const Main = ({ currentUser, token }) => {
   );
 };
 
-export default Main;
+export default UserHome;

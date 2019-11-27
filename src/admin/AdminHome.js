@@ -29,7 +29,7 @@ const AdminHome = ({ token }) => {
   };
 
   return (
-    <div id='admin-main'>
+    <div id='admin-main-page'>
       <h2>All Requests</h2>
       <ul id='all-requests-list'>{token ? renderRequests() : null}</ul>
     </div>
