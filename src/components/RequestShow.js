@@ -24,26 +24,38 @@ const RequestShow = props => {
   };
 
   return (
-    <>
+    <div id='show-page'>
       {request ? (
-        <div className='request show'>
-          <p>Date: {request.date}</p>
-          <p>Window: {request.start + ' - ' + request.end}</p>
-          <p>Party Size: {request.size}</p>
-          <p>
-            Cuisines:<ul>{renderSelections(request.cuisines, 'category')}</ul>
-          </p>
-          <p>
-            Neighborhoods:
-            <ul>{renderSelections(request.neighborhoods, 'name')}</ul>
-          </p>
-          <p>
-            Prices:<ul>{renderSelections(request.prices, 'amount')}</ul>
-          </p>
-          <p>Created: {request.created_at}</p>
-        </div>
+        <>
+          <div id='request-show'>
+            <p>Date: {request.date}</p>
+            <p>Window: {request.start + ' - ' + request.end}</p>
+            <p>Party Size: {request.size}</p>
+            <p>
+              Cuisines:<ul>{renderSelections(request.cuisines, 'category')}</ul>
+            </p>
+            <p>
+              Neighborhoods:
+              <ul>{renderSelections(request.neighborhoods, 'name')}</ul>
+            </p>
+            <p>
+              Prices:<ul>{renderSelections(request.prices, 'amount')}</ul>
+            </p>
+            <p>Created: {request.created_at}</p>
+          </div>
+          <div id='status-itinerary-show'>
+            <h2 id='status-show'>
+              Status: <i>{request.status}</i>
+            </h2>
+            <p>
+              {request.itinerary
+                ? 'Itinerary link is here!'
+                : 'Check here on the morning of your date for your itinerary!'}
+            </p>
+          </div>
+        </>
       ) : null}
-    </>
+    </div>
   );
 };
 

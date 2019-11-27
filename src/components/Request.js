@@ -19,6 +19,7 @@ const Request = props => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [neighborhoodPicks, setNeighborhoodPicks] = useState([]);
   const [prices, setPrices] = useState([]);
+  const [partOne, setPartOne] = useState(true);
 
   //TODO add loading
   useEffect(() => {
@@ -59,6 +60,7 @@ const Request = props => {
   };
 
   const handleSubmit = e => {
+    console.log(e.target.innerText);
     e.preventDefault();
     const userId = currentUserData.user.id;
     const token = currentUserData.jwt;
@@ -96,71 +98,110 @@ const Request = props => {
     return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
   };
 
+  const handleClick = e => {
+    e.preventDefault();
+    const text = e.target.textContent;
+    if (text === 'Continue') {
+      setPartOne(false);
+    } else if (text === 'Back') {
+      setPartOne(true);
+    }
+  };
+
   return (
     <>
-      <form className='request' autoComplete='off'>
+      <form id='new-request-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        Date
-        <DatePicker
-          id='date'
-          selected={formData.date}
-          onChange={value => handleChange(value, 'date')}
-        />
-        Start Time
-        <DatePicker
-          id='start-time'
-          selected={formData.start_time}
-          onChange={value => handleChange(value, 'start_time')}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={30}
-          timeCaption='Time'
-          dateFormat='h:mm aa'
-        />
-        End Time
-        <DatePicker
-          id='end-time'
-          selected={formData.end_time}
-          onChange={value => handleChange(value, 'end_time')}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={30}
-          timeCaption='Time'
-          dateFormat='h:mm aa'
-        />
-        Party Size
-        <select
-          id='party-size'
-          name='size'
-          onChange={e => {
-            handleChange(e.target.value, 'size');
-          }}
-          defaultValue='2'
-        >
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-        </select>
-        Cuisine(s)
-        <MultipleSelect
-          type='cuisine'
-          optionsArray={cuisines}
-          displayAttribute='category'
-          setOptions={setCuisinePicks}
-        />
-        Neighborhood(s)
-        <MultipleSelect
-          type='neighborhood'
-          optionsArray={neighborhoods}
-          displayAttribute='name'
-          setOptions={setNeighborhoodPicks}
-        />
-        Price Range(s)
-        {renderPrices()}
-        <Button type='submit' onClick={handleSubmit}>
-          Submit
-        </Button>
+        {partOne ? (
+          <div id='form-part-one'>
+            <div id='date-picker'>
+              Date
+              <DatePicker
+                selected={formData.date}
+                onChange={value => handleChange(value, 'date')}
+              />
+            </div>
+            <div id='time-select'>
+              Start Time
+              <DatePicker
+                id='start-time'
+                selected={formData.start_time}
+                onChange={value => handleChange(value, 'start_time')}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption='Time'
+                dateFormat='h:mm aa'
+              />
+              End Time
+              <DatePicker
+                id='end-time'
+                selected={formData.end_time}
+                onChange={value => handleChange(value, 'end_time')}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption='Time'
+                dateFormat='h:mm aa'
+              />
+            </div>
+            <div id='party-size'>
+              Party Size
+              <select
+                onChange={e => {
+                  handleChange(e.target.value, 'size');
+                }}
+                defaultValue='2'
+              >
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+              </select>
+            </div>
+            <Button className='continue' type='button' onClick={handleClick}>
+              Continue
+            </Button>
+          </div>
+        ) : (
+          <div id='form-part-two'>
+            <div id='cuisine-select'>
+              Cuisine(s){' '}
+              <MultipleSelect
+                type='cuisine'
+                optionsArray={cuisines}
+                displayAttribute='category'
+                setOptions={setCuisinePicks}
+              />
+            </div>
+            <div id='neighborhood-select'>
+              Neighborhood(s){' '}
+              <MultipleSelect
+                type='neighborhood'
+                optionsArray={neighborhoods}
+                displayAttribute='name'
+                setOptions={setNeighborhoodPicks}
+              />
+            </div>
+            <div id='price-select'>
+              Price Range(s)
+              {renderPrices()}
+            </div>
+            <div id='buttons'>
+              <Button
+                type='button'
+                onClick={() => {
+                  setPartOne(true);
+                }}
+              >
+                Back
+              </Button>
+              <Button type='submit' onClick={handleSubmit}>
+                Submit
+              </Button>
+            </div>
+          </div>
+        )}
       </form>
     </>
   );
