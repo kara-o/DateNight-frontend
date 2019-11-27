@@ -8,6 +8,7 @@ import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
 import RequestShow from './RequestShow';
+import AdminHome from '../../admin/AdminHome';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
@@ -86,6 +87,16 @@ const App = () => {
                 </>
               ) : null
             }
+          />
+          <Route
+            path='/admin-login'
+            render={props => (
+              <Login {...props} admin={true} handleLogin={loginUser} />
+            )}
+          />
+          <Route
+            path='/admin-home'
+            render={() => <AdminHome token={currentUserData.jwt} />}
           />
           <Route path='/'>
             {loggedIn ? (

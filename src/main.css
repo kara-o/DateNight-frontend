@@ -125,6 +125,10 @@ button:hover {
   justify-content: space-between;
 }
 
+#admin-list {
+  list-style: none;
+}
+
 #request-headers,
 #request-row {
   flex: 1 100%;
@@ -139,11 +143,12 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid lightgray;
+  text-align: center;
 }
 
 form {
   padding: 20px 20px 0px 20px;
+  border: 1px solid lightgray;
 }
 
 #new-request-form {
@@ -189,4 +194,11 @@ input:-webkit-autofill {
 
 .errors {
   margin: 0;
+}
+
+#corner-link {
+  padding: none;
+  background: none;
+  position: absolute;
+  right: 0px;
 }
