@@ -36,6 +36,10 @@ const App = () => {
   //   setRequests([...currentUserData.user.requests, request]);
   // };
 
+  const renderItinerary = () => {
+    console.log('need to render itinerary!');
+  };
+
   return (
     <>
       {loggedIn ? <Navbar logoutUser={logoutUser} /> : null}
@@ -87,7 +91,10 @@ const App = () => {
             {loggedIn ? (
               <>
                 <Sidebar currentUserData={currentUserData} />
-                <Main currentUserData={currentUserData} />
+                <Main
+                  currentUserData={currentUserData}
+                  renderItinerary={renderItinerary}
+                />
               </>
             ) : (
               <Redirect to='/login' />

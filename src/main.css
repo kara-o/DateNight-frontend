@@ -40,7 +40,7 @@ a {
   background: #c0c5c1;
 }
 
-a.request-link {
+a.new-request-link {
   background: #c0c5c1;
   border-radius: 10px;
   border: 1px solid lightgray;
@@ -65,7 +65,6 @@ button:hover {
   flex: 1 100%;
   flex-flow: row wrap;
   align-items: stretch;
-  justify-content: center;
 }
 
 .sidebar {
@@ -88,7 +87,8 @@ button:hover {
 }
 
 .main,
-.request {
+.request,
+#show-page {
   flex: 5;
   display: flex;
 }
@@ -102,28 +102,30 @@ button:hover {
   justify-content: center;
 }
 
-table {
-  width: 100%;
-}
-
-td {
-  text-align: center;
-}
-
-#table-link,
-tr {
-  display: flex;
+#show-page {
   flex-direction: row;
-  justify-content: space-between;
-  flex: 1 100%;
 }
 
-tbody {
-  display: flex;
-  flex-direction: column;
+#request-show,
+#status-itinerary-show {
+  flex: 1;
 }
 
 .request-list {
+  flex: 1 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.link-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  justify-content: space-between;
+}
+
+#request-headers,
+#request-row {
   flex: 1 100%;
 }
 
@@ -139,8 +141,36 @@ tbody {
   border: 1px solid lightgray;
 }
 
-form.container {
+form {
   padding: 20px 20px 0px 20px;
+}
+
+#new-request-form {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#form-part-one,
+#form-part-two {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 50px;
+}
+
+#start-time,
+#end-time,
+#cuisines-select,
+#neighborhoods-select {
+  flex: 1;
+}
+
+button {
+  width: auto;
 }
 
 input {
