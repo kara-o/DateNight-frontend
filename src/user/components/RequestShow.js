@@ -39,7 +39,7 @@ const RequestShow = props => {
             <p>
               Prices:<ul>{renderSelections(request.prices, 'amount')}</ul>
             </p>
-            <p>Created: {request.created_at}</p>
+            <p>{request.created_at}</p>
           </div>
           <div id='status-itinerary-show'>
             <h2 id='status-show'>
