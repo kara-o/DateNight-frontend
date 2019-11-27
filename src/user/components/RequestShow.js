@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from './layout/Button';
 import { api } from '../services/api';
 import { updateStatus } from '../../admin/api';
+import { Link } from 'react-router-dom';
 
 const RequestShow = props => {
   const { currentUser, token } = props;
@@ -86,14 +87,17 @@ const RequestShow = props => {
               Prices:<ul>{renderSelections(request.prices, 'amount')}</ul>
             </div>
             <p>{request.created_at}</p>
+            {status === 'requested' && !currentUser.admin ? (
+              <Link to={`/requests/${request.id}/edit`}>Edit Your Request</Link>
+            ) : null}
           </div>
           <div id='status-itinerary-show'>
             <h2 id='status-show'>Status: {renderStatus()}</h2>
-            <p>
+            {/* <p>
               {request.itinerary
                 ? 'Itinerary link is here!'
                 : 'Check here on the morning of your date for your itinerary!'}
-            </p>
+            </p> */}
           </div>
         </>
       ) : null}
