@@ -4,7 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 const Sidebar = ({ currentUser }) => {
   const renderInitials = () => {
     if (currentUser) {
-      console.log(currentUser);
       if (currentUser.admin) {
         return 'ADMIN';
       } else {

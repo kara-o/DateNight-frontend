@@ -12,6 +12,7 @@ import AdminHome from '../../admin/AdminHome';
 
 const App = () => {
   const loggedIn = !!localStorage.getItem('userData');
+  const admin = !!localStorage.getItem('admin');
   const [currentUserData, setCurrentUserData] = useState({});
 
   useEffect(() => {
@@ -24,11 +25,15 @@ const App = () => {
   const loginUser = data => {
     localStorage.setItem('userData', JSON.stringify(data));
     setCurrentUserData(data);
+    if (data.user.admin) {
+      localStorage.setItem('admin', 'true');
+    }
   };
 
   const logoutUser = () => {
     localStorage.removeItem('userData');
     setCurrentUserData({});
+    localStorage.removeItem('admin');
   };
 
   return (
@@ -94,7 +99,7 @@ const App = () => {
           <Route
             path='/admin-home'
             render={props =>
-              loggedIn && currentUserData.user && currentUserData.user.admin ? (
+              loggedIn && admin ? (
                 <>
                   <AdminHome {...props} token={currentUserData.jwt} />
                 </>

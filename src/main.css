@@ -248,3 +248,7 @@ input:-webkit-autofill {
   position: absolute;
   right: 0px;
 }
+
+#filter-select {
+  flex: 1 100%;
+}
