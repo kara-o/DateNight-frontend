@@ -28,9 +28,23 @@ const AdminHome = ({ token }) => {
     }
   };
 
+  const handleClick = e => {
+    console.log(e.target.value);
+  };
+
   return (
     <div id='admin-main-page'>
-      <h2>All Requests</h2>
+      <div>
+        <h2>Requests</h2>
+        <label htmlFor='filter-select'>
+          Filter By:
+          <select id='filter-select'>
+            <option onClick={handleClick}>To Complete</option>
+            <option onClick={handleClick}>Completed</option>
+            <option onClick={handleClick}>All</option>
+          </select>
+        </label>
+      </div>
       <ul id='all-requests-list'>{token ? renderRequests() : null}</ul>
     </div>
   );

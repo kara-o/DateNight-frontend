@@ -29,7 +29,6 @@ const UserHome = ({ currentUser, token }) => {
 
   const renderRequests = () => {
     if (requests) {
-      console.log(requests);
       return requests.map(r => {
         return (
           <li key={r.id} id='request-row'>
