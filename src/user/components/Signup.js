@@ -7,6 +7,7 @@ const Signup = props => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    password_confirmation: '',
     email: '',
     first_name: '',
     last_name: ''
@@ -55,6 +56,13 @@ const Signup = props => {
           value={formData.password}
           onChange={handleChange}
           placeholder='Password'
+        />
+        <input
+          type='password'
+          name='password_confirmation'
+          value={formData.password_confirmation}
+          onChange={handleChange}
+          placeholder='Confirm Password'
         />
         <input
           type='text'

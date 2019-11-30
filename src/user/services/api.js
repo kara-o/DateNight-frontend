@@ -6,10 +6,10 @@ const headers = {
 };
 
 const createUser = userData => {
-  return fetch(`${API_ROOT}/users/`, {
+  return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
     headers: headers,
-    body: JSON.stringify({ user: userData })
+    body: JSON.stringify(userData)
   }).then(res => res.json());
 };
 
