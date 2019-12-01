@@ -68,6 +68,22 @@ const Request = props => {
     });
   };
 
+  const renderPrices = () => {
+    return prices.map(p => {
+      return (
+        <div key={p.id}>
+          <input
+            type='checkbox'
+            id={p.amount}
+            name='price-checkbox'
+            value={p.id}
+          />
+          <label htmlFor={p.amount}>{p.amount}</label>
+        </div>
+      );
+    });
+  };
+
   return (
     <div id='request-form-page'>
       <form id='new-request-form' autoComplete='off'>
@@ -121,13 +137,10 @@ const Request = props => {
         >
           {renderNeighborhoods()}
         </select>
-        Price Range (enter the approximate max amount you'd like to spend)
-        <input
-          type='text'
-          id='price-range'
-          value={formData.price_range}
-          onChange={value => handleChange(value, 'price_range')}
-        />
+        <div id='price-select' className='select'>
+          Price Range(s)
+          {renderPrices()}
+        </div>
         <textarea
           id='notes'
           name='notes'
