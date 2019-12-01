@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from './layout/Button';
-import { api } from '../services/api';
+import { fetchRequest } from '../services/api';
 import { updateStatus } from '../../admin/api';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const RequestShow = props => {
 
   useEffect(() => {
     if (currentUser) {
-      api.fetchRequest(token, currentUser.id, requestId).then(res => {
+      fetchRequest(token, currentUser.id, requestId).then(res => {
         setRequest(res.request);
         setStatus(res.request.status);
       });

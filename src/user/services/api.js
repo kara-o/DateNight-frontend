@@ -5,7 +5,7 @@ const headers = {
   Accept: 'application/json'
 };
 
-const createUser = userData => {
+export const createUser = userData => {
   return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
     headers: headers,
@@ -13,17 +13,27 @@ const createUser = userData => {
   }).then(res => res.json());
 };
 
-const login = userData => {
-  return fetch(`${API_ROOT}/auth`, {
+export const login = userData => {
+  return fetch(`${API_ROOT}/auth/sign_in`, {
     method: 'POST',
     headers: headers,
-    body: JSON.stringify({
-      user: userData
-    })
-  }).then(res => res.json());
+    body: JSON.stringify(userData)
+  });
 };
 
-const createRequest = (
+export const logout = userData => {
+  return fetch(`${API_ROOT}/auth/sign_out`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      ['access-token']: userData.accessToken,
+      uid: userData.uid,
+      client: userData.client
+    }
+  });
+};
+
+export const createRequest = (
   requestData,
   userId,
   token,
@@ -49,32 +59,23 @@ const createRequest = (
   }).then(res => res.json());
 };
 
-const fetchOptions = (type, token) => {
+export const fetchOptions = (type, token) => {
   return fetch(`${API_ROOT}/${type}/`, {
     method: 'GET',
     headers: { ...headers, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 };
 
-const fetchRequests = (userId, token) => {
+export const fetchRequests = (userId, token) => {
   return fetch(`${API_ROOT}/users/${userId}/requests`, {
     method: 'GET',
     headers: { ...headers, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 };
 
-const fetchRequest = (token, userId, requestId) => {
+export const fetchRequest = (token, userId, requestId) => {
   return fetch(`${API_ROOT}/users/${userId}/requests/${requestId}`, {
     method: 'GET',
     headers: { ...headers, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
-};
-
-export const api = {
-  createUser,
-  login,
-  createRequest,
-  fetchOptions,
-  fetchRequests,
-  fetchRequest
 };

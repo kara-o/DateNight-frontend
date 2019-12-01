@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { api } from './user/services/api';
-import { Link } from 'react-router-dom';
+import { login } from './user/services/api';
+import { Link, useLocation } from 'react-router-dom';
 import Button from './user/components/layout/Button';
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const Login = props => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [error, setError] = useState(null);
+
+  const query = useQuery();
+  const isAccountConfirmationPending = !!query.get(
+    'account_confirmation_pending'
+  );
+  const isAccountConfirmed = !!query.get('account_confirmation_success');
 
   const handleChange = e => {
     setFormData({
@@ -19,20 +29,28 @@ const Login = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    api.login(formData).then(res => {
-      if (!res.error) {
-        props.handleLogin(res);
-        if (props.admin) {
-          props.history.push('/admin-home');
-        } else {
-          props.history.push('/');
+    let userData;
+    login(formData)
+      .then(res => {
+        if (res.status < 400) {
+          const accessToken = res.headers.get('access-token');
+          const client = res.headers.get('client');
+          const uid = res.headers.get('uid');
+          userData = { accessToken, client, uid };
         }
-      } else {
-        setError(res.error);
-      }
-    });
+        return res.json();
+      })
+      .then(json => {
+        if (!json.errors) {
+          userData = { ...userData, user: json.data };
+          props.handleLogin(userData);
+          props.history.push('/');
+        } else {
+          setError(json.errors);
+        }
+      });
     setFormData({
-      username: '',
+      email: '',
       password: ''
     });
   };
@@ -40,15 +58,18 @@ const Login = props => {
   return (
     <>
       <div className='container'>
-        <h2>{props.admin ? 'ADMIN LOGIN' : null}</h2>
+        {isAccountConfirmationPending ? <h3>Confirmation email sent</h3> : null}
+        {isAccountConfirmed ? (
+          <h3>Thank you for confirming your account</h3>
+        ) : null}
         <form className='container'>
           <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
           <input
             type='text'
-            name='username'
-            value={formData.username}
+            name='email'
+            value={formData.email}
             onChange={handleChange}
-            placeholder='Username'
+            placeholder='Email'
           />
           <input
             type='password'
@@ -65,13 +86,6 @@ const Login = props => {
           <Link to='/signup'>New user? Sign up for an account</Link>
         ) : null}
       </div>
-      <Link
-        id='corner-link'
-        to={props.admin ? '/login' : '/admin-login'}
-        onClick={() => setError(null)}
-      >
-        {!props.admin ? 'Admin' : 'Login'}
-      </Link>
     </>
   );
 };

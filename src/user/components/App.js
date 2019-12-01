@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import UserHome from './UserHome';
@@ -8,40 +8,35 @@ import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
 import RequestShow from './RequestShow';
-import AdminHome from '../../admin/AdminHome';
+import { logout } from '../services/api';
+
+function getUserData() {
+  const userDataStr = localStorage.getItem('userData');
+  if (!userDataStr) return null;
+  return JSON.parse(userDataStr);
+}
 
 const App = () => {
-  const loggedIn = !!localStorage.getItem('userData');
-  const admin = !!localStorage.getItem('admin');
-  const [currentUserData, setCurrentUserData] = useState({});
+  const [userData, setUserData] = useState(getUserData());
+  const loggedIn = !!userData;
 
-  useEffect(() => {
-    if (loggedIn) {
-      const userData = JSON.parse(localStorage.getItem('userData'));
-      setCurrentUserData(userData);
-    }
-  }, [loggedIn]);
-
-  const loginUser = data => {
-    localStorage.setItem('userData', JSON.stringify(data));
-    setCurrentUserData(data);
-    if (data.user.admin) {
-      localStorage.setItem('admin', 'true');
-    }
+  const loginUser = userData => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    setUserData(userData);
   };
 
   const logoutUser = () => {
+    logout(userData);
     localStorage.removeItem('userData');
-    setCurrentUserData({});
-    localStorage.removeItem('admin');
+    setUserData(null);
   };
 
   return (
     <>
       {loggedIn ? (
         <>
-          <Navbar logoutUser={logoutUser} currentUser={currentUserData.user} />
-          <Sidebar currentUser={currentUserData.user} />
+          <Navbar logoutUser={logoutUser} currentUser={userData} />
+          <Sidebar currentUser={userData} />
         </>
       ) : null}
       <>
@@ -67,11 +62,7 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <Request
-                    {...props}
-                    token={currentUserData.jwt}
-                    currentUser={currentUserData.user}
-                  />
+                  <Request {...props} currentUser={userData} />
                 </>
               ) : null
             }
@@ -81,40 +72,15 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <RequestShow
-                    {...props}
-                    currentUser={currentUserData.user}
-                    token={currentUserData.jwt}
-                  />
+                  <RequestShow {...props} currentUser={userData} />
                 </>
               ) : null
-            }
-          />
-          <Route
-            path='/admin-login'
-            render={props => (
-              <Login {...props} admin={true} handleLogin={loginUser} />
-            )}
-          />
-          <Route
-            path='/admin-home'
-            render={props =>
-              loggedIn && admin ? (
-                <>
-                  <AdminHome {...props} token={currentUserData.jwt} />
-                </>
-              ) : (
-                <Redirect to='/login' />
-              )
             }
           />
           <Route path='/'>
             {loggedIn ? (
               <>
-                <UserHome
-                  currentUser={currentUserData.user}
-                  token={currentUserData.jwt}
-                />
+                <UserHome currentUser={userData} />
               </>
             ) : (
               <Redirect to='/login' />

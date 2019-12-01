@@ -4,14 +4,10 @@ import Avatar from '@material-ui/core/Avatar';
 const Sidebar = ({ currentUser }) => {
   const renderInitials = () => {
     if (currentUser) {
-      if (currentUser.admin) {
-        return 'ADMIN';
-      } else {
-        return (
-          `${currentUser.first_name.slice(0, 1)}` +
-          `${currentUser.last_name.slice(0, 1)}`
-        );
-      }
+      return (
+        `${currentUser.user.first_name.slice(0, 1)}` +
+        `${currentUser.user.last_name.slice(0, 1)}`
+      );
     }
   };
 

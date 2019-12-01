@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../services/api';
+import { fetchRequests } from '../services/api';
 import itinerary from '../images/itinerary1.png';
 
 const UserHome = ({ currentUser, token }) => {
@@ -23,7 +23,7 @@ const UserHome = ({ currentUser, token }) => {
 
   useEffect(() => {
     if (currentUser) {
-      api.fetchRequests(currentUser.id, token).then(res => setRequests(res));
+      fetchRequests(currentUser.id, token).then(res => setRequests(res));
     }
   }, [currentUser]);
 
