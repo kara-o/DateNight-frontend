@@ -12,14 +12,15 @@ const Request = props => {
     start_time: '',
     end_time: '',
     party_size: '2',
-    price_range: '50',
-    neighborhood_id: '',
     notes: '',
     contacts_attributes: [{ phone: '2066602445' }]
   });
-  const [errors, setErrors] = useState(null);
+  const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
+  const [priceRangeSelection, setPriceRangeSelection] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
+  const [priceRanges, setPriceRanges] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   //TODO add loading
   useEffect(() => {
@@ -27,7 +28,11 @@ const Request = props => {
       fetchOptions('neighborhoods', userData).then(list => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
-        setFormData({ ...formData, neighborhood_id: list[0].id.toString() });
+        setNeighborhoodSelection(list[0].id);
+      });
+      fetchOptions('price_ranges', userData).then(list => {
+        setPriceRanges(list);
+        setPriceRangeSelection(list[0].id);
       });
     }
   }, [userData]);
@@ -42,7 +47,14 @@ const Request = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    createRequest(formData, userData).then(json => {
+    createRequest(
+      {
+        ...formData,
+        neighborhood_id: neighborhoodSelection,
+        price_range_id: priceRangeSelection
+      },
+      userData
+    ).then(json => {
       if (!json.errors) {
         props.history.push('/');
       } else {
@@ -58,28 +70,12 @@ const Request = props => {
     return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
   };
 
-  const renderNeighborhoods = () => {
-    return neighborhoods.map(n => {
+  const renderOptions = (array, attribute) => {
+    return array.map(o => {
       return (
-        <option key={n.id} value={n.id}>
-          {n.name}
+        <option key={o.id} value={o.id}>
+          {o[`${attribute}`]}
         </option>
-      );
-    });
-  };
-
-  const renderPrices = () => {
-    return prices.map(p => {
-      return (
-        <div key={p.id}>
-          <input
-            type='checkbox'
-            id={p.amount}
-            name='price-checkbox'
-            value={p.id}
-          />
-          <label htmlFor={p.amount}>{p.amount}</label>
-        </div>
       );
     });
   };
@@ -128,19 +124,24 @@ const Request = props => {
         </div>
         Neighborhood
         <select
-          id='neighborhood'
-          name='neighborhood'
-          value={formData.neighborhood_id}
+          name='neighborhood_id'
+          value={neighborhoodSelection}
           onChange={e => {
-            handleChange(e.target.value, 'neighborhood');
+            setNeighborhoodSelection(e.target.value);
           }}
         >
-          {renderNeighborhoods()}
+          {renderOptions(neighborhoods, 'name')}
         </select>
-        <div id='price-select' className='select'>
-          Price Range(s)
-          {renderPrices()}
-        </div>
+        Price (please select approximate limit)
+        <select
+          name='price_range_id'
+          value={priceRangeSelection}
+          onChange={e => {
+            setPriceRangeSelection(e.target.value);
+          }}
+        >
+          {renderOptions(priceRanges, 'max_amount')}
+        </select>
         <textarea
           id='notes'
           name='notes'
