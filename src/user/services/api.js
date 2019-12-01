@@ -1,4 +1,5 @@
-const API_ROOT = `http://localhost:3000/api/v1`;
+const API_ROOT = 'http://localhost:3000/api/v1';
+const AUTH_ROOT = 'http://localhost:3000/auth';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ const tokenHeaders = userData => {
 };
 
 export const createUser = userData => {
-  return fetch(`${API_ROOT}/auth`, {
+  return fetch(AUTH_ROOT, {
     method: 'POST',
     headers: jsonHeaders,
     body: JSON.stringify(userData)
@@ -24,7 +25,7 @@ export const createUser = userData => {
 };
 
 export const login = userData => {
-  return fetch(`${API_ROOT}/auth/sign_in`, {
+  return fetch(`${AUTH_ROOT}/sign_in`, {
     method: 'POST',
     headers: jsonHeaders,
     body: JSON.stringify(userData)
@@ -33,7 +34,7 @@ export const login = userData => {
 
 export const logout = userData => {
   const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/auth/sign_out`, {
+  return fetch(`${AUTH_ROOT}/sign_out`, {
     method: 'DELETE',
     headers: {
       ...jsonHeaders,
