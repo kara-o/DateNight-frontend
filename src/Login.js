@@ -32,7 +32,6 @@ const Login = props => {
     let userData;
     login(formData)
       .then(res => {
-        debugger;
         if (res.status < 400) {
           const accessToken = res.headers.get('access-token');
           const client = res.headers.get('client');

@@ -4,7 +4,7 @@ import { fetchRequests } from '../services/api';
 import itinerary from '../images/itinerary1.png';
 
 const UserHome = ({ userData }) => {
-  const [requests, setRequests] = useState(null);
+  const [requests, setRequests] = useState([]);
 
   // const convertTime = string => {
   //   let end = '';
@@ -24,24 +24,22 @@ const UserHome = ({ userData }) => {
   }, [userData]);
 
   const renderRequests = () => {
-    if (requests) {
-      return requests.map(r => {
-        return (
-          <li key={r.id} id='request-row'>
-            <Link to={`/requests/${r.id}`} id='request-row-link'>
-              <ul className='link-list'>
-                <li>{r.date}</li>
-                <li>{r.start + ' - ' + r.end}</li>
-                <li>{r.size}</li>
-                <li>
-                  <i>{r.status}</i>
-                </li>
-              </ul>
-            </Link>
-          </li>
-        );
-      });
-    }
+    return requests.map(r => {
+      return (
+        <li key={r.id} id='request-row'>
+          <Link to={`/requests/${r.id}`} id='request-row-link'>
+            <ul className='link-list'>
+              <li>{r.date}</li>
+              <li>{r.start + ' - ' + r.end}</li>
+              <li>{r.size}</li>
+              <li>
+                <i>{r.status}</i>
+              </li>
+            </ul>
+          </Link>
+        </li>
+      );
+    });
   };
 
   return (
