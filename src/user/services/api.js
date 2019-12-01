@@ -1,14 +1,24 @@
 const API_ROOT = `http://localhost:3000/api/v1`;
 
-const headers = {
+const jsonHeaders = {
   'Content-Type': 'application/json',
   Accept: 'application/json'
+};
+
+const tokenHeaders = userData => {
+  return {
+    ['access-token']: userData.accessToken,
+    ['token-type']: 'Bearer',
+    client: userData.client,
+    expiry: userData.expiry,
+    uid: userData.uid
+  };
 };
 
 export const createUser = userData => {
   return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
-    headers: headers,
+    headers: jsonHeaders,
     body: JSON.stringify(userData)
   }).then(res => res.json());
 };
@@ -16,66 +26,54 @@ export const createUser = userData => {
 export const login = userData => {
   return fetch(`${API_ROOT}/auth/sign_in`, {
     method: 'POST',
-    headers: headers,
+    headers: jsonHeaders,
     body: JSON.stringify(userData)
   });
 };
 
 export const logout = userData => {
+  const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/auth/sign_out`, {
     method: 'DELETE',
     headers: {
-      ...headers,
-      ['access-token']: userData.accessToken,
-      uid: userData.uid,
-      client: userData.client
+      ...jsonHeaders,
+      ...headers
     }
   });
 };
 
-export const createRequest = (
-  requestData,
-  userId,
-  token,
-  cuisines,
-  neighborhoods,
-  prices
-) => {
-  return fetch(`${API_ROOT}/users/${userId}/requests`, {
+export const createRequest = (formData, userData) => {
+  debugger;
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.user.id}/requests`, {
     method: 'POST',
-    headers: { ...headers, Authorization: `Bearer ${token}` },
+    headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
-      request: {
-        date: requestData.date,
-        start_time: requestData.start_time,
-        end_time: requestData.end_time,
-        size: requestData.size,
-        user_id: userId,
-        cuisines_requests_attributes: cuisines,
-        neighborhoods_requests_attributes: neighborhoods,
-        prices_requests_attributes: prices
-      }
+      ...formData,
+      user_id: userData.user.id
     })
   }).then(res => res.json());
 };
 
-export const fetchOptions = (type, token) => {
+export const fetchOptions = (type, userData) => {
+  const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/${type}/`, {
     method: 'GET',
-    headers: { ...headers, Authorization: `Bearer ${token}` }
+    headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchRequests = (userId, token) => {
-  return fetch(`${API_ROOT}/users/${userId}/requests`, {
+export const fetchRequests = userData => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.user.id}/requests`, {
     method: 'GET',
-    headers: { ...headers, Authorization: `Bearer ${token}` }
+    headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
 export const fetchRequest = (token, userId, requestId) => {
   return fetch(`${API_ROOT}/users/${userId}/requests/${requestId}`, {
     method: 'GET',
-    headers: { ...headers, Authorization: `Bearer ${token}` }
+    headers: { ...jsonHeaders, Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 };

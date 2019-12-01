@@ -32,11 +32,13 @@ const Login = props => {
     let userData;
     login(formData)
       .then(res => {
+        debugger;
         if (res.status < 400) {
           const accessToken = res.headers.get('access-token');
           const client = res.headers.get('client');
           const uid = res.headers.get('uid');
-          userData = { accessToken, client, uid };
+          const expiry = res.headers.get('expiry');
+          userData = { accessToken, client, expiry, uid };
         }
         return res.json();
       })
