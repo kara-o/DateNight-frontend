@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from './layout/Button';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { api } from '../services/api';
+import { fetchOptions, createRequest } from '../services/api';
 import MultipleSelect from './MultipleSelect';
 
 const Request = props => {
@@ -24,13 +24,13 @@ const Request = props => {
   //TODO add loading
   useEffect(() => {
     if (token) {
-      api.fetchOptions('cuisines', token).then(res => {
+      fetchOptions('cuisines', token).then(res => {
         setCuisines(res);
       });
-      api.fetchOptions('neighborhoods', token).then(res => {
+      fetchOptions('neighborhoods', token).then(res => {
         setNeighborhoods(res);
       });
-      api.fetchOptions('prices', token).then(res => setPrices(res));
+      fetchOptions('prices', token).then(res => setPrices(res));
     }
   }, [token]);
 
@@ -66,25 +66,23 @@ const Request = props => {
         checkedPrices.push({ ['price_id']: checkbox.value });
       }
     }
-    api
-      .createRequest(
-        formData,
-        currentUser.id,
-        token,
-        cuisinePicks,
-        neighborhoodPicks,
-        checkedPrices
-      )
-      .then(res => {
-        if (!res.errors) {
-          props.history.push('/');
-        } else {
-          setErrors({
-            errorObj: res.errors.error_obj,
-            fullMessages: res.errors.full_messages
-          });
-        }
-      });
+    createRequest(
+      formData,
+      currentUser.id,
+      token,
+      cuisinePicks,
+      neighborhoodPicks,
+      checkedPrices
+    ).then(res => {
+      if (!res.errors) {
+        props.history.push('/');
+      } else {
+        setErrors({
+          errorObj: res.errors.error_obj,
+          fullMessages: res.errors.full_messages
+        });
+      }
+    });
   };
 
   const renderErrors = errors => {

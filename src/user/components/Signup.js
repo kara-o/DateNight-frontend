@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { api } from '../services/api';
+import { createUser } from '../services/api';
 import { Link } from 'react-router-dom';
 import Button from './layout/Button';
 
 const Signup = props => {
   const [formData, setFormData] = useState({
-    username: '',
     password: '',
     password_confirmation: '',
     email: '',
     first_name: '',
-    last_name: ''
+    last_name: '',
+    phone: ''
   });
   const [errors, setErrors] = useState(null);
 
@@ -23,13 +23,12 @@ const Signup = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    api.createUser(formData).then(res => {
-      if (!res.errors) {
-        props.history.push('/login');
+    createUser(formData).then(json => {
+      if (!json.errors) {
+        props.history.push('/login?account_confirmation_pending=true');
       } else {
         setErrors({
-          errorObj: res.errors.error_obj,
-          fullMessages: res.errors.full_messages
+          fullMessages: json.errors.full_messages
         });
       }
     });
@@ -45,10 +44,10 @@ const Signup = props => {
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         <input
           type='text'
-          name='username'
-          value={formData.username}
+          name='email'
+          value={formData.email}
           onChange={handleChange}
-          placeholder='Username'
+          placeholder='Email'
         />
         <input
           type='password'
@@ -66,13 +65,6 @@ const Signup = props => {
         />
         <input
           type='text'
-          name='email'
-          value={formData.email}
-          onChange={handleChange}
-          placeholder='Email'
-        />
-        <input
-          type='text'
           name='first_name'
           value={formData.first_name}
           onChange={handleChange}
@@ -84,6 +76,13 @@ const Signup = props => {
           value={formData.last_name}
           onChange={handleChange}
           placeholder='Last Name'
+        />
+        <input
+          type='text'
+          name='phone'
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder='Phone Number'
         />
         <Button type='submit' onClick={handleSubmit}>
           Signup
