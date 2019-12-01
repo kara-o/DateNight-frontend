@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import itinerary from '../images/itinerary1.png';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
 
   // const convertTime = string => {
   //   let end = '';
@@ -23,24 +26,43 @@ const UserHome = ({ userData }) => {
     }
   }, [userData]);
 
-  const renderRequests = () => {
-    return requests.map(r => {
+  const handleClick = id => {
+    setSelectedId(id);
+  };
+
+  const renderListItems = () => {
+    return requests.map(item => {
       return (
-        <li key={r.id} id='request-row'>
-          <Link to={`/requests/${r.id}`} id='request-row-link'>
-            <ul className='link-list'>
-              <li>{r.date}</li>
-              <li>{r.start + ' - ' + r.end}</li>
-              <li>{r.size}</li>
-              <li>
-                <i>{r.status}</i>
-              </li>
-            </ul>
-          </Link>
-        </li>
+        <ListItem
+          key={item.id}
+          button
+          selected={selectedId === item.id}
+          onClick={() => handleClick(item.id)}
+        >
+          {item.id}
+        </ListItem>
       );
     });
   };
+
+  // const renderRequests = () => {
+  //   return requests.map(r => {
+  //     return (
+  //       <li key={r.id} id='request-row'>
+  //         <Link to={`/requests/${r.id}`} id='request-row-link'>
+  //           <ul className='link-list'>
+  //             <li>{r.date}</li>
+  //             <li>{r.start + ' - ' + r.end}</li>
+  //             <li>{r.size}</li>
+  //             <li>
+  //               <i>{r.status}</i>
+  //             </li>
+  //           </ul>
+  //         </Link>
+  //       </li>
+  //     );
+  //   });
+  // };
 
   return (
     <div id='main-page'>
@@ -48,14 +70,7 @@ const UserHome = ({ userData }) => {
         Make a New Request!
       </Link>
       <div id='request-list-div'>
-        <ul className='header-list'>
-          <li>Date</li>
-          <li>Window</li>
-          <li>Party Size</li>
-          <li>Status</li>
-          <li>Itinerary</li>
-        </ul>
-        <ul className='request-list'>{renderRequests()}</ul>
+        <List component='nav'>{renderListItems()}</List>
       </div>
     </div>
   );
