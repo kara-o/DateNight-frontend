@@ -58,11 +58,11 @@ const App = () => {
             }
           />
           <Route
-            path='/request'
+            path='/requests/new'
             render={props =>
               loggedIn ? (
                 <>
-                  <Request {...props} currentUser={userData} />
+                  <Request {...props} userData={userData} />
                 </>
               ) : null
             }
@@ -72,7 +72,7 @@ const App = () => {
             render={props =>
               loggedIn ? (
                 <>
-                  <RequestShow {...props} currentUser={userData} />
+                  <RequestShow {...props} userData={userData} />
                 </>
               ) : null
             }
@@ -80,7 +80,7 @@ const App = () => {
           <Route path='/'>
             {loggedIn ? (
               <>
-                <UserHome currentUser={userData} />
+                <UserHome userData={userData} />
               </>
             ) : (
               <Redirect to='/login' />

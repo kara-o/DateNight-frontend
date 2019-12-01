@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import itinerary from '../images/itinerary1.png';
 
-const UserHome = ({ currentUser, token }) => {
+const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState(null);
 
   // const convertTime = string => {
@@ -17,15 +17,11 @@ const UserHome = ({ currentUser, token }) => {
   //   return `${first}:${arr[1]} ${end}`;
   // };
 
-  const handleClick = e => {
-    console.log('itinerary!');
-  };
-
   useEffect(() => {
-    if (currentUser) {
-      fetchRequests(currentUser.id, token).then(res => setRequests(res));
+    if (userData) {
+      fetchRequests(userData).then(json => setRequests(json));
     }
-  }, [currentUser]);
+  }, [userData]);
 
   const renderRequests = () => {
     if (requests) {
@@ -40,15 +36,6 @@ const UserHome = ({ currentUser, token }) => {
                 <li>
                   <i>{r.status}</i>
                 </li>
-                <li>
-                  {r.status === 'completed' ? (
-                    <img
-                      src={itinerary}
-                      alt='itinerary icon'
-                      onClick={handleClick}
-                    />
-                  ) : null}
-                </li>
               </ul>
             </Link>
           </li>
@@ -59,7 +46,7 @@ const UserHome = ({ currentUser, token }) => {
 
   return (
     <div id='main-page'>
-      <Link className='new-request-link' to='/request'>
+      <Link className='new-request-link' to='/requests/new'>
         Make a New Request!
       </Link>
       <div id='request-list-div'>
