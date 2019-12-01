@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Button from './layout/Button';
 import DatePicker from 'react-datepicker';
+import TextField from '@material-ui/core/TextField';
 import 'react-datepicker/dist/react-datepicker.css';
 import { fetchOptions, createRequest } from '../services/api';
-import '../../slider.css';
-//userData.user userData.token
 
 const Request = props => {
   const { userData } = props;
@@ -12,14 +11,18 @@ const Request = props => {
     start_time: '',
     end_time: '',
     party_size: '2',
-    notes: '',
-    contacts_attributes: [{ phone: '2066602445' }]
+    notes: ''
   });
   const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState({
+    contact1: userData.user.phone,
+    contact2: '',
+    contact3: '',
+    contact4: ''
+  });
   const [errors, setErrors] = useState(null);
 
   //TODO add loading
@@ -38,7 +41,6 @@ const Request = props => {
   }, [userData]);
 
   const handleChange = (value, name) => {
-    console.log(value);
     setFormData({
       ...formData,
       [name]: value
@@ -51,11 +53,18 @@ const Request = props => {
       {
         ...formData,
         neighborhood_id: neighborhoodSelection,
-        price_range_id: priceRangeSelection
+        price_range_id: priceRangeSelection,
+        contacts_attributes: [
+          { phone: contacts.contact1 },
+          { phone: contacts.contact2 },
+          { phone: contacts.contact3 },
+          { phone: contacts.contact4 }
+        ]
       },
       userData
     ).then(json => {
       if (!json.errors) {
+        console.log(json);
         props.history.push('/');
       } else {
         setErrors({
@@ -146,8 +155,47 @@ const Request = props => {
           id='notes'
           name='notes'
           placeholder='Add any notes for us pertaining to your request!'
-          onChange={value => handleChange(value, 'notes')}
+          onChange={e => handleChange(e.target.value, 'notes')}
+          value={formData.notes}
         ></textarea>
+        <div id='contacts-div'>
+          <TextField
+            id='outlined-basic'
+            label='Contact Phone'
+            variant='outlined'
+            value={contacts.contact1}
+            onChange={e =>
+              setContacts({ ...contacts, contact1: e.target.value })
+            }
+          />
+          <TextField
+            id='outlined-basic'
+            label='Contact Phone'
+            variant='outlined'
+            value={contacts.contact2}
+            onChange={e =>
+              setContacts({ ...contacts, contact2: e.target.value })
+            }
+          />
+          <TextField
+            id='outlined-basic'
+            label='Contact Phone'
+            variant='outlined'
+            value={contacts.contact3}
+            onChange={e =>
+              setContacts({ ...contacts, contact3: e.target.value })
+            }
+          />
+          <TextField
+            id='outlined-basic'
+            label='Contact Phone'
+            variant='outlined'
+            value={contacts.contact4}
+            onChange={e =>
+              setContacts({ ...contacts, contact4: e.target.value })
+            }
+          />
+        </div>
         <Button type='submit' onClick={handleSubmit}>
           Submit
         </Button>

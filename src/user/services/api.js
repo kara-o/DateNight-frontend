@@ -44,6 +44,7 @@ export const logout = userData => {
 };
 
 export const createRequest = (formData, userData) => {
+  debugger;
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/users/${userData.user.id}/requests`, {
     method: 'POST',
