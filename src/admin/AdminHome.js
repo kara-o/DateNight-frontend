@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchRequests } from './api-admin';
 import { Link } from 'react-router-dom';
+import * as moment from 'moment';
 
 const AdminHome = props => {
   const { userData } = props;
@@ -8,6 +9,7 @@ const AdminHome = props => {
 
   useEffect(() => {
     if (userData) {
+      console.log(userData.user.first_name);
       fetchRequests(userData).then(json => setAllRequests(json));
     }
   }, [userData]);
@@ -17,9 +19,9 @@ const AdminHome = props => {
     return unfulfilledRequests.map(r => {
       return (
         <li key={r.id} id='request-row'>
-          <Link to={`/requests/${r.id}`} id='request-row-link'>
+          <Link to={`/admin/requests/${r.id}`} id='request-row-link'>
             <ul id='admin-list'>
-              <li>{r.start_time}</li>
+              <li>{moment(r.start_time).calendar()}</li>
             </ul>
           </Link>
         </li>
@@ -32,20 +34,12 @@ const AdminHome = props => {
   };
 
   return (
-    <div id='admin-main-page'>
-      <div>
-        <h2>Requests</h2>
-        <label htmlFor='filter-select'>
-          Filter By:
-          <select id='filter-select'>
-            <option onClick={handleClick}>To Complete</option>
-            <option onClick={handleClick}>Completed</option>
-            <option onClick={handleClick}>All</option>
-          </select>
-        </label>
+    <>
+      <div className='request-list-div'>
+        <h2>Unfulfilled Requests</h2>
+        <ul className='request-list'>{renderRequests()}</ul>
       </div>
-      <ul>{renderRequests()}</ul>
-    </div>
+    </>
   );
 };
 

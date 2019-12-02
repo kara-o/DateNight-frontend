@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
-import itinerary from '../images/itinerary1.png';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 
 const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
@@ -20,7 +17,10 @@ const UserHome = ({ userData }) => {
     return requests.map(r => {
       return (
         <li key={r.id} id='request-row'>
-          <Link to={`/requests/${r.id}`} id='request-row-link'>
+          <Link
+            to={`${userData.user.id}/requests/${r.id}`}
+            id='request-row-link'
+          >
             <ul className='upcoming-date-list'>
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.party_size} people</li>
@@ -33,19 +33,22 @@ const UserHome = ({ userData }) => {
   };
 
   return (
-    <div id='main-page'>
-      <Link className='new-request-link' to='/requests/new'>
+    <>
+      <Link
+        className='new-request-link'
+        to={`${userData.user.id}/requests/new`}
+      >
         Make a New Request!
       </Link>
-      <div id='request-list-div'>
+      <div className='request-list-div'>
         <h2>Upcoming dates</h2>
-        <ul id='request-list'>{renderRequests()}</ul>
+        <ul className='request-list'>{renderRequests()}</ul>
       </div>
       <div id='request-list-div'>
         <h2>Past dates</h2>
         <p>TODO</p>
       </div>
-    </div>
+    </>
   );
 };
 
