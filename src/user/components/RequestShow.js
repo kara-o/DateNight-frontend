@@ -17,9 +17,20 @@ const RequestShow = props => {
     if (userData) {
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
+        console.log(res.request);
       });
     }
   }, [userData]);
+
+  const renderContacts = () => {
+    return request.contacts.map((c, i) => {
+      return (
+        <li key={c.id} className='contact'>
+          Contact #{i + 1}: {c.phone}
+        </li>
+      );
+    });
+  };
 
   return (
     <>
@@ -33,7 +44,12 @@ const RequestShow = props => {
                 .fromNow()}
             !
           </h2>
-          <p>{moment(request.start_time).format('MMMM Do YYYY, h:mm a')}</p>
+          <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+          <p>Date: {moment(request.start_time).format('h:mm a')}</p>
+          <p>Party: {request.party_size} people</p>
+          <ul>{renderContacts()}</ul>
+          <p>Neighborhood: {request.neighborhood}</p>
+          <p>Price Range: {request.price_range}</p>
         </Paper>
       ) : null}
     </>
