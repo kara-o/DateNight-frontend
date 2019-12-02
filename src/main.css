@@ -179,9 +179,21 @@ form {
 #new-request-form {
   flex: 5;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
   align-items: stretch;
   border: none;
+}
+
+#new-request-form fieldset {
+  border: 0;
+}
+
+.datepickers {
+  flex: 1 100%;
+}
+
+.datepicker {
+  padding-left: 50px;
 }
 
 #cuisine-select,
