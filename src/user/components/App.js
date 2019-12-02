@@ -11,6 +11,7 @@ import RequestShow from './RequestShow';
 import { logout } from '../services/api';
 import AdminLogin from '../../admin/AdminLogin';
 import AdminHome from '../../admin/AdminHome';
+import AdminRequestShow from '../../admin/AdminRequestShow';
 
 function getUserData() {
   const userDataStr = localStorage.getItem('userData');
@@ -60,22 +61,22 @@ const App = () => {
             }
           />
           <Route
-            path='/requests/new'
+            path='/:user_id/requests/new'
             render={props =>
               loggedIn ? (
-                <>
+                <div className='user-page'>
                   <Request {...props} userData={userData} />
-                </>
+                </div>
               ) : null
             }
           />
           <Route
-            path='/requests/:id'
+            path='/:user_id/requests/:id'
             render={props =>
               loggedIn ? (
-                <>
+                <div className='user-page'>
                   <RequestShow {...props} userData={userData} />
-                </>
+                </div>
               ) : null
             }
           />
@@ -84,10 +85,20 @@ const App = () => {
             render={props => <AdminLogin {...props} handleLogin={loginUser} />}
           />
           <Route
+            path='/admin/requests/:id'
+            render={props => (
+              <div className='admin-page'>
+                <AdminRequestShow {...props} userData={userData} />
+              </div>
+            )}
+          />
+          <Route
             path='/admin'
             render={props =>
               loggedIn ? (
-                <AdminHome {...props} userData={userData} />
+                <div className='admin-page'>
+                  <AdminHome {...props} userData={userData} />
+                </div>
               ) : (
                 <Redirect to='/admin/login' />
               )
@@ -95,9 +106,9 @@ const App = () => {
           />
           <Route path='/'>
             {loggedIn ? (
-              <>
+              <div className='user-page'>
                 <UserHome userData={userData} />
-              </>
+              </div>
             ) : (
               <Redirect to='/login' />
             )}

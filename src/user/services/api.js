@@ -71,9 +71,10 @@ export const fetchRequests = userData => {
   }).then(res => res.json());
 };
 
-export const fetchRequest = (token, userId, requestId) => {
-  return fetch(`${API_ROOT}/users/${userId}/requests/${requestId}`, {
+export const fetchRequest = (userData, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.id}/requests/${requestId}`, {
     method: 'GET',
-    headers: { ...jsonHeaders, Authorization: `Bearer ${token}` }
+    headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };

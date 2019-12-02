@@ -62,7 +62,6 @@ button:hover {
 
 .sidebar {
   flex: 1;
-  border-right: 1px solid lightgray;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,10 +78,8 @@ button:hover {
   height: 200px;
 }
 
-#main-page,
-#admin-main-page,
-#request-form-page,
-#show-page {
+.user-page,
+.admin-page {
   flex: 5;
   display: flex;
 }
@@ -106,12 +103,12 @@ button:hover {
   flex: 1;
 }
 
-#request-list-div {
+.request-list-div {
   flex: 1 100%;
   display: column;
 }
 
-#request-list {
+.request-list {
   list-style: none;
   flex: 1 100%;
   display: flex;

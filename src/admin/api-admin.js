@@ -42,3 +42,11 @@ export const fetchRequests = userData => {
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
+
+export const fetchRequest = (userData, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}`, {
+    method: 'GET',
+    headers: { ...jsonHeaders, ...headers }
+  }).then(res => res.json());
+};

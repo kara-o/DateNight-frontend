@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ logoutUser, currentUser }) => {
+const Navbar = ({ logoutUser, userData }) => {
   return (
     <nav className='nav'>
       <Link
@@ -13,7 +13,7 @@ const Navbar = ({ logoutUser, currentUser }) => {
         Logout
       </Link>
       <Link
-        to={currentUser && currentUser.admin ? '/admin-home' : '/'}
+        to={userData && userData.user.first_name ? '/login' : '/admin/login'}
         className='navbar-logo'
       >
         Home
