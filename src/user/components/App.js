@@ -61,6 +61,16 @@ const App = () => {
             }
           />
           <Route
+            path='/requests/:id/edit'
+            render={props =>
+              loggedIn && !userData.admin ? (
+                <div className='user-page'>
+                  <Request edit={true} {...props} userData={userData} />
+                </div>
+              ) : null
+            }
+          />
+          <Route
             path='/requests/new'
             render={props =>
               loggedIn && !userData.admin ? (

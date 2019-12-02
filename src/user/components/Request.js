@@ -8,7 +8,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker
 } from '@material-ui/pickers';
-import { fetchOptions, createRequest } from '../services/api';
+import { fetchOptions, createRequest, updateRequest } from '../services/api';
 import * as moment from 'moment';
 import { FormLabel } from '@material-ui/core';
 
@@ -44,6 +44,7 @@ function defaulStartTime() {
 }
 
 const Request = props => {
+  const requestId = props.edit ? props.match.params.id : null;
   const { userData } = props;
   const [formData, setFormData] = useState({
     start_date: thisFriday(),
@@ -111,16 +112,34 @@ const Request = props => {
 
     const data = getPostData();
     debugger;
-    createRequest(data, userData).then(json => {
-      if (!json.errors) {
-        props.history.push('/');
-      } else {
-        setErrors({
-          errorObj: json.errors.error_obj,
-          fullMessages: json.errors.full_messages
-        });
-      }
-    });
+    if (e.target.textContent === 'Submit Request') {
+      createRequest(data, userData).then(json => {
+        if (!json.errors) {
+          props.history.push('/');
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    } else if (e.target.textContent === 'Update Request') {
+      updateRequest(data, userData, requestId).then(json => {
+        if (!json.errors) {
+          console.log(json);
+          props.history.push('/');
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    }
+  };
+
+  const handleBackClick = () => {
+    props.history.push(`./requests/${requestId}`);
   };
 
   const updateContactAt = (contact, i) => {
@@ -164,6 +183,7 @@ const Request = props => {
   return (
     <>
       <form id='new-request-form' autoComplete='off'>
+        {props.edit ? <h2>Edit Your Request</h2> : null}
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         <fieldset className='datepickers unstyled'>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -257,8 +277,13 @@ const Request = props => {
         />
 
         <Button type='submit' onClick={handleSubmit}>
-          Submit
+          {props.edit ? 'Update Request' : 'Submit Request'}
         </Button>
+        {props.edit ? (
+          <Button type='button' onClick={handleBackClick}>
+            Back
+          </Button>
+        ) : null}
       </form>
     </>
   );

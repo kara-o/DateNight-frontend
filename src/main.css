@@ -84,25 +84,16 @@ button:hover {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  align-items: center;
+}
+
+.paper {
+  display: flex;
+  flex-direction: column;
 }
 
 .request {
   flex-direction: column;
-}
-
-#main-page,
-#admin-main-page {
-  flex-flow: row wrap;
-  justify-content: center;
-}
-
-#show-page {
-  flex-direction: row;
-}
-
-#request-show,
-#status-itinerary-show {
-  flex: 1;
 }
 
 .request-list-div {

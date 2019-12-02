@@ -13,8 +13,9 @@ const UserHome = ({ userData }) => {
     }
   }, [userData]);
 
-  const renderRequests = () => {
-    return requests.map(r => {
+  const renderUncancelledRequests = () => {
+    const uncancelledReqs = requests.filter(r => !r.cancelled);
+    return uncancelledReqs.map(r => {
       return (
         <li key={r.id} id='request-row'>
           <Link to={`/requests/${r.id}`} id='request-row-link'>
@@ -36,7 +37,7 @@ const UserHome = ({ userData }) => {
       </Link>
       <div className='request-list-div'>
         <h2>Upcoming dates</h2>
-        <ul className='request-list'>{renderRequests()}</ul>
+        <ul className='request-list'>{renderUncancelledRequests()}</ul>
       </div>
       <div id='request-list-div'>
         <h2>Past dates</h2>
