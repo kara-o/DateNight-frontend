@@ -17,12 +17,7 @@ const Request = props => {
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
-  const [contacts, setContacts] = useState({
-    contact1: userData.user.phone,
-    contact2: '',
-    contact3: '',
-    contact4: ''
-  });
+  const [contacts, setContacts] = useState([userData.user.phone]);
   const [errors, setErrors] = useState(null);
 
   //TODO add loading
@@ -54,12 +49,9 @@ const Request = props => {
         ...formData,
         neighborhood_id: neighborhoodSelection,
         price_range_id: priceRangeSelection,
-        contact_attributes: [
-          { phone: contacts.contact1 },
-          { phone: contacts.contact2 },
-          { phone: contacts.contact3 },
-          { phone: contacts.contact4 }
-        ]
+        contacts_attributes: contacts.map(contact => ({
+          phone: contact
+        }))
       },
       userData
     ).then(json => {
@@ -72,6 +64,20 @@ const Request = props => {
         });
       }
     });
+  };
+
+  const updateContactAt = (contact, i) => {
+    const contactsCopy = contacts.slice();
+    if (contact.length) {
+      if (contacts.length === i) {
+        contactsCopy.push(contact);
+      } else {
+        contactsCopy[i] = contact;
+      }
+    } else if (i < contacts.length) {
+      contactsCopy.splice(i, 1);
+    }
+    setContacts(contactsCopy);
   };
 
   const renderErrors = errors => {
@@ -158,42 +164,20 @@ const Request = props => {
           value={formData.notes}
         ></textarea>
         <div id='contacts-div'>
-          <TextField
-            id='outlined-basic'
-            label='Contact Phone #1'
-            variant='outlined'
-            value={contacts.contact1}
-            onChange={e =>
-              setContacts({ ...contacts, contact1: e.target.value })
-            }
-          />
-          <TextField
-            id='outlined-basic'
-            label='Contact Phone #2'
-            variant='outlined'
-            value={contacts.contact2}
-            onChange={e =>
-              setContacts({ ...contacts, contact2: e.target.value })
-            }
-          />
-          <TextField
-            id='outlined-basic'
-            label='Contact Phone #3'
-            variant='outlined'
-            value={contacts.contact3}
-            onChange={e =>
-              setContacts({ ...contacts, contact3: e.target.value })
-            }
-          />
-          <TextField
-            id='outlined-basic'
-            label='Contact Phone #4'
-            variant='outlined'
-            value={contacts.contact4}
-            onChange={e =>
-              setContacts({ ...contacts, contact4: e.target.value })
-            }
-          />
+          {contacts
+            .concat([''])
+            .slice(0, 4) // limit to 4
+            .map((contact, i) => (
+              <TextField
+                key={i}
+                className='outlined-basic'
+                label={`Contact Phone #${i + 1}`}
+                variant='outlined'
+                value={contact}
+                type='tel'
+                onChange={e => updateContactAt(e.target.value, i)}
+              />
+            ))}
         </div>
         <Button type='submit' onClick={handleSubmit}>
           Submit
