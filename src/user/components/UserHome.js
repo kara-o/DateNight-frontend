@@ -10,43 +10,11 @@ const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
-  // const convertTime = string => {
-  //   let end = '';
-  //   const arr = string.split(':');
-  //   let first = parseInt(arr[0], 10);
-  //   if (first > 12) {
-  //     end = 'PM';
-  //     first -= 12;
-  //   }
-  //   return `${first}:${arr[1]} ${end}`;
-  // };
-
   useEffect(() => {
     if (userData) {
       fetchRequests(userData).then(json => setRequests(json));
     }
   }, [userData]);
-
-  // const handleClick = id => {
-  //   setSelectedId(id);
-  // };
-
-  // const renderListItems = () => {
-  //   return requests.map(item => {
-  //     return (
-  //       <Link to={`/requests/${item.id}`}>
-  //         <ListItem
-  //           key={item.id}
-  //           button
-  //           selected={selectedId === item.id}
-  //           onClick={() => handleClick(item.id)}
-  //         >
-  //           {item.id}
-  //         </ListItem>
-  //       </Link>
-  //     );
-  //   });
-  // };
 
   const renderRequests = () => {
     return requests.map(r => {
