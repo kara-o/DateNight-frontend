@@ -1,11 +1,18 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
-const Button = ({ type, onClick, className = '', children }) => {
+const MyButton = ({ type, onClick, className = '', children }) => {
   return (
-    <button onClick={onClick} className={`${className} button`} type={type}>
+    <Button
+      onClick={onClick}
+      className={`${className} button`}
+      type={type}
+      variant='contained'
+      color='primary'
+    >
       {children}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default MyButton;

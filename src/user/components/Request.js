@@ -1,29 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../layout/Button';
-import DatePicker from 'react-datepicker';
 import TextField from '@material-ui/core/TextField';
-import 'react-datepicker/dist/react-datepicker.css';
+import MenuItem from '@material-ui/core/MenuItem';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
+import { FormLabel } from '@material-ui/core';
+
+const DEFAULT_DATE_LENGTH_HOURS = 4;
 
 function thisFriday() {
   const dayINeed = 5; // Friday
   const today = moment().isoWeekday();
 
   if (today < dayINeed) {
-    return moment().add(dayINeed - today, 'days');
+    return moment()
+      .add(dayINeed - today, 'days')
+      .toDate();
   } else if (today > dayINeed) {
-    return moment().add(7 - today + dayINeed, 'days');
+    return moment()
+      .add(7 - today + dayINeed, 'days')
+      .toDate();
   } else {
-    return moment().add(1, 'week');
+    return moment()
+      .add(1, 'week')
+      .toDate();
   }
+}
+
+function tomorrow() {
+  return moment()
+    .add(1, 'days')
+    .toDate();
+}
+
+function defaulStartTime() {
+  return new Date(2000, 1, 1, 19, 0, 0);
 }
 
 const Request = props => {
   const { userData } = props;
   const [formData, setFormData] = useState({
-    start_date: thisFriday().format('Y-MM-DD'),
-    start_time: '19:00',
+    start_date: thisFriday(),
+    start_time: defaulStartTime(),
     party_size: '2',
     notes: ''
   });
@@ -56,19 +80,38 @@ const Request = props => {
     });
   };
 
+  const getPostData = () => {
+    const startDate = new Date(
+      formData.start_date.getFullYear(),
+      formData.start_date.getMonth(),
+      formData.start_date.getDate(), // pull date from formData.start_date
+      formData.start_time.getHours(),
+      formData.start_time.getMinutes()
+    ); // pull time from formData.start_time
+    const endDate = moment(startDate)
+      .add(DEFAULT_DATE_LENGTH_HOURS, 'hours')
+      .toDate();
+    const data = {
+      ...formData,
+      start_time: startDate.toString(),
+      end_time: endDate.toString(),
+      neighborhood_id: neighborhoodSelection,
+      price_range_id: priceRangeSelection,
+      contacts_attributes: contacts.map(contact => ({
+        phone: contact
+      }))
+    };
+    delete data.start_date;
+    delete data.end_date;
+    return data;
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    createRequest(
-      {
-        ...formData,
-        neighborhood_id: neighborhoodSelection,
-        price_range_id: priceRangeSelection,
-        contacts_attributes: contacts.map(contact => ({
-          phone: contact
-        }))
-      },
-      userData
-    ).then(json => {
+
+    const data = getPostData();
+    debugger;
+    createRequest(data, userData).then(json => {
       if (!json.errors) {
         props.history.push('/');
       } else {
@@ -101,99 +144,118 @@ const Request = props => {
   const renderOptions = (array, attribute) => {
     return array.map(o => {
       return (
-        <option key={o.id} value={o.id}>
+        <MenuItem key={o.id} value={o.id}>
           {o[`${attribute}`]}
-        </option>
+        </MenuItem>
       );
     });
   };
+
+  if (neighborhoodSelection === null || priceRangeSelection === null) {
+    return (
+      <div id='request-form-page'>
+        <form id='new-request-form' autoComplete='off'>
+          <p>Loading...</p>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div id='request-form-page'>
       <form id='new-request-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        <fieldset className='datepickers'>
-          <TextField
-            label='Date'
-            type='date'
-            value={formData.start_date}
-            onChange={e => handleChange(e.target.value, 'start_date')}
-            className='datepicker'
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-          <TextField
-            label='Time'
-            type='time'
-            value={formData.start_time}
-            onChange={e => handleChange(e.target.value, 'start_time')}
-            className='datepicker'
-            InputLabelProps={{
-              shrink: true
-            }}
-            inputProps={{
-              step: 1800 // 30 min
-            }}
-          />
+        <fieldset className='datepickers unstyled'>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              label='Date'
+              minDate={tomorrow()}
+              value={formData.start_date}
+              onChange={date => handleChange(date, 'start_date')}
+            />
+            <KeyboardTimePicker
+              disableToolbar
+              variant='inline'
+              minutesStep={30}
+              margin='normal'
+              label='Time'
+              value={formData.start_time}
+              onChange={time => handleChange(time, 'start_time')}
+            />
+          </MuiPickersUtilsProvider>
         </fieldset>
-        <div id='party-size'>
-          Party Size
-          <select
-            value={formData.party_size}
-            onChange={e => {
-              handleChange(e.target.value, 'party_size');
-            }}
-          >
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-          </select>
-        </div>
-        Neighborhood
-        <select
-          name='neighborhood_id'
+
+        <TextField
+          select
+          label='Party size'
+          className='select party-size-picker'
+          value={formData.party_size}
+          onChange={e => handleChange(e.target.value, 'party_size')}
+          margin='normal'
+        >
+          <MenuItem value='1'>1</MenuItem>
+          <MenuItem value='2'>2</MenuItem>
+          <MenuItem value='3'>3</MenuItem>
+          <MenuItem value='4'>4</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          label='Neighborhood'
+          className='select neighborhood-picker'
           value={neighborhoodSelection}
-          onChange={e => {
-            setNeighborhoodSelection(e.target.value);
-          }}
+          onChange={e => setNeighborhoodSelection(e.target.value)}
+          margin='normal'
         >
           {renderOptions(neighborhoods, 'name')}
-        </select>
-        Price (please select approximate limit)
-        <select
-          name='price_range_id'
+        </TextField>
+
+        <TextField
+          select
+          label='Price range'
+          className='select price-picker'
           value={priceRangeSelection}
-          onChange={e => {
-            setPriceRangeSelection(e.target.value);
-          }}
+          onChange={e => setPriceRangeSelection(e.target.value)}
+          margin='normal'
         >
           {renderOptions(priceRanges, 'max_amount')}
-        </select>
-        <textarea
-          id='notes'
-          name='notes'
-          placeholder='Add any notes for us pertaining to your request!'
-          onChange={e => handleChange(e.target.value, 'notes')}
-          value={formData.notes}
-        ></textarea>
-        <div id='contacts-div'>
+        </TextField>
+
+        <fieldset className='contacts unstyled'>
+          <FormLabel className='contacts-group-label'>
+            Contact phone numbers (up to 4)
+          </FormLabel>
           {contacts
             .concat([''])
             .slice(0, 4) // limit to 4
             .map((contact, i) => (
               <TextField
                 key={i}
-                className='outlined-basic'
-                label={`Contact Phone #${i + 1}`}
+                label={`Phone ${i + 1}`}
                 variant='outlined'
                 value={contact}
-                type='tel'
+                inputProps={{
+                  type: 'tel'
+                }}
                 onChange={e => updateContactAt(e.target.value, i)}
               />
             ))}
-        </div>
+        </fieldset>
+
+        <TextField
+          multiline
+          rows={3}
+          label='Notes'
+          className='textarea notes'
+          value={formData.notes}
+          onChange={e => handleChange(e.target.value, 'notes')}
+          margin='normal'
+        />
+
         <Button type='submit' onClick={handleSubmit}>
           Submit
         </Button>
