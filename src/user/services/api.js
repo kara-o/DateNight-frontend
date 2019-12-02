@@ -55,6 +55,28 @@ export const createRequest = (formData, userData) => {
   }).then(res => res.json());
 };
 
+export const updateRequest = (formData, userData, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.user.id}/requests/${requestId}`, {
+    method: 'PATCH',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      ...formData
+    })
+  }).then(res => res.json());
+};
+
+export const cancelRequest = (userData, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.user.id}/requests/${requestId}`, {
+    method: 'PATCH',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      cancelled: true
+    })
+  }).then(res => res.json());
+};
+
 export const fetchOptions = (type, userData) => {
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/${type}/`, {
