@@ -26,14 +26,13 @@ const AdminLogin = props => {
           const client = res.headers.get('client');
           const uid = res.headers.get('uid');
           const expiry = res.headers.get('expiry');
-          debugger;
           userData = { accessToken, client, expiry, uid };
         }
         return res.json();
       })
       .then(json => {
         if (!json.errors) {
-          userData = { ...userData, user: json.data };
+          userData = { ...userData, user: json.data, admin: true };
           props.handleLogin(userData);
           props.history.push('/admin');
         } else {

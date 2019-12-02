@@ -5,19 +5,14 @@ const Navbar = ({ logoutUser, userData }) => {
   return (
     <nav className='nav'>
       <Link
-        to='/login'
+        to={userData.admin ? '/admin/login' : '/login'}
         onClick={() => {
           logoutUser();
         }}
       >
         Logout
       </Link>
-      <Link
-        to={userData && userData.user.first_name ? '/login' : '/admin/login'}
-        className='navbar-logo'
-      >
-        Home
-      </Link>
+      <Link to={userData.admin ? '/admin' : '/'}>Home</Link>
     </nav>
   );
 };
