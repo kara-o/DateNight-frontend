@@ -4,12 +4,24 @@ import DatePicker from 'react-datepicker';
 import TextField from '@material-ui/core/TextField';
 import 'react-datepicker/dist/react-datepicker.css';
 import { fetchOptions, createRequest } from '../services/api';
+import * as moment from 'moment';
+
+function thisFriday() {
+  const dayINeed = 5; // Friday
+  const today = moment().isoWeekday();
+
+  if (today <= dayINeed) {
+    return moment().isoWeekday(dayINeed);
+  } else {
+    return moment().add(1, 'week');
+  }
+}
 
 const Request = props => {
   const { userData } = props;
   const [formData, setFormData] = useState({
-    start_time: '',
-    end_time: '',
+    start_date: thisFriday(),
+    start_time: '07:30T',
     party_size: '2',
     notes: ''
   });
@@ -98,7 +110,37 @@ const Request = props => {
     <div id='request-form-page'>
       <form id='new-request-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        Start Time
+        <TextField
+          label='Date'
+          type='date'
+          value={formData.start_time}
+          onChange={e => {
+            debugger;
+            handleChange(e.target.value, 'start_date');
+          }}
+          className='datepicker'
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <TextField
+          label='Time'
+          type='time'
+          value={formData.start_time}
+          onChange={e => {
+            debugger;
+            handleChange(e.target.value, 'start_time');
+          }}
+          className='datepicker'
+          InputLabelProps={{
+            shrink: true
+          }}
+          inputProps={{
+            step: 1800 // 30 min
+          }}
+        />
+        <br />
+        <br />
         <DatePicker
           id='start-time'
           selected={formData.start_time}
