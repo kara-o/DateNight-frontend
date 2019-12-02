@@ -43,7 +43,7 @@ const Login = props => {
       })
       .then(json => {
         if (!json.errors) {
-          userData = { ...userData, user: json.data };
+          userData = { ...userData, user: json.data, admin: false };
           props.handleLogin(userData);
           props.history.push('/');
         } else {

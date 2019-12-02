@@ -17,10 +17,7 @@ const UserHome = ({ userData }) => {
     return requests.map(r => {
       return (
         <li key={r.id} id='request-row'>
-          <Link
-            to={`${userData.user.id}/requests/${r.id}`}
-            id='request-row-link'
-          >
+          <Link to={`/requests/${r.id}`} id='request-row-link'>
             <ul className='upcoming-date-list'>
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.party_size} people</li>
@@ -34,10 +31,7 @@ const UserHome = ({ userData }) => {
 
   return (
     <>
-      <Link
-        className='new-request-link'
-        to={`${userData.user.id}/requests/new`}
-      >
+      <Link className='new-request-link' to={`/requests/new`}>
         Make a New Request!
       </Link>
       <div className='request-list-div'>

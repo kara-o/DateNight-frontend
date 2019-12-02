@@ -82,6 +82,8 @@ button:hover {
 .admin-page {
   flex: 5;
   display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
 }
 
 .request {

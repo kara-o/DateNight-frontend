@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest } from '../services/api';
 import { Link } from 'react-router-dom';
+import * as moment from 'moment';
 
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Typography } from '@material-ui/core';
 
 //props, userData
 
@@ -15,7 +15,6 @@ const RequestShow = props => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData, requestId);
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
       });
@@ -25,14 +24,16 @@ const RequestShow = props => {
   return (
     <>
       {request ? (
-        <Paper className=''>
-          <Typography variant='h5' component='h3'>
-            This is a sheet of paper.
-          </Typography>
-          <Typography component='p'>
-            Paper can be used to build surface or other elements for your
-            application.
-          </Typography>
+        <Paper className='paper'>
+          <h2>
+            Your date is
+            {' ' +
+              moment(request.start_time)
+                .startOf('h:mm a')
+                .fromNow()}
+            !
+          </h2>
+          <p>{moment(request.start_time).format('MMMM Do YYYY, h:mm a')}</p>
         </Paper>
       ) : null}
     </>

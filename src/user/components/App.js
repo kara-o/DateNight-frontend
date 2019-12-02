@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import UserHome from './UserHome';
 import Login from './Login';
-import Navbar from './Navbar';
+import Navbar from '../../layout/Navbar';
 import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
@@ -61,9 +61,9 @@ const App = () => {
             }
           />
           <Route
-            path='/:user_id/requests/new'
+            path='/requests/new'
             render={props =>
-              loggedIn ? (
+              loggedIn && !userData.admin ? (
                 <div className='user-page'>
                   <Request {...props} userData={userData} />
                 </div>
@@ -71,9 +71,9 @@ const App = () => {
             }
           />
           <Route
-            path='/:user_id/requests/:id'
+            path='/requests/:id'
             render={props =>
-              loggedIn ? (
+              loggedIn && !userData.admin ? (
                 <div className='user-page'>
                   <RequestShow {...props} userData={userData} />
                 </div>
@@ -86,16 +86,18 @@ const App = () => {
           />
           <Route
             path='/admin/requests/:id'
-            render={props => (
-              <div className='admin-page'>
-                <AdminRequestShow {...props} userData={userData} />
-              </div>
-            )}
+            render={props =>
+              loggedIn && userData.admin ? (
+                <div className='admin-page'>
+                  <AdminRequestShow {...props} userData={userData} />
+                </div>
+              ) : null
+            }
           />
           <Route
             path='/admin'
             render={props =>
-              loggedIn ? (
+              loggedIn && userData.admin ? (
                 <div className='admin-page'>
                   <AdminHome {...props} userData={userData} />
                 </div>
@@ -105,7 +107,7 @@ const App = () => {
             }
           />
           <Route path='/'>
-            {loggedIn ? (
+            {loggedIn && !userData.admin ? (
               <div className='user-page'>
                 <UserHome userData={userData} />
               </div>
