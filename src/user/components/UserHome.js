@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
+import * as moment from 'moment';
 import itinerary from '../images/itinerary1.png';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -26,43 +27,42 @@ const UserHome = ({ userData }) => {
     }
   }, [userData]);
 
-  const handleClick = id => {
-    setSelectedId(id);
-  };
+  // const handleClick = id => {
+  //   setSelectedId(id);
+  // };
 
-  const renderListItems = () => {
-    return requests.map(item => {
-      return (
-        <ListItem
-          key={item.id}
-          button
-          selected={selectedId === item.id}
-          onClick={() => handleClick(item.id)}
-        >
-          {item.id}
-        </ListItem>
-      );
-    });
-  };
-
-  // const renderRequests = () => {
-  //   return requests.map(r => {
+  // const renderListItems = () => {
+  //   return requests.map(item => {
   //     return (
-  //       <li key={r.id} id='request-row'>
-  //         <Link to={`/requests/${r.id}`} id='request-row-link'>
-  //           <ul className='link-list'>
-  //             <li>{r.date}</li>
-  //             <li>{r.start + ' - ' + r.end}</li>
-  //             <li>{r.size}</li>
-  //             <li>
-  //               <i>{r.status}</i>
-  //             </li>
-  //           </ul>
-  //         </Link>
-  //       </li>
+  //       <Link to={`/requests/${item.id}`}>
+  //         <ListItem
+  //           key={item.id}
+  //           button
+  //           selected={selectedId === item.id}
+  //           onClick={() => handleClick(item.id)}
+  //         >
+  //           {item.id}
+  //         </ListItem>
+  //       </Link>
   //     );
   //   });
   // };
+
+  const renderRequests = () => {
+    return requests.map(r => {
+      return (
+        <li key={r.id} id='request-row'>
+          <Link to={`/requests/${r.id}`} id='request-row-link'>
+            <ul className='upcoming-date-list'>
+              <li>{moment(r.start_time).calendar()}</li>
+              <li>{r.party_size} people</li>
+              <li>{r.neighborhood}</li>
+            </ul>
+          </Link>
+        </li>
+      );
+    });
+  };
 
   return (
     <div id='main-page'>
@@ -70,7 +70,12 @@ const UserHome = ({ userData }) => {
         Make a New Request!
       </Link>
       <div id='request-list-div'>
-        <List component='nav'>{renderListItems()}</List>
+        <h2>Upcoming dates</h2>
+        <ul id='request-list'>{renderRequests()}</ul>
+      </div>
+      <div id='request-list-div'>
+        <h2>Past dates</h2>
+        <p>TODO</p>
       </div>
     </div>
   );

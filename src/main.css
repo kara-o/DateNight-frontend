@@ -111,30 +111,28 @@ button:hover {
   display: column;
 }
 
-.request-list,
-.header-list {
+#request-list {
   list-style: none;
   flex: 1 100%;
   display: flex;
   flex-flow: row wrap;
   padding: 0;
-}
-
-.header-list {
-  justify-content: space-between;
-}
-
-.request-list {
   overflow: auto;
   max-height: 100%;
 }
 
-.link-list {
+.upcoming-date-list {
   flex: 1 100%;
   display: flex;
   flex-direction: row;
   list-style: none;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  padding: 0;
+  text-align: left;
+}
+
+.upcoming-date-list li {
+  flex: 1;
 }
 
 #admin-list,

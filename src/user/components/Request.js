@@ -54,7 +54,7 @@ const Request = props => {
         ...formData,
         neighborhood_id: neighborhoodSelection,
         price_range_id: priceRangeSelection,
-        contacts_attributes: [
+        contact_attributes: [
           { phone: contacts.contact1 },
           { phone: contacts.contact2 },
           { phone: contacts.contact3 },
@@ -64,7 +64,6 @@ const Request = props => {
       userData
     ).then(json => {
       if (!json.errors) {
-        console.log(json);
         props.history.push('/');
       } else {
         setErrors({
@@ -161,7 +160,7 @@ const Request = props => {
         <div id='contacts-div'>
           <TextField
             id='outlined-basic'
-            label='Contact Phone'
+            label='Contact Phone #1'
             variant='outlined'
             value={contacts.contact1}
             onChange={e =>
@@ -170,7 +169,7 @@ const Request = props => {
           />
           <TextField
             id='outlined-basic'
-            label='Contact Phone'
+            label='Contact Phone #2'
             variant='outlined'
             value={contacts.contact2}
             onChange={e =>
@@ -179,7 +178,7 @@ const Request = props => {
           />
           <TextField
             id='outlined-basic'
-            label='Contact Phone'
+            label='Contact Phone #3'
             variant='outlined'
             value={contacts.contact3}
             onChange={e =>
@@ -188,7 +187,7 @@ const Request = props => {
           />
           <TextField
             id='outlined-basic'
-            label='Contact Phone'
+            label='Contact Phone #4'
             variant='outlined'
             value={contacts.contact4}
             onChange={e =>
