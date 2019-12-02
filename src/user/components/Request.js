@@ -10,8 +10,10 @@ function thisFriday() {
   const dayINeed = 5; // Friday
   const today = moment().isoWeekday();
 
-  if (today <= dayINeed) {
-    return moment().isoWeekday(dayINeed);
+  if (today < dayINeed) {
+    return moment().add(dayINeed - today, 'days');
+  } else if (today > dayINeed) {
+    return moment().add(7 - today + dayINeed, 'days');
   } else {
     return moment().add(1, 'week');
   }
@@ -20,8 +22,8 @@ function thisFriday() {
 const Request = props => {
   const { userData } = props;
   const [formData, setFormData] = useState({
-    start_date: thisFriday(),
-    start_time: '07:30T',
+    start_date: thisFriday().format('Y-MM-DD'),
+    start_time: '19:00',
     party_size: '2',
     notes: ''
   });
@@ -110,60 +112,31 @@ const Request = props => {
     <div id='request-form-page'>
       <form id='new-request-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        <TextField
-          label='Date'
-          type='date'
-          value={formData.start_time}
-          onChange={e => {
-            debugger;
-            handleChange(e.target.value, 'start_date');
-          }}
-          className='datepicker'
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <TextField
-          label='Time'
-          type='time'
-          value={formData.start_time}
-          onChange={e => {
-            debugger;
-            handleChange(e.target.value, 'start_time');
-          }}
-          className='datepicker'
-          InputLabelProps={{
-            shrink: true
-          }}
-          inputProps={{
-            step: 1800 // 30 min
-          }}
-        />
-        <br />
-        <br />
-        <DatePicker
-          id='start-time'
-          selected={formData.start_time}
-          onChange={value => handleChange(value, 'start_time')}
-          showTimeSelect
-          timeFormat='hh:mm aa'
-          timeIntervals={30}
-          timeCaption='time'
-          dateFormat='MMMM d, yyyy h:mm aa'
-          placeholderText='Select date and start time'
-        />
-        End Time
-        <DatePicker
-          id='end-time'
-          selected={formData.end_time}
-          onChange={value => handleChange(value, 'end_time')}
-          showTimeSelect
-          timeFormat='hh:mm aa'
-          timeIntervals={30}
-          timeCaption='time'
-          dateFormat='MMMM d, yyyy h:mm aa'
-          placeholderText='Select date and end time'
-        />
+        <fieldset className='datepickers'>
+          <TextField
+            label='Date'
+            type='date'
+            value={formData.start_date}
+            onChange={e => handleChange(e.target.value, 'start_date')}
+            className='datepicker'
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+          <TextField
+            label='Time'
+            type='time'
+            value={formData.start_time}
+            onChange={e => handleChange(e.target.value, 'start_time')}
+            className='datepicker'
+            InputLabelProps={{
+              shrink: true
+            }}
+            inputProps={{
+              step: 1800 // 30 min
+            }}
+          />
+        </fieldset>
         <div id='party-size'>
           Party Size
           <select
