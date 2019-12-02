@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { login } from './user/services/api';
+import { login } from '../services/api';
 import { Link, useLocation } from 'react-router-dom';
-import Button from './user/components/layout/Button';
+import Button from '../../layout/Button';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -57,37 +57,35 @@ const Login = props => {
   };
 
   return (
-    <>
-      <div className='container'>
-        {isAccountConfirmationPending ? <h3>Confirmation email sent</h3> : null}
-        {isAccountConfirmed ? (
-          <h3>Thank you for confirming your account</h3>
-        ) : null}
-        <form className='container'>
-          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-          <input
-            type='text'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-            placeholder='Email'
-          />
-          <input
-            type='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            placeholder='Password'
-          />
-          <Button type='submit' onClick={handleSubmit}>
-            Login
-          </Button>
-        </form>
-        {!props.admin ? (
-          <Link to='/signup'>New user? Sign up for an account</Link>
-        ) : null}
-      </div>
-    </>
+    <div className='container'>
+      {isAccountConfirmationPending ? (
+        <h3>Confirmation email sent - check your inbox!</h3>
+      ) : null}
+      {isAccountConfirmed ? (
+        <h3>Thank you for confirming your account! Please login.</h3>
+      ) : null}
+      <form className='container'>
+        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
+        <input
+          type='text'
+          name='email'
+          value={formData.email}
+          onChange={handleChange}
+          placeholder='Email'
+        />
+        <input
+          type='password'
+          name='password'
+          value={formData.password}
+          onChange={handleChange}
+          placeholder='Password'
+        />
+        <Button type='submit' onClick={handleSubmit}>
+          Login
+        </Button>
+      </form>
+      <Link to='/signup'>New user? Sign up for an account</Link>
+    </div>
   );
 };
 

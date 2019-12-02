@@ -1,31 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRequests } from './api';
+import { fetchRequests } from './api-admin';
 import { Link } from 'react-router-dom';
 
-const AdminHome = ({ token }) => {
-  const [allRequests, setAllRequests] = useState(null);
+const AdminHome = props => {
+  const { userData } = props;
+  const [allRequests, setAllRequests] = useState([]);
 
   useEffect(() => {
-    if (token) {
-      fetchRequests(token).then(res => setAllRequests(res));
+    if (userData) {
+      fetchRequests(userData).then(json => setAllRequests(json));
     }
-  }, [token]);
+  }, [userData]);
 
   const renderRequests = () => {
-    if (allRequests) {
-      const pendingRequests = allRequests.filter(r => r.status !== 'completed');
-      return pendingRequests.map(r => {
-        return (
-          <li key={r.id}>
-            <Link to={`/requests/${r.id}`}>
-              <ul id='admin-list'>
-                <li>{r.date}</li>
-              </ul>
-            </Link>
-          </li>
-        );
-      });
-    }
+    const unfulfilledRequests = allRequests.filter(r => !r.fulfilled);
+    return unfulfilledRequests.map(r => {
+      return (
+        <li key={r.id} id='request-row'>
+          <Link to={`/requests/${r.id}`} id='request-row-link'>
+            <ul id='admin-list'>
+              <li>{r.start_time}</li>
+            </ul>
+          </Link>
+        </li>
+      );
+    });
   };
 
   const handleClick = e => {
@@ -45,7 +44,7 @@ const AdminHome = ({ token }) => {
           </select>
         </label>
       </div>
-      <ul id='all-requests-list'>{token ? renderRequests() : null}</ul>
+      <ul>{renderRequests()}</ul>
     </div>
   );
 };

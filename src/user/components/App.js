@@ -1,14 +1,16 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import UserHome from './UserHome';
-import Login from '../../Login';
+import Login from './Login';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
 import RequestShow from './RequestShow';
 import { logout } from '../services/api';
+import AdminLogin from '../../admin/AdminLogin';
+import AdminHome from '../../admin/AdminHome';
 
 function getUserData() {
   const userDataStr = localStorage.getItem('userData');
@@ -35,8 +37,8 @@ const App = () => {
     <>
       {loggedIn ? (
         <>
-          <Navbar logoutUser={logoutUser} currentUser={userData} />
-          <Sidebar currentUser={userData} />
+          <Navbar logoutUser={logoutUser} userData={userData} />
+          <Sidebar userData={userData} />
         </>
       ) : null}
       <>
@@ -75,6 +77,20 @@ const App = () => {
                   <RequestShow {...props} userData={userData} />
                 </>
               ) : null
+            }
+          />
+          <Route
+            path='/admin/login'
+            render={props => <AdminLogin {...props} handleLogin={loginUser} />}
+          />
+          <Route
+            path='/admin'
+            render={props =>
+              loggedIn ? (
+                <AdminHome {...props} userData={userData} />
+              ) : (
+                <Redirect to='/admin/login' />
+              )
             }
           />
           <Route path='/'>

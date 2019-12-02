@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUser } from '../services/api';
 import { Link } from 'react-router-dom';
-import Button from './layout/Button';
+import Button from '../../layout/Button';
 
 const Signup = props => {
   const [formData, setFormData] = useState({

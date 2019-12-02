@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Button from './layout/Button';
+import Button from '../../layout/Button';
 import { fetchRequest } from '../services/api';
-import { updateStatus } from '../../admin/api';
 import { Link } from 'react-router-dom';
 
 const RequestShow = props => {
@@ -23,41 +22,6 @@ const RequestShow = props => {
     return array.map(selection => {
       return <li key={selection.id}>{selection[`${attribute}`]}</li>;
     });
-  };
-
-  const renderStatus = () => {
-    if (currentUser) {
-      if (currentUser.admin) {
-        return (
-          <>
-            <i>{status}</i>
-            <select id='status-select'>
-              <option value='requested'>requested</option>
-              <option value='reviewed'>reviewed</option>
-              <option value='completed'>completed</option>
-            </select>
-            <Button
-              type='submit'
-              className='status-update'
-              onClick={handleUpdate}
-            >
-              Update
-            </Button>
-          </>
-        );
-      } else {
-        return <i>{status}</i>;
-      }
-    }
-  };
-
-  const handleUpdate = e => {
-    e.preventDefault();
-    const select = document.getElementById('status-select');
-    const statusValue = select.options[select.selectedIndex].value;
-    updateStatus(token, requestId, statusValue).then(res =>
-      setStatus(res.request.status)
-    );
   };
 
   return (
@@ -90,14 +54,6 @@ const RequestShow = props => {
             {status === 'requested' && !currentUser.admin ? (
               <Link to={`/requests/${request.id}/edit`}>Edit Your Request</Link>
             ) : null}
-          </div>
-          <div id='status-itinerary-show'>
-            <h2 id='status-show'>Status: {renderStatus()}</h2>
-            {/* <p>
-              {request.itinerary
-                ? 'Itinerary link is here!'
-                : 'Check here on the morning of your date for your itinerary!'}
-            </p> */}
           </div>
         </>
       ) : null}
