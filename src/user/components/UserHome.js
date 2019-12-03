@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useDebugValue } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
@@ -17,8 +17,8 @@ const UserHome = ({ userData }) => {
     const uncancelledReqs = requests.filter(r => !r.cancelled);
     return uncancelledReqs.map(r => {
       return (
-        <li key={r.id} id='request-row'>
-          <Link to={`/requests/${r.id}`} id='request-row-link'>
+        <li key={r.id} className='request-row'>
+          <Link to={`/requests/${r.id}`}>
             <ul className='upcoming-date-list'>
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.party_size} people</li>
@@ -28,6 +28,10 @@ const UserHome = ({ userData }) => {
         </li>
       );
     });
+  };
+
+  const renderFulfilledRequests = () => {
+    return <p>Past dates will be listed here!</p>;
   };
 
   return (
@@ -41,7 +45,7 @@ const UserHome = ({ userData }) => {
       </div>
       <div id='request-list-div'>
         <h2>Past dates</h2>
-        <p>TODO</p>
+        <ul className='request-list'>{renderFulfilledRequests()}</ul>
       </div>
     </>
   );

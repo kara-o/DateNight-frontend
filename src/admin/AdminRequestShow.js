@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Button from '..//layout/Button';
-import { fetchRequest } from './api-admin';
+import Button from '../layout/Button';
+import { fetchRequest } from '../user/services/api';
 import { Link } from 'react-router-dom';
-
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-
-//props, userData
+import * as moment from 'moment';
+import ItineraryItem from './ItineraryItem';
 
 const AdminRequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
+  const [itinerary, setItinerary] = useState(null);
 
   useEffect(() => {
     if (userData) {
@@ -22,21 +20,26 @@ const AdminRequestShow = props => {
     }
   }, [userData]);
 
-  return (
-    <>
-      {request ? (
-        <Paper className=''>
-          <Typography variant='h5' component='h3'>
-            This is a sheet of paper.
-          </Typography>
-          <Typography component='p'>
-            Paper can be used to build surface or other elements for your
-            application.
-          </Typography>
-        </Paper>
-      ) : null}
-    </>
-  );
+  const renderContacts = () => {
+    return request.contacts.map((c, i) => {
+      return (
+        <li key={c.id} className='contact'>
+          Contact #{i + 1}: {c.phone}
+        </li>
+      );
+    });
+  };
+
+  return request ? (
+    <div className='admin-show'>
+      <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+      <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+      <p>Party: {request.party_size} people</p>
+      <ul>{renderContacts()}</ul>
+      <p>Neighborhood: {request.neighborhood}</p>
+      <p>Price Range: {request.price_range}</p>
+    </div>
+  ) : null;
 };
 
 export default AdminRequestShow;

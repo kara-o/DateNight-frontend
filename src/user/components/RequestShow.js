@@ -7,10 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-
 import { Paper, Typography } from '@material-ui/core';
-
-//props, userData
 
 const RequestShow = props => {
   const { userData } = props;
@@ -34,10 +31,6 @@ const RequestShow = props => {
         </li>
       );
     });
-  };
-
-  const handleEdit = () => {
-    props.history.push(`/requests/${request.id}/edit`);
   };
 
   const handleClickOpen = () => {
@@ -101,12 +94,7 @@ const RequestShow = props => {
           <ul>{renderContacts()}</ul>
           <p>Neighborhood: {request.neighborhood}</p>
           <p>Price Range: {request.price_range}</p>
-          <div className='buttons-div'>
-            <Button type='button' onClick={handleEdit}>
-              Edit
-            </Button>
-            {renderAlert()}
-          </div>
+          {renderAlert()}
         </Paper>
       ) : null}
     </>
