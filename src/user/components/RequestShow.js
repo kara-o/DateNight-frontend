@@ -102,3 +102,19 @@ const RequestShow = props => {
 };
 
 export default RequestShow;
+
+// const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
+
+// const renderGoogleMap = place => {
+//   const urlEscaped = encodeURI(place);
+//   return (
+//     <iframe
+//       width='600'
+//       height='450'
+//       frameborder='0'
+//       style={{ border: 'none' }}
+//       allowFullScreen
+//       src={`https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`}
+//     ></iframe>
+//   );
+// };
