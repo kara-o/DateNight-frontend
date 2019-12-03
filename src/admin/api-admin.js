@@ -111,3 +111,12 @@ export const createItineraryPackageItem = (
     }
   ).then(res => res.json());
 };
+
+export const applyItineraryPackage = (requestId, itinPackageId, userData) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}/itinerary_packages`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({ itinerary_package_id: itinPackageId })
+  }).then(res => res.json());
+};
