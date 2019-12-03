@@ -8,7 +8,8 @@ import Footer from './Footer';
 import Signup from './Signup';
 import Request from './Request';
 import RequestShow from './RequestShow';
-import { logout } from '../services/api';
+import { logoutUser } from '../services/api';
+import { logoutAdmin } from '../../admin/api-admin';
 import AdminLogin from '../../admin/AdminLogin';
 import AdminHome from '../../admin/AdminHome';
 import AdminRequestShow from '../../admin/AdminRequestShow';
@@ -33,7 +34,11 @@ const App = () => {
   };
 
   const logoutUser = () => {
-    logout(userData);
+    if (userData && userData.admin) {
+      logoutAdmin(userData);
+    } else if (userData) {
+      logoutUser(userData);
+    }
     localStorage.removeItem('userData');
     setUserData(null);
   };
