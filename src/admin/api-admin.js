@@ -50,3 +50,12 @@ export const fetchRequest = (userData, requestId) => {
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
+
+export const toggleRequestFulfilled = (userData, requestId, fulfilled) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}`, {
+    method: 'PATCH',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({ fulfilled })
+  }).then(res => res.json());
+};
