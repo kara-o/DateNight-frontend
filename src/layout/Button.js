@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import MaterialButton from '@material-ui/core/Button';
 
-const MyButton = ({ type, onClick, className = '', children }) => {
+const Button = ({ type, onClick, className = '', children }) => {
   return (
-    <Button
+    <MaterialButton
       onClick={onClick}
       className={`${className} button`}
       type={type}
@@ -11,8 +11,8 @@ const MyButton = ({ type, onClick, className = '', children }) => {
       color='primary'
     >
       {children}
-    </Button>
+    </MaterialButton>
   );
 };
 
-export default MyButton;
+export default Button;

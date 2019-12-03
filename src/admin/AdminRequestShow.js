@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../layout/Button';
 import { fetchRequest } from '../user/services/api';
-import { Link } from 'react-router-dom';
 import * as moment from 'moment';
-import ItineraryItem from './ItineraryItem';
+import { toggleRequestFulfilled } from './api-admin';
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -19,6 +18,14 @@ const AdminRequestShow = props => {
       });
     }
   }, [userData]);
+
+  const handleComplete = () => {
+    toggleRequestFulfilled(
+      userData,
+      requestId,
+      !request.fulfilled
+    ).then(respJson => setRequest(respJson.request));
+  };
 
   const renderContacts = () => {
     return request.contacts.map((c, i) => {
@@ -38,6 +45,10 @@ const AdminRequestShow = props => {
       <ul>{renderContacts()}</ul>
       <p>Neighborhood: {request.neighborhood}</p>
       <p>Price Range: {request.price_range}</p>
+      <p>Fulfilled: {(!!request.fulfilled).toString()}</p>
+      <Button type='button' onClick={handleComplete}>
+        {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
+      </Button>
     </div>
   ) : null;
 };
