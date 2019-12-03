@@ -33,12 +33,14 @@ const App = () => {
     setUserData(userData);
   };
 
-  const logoutUser = () => {
-    if (userData && userData.admin) {
-      logoutAdmin(userData);
-    } else if (userData) {
-      logoutUser(userData);
-    }
+  const handleLogoutUser = () => {
+    logoutUser(userData);
+    localStorage.removeItem('userData');
+    setUserData(null);
+  };
+
+  const handleLogoutAdmin = () => {
+    logoutAdmin(userData);
     localStorage.removeItem('userData');
     setUserData(null);
   };
@@ -47,7 +49,11 @@ const App = () => {
     <>
       {loggedIn ? (
         <>
-          <Navbar logoutUser={logoutUser} userData={userData} />
+          <Navbar
+            logoutAdmin={handleLogoutAdmin}
+            logoutUser={handleLogoutUser}
+            userData={userData}
+          />
           <Sidebar userData={userData} />
         </>
       ) : null}
