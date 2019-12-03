@@ -12,6 +12,7 @@ import { logout } from '../services/api';
 import AdminLogin from '../../admin/AdminLogin';
 import AdminHome from '../../admin/AdminHome';
 import AdminRequestShow from '../../admin/AdminRequestShow';
+import ItineraryItem from '../../admin/ItineraryItem';
 
 function getUserData() {
   const userDataStr = localStorage.getItem('userData');
@@ -100,6 +101,7 @@ const App = () => {
               loggedIn && userData.admin ? (
                 <div className='admin-page'>
                   <AdminRequestShow {...props} userData={userData} />
+                  <ItineraryItem {...props} userData={userData} />
                 </div>
               ) : null
             }

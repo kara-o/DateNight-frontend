@@ -14,14 +14,18 @@ const AdminHome = props => {
     }
   }, [userData]);
 
-  const renderRequests = () => {
+  const renderUnfulfilledRequests = () => {
     const unfulfilledRequests = allRequests.filter(r => !r.fulfilled);
     return unfulfilledRequests.map(r => {
       return (
-        <li key={r.id} id='request-row'>
-          <Link to={`/admin/requests/${r.id}`} id='request-row-link'>
-            <ul id='admin-list'>
+        <li key={r.id} className='request-row'>
+          <Link to={`/admin/requests/${r.id}`}>
+            <ul
+              style={r.cancelled ? { color: 'red' } : null}
+              className='admin-row-list'
+            >
               <li>{moment(r.start_time).calendar()}</li>
+              <li>{r.cancelled ? <span>CANCELLED</span> : null}</li>
             </ul>
           </Link>
         </li>
@@ -37,7 +41,7 @@ const AdminHome = props => {
     <>
       <div className='request-list-div'>
         <h2>Unfulfilled Requests</h2>
-        <ul className='request-list'>{renderRequests()}</ul>
+        <ul className='request-list'>{renderUnfulfilledRequests()}</ul>
       </div>
     </>
   );
