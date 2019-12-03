@@ -124,14 +124,11 @@ const App = () => {
           />
           <Route
             path='/admin/requests/:id'
-            render={props =>
-              loggedIn && userData.admin ? (
-                <div className='admin-page'>
-                  <AdminRequestShow {...props} userData={userData} />
-                  <ItineraryItem {...props} userData={userData} />
-                </div>
-              ) : null
-            }
+            render={props => (
+              <div className='admin-page'>
+                <AdminRequestShow {...props} userData={userData} />
+              </div>
+            )}
           />
           <Route
             path='/admin'
