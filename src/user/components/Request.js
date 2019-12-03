@@ -82,12 +82,15 @@ const Request = props => {
 
   const getPostData = () => {
     const startDate = new Date(
+      // pull date from formData.start_date
       formData.start_date.getFullYear(),
       formData.start_date.getMonth(),
-      formData.start_date.getDate(), // pull date from formData.start_date
+      formData.start_date.getDate(),
+
+      // pull time from formData.start_time
       formData.start_time.getHours(),
       formData.start_time.getMinutes()
-    ); // pull time from formData.start_time
+    );
     const endDate = moment(startDate)
       .add(DEFAULT_DATE_LENGTH_HOURS, 'hours')
       .toDate();
