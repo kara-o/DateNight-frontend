@@ -68,22 +68,21 @@ const AdminItineraryPackage = props => {
 
   if (neighborhoodSelection === null || priceRangeSelection === null) {
     return (
-      <div id='request-form-page'>
-        <form id='new-request-form' autoComplete='off'>
-          <p>Loading...</p>
-        </form>
-      </div>
+      <form className='create-form' autoComplete='off'>
+        <p>Loading...</p>
+      </form>
     );
   }
 
   return (
     <>
-      <form id='new-request-form' autoComplete='off'>
+      <form className='create-form' autoComplete='off'>
+        <h1>Create new itinerary package</h1>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
 
         <TextField
           label='Title'
-          className='title'
+          className='title text'
           value={title}
           onChange={e => setTitle(e.target.value)}
         />

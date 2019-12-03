@@ -162,7 +162,7 @@ form {
   border: 1px solid lightgray;
 }
 
-#new-request-form {
+form.create-form {
   flex: 5;
   display: flex;
   flex-direction: column;
@@ -170,34 +170,38 @@ form {
   border: none;
 }
 
-#new-request-form fieldset.unstyled {
+form.create-form fieldset.unstyled {
   border: 0;
   margin: 0;
   padding: 0;
 }
 
-#new-request-form fieldset.contacts {
+form.create-form fieldset.contacts {
   margin-top: 20px;
 }
 
-#new-request-form .contacts-group-label {
+form.create-form .contacts-group-label {
   display: block;
   margin-bottom: 20px;
 }
 
-#new-request-form .datepickers {
+form.create-form .datepickers {
   flex: 1 100%;
 }
 
-#new-request-form .select {
+form.create-form .text {
   width: 400px;
 }
 
-#new-request-form .textarea {
+form.create-form .select {
+  width: 400px;
+}
+
+form.create-form .textarea {
   width: 600px;
 }
 
-#new-request-form button[type='submit'] {
+form.create-form button[type='submit'] {
   margin-top: 20px;
   width: 400px;
 }
