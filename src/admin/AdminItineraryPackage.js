@@ -77,7 +77,7 @@ const AdminItineraryPackage = props => {
   return (
     <>
       <form className='create-form' autoComplete='off'>
-        <h1>Create new itinerary package</h1>
+        <h1>Create New Itinerary Package</h1>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
 
         <TextField

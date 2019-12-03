@@ -36,8 +36,23 @@ body {
   flex: 5;
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: space-;
   justify-content: space-evenly;
+}
+
+.admin-show {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.pkg-display {
+  flex: 1;
+}
+
+.paper {
+  padding: 20px;
 }
 
 .itinerary-item-form {
@@ -108,4 +123,28 @@ form.itinerary-item-form > div {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+.cancel-button-div {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.itin-item-cards {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.card {
+  width: 10vw;
+  height: 30vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

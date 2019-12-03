@@ -8,6 +8,7 @@ import {
   applyItineraryPackage
 } from './api-admin';
 import { Link } from 'react-router-dom';
+import ItineraryItem from './ItineraryItem';
 
 // const GOOGLE_MAP_API_KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'
 // const GOOGLE_MAP_URL = 'https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters'
@@ -80,7 +81,9 @@ const AdminRequestShow = props => {
         <h2>Itinerary</h2>
         {!request.itinerary_items.length
           ? 'Empty'
-          : request.itinerary_items.map(item => <p>{JSON.stringify(item)}</p>)}
+          : request.itinerary_items.map(item => (
+              <ItineraryItem key={item.id} item={item} />
+            ))}
       </div>
       <div className='packages'>
         <h2>Packages</h2>

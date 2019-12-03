@@ -7,7 +7,6 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
       <Link
         to={userData.admin ? '/admin/login' : '/login'}
         onClick={() => {
-          debugger;
           userData.admin ? logoutAdmin() : logoutUser();
         }}
       >
