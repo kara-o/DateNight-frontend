@@ -68,6 +68,25 @@ export const fetchItineraryPackages = userData => {
   }).then(res => res.json());
 };
 
+export const fetchItineraryPackage = (userData, itinPackagedId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_packages/${itinPackagedId}`, {
+    method: 'GET',
+    headers: { ...jsonHeaders, ...headers }
+  }).then(res => res.json());
+};
+
+export const fetchItineraryPackageItems = (userData, itinPackagedId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(
+    `${API_ROOT}/itinerary_packages/${itinPackagedId}/itinerary_package_items`,
+    {
+      method: 'GET',
+      headers: { ...jsonHeaders, ...headers }
+    }
+  ).then(res => res.json());
+};
+
 export const createItineraryPackage = (formData, userData) => {
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/itinerary_packages`, {
@@ -75,4 +94,20 @@ export const createItineraryPackage = (formData, userData) => {
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify(formData)
   }).then(res => res.json());
+};
+
+export const createItineraryPackageItem = (
+  itinPackageId,
+  formData,
+  userData
+) => {
+  const headers = tokenHeaders(userData);
+  return fetch(
+    `${API_ROOT}/itinerary_packages/${itinPackageId}/itinerary_package_items`,
+    {
+      method: 'POST',
+      headers: { ...jsonHeaders, ...headers },
+      body: JSON.stringify(formData)
+    }
+  ).then(res => res.json());
 };

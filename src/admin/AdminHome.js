@@ -33,12 +33,13 @@ const AdminHome = props => {
     });
   };
 
-  const handleClick = e => {
-    console.log(e.target.value);
-  };
-
   return (
     <>
+      <ul className='unstyled'>
+        <li>
+          <Link to='/admin/itinerary_packages'>Itinerary packages</Link>
+        </li>
+      </ul>
       <div className='request-list-div'>
         <h2>Unfulfilled Requests</h2>
         <ul className='request-list'>{renderUnfulfilledRequests()}</ul>
