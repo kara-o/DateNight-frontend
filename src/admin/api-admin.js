@@ -59,3 +59,20 @@ export const toggleRequestFulfilled = (userData, requestId, fulfilled) => {
     body: JSON.stringify({ fulfilled })
   }).then(res => res.json());
 };
+
+export const fetchItineraryPackages = userData => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_packages`, {
+    method: 'GET',
+    headers: { ...jsonHeaders, ...headers }
+  }).then(res => res.json());
+};
+
+export const createItineraryPackage = (formData, userData) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_packages`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify(formData)
+  }).then(res => res.json());
+};
