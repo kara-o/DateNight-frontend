@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchItineraryPackages } from './api-admin';
+import { Link } from 'react-router-dom';
 
 const AdminItineraryPackages = props => {
   const { userData } = props;
@@ -12,11 +13,15 @@ const AdminItineraryPackages = props => {
   }, [userData]);
 
   return (
-    <>
+    <div className='container'>
+      <h1>Itinerary packages</h1>
+      <Link to='/admin/itinerary_packages/new'>New</Link>
       {allPackages.map(pkg => (
-        <p key={pkg.id}>{JSON.stringify(pkg)}</p>
+        <Link key={pkg.id} to={`/admin/itinerary_packages/${pkg.id}`}>
+          {JSON.stringify(pkg)}
+        </Link>
       ))}
-    </>
+    </div>
   );
 };
 
