@@ -32,7 +32,7 @@ export const login = userData => {
   });
 };
 
-export const logout = userData => {
+export const logoutUser = userData => {
   const headers = tokenHeaders(userData);
   return fetch(`${AUTH_ROOT}/sign_out`, {
     method: 'DELETE',

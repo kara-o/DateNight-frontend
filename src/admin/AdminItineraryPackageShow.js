@@ -7,6 +7,8 @@ import {
 import { TextField } from '@material-ui/core';
 import Button from '../layout/Button';
 
+const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
+
 const ItineraryItemForm = props => {
   const { onSubmit } = props;
   const [time, setTime] = useState('');
@@ -14,6 +16,7 @@ const ItineraryItemForm = props => {
   const [place, setPlace] = useState('');
   const [blurb, setBlurb] = useState('');
   const [makeResLink, setMakeResLink] = useState('');
+  const [googleMap, setGoogleMap] = useState('');
 
   const handleClick = () => {
     onSubmit({
@@ -21,13 +24,33 @@ const ItineraryItemForm = props => {
       address,
       place,
       blurb,
-      make_res_link: makeResLink
+      make_res_link: makeResLink,
+      map: googleMap
     });
     setTime('');
     setAddress('');
     setPlace('');
     setBlurb('');
     setMakeResLink('');
+    setGoogleMap('');
+  };
+
+  const handleCreateMap = () => {
+    setGoogleMap(createMap(place));
+  };
+
+  const createMap = place => {
+    const urlEscaped = encodeURI(place);
+    return (
+      <iframe
+        width='600'
+        height='450'
+        frameborder='0'
+        style={{ border: 'none' }}
+        allowFullScreen
+        src={`https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`}
+      ></iframe>
+    );
   };
 
   return (
@@ -57,6 +80,8 @@ const ItineraryItemForm = props => {
         value={makeResLink}
         onChange={e => setMakeResLink(e.target.value)}
       />
+      <Button onClick={handleCreateMap}>Generate Map</Button>
+      {googleMap}
       <Button onClick={handleClick}>Create</Button>
     </form>
   );
@@ -70,6 +95,7 @@ const AdminItineraryPackageShow = props => {
 
   useEffect(() => {
     if (userData) {
+      debugger;
       fetchItineraryPackage(userData, itinPackageId).then(itinPackage => {
         setItinPackage(itinPackage);
         setItinPackageItems(itinPackage.itinerary_package_items);
