@@ -48,7 +48,7 @@ const RequestShow = props => {
 
   const renderAlert = () => {
     return (
-      <div>
+      <div className='cancel-button-div'>
         <Button variant='outlined' color='primary' onClick={handleClickOpen}>
           Cancel
         </Button>
@@ -94,6 +94,7 @@ const RequestShow = props => {
           <ul>{renderContacts()}</ul>
           <p>Neighborhood: {request.neighborhood}</p>
           <p>Price Range: {request.price_range}</p>
+          <p>Notes: {request.notes}</p>
           {renderAlert()}
         </Paper>
       ) : null}

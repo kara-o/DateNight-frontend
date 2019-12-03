@@ -4,8 +4,15 @@ import {
   createItineraryPackageItem,
   fetchItineraryPackageItems
 } from './api-admin';
-import { TextField } from '@material-ui/core';
 import Button from '../layout/Button';
+import {
+  TextField,
+  Typography,
+  Card,
+  CardActions,
+  CardContent,
+  Paper
+} from '@material-ui/core';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -82,7 +89,7 @@ const ItineraryItemForm = props => {
       />
       <Button onClick={handleCreateMap}>Generate Map</Button>
       {googleMap}
-      <Button onClick={handleClick}>Create</Button>
+      <Button onClick={handleClick}>Add Item To Package</Button>
     </form>
   );
 };
@@ -95,13 +102,25 @@ const AdminItineraryPackageShow = props => {
 
   useEffect(() => {
     if (userData) {
-      debugger;
       fetchItineraryPackage(userData, itinPackageId).then(itinPackage => {
         setItinPackage(itinPackage);
         setItinPackageItems(itinPackage.itinerary_package_items);
       });
     }
   }, [userData]);
+
+  const displayItinPackage = () => {
+    if (itinPackage) {
+      const i = itinPackage;
+      return (
+        <Paper className='paper'>
+          <p>Neighborhood: {i.neighborhood}</p>
+          <p>Blurb: {i.blurb}</p>
+          <p>Price Range: {i.price_range}</p>
+        </Paper>
+      );
+    }
+  };
 
   const handleItemSubmit = formData => {
     createItineraryPackageItem(itinPackageId, formData, userData).then(
@@ -112,21 +131,41 @@ const AdminItineraryPackageShow = props => {
   };
 
   if (itinPackage === null || itinPackageItems === null) {
-    return <p>Loading</p>;
+    return <p>Loading...</p>;
   }
+
+  const renderPackageItems = () => {
+    if (itinPackageItems) {
+      return itinPackageItems.map((pkgItem, idx) => {
+        return (
+          <Card key={pkgItem.id} className='card'>
+            <CardContent>
+              <Typography
+                className='card-title'
+                color='textSecondary'
+                gutterBottom
+              >
+                {pkgItem.place}
+              </Typography>
+              <Typography>{pkgItem.time} minutes</Typography>
+            </CardContent>
+            <Button>Remove</Button>
+          </Card>
+        );
+      });
+    }
+  };
 
   return (
     <>
-      <div>
+      <div className='pkg-display'>
         <h1>Itinerary Package: {itinPackage.title}</h1>
-        <p>Package: {JSON.stringify(itinPackage)}</p>
-        <p>
-          Package items:{' '}
-          {itinPackageItems.map(pkgItem => (
-            <p key={pkgItem.id}>Package item: {JSON.stringify(pkgItem)}</p>
-          ))}
-        </p>
-        <h1>Add items</h1>
+        <p>{displayItinPackage()}</p>
+        <h2>Package Items:</h2>
+        <div className='itin-item-cards'>{renderPackageItems()}</div>
+      </div>
+      <div className='pkg-display'>
+        <h2>Add Items</h2>
         <ItineraryItemForm onSubmit={handleItemSubmit} />
       </div>
     </>

@@ -14,11 +14,11 @@ const AdminItineraryPackages = props => {
 
   return (
     <div className='container'>
-      <h1>Itinerary packages</h1>
-      <Link to='/admin/itinerary_packages/new'>New</Link>
+      <h1>Itinerary Packages</h1>
+      <Link to='/admin/itinerary_packages/new'>Make a New Package</Link>
       {allPackages.map(pkg => (
         <Link key={pkg.id} to={`/admin/itinerary_packages/${pkg.id}`}>
-          {JSON.stringify(pkg)}
+          {pkg.title}
         </Link>
       ))}
     </div>
