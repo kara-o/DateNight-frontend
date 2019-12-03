@@ -156,17 +156,15 @@ const Request = props => {
 
   if (neighborhoodSelection === null || priceRangeSelection === null) {
     return (
-      <div id='request-form-page'>
-        <form id='new-request-form' autoComplete='off'>
-          <p>Loading...</p>
-        </form>
-      </div>
+      <form className='create-form' autoComplete='off'>
+        <p>Loading...</p>
+      </form>
     );
   }
 
   return (
     <>
-      <form id='new-request-form' autoComplete='off'>
+      <form className='create-form' autoComplete='off'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         <fieldset className='datepickers unstyled'>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
