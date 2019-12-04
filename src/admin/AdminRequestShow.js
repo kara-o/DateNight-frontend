@@ -5,7 +5,8 @@ import * as moment from 'moment';
 import {
   toggleRequestFulfilled,
   fetchItineraryPackages,
-  applyItineraryPackage
+  applyItineraryPackage,
+  sendTextMessages
 } from './api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
@@ -56,6 +57,10 @@ const AdminRequestShow = props => {
       </div>
     );
   }
+
+  const handleMessage = () => {
+    sendTextMessages(userData);
+  };
 
   return request ? (
     <div className='admin-show'>

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { fetchItineraryPackage, createItineraryPackageItem } from './api-admin';
+import {
+  fetchItineraryPackage,
+  createItineraryPackageItem,
+  deletePkgItem
+} from './api-admin';
 import Button from '../layout/Button';
 import {
   TextField,
@@ -40,11 +44,11 @@ const ItineraryItemForm = props => {
   };
 
   const handleCreateMap = () => {
-    setMapUrl(createMapUrl(place));
+    setMapUrl(createMapUrl(place, address));
   };
 
-  const createMapUrl = place => {
-    const urlEscaped = encodeURI(place);
+  const createMapUrl = (place, address) => {
+    const urlEscaped = encodeURI(place + address);
     const url = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     return url;
   };
@@ -119,13 +123,19 @@ const AdminItineraryPackageShow = props => {
     );
   };
 
+  const handleDelete = id => {
+    deletePkgItem(userData, itinPackage.id, id);
+    const newItinPkgItems = itinPackageItems.filter(item => item.id !== id);
+    setItinPackageItems(newItinPkgItems);
+  };
+
   if (itinPackage === null || itinPackageItems === null) {
     return <p>Loading...</p>;
   }
 
   const renderPackageItems = () => {
     if (itinPackageItems) {
-      return itinPackageItems.map((pkgItem, idx) => {
+      return itinPackageItems.map(pkgItem => {
         return (
           <Card key={pkgItem.id} className='card'>
             <CardContent>
@@ -138,18 +148,23 @@ const AdminItineraryPackageShow = props => {
               </Typography>
               <Typography>{pkgItem.duration} minutes</Typography>
             </CardContent>
-            <Button>Remove</Button>
+            <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
           </Card>
         );
       });
     }
   };
 
+  const handleEdit = () => {};
+
   return (
     <>
       <div className='pkg-display'>
         <h1>Itinerary Package: {itinPackage.title}</h1>
-        <p>{displayItinPackage()}</p>
+        <p>
+          {displayItinPackage()}
+          <Button onClick={() => handleEdit()}>Edit</Button>
+        </p>
         <h2>Package Items:</h2>
         <div className='itin-item-cards'>{renderPackageItems()}</div>
       </div>
