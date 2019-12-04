@@ -71,6 +71,11 @@ const AdminRequestShow = props => {
         <Button type='button' onClick={handleComplete}>
           {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
         </Button>
+        {request.fulfilled ? (
+          <Button type='button' onClick={handleMessage}>
+            Alert
+          </Button>
+        ) : null}
       </div>
       <div className='itinerary'>
         <h2>Itinerary</h2>
