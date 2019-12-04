@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../layout/Button';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import { TextField, MenuItem, Paper } from '@material-ui/core';
 import { createItineraryPackage } from './api-admin';
 import { fetchOptions } from '../user/services/api';
 
@@ -75,7 +74,7 @@ const AdminItineraryPackage = props => {
   }
 
   return (
-    <>
+    <Paper elevation={10} className='new-pkg-paper'>
       <form className='create-form' autoComplete='off'>
         <h1>Create New Itinerary Package</h1>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
@@ -123,7 +122,7 @@ const AdminItineraryPackage = props => {
           Submit
         </Button>
       </form>
-    </>
+    </Paper>
   );
 };
 

@@ -35,11 +35,8 @@ const AdminHome = props => {
 
   return (
     <>
-      <ul className='unstyled'>
-        <li>
-          <Link to='/admin/itinerary_packages'>Itinerary packages</Link>
-        </li>
-      </ul>
+      <Link to='/admin/itinerary_packages'>Itinerary Packages</Link>
+
       <div className='request-list-div'>
         <h2>Unfulfilled Requests</h2>
         <ul className='request-list'>{renderUnfulfilledRequests()}</ul>

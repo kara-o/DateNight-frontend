@@ -102,7 +102,7 @@ const RequestShow = props => {
   return (
     <>
       {request && !request.fulfilled ? (
-        <Paper className='paper request-show' elevation={10}>
+        <Paper elevation={10} className='paper request-show' elevation={10}>
           <h2>
             Your date is
             {' ' +

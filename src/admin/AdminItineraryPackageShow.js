@@ -9,7 +9,6 @@ import {
   TextField,
   Typography,
   Card,
-  CardActions,
   CardContent,
   Paper
 } from '@material-ui/core';
@@ -57,41 +56,49 @@ const ItineraryItemForm = props => {
   };
 
   return (
-    <form className='create-form'>
-      <TextField
-        label='Duration (minutes)'
-        value={duration}
-        onChange={e => setDuration(e.target.value)}
-      />
-      <TextField
-        label='Address'
-        value={address}
-        onChange={e => setAddress(e.target.value)}
-      />
-      <TextField
-        label='Place'
-        value={place}
-        onChange={e => setPlace(e.target.value)}
-      />
-      <TextField
-        label='Blurb'
-        value={blurb}
-        onChange={e => setBlurb(e.target.value)}
-      />
-      <TextField
-        label='Make reservation link'
-        value={makeResLink}
-        onChange={e => setMakeResLink(e.target.value)}
-      />
-      <TextField
-        label='Map URL'
-        value={mapUrl}
-        onChange={e => setMapUrl(e.target.value)}
-      />
-      <Button onClick={handleCreateMap}>Generate Map</Button>
-      {iFrame ? <Map url={iFrame} /> : null}
-      <Button onClick={handleClick}>Add Item To Package</Button>
-    </form>
+    <Paper elevation={10} className='paper'>
+      <form className='create-form'>
+        <TextField
+          label='Duration (minutes)'
+          value={duration}
+          onChange={e => setDuration(e.target.value)}
+        />
+        <TextField
+          label='Address'
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+        />
+        <TextField
+          label='Place'
+          value={place}
+          onChange={e => setPlace(e.target.value)}
+        />
+        <TextField
+          label='Blurb'
+          value={blurb}
+          onChange={e => setBlurb(e.target.value)}
+        />
+        <TextField
+          label='Make reservation link'
+          value={makeResLink}
+          onChange={e => setMakeResLink(e.target.value)}
+        />
+        <TextField
+          label='Map URL'
+          value={mapUrl}
+          onChange={e => setMapUrl(e.target.value)}
+        />
+        <div className='btns-div'>
+          <Button className='btn' onClick={handleCreateMap}>
+            Generate Map
+          </Button>
+          {iFrame ? <Map url={iFrame} /> : null}
+          <Button className='btn' onClick={handleClick}>
+            Add Item To Package
+          </Button>
+        </div>
+      </form>
+    </Paper>
   );
 };
 
@@ -114,7 +121,7 @@ const AdminItineraryPackageShow = props => {
     if (itinPackage) {
       const i = itinPackage;
       return (
-        <Paper className='paper'>
+        <Paper elevation={10} className='paper'>
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
@@ -145,7 +152,7 @@ const AdminItineraryPackageShow = props => {
     if (itinPackageItems) {
       return itinPackageItems.map(pkgItem => {
         return (
-          <Card key={pkgItem.id} className='card'>
+          <Card elevation={10} key={pkgItem.id} className='card'>
             <CardContent>
               <Typography
                 className='card-title'

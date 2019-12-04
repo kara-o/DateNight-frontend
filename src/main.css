@@ -44,8 +44,12 @@ h2 {
   flex: 5;
   display: flex;
   flex-flow: row wrap;
-  align-items: space-;
+  align-items: center;
   justify-content: space-evenly;
+}
+
+.admin-page {
+  position: relative;
 }
 
 .admin-show {
@@ -61,6 +65,7 @@ h2 {
 
 .paper {
   padding: 20px;
+  margin: 20px;
 }
 
 .paper.request-show {
