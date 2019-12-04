@@ -13,7 +13,9 @@ const UserHome = ({ userData }) => {
   }, [userData]);
 
   const renderUncancelledRequests = () => {
-    const uncancelledReqs = requests.filter(r => !r.cancelled);
+    const uncancelledReqs = requests.filter(
+      r => !r.cancelled && new Date(r.start_time) >= new Date()
+    );
     return uncancelledReqs.map(r => {
       return (
         <li key={r.id} className='request-row'>
@@ -31,8 +33,9 @@ const UserHome = ({ userData }) => {
   };
 
   const renderPastDates = () => {
-    const now = new Date();
-    const pastDates = requests.filter(r => !r.cancelled && r.start_time < now);
+    const pastDates = requests.filter(
+      r => !r.cancelled && new Date(r.start_time) < new Date()
+    );
     return pastDates.map(r => {
       return (
         <li key={r.id} className='request-row'>
@@ -57,7 +60,7 @@ const UserHome = ({ userData }) => {
         <h2>Upcoming dates</h2>
         <ul className='request-list'>{renderUncancelledRequests()}</ul>
       </div>
-      <div id='request-list-div'>
+      <div className='request-list-div'>
         <h2>Past dates</h2>
         <ul className='request-list'>{renderPastDates()}</ul>
       </div>

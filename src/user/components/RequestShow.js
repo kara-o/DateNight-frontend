@@ -79,14 +79,23 @@ const RequestShow = props => {
 
   const renderItinerary = () => {
     return (
-      <div className='itinerary'>
-        <h2>Itinerary</h2>
-        {!request.itinerary_items.length
-          ? 'Empty'
-          : request.itinerary_items.map(item => (
-              <ItineraryItem key={item.id} item={item} />
-            ))}
-      </div>
+      <>
+        {new Date(request.start_time) > new Date() ? (
+          <h2>
+            Get excited! Your itinerary is all set. You will be getting text
+            alerts starting on the morning of your date!
+          </h2>
+        ) : (
+          <div className='itinerary'>
+            <h2>Itinerary</h2>
+            {!request.itinerary_items.length
+              ? 'Empty'
+              : request.itinerary_items.map(item => (
+                  <ItineraryItem key={item.id} item={item} admin={false} />
+                ))}
+          </div>
+        )}
+      </>
     );
   };
 
@@ -108,7 +117,7 @@ const RequestShow = props => {
           <ul>{renderContacts()}</ul>
           <p>Neighborhood: {request.neighborhood}</p>
           <p>Price Range: {request.price_range}</p>
-          <p>Notes: {request.notes}</p>
+          {request.notes ? <p>Notes: {request.notes}</p> : null}
           {renderAlert()}
         </Paper>
       ) : null}

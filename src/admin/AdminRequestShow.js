@@ -87,7 +87,7 @@ const AdminRequestShow = props => {
         {!request.itinerary_items.length
           ? 'Empty'
           : request.itinerary_items.map(item => (
-              <ItineraryItem key={item.id} item={item} />
+              <ItineraryItem key={item.id} item={item} admin={true} />
             ))}
       </div>
       <div className='packages'>

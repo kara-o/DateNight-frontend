@@ -12,7 +12,6 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
       >
         Logout
       </Link>
-      <Link to={userData.admin ? '/admin' : '/'}>Home</Link>
     </nav>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import * as moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ userData }) => {
   const renderInitials = () => {
@@ -16,7 +17,12 @@ const Sidebar = ({ userData }) => {
 
   return (
     <div className='sidebar'>
-      <Avatar id='avatar'>{renderInitials()}</Avatar>
+      <Link
+        className='avatar link'
+        to={userData && userData.admin ? '/admin' : '/'}
+      >
+        <Avatar className='avatar'>{renderInitials()}</Avatar>
+      </Link>
       {userData && !userData.admin ? (
         <ul className='sidebar-list'>
           <li>

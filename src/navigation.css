@@ -10,3 +10,7 @@
   text-align: center;
   padding: 50px;
 }
+
+a {
+  text-decoration: none;
+}
