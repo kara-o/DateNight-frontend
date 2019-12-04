@@ -1,14 +1,43 @@
 form {
-  padding: 20px 20px 0px 20px;
+  padding: 20px;
   border: 1px solid lightgray;
 }
 
 form.create-form {
-  flex: 5;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   border: none;
+}
+
+form.create-form h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.new-pkg-paper {
+  margin: 20px;
+  padding: 20px;
+}
+
+.create-form.paper,
+.request-tutorial {
+  margin: 20px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.request-tutorial {
+  text-align: center;
+  height: 40vh;
+}
+
+.request-tutorial li {
+  padding-bottom: 10px;
 }
 
 iframe {
@@ -50,6 +79,8 @@ form.create-form .textarea {
 form.create-form button[type='submit'] {
   margin-top: 20px;
   width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 input {
@@ -67,4 +98,15 @@ input:-webkit-autofill {
 
 .errors {
   margin: 0;
+}
+
+.btns-div {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn {
+  width: 15vw;
 }
