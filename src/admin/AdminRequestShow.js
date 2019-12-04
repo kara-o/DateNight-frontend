@@ -10,11 +10,6 @@ import {
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
 
-// const GOOGLE_MAP_API_KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'
-// const GOOGLE_MAP_URL = 'https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters'
-
-// 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs&q=The%20Olive%20and%20Grape,%20Seattle'
-
 const AdminRequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;

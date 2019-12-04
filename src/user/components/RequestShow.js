@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { Paper, Typography } from '@material-ui/core';
+import ItineraryItem from '../../admin/ItineraryItem';
 
 const RequestShow = props => {
   const { userData } = props;
@@ -76,10 +77,23 @@ const RequestShow = props => {
     );
   };
 
+  const renderItinerary = () => {
+    return (
+      <div className='itinerary'>
+        <h2>Itinerary</h2>
+        {!request.itinerary_items.length
+          ? 'Empty'
+          : request.itinerary_items.map(item => (
+              <ItineraryItem key={item.id} item={item} />
+            ))}
+      </div>
+    );
+  };
+
   return (
     <>
-      {request ? (
-        <Paper className='paper'>
+      {request && !request.fulfilled ? (
+        <Paper className='paper request-show' elevation={10}>
           <h2>
             Your date is
             {' ' +
@@ -98,6 +112,7 @@ const RequestShow = props => {
           {renderAlert()}
         </Paper>
       ) : null}
+      {request && request.fulfilled ? renderItinerary() : null}
     </>
   );
 };

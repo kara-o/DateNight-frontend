@@ -5,7 +5,6 @@ import * as moment from 'moment';
 
 const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     if (userData) {
@@ -23,6 +22,7 @@ const UserHome = ({ userData }) => {
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.party_size} people</li>
               <li>{r.neighborhood}</li>
+              <li>{r.fulfilled ? 'ITINERARY IS READY' : null}</li>
             </ul>
           </Link>
         </li>
@@ -30,8 +30,22 @@ const UserHome = ({ userData }) => {
     });
   };
 
-  const renderFulfilledRequests = () => {
-    return <p>Past dates will be listed here!</p>;
+  const renderPastDates = () => {
+    const now = new Date();
+    const pastDates = requests.filter(r => !r.cancelled && r.start_time < now);
+    return pastDates.map(r => {
+      return (
+        <li key={r.id} className='request-row'>
+          <Link to={`/requests/${r.id}`}>
+            <ul className='past-date-list'>
+              <li>{moment(r.start_time).format('MMMM Do YYYY')}</li>
+              <li>{r.party_size} people</li>
+              <li>{r.neighborhood}</li>
+            </ul>
+          </Link>
+        </li>
+      );
+    });
   };
 
   return (
@@ -45,7 +59,7 @@ const UserHome = ({ userData }) => {
       </div>
       <div id='request-list-div'>
         <h2>Past dates</h2>
-        <ul className='request-list'>{renderFulfilledRequests()}</ul>
+        <ul className='request-list'>{renderPastDates()}</ul>
       </div>
     </>
   );

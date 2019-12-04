@@ -18,7 +18,7 @@ const Sidebar = ({ userData }) => {
     <div className='sidebar'>
       <Avatar id='avatar'>{renderInitials()}</Avatar>
       {userData && !userData.admin ? (
-        <ul id='sidebar-list'>
+        <ul className='sidebar-list'>
           <li>
             <strong>
               {userData.user.first_name + ' ' + userData.user.last_name}
@@ -29,8 +29,17 @@ const Sidebar = ({ userData }) => {
             Joined: {moment(userData.user.created_at).format('MMMM Do YYYY')}
           </li>
           <br />
-          <li>Number of Dates: </li>
         </ul>
+      ) : null}
+      {userData && userData.admin ? (
+        <>
+          <a className='sidebar-link' href='https://www.opentable.com/'>
+            Open Table
+          </a>
+          <a className='sidebar-link' href='https://resy.com/'>
+            Resy
+          </a>
+        </>
       ) : null}
     </div>
   );

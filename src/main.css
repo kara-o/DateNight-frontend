@@ -2,6 +2,10 @@ body {
   margin: 0;
 }
 
+h2 {
+  text-align: center;
+}
+
 #main-container {
   height: 100%;
   padding: 0;
@@ -53,6 +57,11 @@ body {
 
 .paper {
   padding: 20px;
+}
+
+.paper.request-show {
+  margin-top: 5%;
+  padding: 40px;
 }
 
 .itinerary-item-form {
