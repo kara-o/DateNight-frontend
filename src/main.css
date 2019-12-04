@@ -25,6 +25,10 @@ h2 {
   background: #c0c5c1;
 }
 
+.nav a {
+  padding: 1em;
+}
+
 @media all and (max-width: 500px) {
   .nav {
     justify-content: center;
@@ -97,6 +101,7 @@ form.itinerary-item-form > div {
 }
 
 .upcoming-date-list,
+.past-date-list,
 .admin-row-list {
   flex: 1 100%;
   display: flex;
@@ -106,7 +111,8 @@ form.itinerary-item-form > div {
   padding: 0;
 }
 
-.upcoming-date-list li {
+.upcoming-date-list li,
+.past-date-list li {
   flex: 1;
 }
 
