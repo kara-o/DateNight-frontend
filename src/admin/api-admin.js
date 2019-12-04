@@ -120,3 +120,11 @@ export const applyItineraryPackage = (requestId, itinPackageId, userData) => {
     body: JSON.stringify({ itinerary_package_id: itinPackageId })
   }).then(res => res.json());
 };
+
+export const sendTextMessages = userData => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/texts`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers }
+  });
+};
