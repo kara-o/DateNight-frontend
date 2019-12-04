@@ -173,7 +173,10 @@ const AdminItineraryPackageShow = props => {
   return (
     <>
       <div className='pkg-display'>
-        <h1>Itinerary Package: {itinPackage.title}</h1>
+        <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
+        <Link to={`/admin/itinerary_packages/${itinPackage.id}/edit`}>
+          Edit
+        </Link>
         <p>{displayItinPackage()}</p>
         <h2>Package Items:</h2>
         <div className='itin-item-cards'>{renderPackageItems()}</div>

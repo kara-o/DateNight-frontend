@@ -14,9 +14,9 @@ const AdminHome = props => {
     }
   }, [userData]);
 
-  const renderUnfulfilledRequests = () => {
-    const unfulfilledRequests = allRequests.filter(r => !r.fulfilled);
-    return unfulfilledRequests.map(r => {
+  const renderRequests = () => {
+    const unfulfilledReqs = allRequests.filter(r => !r.fulfilled);
+    return unfulfilledReqs.map(r => {
       return (
         <li key={r.id} className='request-row'>
           <Link to={`/admin/requests/${r.id}`}>
@@ -34,14 +34,10 @@ const AdminHome = props => {
   };
 
   return (
-    <>
-      <Link to='/admin/itinerary_packages'>Itinerary Packages</Link>
-
-      <div className='request-list-div'>
-        <h2>Unfulfilled Requests</h2>
-        <ul className='request-list'>{renderUnfulfilledRequests()}</ul>
-      </div>
-    </>
+    <div className='list-div'>
+      <h1>Unfulfilled Requests</h1>
+      <ul className='request-list'>{renderRequests()}</ul>
+    </div>
   );
 };
 

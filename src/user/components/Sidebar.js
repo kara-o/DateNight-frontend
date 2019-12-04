@@ -2,6 +2,7 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
+import { MenuItem, MenuList } from '@material-ui/core';
 
 const Sidebar = ({ userData }) => {
   const renderInitials = () => {
@@ -39,12 +40,18 @@ const Sidebar = ({ userData }) => {
       ) : null}
       {userData && userData.admin ? (
         <>
-          <a className='sidebar-link' href='https://www.opentable.com/'>
-            Open Table
-          </a>
-          <a className='sidebar-link' href='https://resy.com/'>
-            Resy
-          </a>
+          <MenuList>
+            <MenuItem>
+              <Link className='sidebar-link' to='/admin/'>
+                Requests
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link className='sidebar-link' to='/admin/itinerary_packages'>
+                Itinerary Packages
+              </Link>
+            </MenuItem>
+          </MenuList>
         </>
       ) : null}
     </div>

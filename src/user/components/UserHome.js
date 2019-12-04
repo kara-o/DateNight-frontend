@@ -56,7 +56,7 @@ const UserHome = ({ userData }) => {
       <Link className='new-request-link' to={`/requests/new`}>
         Make a New Request!
       </Link>
-      <div className='request-list-div'>
+      <div className='list-div'>
         <h2>Upcoming dates</h2>
         <ul className='request-list'>{renderUncancelledRequests()}</ul>
       </div>

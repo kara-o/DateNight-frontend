@@ -41,7 +41,7 @@ const AdminItineraryPackage = props => {
 
     createItineraryPackage(data, userData).then(json => {
       if (!json.errors) {
-        props.history.push('/admin');
+        props.history.push('/admin/itinerary_packages');
       } else {
         setErrors({
           errorObj: json.errors.error_obj,
