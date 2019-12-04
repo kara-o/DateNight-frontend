@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  fetchItineraryPackage,
-  createItineraryPackageItem,
-  fetchItineraryPackageItems
-} from './api-admin';
+import { fetchItineraryPackage, createItineraryPackageItem } from './api-admin';
 import Button from '../layout/Button';
 import {
   TextField,
@@ -13,59 +9,52 @@ import {
   CardContent,
   Paper
 } from '@material-ui/core';
+import Map from '../layout/Map';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
 const ItineraryItemForm = props => {
   const { onSubmit } = props;
-  const [time, setTime] = useState('');
+  const [duration, setDuration] = useState('');
   const [address, setAddress] = useState('');
   const [place, setPlace] = useState('');
   const [blurb, setBlurb] = useState('');
   const [makeResLink, setMakeResLink] = useState('');
-  const [googleMap, setGoogleMap] = useState('');
+  const [mapUrl, setMapUrl] = useState('');
 
   const handleClick = () => {
     onSubmit({
-      time,
+      duration,
       address,
       place,
       blurb,
       make_res_link: makeResLink,
-      map: googleMap
+      map: mapUrl
     });
-    setTime('');
+    setDuration('');
     setAddress('');
     setPlace('');
     setBlurb('');
     setMakeResLink('');
-    setGoogleMap('');
+    setMapUrl('');
   };
 
   const handleCreateMap = () => {
-    setGoogleMap(createMap(place));
+    setMapUrl(createMapUrl(place));
   };
 
-  const createMap = place => {
+  const createMapUrl = place => {
     const urlEscaped = encodeURI(place);
-    return (
-      <iframe
-        width='600'
-        height='450'
-        frameborder='0'
-        style={{ border: 'none' }}
-        allowFullScreen
-        src={`https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`}
-      ></iframe>
-    );
+    const url = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
+    return url;
   };
 
   return (
     <form className='create-form'>
       <TextField
         label='Duration (minutes)'
-        value={time}
-        onChange={e => setTime(e.target.value)}
+        value={duration}
+        onChange={e => setDuration(e.target.value)}
       />
       <TextField
         label='Address'
@@ -88,7 +77,7 @@ const ItineraryItemForm = props => {
         onChange={e => setMakeResLink(e.target.value)}
       />
       <Button onClick={handleCreateMap}>Generate Map</Button>
-      {googleMap}
+      {mapUrl ? <Map url={mapUrl} /> : null}
       <Button onClick={handleClick}>Add Item To Package</Button>
     </form>
   );
@@ -147,7 +136,7 @@ const AdminItineraryPackageShow = props => {
               >
                 {pkgItem.place}
               </Typography>
-              <Typography>{pkgItem.time} minutes</Typography>
+              <Typography>{pkgItem.duration} minutes</Typography>
             </CardContent>
             <Button>Remove</Button>
           </Card>
