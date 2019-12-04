@@ -157,3 +157,7 @@ ul {
   justify-content: center;
   align-items: center;
 }
+
+.itin-item-display {
+  margin-bottom: 15px;
+}
