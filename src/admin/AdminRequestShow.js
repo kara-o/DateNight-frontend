@@ -59,7 +59,7 @@ const AdminRequestShow = props => {
   }
 
   const handleMessage = () => {
-    sendTextMessages(userData);
+    sendTextMessages(userData, requestId);
   };
 
   return request ? (

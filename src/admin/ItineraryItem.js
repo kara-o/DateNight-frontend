@@ -12,7 +12,10 @@ const ItineraryItem = props => {
       <p>{item.place}</p>
       <p>{item.address}</p>
       <p>{item.blurb}</p>
-      <Map url={item.map} />
+      <p>
+        <a href={item.map_url}>Google map</a>
+      </p>
+      <Map url={item.map_iframe_url} />
     </Paper>
   );
 };

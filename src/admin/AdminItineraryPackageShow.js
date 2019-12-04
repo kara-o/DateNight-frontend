@@ -24,6 +24,7 @@ const ItineraryItemForm = props => {
   const [place, setPlace] = useState('');
   const [blurb, setBlurb] = useState('');
   const [makeResLink, setMakeResLink] = useState('');
+  const [iFrame, setIFrame] = useState('');
   const [mapUrl, setMapUrl] = useState('');
 
   const handleClick = () => {
@@ -33,24 +34,26 @@ const ItineraryItemForm = props => {
       place,
       blurb,
       make_res_link: makeResLink,
-      map: mapUrl
+      map_iframe_url: iFrame,
+      map_url: mapUrl
     });
     setDuration('');
     setAddress('');
     setPlace('');
     setBlurb('');
     setMakeResLink('');
+    setIFrame('');
     setMapUrl('');
   };
 
   const handleCreateMap = () => {
-    setMapUrl(createMapUrl(place, address));
+    setIFrame(createMapUrl(place, address));
   };
 
   const createMapUrl = (place, address) => {
-    const urlEscaped = encodeURI(place + address);
-    const url = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
-    return url;
+    const urlEscaped = encodeURI(place + ' ' + address);
+    const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
+    return iFrameUrl;
   };
 
   return (
@@ -80,8 +83,13 @@ const ItineraryItemForm = props => {
         value={makeResLink}
         onChange={e => setMakeResLink(e.target.value)}
       />
+      <TextField
+        label='Map URL'
+        value={mapUrl}
+        onChange={e => setMapUrl(e.target.value)}
+      />
       <Button onClick={handleCreateMap}>Generate Map</Button>
-      {mapUrl ? <Map url={mapUrl} /> : null}
+      {iFrame ? <Map url={iFrame} /> : null}
       <Button onClick={handleClick}>Add Item To Package</Button>
     </form>
   );
@@ -155,16 +163,11 @@ const AdminItineraryPackageShow = props => {
     }
   };
 
-  const handleEdit = () => {};
-
   return (
     <>
       <div className='pkg-display'>
         <h1>Itinerary Package: {itinPackage.title}</h1>
-        <p>
-          {displayItinPackage()}
-          <Button onClick={() => handleEdit()}>Edit</Button>
-        </p>
+        <p>{displayItinPackage()}</p>
         <h2>Package Items:</h2>
         <div className='itin-item-cards'>{renderPackageItems()}</div>
       </div>
