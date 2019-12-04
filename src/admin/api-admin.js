@@ -128,3 +128,14 @@ export const sendTextMessages = userData => {
     headers: { ...jsonHeaders, ...headers }
   });
 };
+
+export const deletePkgItem = (userData, pkgId, pkgItemId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(
+    `${API_ROOT}/itinerary_packages/${pkgId}/itinerary_package_items/${pkgItemId}`,
+    {
+      method: 'DELETE',
+      headers: { ...jsonHeaders, ...headers }
+    }
+  );
+};
