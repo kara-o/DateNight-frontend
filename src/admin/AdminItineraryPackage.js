@@ -29,8 +29,11 @@ const AdminItineraryPackage = props => {
       });
       if (props.edit) {
         fetchItineraryPackage(userData, packageId).then(pkg => {
+          console.log(pkg);
           setTitle(pkg.title);
           setBlurb(pkg.blurb);
+          setNeighborhoodSelection(pkg.neighborhood.id);
+          setPriceRangeSelection(pkg.price_range.id);
         });
       }
     }

@@ -8,8 +8,10 @@ const Sidebar = ({ userData }) => {
   const renderInitials = () => {
     if (!userData.admin) {
       return (
-        `${userData.user.first_name.slice(0, 1)}` +
-        `${userData.user.last_name.slice(0, 1)}`
+        <span className='icon-span'>
+          {`${userData.user.first_name.slice(0, 1)}` +
+            `${userData.user.last_name.slice(0, 1)}`}
+        </span>
       );
     } else {
       return 'ADMIN';

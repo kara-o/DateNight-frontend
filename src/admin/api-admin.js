@@ -142,3 +142,11 @@ export const deletePkgItem = (userData, pkgId, pkgItemId) => {
     }
   );
 };
+
+export const deleteItinItem = (userData, itemId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_items/${itemId}`, {
+    method: 'DELETE',
+    headers: { ...jsonHeaders, ...headers }
+  });
+};
