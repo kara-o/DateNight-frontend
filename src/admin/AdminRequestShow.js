@@ -87,7 +87,7 @@ const AdminRequestShow = props => {
           </Button>
           {request.fulfilled ? (
             <Button type='button' onClick={handleMessage}>
-              Alert
+              Alert (DEMO ONLY)
             </Button>
           ) : null}
         </Paper>
