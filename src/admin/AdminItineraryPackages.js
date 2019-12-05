@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { fetchItineraryPackages } from './api-admin';
 import { Link } from 'react-router-dom';
-import { Select, MenuItem, InputLabel } from '@material-ui/core/';
+import {
+  Select,
+  MenuItem,
+  InputLabel,
+  Paper,
+  Button
+} from '@material-ui/core/';
 
 const AdminItineraryPackages = props => {
   const { userData } = props;
@@ -64,12 +70,14 @@ const AdminItineraryPackages = props => {
     <>
       {allPackages.length > 0 ? (
         <>
-          <Link to='/admin/itinerary_packages/new'>Make a New Package</Link>
-          <div className='list-div'>
+          <Paper elevation={10} className='paper list-div'>
             <h1>Itinerary Packages</h1>
+            <Link to='/admin/itinerary_packages/new'>
+              <Button className='new-pkg-btn'>Make a New Package</Button>
+            </Link>
             {renderFilter()}
             <ul className='pkg-list'>{renderPackages()}</ul>
-          </div>
+          </Paper>
         </>
       ) : null}
     </>

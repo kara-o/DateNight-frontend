@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../layout/Button';
 import { TextField, MenuItem, Paper } from '@material-ui/core';
-import { createItineraryPackage, fetchItineraryPackage } from './api-admin';
+import {
+  createItineraryPackage,
+  fetchItineraryPackage,
+  updateItineraryPackage
+} from './api-admin';
 import { fetchOptions } from '../user/services/api';
 
 const AdminItineraryPackage = props => {
@@ -32,8 +36,8 @@ const AdminItineraryPackage = props => {
           console.log(pkg);
           setTitle(pkg.title);
           setBlurb(pkg.blurb);
-          setNeighborhoodSelection(pkg.neighborhood.id);
-          setPriceRangeSelection(pkg.price_range.id);
+          setNeighborhoodSelection(pkg.neighborhood_id);
+          setPriceRangeSelection(pkg.price_range_id);
         });
       }
     }
@@ -49,16 +53,29 @@ const AdminItineraryPackage = props => {
       price_range_id: priceRangeSelection
     };
 
-    createItineraryPackage(data, userData).then(json => {
-      if (!json.errors) {
-        props.history.push('/admin/itinerary_packages');
-      } else {
-        setErrors({
-          errorObj: json.errors.error_obj,
-          fullMessages: json.errors.full_messages
-        });
-      }
-    });
+    if (props.edit) {
+      updateItineraryPackage(packageId, data, userData).then(json => {
+        if (!json.errors) {
+          props.history.push(`/admin/itinerary_packages/${packageId}`);
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    } else {
+      createItineraryPackage(data, userData).then(json => {
+        if (!json.errors) {
+          props.history.push('/admin/itinerary_packages');
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    }
   };
 
   const renderErrors = errors => {

@@ -77,8 +77,6 @@ h1.login {
   background: #53616e;
 }
 
-/* #765d7a; */
-
 ul.nav {
   padding: 0;
 }
@@ -108,8 +106,9 @@ ul.nav {
 
 .show,
 .itinerary,
-.package {
+.packages {
   flex: 1;
+  text-align: center;
 }
 
 .admin-show {
@@ -205,6 +204,16 @@ form.itinerary-item-form > div {
 .request-row,
 .pkg-row {
   flex: 1 100%;
+  background-color: #dbe9ee;
+}
+
+li.request-row {
+  margin-left: 5px;
+}
+
+li.request-row:hover,
+li.pkg-row:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .footer {
@@ -307,6 +316,26 @@ button.x:focus {
   outline: 0;
 }
 
-.paper {
-  position: relative;
+.list-div.paper {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.list-div.paper > h2 {
+  margin-top: 0px;
+}
+
+ul.upcoming-date-list > li {
+  margin-left: 5px;
+}
+
+#main-container > div.admin-page > div > a {
+  flex: 1 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+#main-container > div.admin-page > div > a > button {
+  background: #765d7a;
+  color: white;
 }

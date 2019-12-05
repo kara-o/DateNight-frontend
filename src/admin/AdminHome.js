@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchRequests } from './api-admin';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
-import { Select, MenuItem, InputLabel } from '@material-ui/core/';
+import { Select, MenuItem, InputLabel, Paper } from '@material-ui/core/';
 
 const AdminHome = props => {
   const { userData } = props;
@@ -58,11 +58,11 @@ const AdminHome = props => {
   };
 
   return (
-    <div className='list-div'>
+    <Paper elevation={10} className='list-div paper'>
       <h1>{filter} Requests</h1>
       {renderFilter()}
       <ul className='request-list'>{renderRequests()}</ul>
-    </div>
+    </Paper>
   );
 };
 

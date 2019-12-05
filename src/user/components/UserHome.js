@@ -2,6 +2,7 @@ import React, { useEffect, useState, useDebugValue } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
+import { Paper } from '@material-ui/core';
 
 const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
@@ -53,14 +54,14 @@ const UserHome = ({ userData }) => {
 
   return (
     <>
-      <div className='list-div'>
+      <Paper elevation={10} className='list-div paper'>
         <h2>Upcoming dates</h2>
         <ul className='request-list'>{renderUncancelledRequests()}</ul>
-      </div>
-      <div className='list-div'>
+      </Paper>
+      <Paper elevation={10} className='list-div paper'>
         <h2>Past dates</h2>
         <ul className='request-list'>{renderPastDates()}</ul>
-      </div>
+      </Paper>
     </>
   );
 };
