@@ -271,6 +271,10 @@ ul {
   margin-bottom: 15px;
 }
 
+.paper.request-show {
+  margin-top: 20px;
+}
+
 .filter {
   flex: 1 100%;
   text-align: center;
@@ -311,7 +315,7 @@ ul.pkg-list-show {
 }
 
 .details-p {
-  flex: 2;
+  flex: 3;
 }
 
 .details > h3 {
