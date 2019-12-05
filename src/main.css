@@ -58,6 +58,7 @@ h1.login {
 .paper.show {
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 
 #main-container {
@@ -219,6 +220,8 @@ form.itinerary-item-form > div {
 
 li.request-row {
   margin-left: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 li.request-row:hover,
@@ -305,7 +308,8 @@ ul {
 
 ul.pkg-list-show {
   padding: 0;
-  overflow: auto;
+  overflow: scroll;
+  max-height: 100vh;
 }
 
 .details {
