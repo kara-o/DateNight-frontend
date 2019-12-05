@@ -10,6 +10,7 @@ import {
 } from './api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
+import { Paper } from '@material-ui/core';
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -64,23 +65,25 @@ const AdminRequestShow = props => {
 
   return request ? (
     <div className='admin-show'>
-      <div className='request'>
+      <div className='show'>
         <h2>Request</h2>
-        <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-        <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-        <p>Party: {request.party_size} people</p>
-        <ul>{renderContacts()}</ul>
-        <p>Neighborhood: {request.neighborhood}</p>
-        <p>Price Range: {request.price_range}</p>
-        <p>Fulfilled: {(!!request.fulfilled).toString()}</p>
-        <Button type='button' onClick={handleComplete}>
-          {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
-        </Button>
-        {request.fulfilled ? (
-          <Button type='button' onClick={handleMessage}>
-            Alert
+        <Paper elevation={10} className='paper show'>
+          <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+          <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+          <p>Party: {request.party_size} people</p>
+          <ul>{renderContacts()}</ul>
+          <p>Neighborhood: {request.neighborhood}</p>
+          <p>Price Range: {request.price_range}</p>
+          <p>Fulfilled: {(!!request.fulfilled).toString()}</p>
+          <Button type='button' onClick={handleComplete}>
+            {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
           </Button>
-        ) : null}
+          {request.fulfilled ? (
+            <Button type='button' onClick={handleMessage}>
+              Alert
+            </Button>
+          ) : null}
+        </Paper>
       </div>
       <div className='itinerary'>
         <h2>Itinerary</h2>
@@ -92,11 +95,12 @@ const AdminRequestShow = props => {
       </div>
       <div className='packages'>
         <h2>Packages</h2>
-        <ul>
+        <ul className='pkg-list-show'>
           {itinPackages.map(pkg => (
-            <li key={pkg.id}>
+            <li className='pkg-link' key={pkg.id}>
               <Link to={`/admin/itinerary_packages/${pkg.id}`}>
-                {pkg.price_range} - {pkg.neighborhood} - {pkg.title}
+                {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
+                {pkg.title}
               </Link>
               <Button type='button' onClick={() => handleApplyPackage(pkg.id)}>
                 Apply

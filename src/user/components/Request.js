@@ -277,7 +277,7 @@ const Request = props => {
           </li>
           <li>Pick the area of Seattle you'd like to spend your night in'</li>
           <li>
-            How big is your party? Let us know, we don't assume that eveyone is
+            How big is your party? Let us know, we don't assume that everyone is
             a couple of 2 and we can make reservations for up to 4 people!
           </li>
           <li>

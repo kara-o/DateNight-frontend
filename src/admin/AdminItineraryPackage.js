@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../layout/Button';
 import { TextField, MenuItem, Paper } from '@material-ui/core';
-import { createItineraryPackage } from './api-admin';
+import { createItineraryPackage, fetchItineraryPackage } from './api-admin';
 import { fetchOptions } from '../user/services/api';
 
 const AdminItineraryPackage = props => {
@@ -13,6 +13,7 @@ const AdminItineraryPackage = props => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
   const [errors, setErrors] = useState(null);
+  const packageId = props.match.params.id;
 
   // TODO: Potentially refactor into useNeighborhoods/usePriceRanges
   useEffect(() => {
@@ -26,6 +27,12 @@ const AdminItineraryPackage = props => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
+      if (props.edit) {
+        fetchItineraryPackage(userData, packageId).then(pkg => {
+          setTitle(pkg.title);
+          setBlurb(pkg.blurb);
+        });
+      }
     }
   }, [userData]);
 

@@ -4,6 +4,12 @@ body {
 
 h2 {
   text-align: center;
+  margin-bottom: 0;
+}
+
+.paper.show {
+  display: flex;
+  flex-direction: column;
 }
 
 #main-container {
@@ -44,12 +50,14 @@ h2 {
   flex: 5;
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-evenly;
 }
 
-.admin-page {
-  position: relative;
+.show,
+.itinerary,
+.package {
+  flex: 1;
 }
 
 .admin-show {
@@ -61,6 +69,7 @@ h2 {
 
 .pkg-display {
   flex: 1;
+  text-align: center;
 }
 
 .paper {
@@ -187,4 +196,30 @@ ul {
 .filter {
   flex: 1 100%;
   text-align: center;
+}
+
+.list-div > h1 {
+  height: 1em;
+}
+
+.pkg-link {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  flex: 1 100%;
+  margin-bottom: 5px;
+}
+
+.pkg-link > a {
+  margin-right: 5px;
+}
+
+.pkg-list-show {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+ul.pkg-list-show {
+  padding: 0;
 }

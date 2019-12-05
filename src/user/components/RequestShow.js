@@ -64,7 +64,7 @@ const RequestShow = props => {
               Are you sure you want to cancel this request?
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions className='modal-btns'>
             <Button onClick={handleClose} color='primary'>
               No way!
             </Button>

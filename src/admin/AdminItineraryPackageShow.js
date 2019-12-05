@@ -13,6 +13,7 @@ import {
   Paper
 } from '@material-ui/core';
 import Map from '../layout/Map';
+import { Link } from 'react-router-dom';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -125,6 +126,12 @@ const AdminItineraryPackageShow = props => {
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
+          <Link
+            className='edit-link'
+            to={`/admin/itinerary_packages/${itinPackage.id}/edit`}
+          >
+            Edit
+          </Link>
         </Paper>
       );
     }
@@ -174,9 +181,6 @@ const AdminItineraryPackageShow = props => {
     <>
       <div className='pkg-display'>
         <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
-        <Link to={`/admin/itinerary_packages/${itinPackage.id}/edit`}>
-          Edit
-        </Link>
         <p>{displayItinPackage()}</p>
         <h2>Package Items:</h2>
         <div className='itin-item-cards'>{renderPackageItems()}</div>

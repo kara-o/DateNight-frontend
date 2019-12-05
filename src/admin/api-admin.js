@@ -68,9 +68,9 @@ export const fetchItineraryPackages = userData => {
   }).then(res => res.json());
 };
 
-export const fetchItineraryPackage = (userData, itinPackagedId) => {
+export const fetchItineraryPackage = (userData, itinPackageId) => {
   const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/itinerary_packages/${itinPackagedId}`, {
+  return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
