@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { login } from '../services/api';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../../layout/Button';
+import TextField from '@material-ui/core/TextField';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -68,19 +69,21 @@ const Login = props => {
         ) : null}
         <form className='login-form'>
           <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-          <input
+          <TextField
             type='text'
             name='email'
             value={formData.email}
             onChange={handleChange}
-            placeholder='Email'
+            label='Email'
+            variant='filled'
           />
-          <input
+          <TextField
             type='password'
             name='password'
             value={formData.password}
             onChange={handleChange}
-            placeholder='Password'
+            label='Password'
+            variant='filled'
           />
           <Button type='submit' onClick={handleSubmit}>
             Login

@@ -1,10 +1,3 @@
-.button {
-  background: #c0c5c1;
-  border-radius: 10px;
-  border: 1px solid lightgray;
-  margin: 20px;
-}
-
 #buttons {
   flex: 1 100%;
   text-align: center;
@@ -13,4 +6,12 @@
 
 a {
   text-decoration: none;
+}
+
+#main-container
+  > div.user-page
+  > div.MuiPaper-root.MuiPaper-elevation10.create-form.paper.MuiPaper-rounded
+  > form
+  > button {
+  background-color: #53616e;
 }

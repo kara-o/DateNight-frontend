@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createUser } from '../services/api';
 import { Link } from 'react-router-dom';
 import Button from '../../layout/Button';
+import TextField from '@material-ui/core/TextField';
 
 const Signup = props => {
   const [formData, setFormData] = useState({
@@ -43,47 +44,47 @@ const Signup = props => {
       <h1 className='login'>Welcome</h1>
       <form className='signup-form'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        <input
+        <TextField
           type='text'
           name='email'
           value={formData.email}
           onChange={handleChange}
-          placeholder='Email'
+          label='Email'
         />
-        <input
+        <TextField
           type='password'
           name='password'
           value={formData.password}
           onChange={handleChange}
-          placeholder='Password'
+          label='Password'
         />
-        <input
+        <TextField
           type='password'
           name='password_confirmation'
           value={formData.password_confirmation}
           onChange={handleChange}
-          placeholder='Confirm Password'
+          label='Confirm Password'
         />
-        <input
+        <TextField
           type='text'
           name='first_name'
           value={formData.first_name}
           onChange={handleChange}
-          placeholder='First Name'
+          label='First Name'
         />
-        <input
+        <TextField
           type='text'
           name='last_name'
           value={formData.last_name}
           onChange={handleChange}
-          placeholder='Last Name'
+          label='Last Name'
         />
-        <input
+        <TextField
           type='text'
           name='phone'
           value={formData.phone}
           onChange={handleChange}
-          placeholder='Phone Number'
+          label='Phone Number'
         />
         <Button type='submit' onClick={handleSubmit}>
           Signup
