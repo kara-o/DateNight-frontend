@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../layout/Button';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import { TextField, MenuItem } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -265,35 +264,33 @@ const Request = props => {
       </Paper>
       <Paper elevation={10} className='request-tutorial'>
         <h3>
-          We're so happy you're letting us create a fun night for you! Give us
-          some guidance through this request form, and we will do our best to
-          make it all happen!
+          Let us create a fun night for you! Give us some guidance through this
+          request form, and we will do our best to make it all happen!
         </h3>
-        <ul className='tutorial-list'>
-          <li>
-            Choose the day and time for your date. Depending on your budget and
-            special instructions, we will schedule up to a total duration of 4
-            hours.
-          </li>
-          <li>Pick the area of Seattle you'd like to spend your night in'</li>
-          <li>
-            How big is your party? Let us know, we don't assume that everyone is
-            a couple of 2 and we can make reservations for up to 4 people!
-          </li>
-          <li>
-            Let us know your approximate budget per person. We cannot guarantee
-            we will be exact, but we always try our best!
-          </li>
-          <li>
-            Provide us up to four contact numbers where we will send text alerts
-            containing your itinerary!
-          </li>
-          <li>
-            Leave us any special requests in the notes sections, such as dietary
-            restrictions/time constraints, etc. We want to make this night
-            perfect for you!
-          </li>
-        </ul>
+        <p>
+          Choose the day and time for your date. Depending on your budget and
+          special instructions, we will schedule up to a total duration of 4
+          hours.
+        </p>
+        <p>Which area of Seattle do you want to go to?</p>
+        <p>
+          How big is your party? Let us know, we don't assume that everyone is a
+          couple of 2 and we can make reservations for up to 4 people!
+        </p>
+        <p>
+          Let us know your approximate budget per person. We cannot guarantee we
+          will be exact, but we always try our best!
+        </p>
+        <p>
+          Provide us up to four contact numbers where we will send text alerts
+          containing your itinerary!
+        </p>
+        <p>
+          Leave us any special requests in the notes sections, such as dietary
+          restrictions/time constraints, etc. We want to make this night perfect
+          for you!
+        </p>
+
         <h3>Press submit when you're done!</h3>
       </Paper>
     </>

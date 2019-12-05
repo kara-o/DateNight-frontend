@@ -74,15 +74,17 @@ h1.login {
   display: flex;
   flex-flow: row wrap;
   margin: 0;
-  background: #c0c5c1;
+  background: #53616e;
 }
+
+/* #765d7a; */
 
 ul.nav {
   padding: 0;
 }
 
 .nav-link {
-  color: black;
+  color: white;
 }
 
 @media all and (max-width: 500px) {
@@ -97,7 +99,7 @@ ul.nav {
 
 .user-page,
 .admin-page {
-  flex: 5;
+  flex: 7;
   display: flex;
   flex-flow: row wrap;
   align-items: stretch;
@@ -152,6 +154,7 @@ form.itinerary-item-form > div {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  background: white;
 }
 
 .request-list,

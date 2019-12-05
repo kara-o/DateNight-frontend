@@ -29,15 +29,18 @@ const Sidebar = ({ userData }) => {
       {userData && !userData.admin ? (
         <ul className='sidebar-list'>
           <li>
-            <strong>
-              {userData.user.first_name + ' ' + userData.user.last_name}
-            </strong>
+            Logged in as:{' '}
+            {userData.user.first_name + ' ' + userData.user.last_name}
           </li>
-          <br />
           <li>
             Joined: {moment(userData.user.created_at).format('MMMM Do YYYY')}
           </li>
-          <br />
+          <Link className='sidebar-link' to={`/requests/new`}>
+            Make a New Request!
+          </Link>
+          <Link className='sidebar-link' to={`/`}>
+            Back
+          </Link>
         </ul>
       ) : null}
       {userData && userData.admin ? (

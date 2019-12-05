@@ -33,7 +33,6 @@ form.create-form h1 {
 
 .request-tutorial {
   text-align: center;
-  height: 40vh;
 }
 
 .request-tutorial li {
@@ -92,9 +91,9 @@ input {
   padding: 20px 20px 5px 20px;
 }
 
-input:-webkit-autofill {
+/* input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 50px white inset;
-}
+} */
 
 .errors {
   margin: 0;
