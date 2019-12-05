@@ -48,7 +48,7 @@ const AdminLogin = props => {
 
   return (
     <div className='admin-login'>
-      <h2>DateNight Admin Login</h2>
+      <h2 className='icon'>DateNight Admin Login</h2>
       <form className='admin-login'>
         <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
         <TextField

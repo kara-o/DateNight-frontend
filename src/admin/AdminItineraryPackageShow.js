@@ -5,15 +5,10 @@ import {
   deletePkgItem
 } from './api-admin';
 import Button from '../layout/Button';
-import {
-  TextField,
-  Typography,
-  Card,
-  CardContent,
-  Paper
-} from '@material-ui/core';
+import { TextField, Paper } from '@material-ui/core';
 import Map from '../layout/Map';
 import { Link } from 'react-router-dom';
+import ExpandingCard from '../layout/ExpandingCard';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -110,6 +105,7 @@ const AdminItineraryPackageShow = props => {
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
   const [itinPackageItems, setItinPackageItems] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -157,23 +153,17 @@ const AdminItineraryPackageShow = props => {
     return <p>Loading...</p>;
   }
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   const renderPackageItems = () => {
     if (itinPackageItems) {
       return itinPackageItems.map(pkgItem => {
         return (
-          <Card elevation={10} key={pkgItem.id} className='card'>
-            <CardContent>
-              <Typography
-                className='card-title'
-                color='textSecondary'
-                gutterBottom
-              >
-                {pkgItem.place}
-              </Typography>
-              <Typography>{pkgItem.duration} minutes</Typography>
-            </CardContent>
-            <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
-          </Card>
+          <>
+            <ExpandingCard pkgItem={pkgItem} handleDelete={handleDelete} />
+          </>
         );
       });
     }

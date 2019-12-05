@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   background-image: url('./images/background.jpg');
+  background-size: cover;
 }
 
 .icon {
@@ -104,8 +105,16 @@ ul.nav {
   justify-content: space-evenly;
 }
 
+#main-container > div.admin-page > div > div.packages > ul > li > a {
+  color: white;
+}
+
 .show,
-.itinerary,
+.itinerary {
+  flex: 2;
+  text-align: center;
+}
+
 .packages {
   flex: 1;
   text-align: center;
@@ -131,6 +140,7 @@ ul.nav {
 .paper.request-show {
   margin-top: 5%;
   padding: 40px;
+  flex: 1;
 }
 
 .itinerary-item-form {
@@ -216,6 +226,10 @@ li.pkg-row:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+a.list-grid {
+  width: 100%;
+}
+
 .footer {
   flex: 1 100%;
   text-align: center;
@@ -281,7 +295,7 @@ ul {
 .pkg-list-show {
   display: flex;
   flex-flow: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 ul.pkg-list-show {
@@ -338,4 +352,24 @@ ul.upcoming-date-list > li {
 #main-container > div.admin-page > div > a > button {
   background: #765d7a;
   color: white;
+}
+
+#main-container > div > form > button {
+  background: #53616e;
+}
+
+#main-container > div > a {
+  color: white;
+}
+
+#main-container > div.admin-page > div > a {
+  padding: 0;
+}
+
+#main-container > div.admin-page > div > ul > li {
+  margin: 0;
+}
+
+#main-container > div.admin-page > div > ul > li > a > ul > li {
+  margin-left: 5px;
 }

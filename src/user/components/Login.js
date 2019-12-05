@@ -58,7 +58,7 @@ const Login = props => {
   };
 
   return (
-    <div class='login-container'>
+    <div className='login-container'>
       <h1 className='login'>DateNight</h1>
       <>
         {isAccountConfirmationPending ? (

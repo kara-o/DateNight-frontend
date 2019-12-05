@@ -1,0 +1,16 @@
+.list-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: start;
+  width: 100%;
+}
+
+.item-a {
+  grid-column: 1 / span 1;
+  margin-right: 20px;
+}
+
+.item-b {
+  grid-column: 2 / span 1;
+  margin-right: 20px;
+}

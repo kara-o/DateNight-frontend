@@ -81,10 +81,12 @@ const RequestShow = props => {
     return (
       <>
         {new Date(request.start_time) > new Date() ? (
-          <h2>
-            Get excited! Your itinerary is all set. You will be getting text
-            alerts starting on the morning of your date!
-          </h2>
+          <Paper elevation={10} className='paper request-show' elevation={10}>
+            <h2>
+              Get excited! Your itinerary is all set. You will be getting text
+              alerts starting on the morning of your date!
+            </h2>
+          </Paper>
         ) : (
           <div className='itinerary'>
             <h2>Itinerary</h2>
@@ -101,7 +103,7 @@ const RequestShow = props => {
 
   return (
     <>
-      {request && !request.fulfilled ? (
+      {request ? (
         <Paper elevation={10} className='paper request-show' elevation={10}>
           <h2>
             Your date is
