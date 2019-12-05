@@ -15,3 +15,7 @@ a {
   > button {
   background-color: #53616e;
 }
+
+#main-container > div.user-page > div > div > button {
+  background-color: #53616e;
+}

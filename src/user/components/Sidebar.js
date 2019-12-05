@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import { MenuItem, MenuList } from '@material-ui/core';
+import Button from '../../layout/Button';
 
 const Sidebar = ({ userData }) => {
   const renderInitials = () => {
@@ -28,36 +28,23 @@ const Sidebar = ({ userData }) => {
       </Link>
       {userData && !userData.admin ? (
         <ul className='sidebar-list'>
-          <li>
-            Logged in as:{' '}
-            {userData.user.first_name + ' ' + userData.user.last_name}
-          </li>
-          <li>
-            Joined: {moment(userData.user.created_at).format('MMMM Do YYYY')}
-          </li>
           <Link className='sidebar-link' to={`/requests/new`}>
-            Make a New Request!
+            <Button>Make a New Request!</Button>
           </Link>
           <Link className='sidebar-link' to={`/`}>
-            Back
+            <Button>Back</Button>
           </Link>
         </ul>
       ) : null}
       {userData && userData.admin ? (
-        <>
-          <MenuList>
-            <MenuItem>
-              <Link className='sidebar-link' to='/admin/'>
-                Requests
-              </Link>
-            </MenuItem>
-            <MenuItem>
-              <Link className='sidebar-link' to='/admin/itinerary_packages'>
-                Itinerary Packages
-              </Link>
-            </MenuItem>
-          </MenuList>
-        </>
+        <ul className='sidebar-list'>
+          <Link className='sidebar-link' to='/admin/'>
+            <Button>Requests</Button>
+          </Link>
+          <Link className='sidebar-link' to='/admin/itinerary_packages'>
+            <Button>Itinerary Packages</Button>
+          </Link>
+        </ul>
       ) : null}
     </div>
   );

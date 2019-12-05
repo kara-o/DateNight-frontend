@@ -96,6 +96,15 @@ export const createItineraryPackage = (formData, userData) => {
   }).then(res => res.json());
 };
 
+export const updateItineraryPackage = (itinPackageId, formData, userData) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
+    method: 'PUT',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify(formData)
+  }).then(res => res.json());
+};
+
 export const createItineraryPackageItem = (
   itinPackageId,
   formData,

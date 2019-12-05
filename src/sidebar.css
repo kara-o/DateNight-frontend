@@ -8,8 +8,8 @@
 
 .sidebar-list {
   display: flex;
+  height: 100%;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   list-style: none;
   padding: 0;
@@ -24,8 +24,17 @@ div.avatar {
 
 .sidebar-link {
   color: white;
+  padding: 5px;
 }
 
 .icon-span {
   font-size: 40px;
+}
+
+#main-container > div.sidebar > ul > a > button {
+  background: #765d7a;
+}
+
+li.request-row > a {
+  color: black;
 }

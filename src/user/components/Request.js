@@ -10,6 +10,11 @@ import {
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
 import { FormLabel, Paper } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
 
@@ -56,6 +61,7 @@ const Request = props => {
   const [priceRanges, setPriceRanges] = useState([]);
   const [contacts, setContacts] = useState([userData.user.phone]);
   const [errors, setErrors] = useState(null);
+  const [open, setOpen] = useState(false);
 
   //TODO add loading
   useEffect(() => {
@@ -108,6 +114,45 @@ const Request = props => {
     return data;
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    props.history.push('/');
+  };
+
+  const renderAlert = () => {
+    return (
+      <div>
+        <div className='submit-div'>
+          <Button type='submit' onClick={handleSubmit}>
+            Submit Request
+          </Button>
+        </div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <DialogContent>
+            <DialogContentText id='alert-dialog-description'>
+              Success! We will get busy setting up your perfect night out! You
+              will get your first text on the day of your date at 10 am!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color='primary' autoFocus>
+              Can't Wait!
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -115,7 +160,7 @@ const Request = props => {
 
     createRequest(data, userData).then(json => {
       if (!json.errors) {
-        props.history.push('/');
+        handleClickOpen();
       } else {
         setErrors({
           errorObj: json.errors.error_obj,
@@ -189,7 +234,6 @@ const Request = props => {
               />
             </MuiPickersUtilsProvider>
           </fieldset>
-
           <TextField
             select
             label='Party size'
@@ -203,7 +247,6 @@ const Request = props => {
             <MenuItem value='3'>3</MenuItem>
             <MenuItem value='4'>4</MenuItem>
           </TextField>
-
           <TextField
             select
             label='Neighborhood'
@@ -214,7 +257,6 @@ const Request = props => {
           >
             {renderOptions(neighborhoods, 'name')}
           </TextField>
-
           <TextField
             select
             label='Price range'
@@ -225,7 +267,6 @@ const Request = props => {
           >
             {renderOptions(priceRanges, 'max_amount')}
           </TextField>
-
           <fieldset className='contacts unstyled'>
             <FormLabel className='contacts-group-label'>
               Contact phone numbers (up to 4)
@@ -246,7 +287,6 @@ const Request = props => {
                 />
               ))}
           </fieldset>
-
           <TextField
             multiline
             rows={3}
@@ -256,10 +296,7 @@ const Request = props => {
             onChange={e => handleChange(e.target.value, 'notes')}
             margin='normal'
           />
-
-          <Button type='submit' onClick={handleSubmit}>
-            Submit Request
-          </Button>
+          {renderAlert()}
         </form>
       </Paper>
       <Paper elevation={10} className='request-tutorial'>
