@@ -10,7 +10,7 @@ import {
 } from './api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
-import { Paper } from '@material-ui/core';
+import { Paper, List, ListItem, ListItemText } from '@material-ui/core';
 
 const AdminRequestShow = props => {
   const { userData } = props;

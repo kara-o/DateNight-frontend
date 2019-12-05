@@ -75,6 +75,8 @@ const ItineraryItemForm = props => {
           onChange={e => setPlace(e.target.value)}
         />
         <TextField
+          multiline
+          rows={3}
           label='Blurb'
           value={blurb}
           onChange={e => setBlurb(e.target.value)}
