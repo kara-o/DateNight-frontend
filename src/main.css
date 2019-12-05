@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 h2 {
@@ -124,6 +125,7 @@ form.itinerary-item-form > div {
   list-style: none;
   justify-content: space-between;
   padding: 0;
+  overflow: auto;
 }
 
 .pkg-row-list {
@@ -181,12 +183,13 @@ ul {
 
 .card {
   width: 10vw;
-  height: 30vh;
+  height: 25vh;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
 }
 
 .itin-item-display {
@@ -222,4 +225,20 @@ ul {
 
 ul.pkg-list-show {
   padding: 0;
+  overflow: auto;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.details-p {
+  flex: 2;
+}
+
+.details > h3 {
+  flex: 1;
 }
