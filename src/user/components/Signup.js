@@ -39,8 +39,9 @@ const Signup = props => {
   };
 
   return (
-    <div className='container'>
-      <form className='container'>
+    <div className='signup-container'>
+      <h1 className='login'>Welcome</h1>
+      <form className='signup-form'>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
         <input
           type='text'

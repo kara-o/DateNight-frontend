@@ -57,34 +57,37 @@ const Login = props => {
   };
 
   return (
-    <div className='container'>
-      {isAccountConfirmationPending ? (
-        <h3>Confirmation email sent - check your inbox!</h3>
-      ) : null}
-      {isAccountConfirmed ? (
-        <h3>Thank you for confirming your account! Please login.</h3>
-      ) : null}
-      <form className='container'>
-        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-        <input
-          type='text'
-          name='email'
-          value={formData.email}
-          onChange={handleChange}
-          placeholder='Email'
-        />
-        <input
-          type='password'
-          name='password'
-          value={formData.password}
-          onChange={handleChange}
-          placeholder='Password'
-        />
-        <Button type='submit' onClick={handleSubmit}>
-          Login
-        </Button>
-      </form>
-      <Link to='/signup'>New user? Sign up for an account</Link>
+    <div class='login-container'>
+      <h1 className='login'>DateNight</h1>
+      <>
+        {isAccountConfirmationPending ? (
+          <h3>Confirmation email sent - check your inbox!</h3>
+        ) : null}
+        {isAccountConfirmed ? (
+          <h3>Thank you for confirming your account! Please login.</h3>
+        ) : null}
+        <form className='login-form'>
+          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
+          <input
+            type='text'
+            name='email'
+            value={formData.email}
+            onChange={handleChange}
+            placeholder='Email'
+          />
+          <input
+            type='password'
+            name='password'
+            value={formData.password}
+            onChange={handleChange}
+            placeholder='Password'
+          />
+          <Button type='submit' onClick={handleSubmit}>
+            Login
+          </Button>
+        </form>
+        <Link to='/signup'>New user? Sign up for an account</Link>
+      </>
     </div>
   );
 };
