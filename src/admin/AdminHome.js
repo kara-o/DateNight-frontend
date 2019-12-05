@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { fetchRequests } from './api-admin';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
+import { Select, MenuItem, InputLabel } from '@material-ui/core/';
 
 const AdminHome = props => {
   const { userData } = props;
   const [allRequests, setAllRequests] = useState([]);
+  const [filter, setFilter] = useState('Unfulfilled');
 
   useEffect(() => {
     if (userData) {
@@ -15,8 +17,13 @@ const AdminHome = props => {
   }, [userData]);
 
   const renderRequests = () => {
-    const unfulfilledReqs = allRequests.filter(r => !r.fulfilled);
-    return unfulfilledReqs.map(r => {
+    let requests;
+    if (filter === 'unfulfilled') {
+      requests = allRequests.filter(r => !r.fulfilled);
+    } else {
+      requests = allRequests;
+    }
+    return requests.map(r => {
       return (
         <li key={r.id} className='request-row'>
           <Link to={`/admin/requests/${r.id}`}>
@@ -33,9 +40,27 @@ const AdminHome = props => {
     });
   };
 
+  const handleChange = e => {
+    console.log(e.target.value);
+    setFilter(e.target.value);
+  };
+
+  const renderFilter = () => {
+    return (
+      <div className='filter'>
+        <InputLabel id='select-label'>Filter</InputLabel>
+        <Select labelId='select-label' value={filter} onChange={handleChange}>
+          <MenuItem value={'Unfulfilled'}>Unfulfilled</MenuItem>
+          <MenuItem value={'All'}>All</MenuItem>
+        </Select>
+      </div>
+    );
+  };
+
   return (
     <div className='list-div'>
-      <h1>Unfulfilled Requests</h1>
+      <h1>{filter} Requests</h1>
+      {renderFilter()}
       <ul className='request-list'>{renderRequests()}</ul>
     </div>
   );

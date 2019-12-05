@@ -118,6 +118,18 @@ const App = () => {
             )}
           />
           <Route
+            path='/admin/itinerary_packages/:id/edit'
+            render={props => (
+              <div className='admin-page'>
+                <AdminItineraryPackage
+                  {...props}
+                  edit={true}
+                  userData={userData}
+                />
+              </div>
+            )}
+          />
+          <Route
             path='/admin/itinerary_packages/:id'
             render={props => (
               <div className='admin-page'>
