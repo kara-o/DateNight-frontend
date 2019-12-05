@@ -17,8 +17,8 @@
 }
 
 div.avatar {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   background-color: #53616e;
 }
 
@@ -31,6 +31,22 @@ div.avatar {
   font-size: 40px;
 }
 
+#main-container > div.admin-page > div > div.show > div > button,
+#main-container > div.admin-page > div > div.packages > ul > li > button,
+#main-container > div.user-page > div:nth-child(1) > div > button,
+#main-container
+  > div.user-page
+  > div.MuiPaper-root.MuiPaper-elevation10.create-form.paper.MuiPaper-rounded
+  > form
+  > div:nth-child(8)
+  > div
+  > button,
+body
+  > div.MuiDialog-root
+  > div.MuiDialog-container.MuiDialog-scrollPaper
+  > div
+  > div.MuiDialogActions-root.MuiDialogActions-spacing
+  > button,
 #main-container > div.sidebar > ul > a > button {
   background: #765d7a;
 }

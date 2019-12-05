@@ -29,11 +29,16 @@ const AdminItineraryPackages = props => {
     }
     return pkgs.map(pkg => {
       return (
-        <li key={pkg.id} className='pkg-row'>
+        <li key={pkg.id} className='request-row'>
           <Link to={`/admin/itinerary_packages/${pkg.id}`}>
-            <ul className='pkg-row-list'>
-              <li>{pkg.title}</li>
-              <li>{pkg.neighborhood}</li>
+            <ul className='admin-row-list'>
+              <li>
+                {pkg.title +
+                  ' - ' +
+                  pkg.price_range.split(' ')[0] +
+                  ' - ' +
+                  pkg.neighborhood}
+              </li>
             </ul>
           </Link>
         </li>
@@ -76,7 +81,7 @@ const AdminItineraryPackages = props => {
               <Button className='new-pkg-btn'>Make a New Package</Button>
             </Link>
             {renderFilter()}
-            <ul className='pkg-list'>{renderPackages()}</ul>
+            <ul className='request-list'>{renderPackages()}</ul>
           </Paper>
         </>
       ) : null}

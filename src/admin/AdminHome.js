@@ -18,7 +18,7 @@ const AdminHome = props => {
 
   const renderRequests = () => {
     let requests;
-    if (filter === 'unfulfilled') {
+    if (filter === 'Unfulfilled') {
       requests = allRequests.filter(r => !r.fulfilled);
     } else {
       requests = allRequests;

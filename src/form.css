@@ -6,7 +6,7 @@ form {
 form.create-form {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   border: none;
 }
 
@@ -18,6 +18,10 @@ form.create-form h1 {
 .new-pkg-paper {
   margin: 20px;
   padding: 20px;
+}
+
+.paper.request-show {
+  text-align: center;
 }
 
 .create-form.paper,
@@ -121,5 +125,24 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+form.admin-login {
+  width: 100%;
+}
+
+#main-container > div > form > div:nth-child(3),
+#main-container > div > form > div:nth-child(2) {
+  width: 20vw;
+}
+
+#main-container > div > form > button {
+  width: 20vw;
+}
+
+form.login-form {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }

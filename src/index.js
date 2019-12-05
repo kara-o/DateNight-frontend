@@ -6,6 +6,7 @@ import './main.css';
 import './navigation.css';
 import './form.css';
 import './sidebar.css';
+import './grid.css';
 
 ReactDOM.render(
   <Router>
