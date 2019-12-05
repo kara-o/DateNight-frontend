@@ -74,7 +74,14 @@ const AdminRequestShow = props => {
           <ul>{renderContacts()}</ul>
           <p>Neighborhood: {request.neighborhood}</p>
           <p>Price Range: {request.price_range}</p>
-          <p>Fulfilled: {(!!request.fulfilled).toString()}</p>
+          <p>
+            Fulfilled: {(!!request.fulfilled).toString()}{' '}
+            {request.cancelled ? (
+              <span>
+                <strong style={{ color: 'red' }}>CANCELLED</strong>
+              </span>
+            ) : null}
+          </p>
           <Button type='button' onClick={handleComplete}>
             {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
           </Button>
