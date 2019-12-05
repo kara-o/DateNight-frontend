@@ -8,7 +8,7 @@ import Button from '../layout/Button';
 import { TextField, Paper } from '@material-ui/core';
 import Map from '../layout/Map';
 import { Link } from 'react-router-dom';
-import ExpandingCard from '../layout/ExpandingCard';
+import SimpleCard from '../layout/SimpleCard';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -53,7 +53,7 @@ const ItineraryItemForm = props => {
 
   return (
     <Paper elevation={10} className='paper'>
-      <form className='create-form'>
+      <form className='create-form itin-item'>
         <TextField
           label='Duration (minutes)'
           value={duration}
@@ -162,7 +162,7 @@ const AdminItineraryPackageShow = props => {
       return itinPackageItems.map(pkgItem => {
         return (
           <>
-            <ExpandingCard pkgItem={pkgItem} handleDelete={handleDelete} />
+            <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />
           </>
         );
       });

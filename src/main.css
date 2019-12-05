@@ -278,6 +278,7 @@ ul {
 .filter {
   flex: 1 100%;
   text-align: center;
+  margin-top: 10px;
 }
 
 .list-div > h1 {
