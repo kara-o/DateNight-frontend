@@ -79,6 +79,10 @@ form.create-form .textarea {
   width: 600px;
 }
 
+.itin-item > .MuiFormControl-root {
+  width: 100%;
+}
+
 form.create-form button[type='submit'] {
   margin-top: 20px;
   width: 400px;

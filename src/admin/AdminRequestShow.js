@@ -74,6 +74,7 @@ const AdminRequestShow = props => {
           <ul>{renderContacts()}</ul>
           <p>Neighborhood: {request.neighborhood}</p>
           <p>Price Range: {request.price_range}</p>
+          <p>Notes: {request.notes}</p>
           <p>
             Fulfilled: {(!!request.fulfilled).toString()}{' '}
             {request.cancelled ? (
