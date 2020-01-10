@@ -3,12 +3,12 @@ import {
   fetchItineraryPackage,
   createItineraryPackageItem,
   deletePkgItem
-} from './api-admin';
-import Button from '../layout/Button';
+} from '../services/api-admin';
+import Button from '../../layout/Button';
 import { TextField, Paper } from '@material-ui/core';
-import Map from '../layout/Map';
+import Map from '../../layout/Map';
 import { Link } from 'react-router-dom';
-import SimpleCard from '../layout/SimpleCard';
+import SimpleCard from '../../layout/SimpleCard';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 

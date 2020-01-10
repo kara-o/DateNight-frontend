@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { login } from './api-admin';
-import Button from '../layout/Button';
+import { login } from '../services/api-admin';
+import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
 const AdminLogin = props => {

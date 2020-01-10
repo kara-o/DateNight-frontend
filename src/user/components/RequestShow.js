@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest, cancelRequest } from '../services/api';
-import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { Paper, Typography } from '@material-ui/core';
-import ItineraryItem from '../../admin/ItineraryItem';
+import { Paper } from '@material-ui/core';
+import ItineraryItem from '../../admin/components/ItineraryItem';
 
 const RequestShow = props => {
   const { userData } = props;

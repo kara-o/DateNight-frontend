@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Map from '../layout/Map';
+import React from 'react';
+import Map from '../../layout/Map';
 import { Paper } from '@material-ui/core';
 import * as moment from 'moment';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import Button from '../../layout/Button';
+import Button from './Button';
 
 const Sidebar = ({ userData }) => {
   const renderInitials = () => {
