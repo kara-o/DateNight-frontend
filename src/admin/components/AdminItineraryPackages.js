@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchItineraryPackages } from './api-admin';
+import { fetchItineraryPackages } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import {
   Select,

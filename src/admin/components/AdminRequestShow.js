@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../layout/Button';
-import { fetchRequest } from '../user/services/api';
+import Button from '../../layout/Button';
+import { fetchRequest } from '../../user/services/api';
 import * as moment from 'moment';
 import {
   toggleRequestFulfilled,
   fetchItineraryPackages,
   applyItineraryPackage,
   sendTextMessages
-} from './api-admin';
+} from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
 import { Paper } from '@material-ui/core';

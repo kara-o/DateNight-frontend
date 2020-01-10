@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './user/components/App';
+import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './main.css';
-import './navigation.css';
-import './form.css';
-import './sidebar.css';
-import './grid.css';
+import './css/main.css';
+import './css/navigation.css';
+import './css/form.css';
+import './css/sidebar.css';
+import './css/grid.css';
 
 ReactDOM.render(
   <Router>

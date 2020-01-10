@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../layout/Button';
+import Button from '../../layout/Button';
 import { TextField, MenuItem, Paper } from '@material-ui/core';
 import {
   createItineraryPackage,
   fetchItineraryPackage,
   updateItineraryPackage
-} from './api-admin';
-import { fetchOptions } from '../user/services/api';
+} from '../services/api-admin';
+import { fetchOptions } from '../../user/services/api';
 
 const AdminItineraryPackage = props => {
   const { userData } = props;

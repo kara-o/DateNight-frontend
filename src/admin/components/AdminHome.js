@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRequests } from './api-admin';
+import { fetchRequests, scrapeNames } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { Select, MenuItem, InputLabel, Paper } from '@material-ui/core/';
@@ -11,10 +11,10 @@ const AdminHome = props => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData.user.first_name);
       fetchRequests(userData).then(json => setAllRequests(json));
+      scrapeNames(userData).then(json => console.log(json));
     }
-  }, [userData]);
+  }, []);
 
   const renderRequests = () => {
     let requests;
@@ -41,7 +41,6 @@ const AdminHome = props => {
   };
 
   const handleChange = e => {
-    console.log(e.target.value);
     setFilter(e.target.value);
   };
 

@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import UserHome from './UserHome';
-import Login from './Login';
-import Navbar from '../../layout/Navbar';
-import Footer from './Footer';
-import Signup from './Signup';
-import Request from './Request';
-import RequestShow from './RequestShow';
-import { logoutUser } from '../services/api';
-import { logoutAdmin } from '../../admin/api-admin';
-import AdminLogin from '../../admin/AdminLogin';
-import AdminHome from '../../admin/AdminHome';
-import AdminRequestShow from '../../admin/AdminRequestShow';
-import ItineraryItem from '../../admin/ItineraryItem';
-import AdminItineraryPackages from '../../admin/AdminItineraryPackages';
-import AdminItineraryPackage from '../../admin/AdminItineraryPackage';
-import AdminItineraryPackageShow from '../../admin/AdminItineraryPackageShow';
+import Sidebar from './layout/Sidebar';
+import UserHome from './user/components/UserHome';
+import Login from './user/components/Login';
+import Navbar from './layout/Navbar';
+import Footer from './user/components/Footer';
+import Signup from './user/components/Signup';
+import Request from './user/components/Request';
+import RequestShow from './user/components/RequestShow';
+import { logoutUser } from './user/services/api';
+import { logoutAdmin } from './admin/services/api-admin';
+import AdminLogin from './admin/components/AdminLogin';
+import AdminHome from './admin/components/AdminHome';
+import AdminRequestShow from './admin/components/AdminRequestShow';
+import AdminItineraryPackages from './admin/components/AdminItineraryPackages';
+import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
+import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
 
 function getUserData() {
   const userDataStr = localStorage.getItem('userData');
