@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRequests, scrapeNames } from '../services/api-admin';
+import { fetchRequests } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { Select, MenuItem, InputLabel, Paper } from '@material-ui/core/';
@@ -12,7 +12,6 @@ const AdminHome = props => {
   useEffect(() => {
     if (userData) {
       fetchRequests(userData).then(json => setAllRequests(json));
-      scrapeNames(userData).then(json => console.log(json));
     }
   }, []);
 

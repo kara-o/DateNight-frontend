@@ -112,7 +112,7 @@ ul.nav {
 
 .show,
 .itinerary {
-  flex: 2;
+  flex: 1;
   text-align: center;
 }
 

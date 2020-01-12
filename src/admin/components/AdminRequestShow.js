@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest } from '../../user/services/api';
+import { scrapeNames } from '../services/api-admin';
 import * as moment from 'moment';
 import {
   toggleRequestFulfilled,
@@ -17,9 +18,11 @@ const AdminRequestShow = props => {
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
+  const [scrapedNames, setScrapedNames] = useState([]);
 
   useEffect(() => {
     if (userData) {
+      scrapeNames(userData).then(names => setScrapedNames(names));
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
       });
@@ -113,6 +116,14 @@ const AdminRequestShow = props => {
               <Button type='button' onClick={() => handleApplyPackage(pkg.id)}>
                 Apply
               </Button>
+            </li>
+          ))}
+        </ul>
+        <h2>Single Items</h2>
+        <ul className='pkg-list-show'>
+          {scrapedNames.map(name => (
+            <li className='pkg-link' key={name.id}>
+              <Link>{name}</Link>
             </li>
           ))}
         </ul>
