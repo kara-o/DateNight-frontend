@@ -11,7 +11,7 @@ import {
 } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
-import { Paper } from '@material-ui/core';
+import { Paper, CircularProgress } from '@material-ui/core';
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -22,11 +22,14 @@ const AdminRequestShow = props => {
 
   useEffect(() => {
     if (userData) {
-      scrapeNames(userData).then(names => setScrapedNames(names));
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
+        scrapeNames(
+          userData,
+          moment(res.request.start_time).format('YYYY-MM-DD')
+        ).then(names => setScrapedNames(names));
       });
-      fetchItineraryPackages(userData).then(setItinPackages);
+      // fetchItineraryPackages(userData).then(setItinPackages);
     }
   }, []);
 
@@ -54,14 +57,6 @@ const AdminRequestShow = props => {
     );
   };
 
-  if (request === null || itinPackages === null) {
-    return (
-      <div className='admin-show'>
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   const handleMessage = () => {
     sendTextMessages(userData, requestId);
   };
@@ -72,6 +67,12 @@ const AdminRequestShow = props => {
         setRequest(res.request);
       });
     });
+  };
+
+  const getScrapedNames = () => {};
+
+  const loading = () => {
+    return <CircularProgress />;
   };
 
   return request ? (
@@ -118,7 +119,7 @@ const AdminRequestShow = props => {
             ))}
       </div>
       <div className='packages'>
-        <h2>Packages</h2>
+        {/* <h2>Packages</h2>
         <ul className='pkg-list-show'>
           {itinPackages.map(pkg => (
             <li className='pkg-link' key={pkg.id}>
@@ -131,18 +132,22 @@ const AdminRequestShow = props => {
               </Button>
             </li>
           ))}
-        </ul>
+        </ul> */}
         <h2>Single Items</h2>
         <ul className='pkg-list-show'>
-          {scrapedNames.map(name => (
-            <li className='pkg-link' key={name.id}>
-              <Link>{name}</Link>
-            </li>
-          ))}
+          {scrapedNames.length > 0
+            ? scrapedNames.map(name => (
+                <li className='pkg-link' key={name.id}>
+                  <Link>{name}</Link>
+                </li>
+              ))
+            : loading()}
         </ul>
       </div>
     </div>
-  ) : null;
+  ) : (
+    loading()
+  );
 };
 
 export default AdminRequestShow;
