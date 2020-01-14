@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest } from '../../user/services/api';
-import { scrapeNames } from '../services/api-admin';
+import { scrapeNames, deleteItinItem } from '../services/api-admin';
 import * as moment from 'moment';
 import {
   toggleRequestFulfilled,
@@ -28,7 +28,7 @@ const AdminRequestShow = props => {
       });
       fetchItineraryPackages(userData).then(setItinPackages);
     }
-  }, [userData]);
+  }, []);
 
   const handleComplete = () => {
     toggleRequestFulfilled(
@@ -66,6 +66,14 @@ const AdminRequestShow = props => {
     sendTextMessages(userData, requestId);
   };
 
+  const handleRemove = item => {
+    deleteItinItem(userData, item.id).then(() => {
+      fetchRequest(userData, requestId).then(res => {
+        setRequest(res.request);
+      });
+    });
+  };
+
   return request ? (
     <div className='admin-show'>
       <div className='show'>
@@ -101,7 +109,12 @@ const AdminRequestShow = props => {
         {!request.itinerary_items.length
           ? 'Empty'
           : request.itinerary_items.map(item => (
-              <ItineraryItem key={item.id} item={item} admin={true} />
+              <ItineraryItem
+                handleRemove={handleRemove}
+                key={item.id}
+                item={item}
+                admin={true}
+              />
             ))}
       </div>
       <div className='packages'>
