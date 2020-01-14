@@ -160,10 +160,14 @@ export const deleteItinItem = (userData, itemId) => {
   });
 };
 
-export const scrapeNames = userData => {
+export const scrapeNames = (userData, time) => {
+  console.log(time);
   const headers = tokenHeaders(userData);
   return fetch(`http://localhost:3000/scrapes`, {
-    method: 'GET',
-    headers: { ...jsonHeaders, ...headers }
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      time: time
+    })
   }).then(res => res.json());
 };
