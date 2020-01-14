@@ -1,10 +1,12 @@
 import React from 'react';
 import Map from '../../layout/Map';
+import Button from '../../layout/Button';
 import { Paper } from '@material-ui/core';
 import * as moment from 'moment';
 
 const ItineraryItem = props => {
-  const { item, admin } = props;
+  const { item, admin, handleRemove } = props;
+
   return (
     <>
       <Paper elevation={10} className='paper itin-item-display'>
@@ -30,6 +32,11 @@ const ItineraryItem = props => {
           </div>
         </div>
         <Map url={item.map_iframe_url} />
+        {admin ? (
+          <Button onClick={() => handleRemove(item)}>
+            Remove from Itinerary
+          </Button>
+        ) : null}
       </Paper>
     </>
   );

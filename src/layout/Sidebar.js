@@ -44,6 +44,9 @@ const Sidebar = ({ userData }) => {
           <Link className='sidebar-link' to='/admin/itinerary_packages'>
             <Button>Itinerary Packages</Button>
           </Link>
+          <Link className='sidebar-link' to='/admin/itinerary_items'>
+            <Button>Single Itinerary Items</Button>
+          </Link>
         </ul>
       ) : null}
     </div>

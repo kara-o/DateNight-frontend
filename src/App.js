@@ -16,6 +16,7 @@ import AdminRequestShow from './admin/components/AdminRequestShow';
 import AdminItineraryPackages from './admin/components/AdminItineraryPackages';
 import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
 import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
+import AdminItineraryItems from './admin/components/AdminItineraryItems';
 
 function getUserData() {
   const userDataStr = localStorage.getItem('userData');
@@ -141,6 +142,14 @@ const App = () => {
             render={props => (
               <div className='admin-page'>
                 <AdminItineraryPackages {...props} userData={userData} />
+              </div>
+            )}
+          />
+          <Route
+            path='/admin/itinerary_items'
+            render={props => (
+              <div className='admin-page'>
+                <AdminItineraryItems {...props} userData={userData} />
               </div>
             )}
           />
