@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { scrapeNames } from '../services/api-admin';
 import { Paper, CircularProgress } from '@material-ui/core/';
+import * as moment from 'moment';
 
 const AdminItineraryItems = props => {
   const { userData } = props;
@@ -8,7 +9,9 @@ const AdminItineraryItems = props => {
 
   useEffect(() => {
     if (userData) {
-      scrapeNames(userData).then(names => setScrapedNames(names));
+      scrapeNames(userData, moment().format('YYYY-MM-DD')).then(names =>
+        setScrapedNames(names)
+      );
     }
   }, []);
 

@@ -171,3 +171,14 @@ export const scrapeNames = (userData, time) => {
     })
   }).then(res => res.json());
 };
+
+export const scrapeSinglePage = (userData, info) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`http://localhost:3000/scrapes/single_page`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      link: info.link
+    })
+  }).then(res => res.json());
+};

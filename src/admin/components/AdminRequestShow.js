@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest } from '../../user/services/api';
-import { scrapeNames, deleteItinItem } from '../services/api-admin';
+import {
+  scrapeNames,
+  scrapeSinglePage,
+  deleteItinItem
+} from '../services/api-admin';
 import * as moment from 'moment';
 import {
   toggleRequestFulfilled,
@@ -19,6 +23,7 @@ const AdminRequestShow = props => {
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
   const [scrapedNames, setScrapedNames] = useState([]);
+  const [itemInfo, setItemInfo] = useState(null);
 
   useEffect(() => {
     if (userData) {
@@ -69,10 +74,13 @@ const AdminRequestShow = props => {
     });
   };
 
-  const getScrapedNames = () => {};
-
   const loading = () => {
     return <CircularProgress />;
+  };
+
+  const scrapeDetails = info => {
+    console.log(info);
+    scrapeSinglePage(userData, info).then(json => console.log(json));
   };
 
   return request ? (
@@ -136,10 +144,15 @@ const AdminRequestShow = props => {
         <h2>Single Items</h2>
         <ul className='pkg-list-show'>
           {scrapedNames.length > 0
-            ? scrapedNames.map(name => (
-                <li className='pkg-link' key={name.id}>
-                  <Link>{name}</Link>
-                </li>
+            ? scrapedNames.map((info, idx) => (
+                <>
+                  <li className='pkg-link' key={idx}>
+                    {info.name}
+                  </li>
+                  <Button type='button' onClick={() => scrapeDetails(info)}>
+                    Details
+                  </Button>
+                </>
               ))
             : loading()}
         </ul>
