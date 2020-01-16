@@ -386,3 +386,17 @@ ul.upcoming-date-list > li {
 .loading-div {
   margin-top: 20vh;
 }
+
+li.single-item {
+  cursor: pointer;
+}
+
+.item-modal {
+  width: 50vw;
+  height: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: row wrap;
+  background-color: white;
+}
