@@ -15,7 +15,7 @@ import {
 } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
-import { Paper, CircularProgress } from '@material-ui/core';
+import { Paper, CircularProgress, Modal } from '@material-ui/core';
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -23,7 +23,8 @@ const AdminRequestShow = props => {
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
   const [scrapedNames, setScrapedNames] = useState([]);
-  const [itemInfo, setItemInfo] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [modalInfo, setModalInfo] = useState(null);
 
   useEffect(() => {
     if (userData) {
@@ -56,11 +57,11 @@ const AdminRequestShow = props => {
     });
   };
 
-  const handleApplyPackage = itinPackageId => {
-    applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
-      setRequest(respJson.request)
-    );
-  };
+  // const handleApplyPackage = itinPackageId => {
+  //   applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
+  //     setRequest(respJson.request)
+  //   );
+  // };
 
   const handleMessage = () => {
     sendTextMessages(userData, requestId);
@@ -78,9 +79,21 @@ const AdminRequestShow = props => {
     return <CircularProgress />;
   };
 
-  const scrapeDetails = info => {
-    console.log(info);
-    scrapeSinglePage(userData, info).then(json => console.log(json));
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const openModal = () => {
+    if (modalInfo) {
+      return (
+        <Modal className='item-modal' open={open} onClose={handleClose}>
+          <div>
+            <h2>{modalInfo.name}</h2>
+            <p>{modalInfo.blurb}</p>
+          </div>
+        </Modal>
+      );
+    }
   };
 
   return request ? (
@@ -141,22 +154,28 @@ const AdminRequestShow = props => {
             </li>
           ))}
         </ul> */}
-        <h2>Single Items</h2>
+        <h2>Venues for {moment(request.start_time).format('MMMM Do YYYY')}</h2>
         <ul className='pkg-list-show'>
           {scrapedNames.length > 0
             ? scrapedNames.map((info, idx) => (
-                <>
-                  <li className='pkg-link' key={idx}>
-                    {info.name}
-                  </li>
-                  <Button type='button' onClick={() => scrapeDetails(info)}>
-                    Details
-                  </Button>
-                </>
+                <li
+                  className='pkg-link single-item'
+                  key={idx}
+                  onClick={() => {
+                    scrapeSinglePage(userData, info).then(infoJson => {
+                      console.log(infoJson);
+                      setOpen(true);
+                      setModalInfo(infoJson);
+                    });
+                  }}
+                >
+                  {info.name}
+                </li>
               ))
             : loading()}
         </ul>
       </div>
+      {openModal()}
     </div>
   ) : (
     loading()
