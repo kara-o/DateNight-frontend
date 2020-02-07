@@ -20,7 +20,7 @@ const ItineraryItem = props => {
             {admin && item.make_res_link ? (
               <p>
                 <a href={item.make_res_link} target='_blank'>
-                  Make Reservation
+                  Restaurant Link
                 </a>
               </p>
             ) : null}

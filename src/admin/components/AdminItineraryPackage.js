@@ -19,7 +19,6 @@ const AdminItineraryPackage = props => {
   const [errors, setErrors] = useState(null);
   const packageId = props.match.params.id;
 
-  // TODO: Potentially refactor into useNeighborhoods/usePriceRanges
   useEffect(() => {
     if (userData) {
       fetchOptions('neighborhoods', userData).then(list => {
@@ -33,7 +32,6 @@ const AdminItineraryPackage = props => {
       });
       if (props.edit) {
         fetchItineraryPackage(userData, packageId).then(pkg => {
-          console.log(pkg);
           setTitle(pkg.title);
           setBlurb(pkg.blurb);
           setNeighborhoodSelection(pkg.neighborhood_id);

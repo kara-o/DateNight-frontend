@@ -4,7 +4,8 @@ import { fetchRequest } from '../../user/services/api';
 import {
   scrapeNames,
   scrapeSinglePage,
-  deleteItinItem
+  deleteItinItem,
+  addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
 import {
@@ -15,7 +16,14 @@ import {
 } from '../services/api-admin';
 import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
-import { Paper, CircularProgress, Modal } from '@material-ui/core';
+import { Paper, CircularProgress, Dialog, TextField } from '@material-ui/core';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker
+} from '@material-ui/pickers';
+
+const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -25,6 +33,8 @@ const AdminRequestShow = props => {
   const [scrapedNames, setScrapedNames] = useState([]);
   const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
+  const [resTime, setResTime] = useState(null);
+  const [iFrame, setIFrame] = useState(null);
 
   useEffect(() => {
     if (userData) {
@@ -86,14 +96,59 @@ const AdminRequestShow = props => {
   const openModal = () => {
     if (modalInfo) {
       return (
-        <Modal className='item-modal' open={open} onClose={handleClose}>
-          <div>
+        <Dialog className='item-modal' open={open} onClose={handleClose}>
+          <Paper elevation={10} className='paper'>
             <h2>{modalInfo.name}</h2>
+            <p>{modalInfo.neighborhood}</p>
+            <p>{modalInfo.cuisine}</p>
+            <p>{modalInfo.price}</p>
             <p>{modalInfo.blurb}</p>
-          </div>
-        </Modal>
+            <a href={modalInfo.make_res_link} target='_blank'>
+              Reservation Link
+            </a>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardTimePicker
+                disableToolbar
+                variant='inline'
+                minutesStep={15}
+                margin='normal'
+                label='Time'
+                value={resTime}
+                onChange={time => setResTime(time)}
+              />
+            </MuiPickersUtilsProvider>
+
+            <Button
+              type='button'
+              onClick={() => {
+                handleClose();
+                handleAddItinItem();
+              }}
+            >
+              Add to Itinerary
+            </Button>
+          </Paper>
+        </Dialog>
       );
     }
+  };
+
+  const createMapUrl = (name, address) => {
+    const urlEscaped = encodeURI(name + ' ' + address);
+    const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
+    setIFrame(iFrameUrl);
+  };
+
+  const handleAddItinItem = () => {
+    const itinInfo = {
+      ...modalInfo,
+      reservation_time: resTime,
+      map_iframe_url: iFrame
+    };
+    addItinItem(userData, itinInfo, requestId).then(res => {
+      setRequest(res.request);
+    });
   };
 
   return request ? (
@@ -163,9 +218,9 @@ const AdminRequestShow = props => {
                   key={idx}
                   onClick={() => {
                     scrapeSinglePage(userData, info).then(infoJson => {
-                      console.log(infoJson);
                       setOpen(true);
                       setModalInfo(infoJson);
+                      createMapUrl(infoJson.address);
                     });
                   }}
                 >

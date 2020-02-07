@@ -153,10 +153,6 @@ const AdminItineraryPackageShow = props => {
     return <p>Loading...</p>;
   }
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
   const renderPackageItems = () => {
     if (itinPackageItems) {
       return itinPackageItems.map(pkgItem => {
