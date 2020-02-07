@@ -152,6 +152,15 @@ export const deletePkgItem = (userData, pkgId, pkgItemId) => {
   );
 };
 
+export const addItinItem = (userData, itinInfo, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}/itinerary_items`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify(itinInfo)
+  }).then(res => res.json());
+};
+
 export const deleteItinItem = (userData, itemId) => {
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/itinerary_items/${itemId}`, {
