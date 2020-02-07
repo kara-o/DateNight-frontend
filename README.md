@@ -1,6 +1,6 @@
 # DateNight
 
-DateNight is a web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
+DateNight is a web-based application designed for couples/partners who need some spontaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
 
 ## Built With
 
