@@ -6,6 +6,7 @@ DateNight is a web-based application designed for couples/partners who need some
 
 - React
 - Create-React-App
+- Devise Token Auth
 - Google Maps API
 - Twilio API
 - Material UI
