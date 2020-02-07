@@ -1,6 +1,6 @@
 # DateNight
 
-DateNight is a web-based application designed for couples/partners who need some spontaneity when it comes to going out to eat. The app is designed with both user and admin interfaces for full functionality.
+DateNight is a web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
 
 ## Built With
 
@@ -52,8 +52,6 @@ npm install
 Lots of plans!
 
 ## Screenshots
-
-<img src="./src/images/readme/screenshot_1.png" width="200" height="200" />
 
 ![Screenshot 1](./src/images/readme/screenshot_1.png)
 ![Screenshot 2](./src/images/readme/screenshot_2.png)
