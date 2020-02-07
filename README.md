@@ -53,6 +53,8 @@ Lots of plans!
 
 ## Screenshots
 
+<img src="./src/images/readme/screenshot_1.png" width="200" height="200" />
+
 ![Screenshot 1](./src/images/readme/screenshot_1.png)
 ![Screenshot 2](./src/images/readme/screenshot_2.png)
 ![Screenshot 3](./src/images/readme/screenshot_3.png)
