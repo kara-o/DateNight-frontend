@@ -53,7 +53,14 @@ Lots of plans!
 
 ## Screenshots
 
-![Screenshot 1](./src/images/readme/screenshot_1.png)
+<p align="center">
+  <img src='./src/images/readme/screenshot_1.png'>
+  <img src='./src/images/readme/screenshot_2.png'>
+  <img src='./src/images/readme/screenshot_3.png'>
+  <img src='./src/images/readme/screenshot_4.png'>
+</p>
+
+<!-- ![Screenshot 1](./src/images/readme/screenshot_1.png)
 ![Screenshot 2](./src/images/readme/screenshot_2.png)
 ![Screenshot 3](./src/images/readme/screenshot_3.png)
-![Screenshot 4](./src/images/readme/screenshot_4.png)
+![Screenshot 4](./src/images/readme/screenshot_4.png) -->
