@@ -390,3 +390,27 @@ ul.upcoming-date-list > li {
 li.single-item {
   cursor: pointer;
 }
+
+.modal-paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+body
+  > div.MuiDialog-root.item-modal
+  > div.MuiDialog-container.MuiDialog-scrollPaper
+  > div
+  > div
+  > button {
+  margin: 10px;
+}
+
+#main-container > div.admin-page > div > div.show > div > button {
+  align-self: center;
+}
+
+#main-container > div.admin-page > div > div.show > div > button:nth-child(10) {
+  margin-top: 10px;
+}

@@ -14,7 +14,6 @@ import {
   applyItineraryPackage,
   sendTextMessages
 } from '../services/api-admin';
-import { Link } from 'react-router-dom';
 import ItineraryItem from './ItineraryItem';
 import { Paper, CircularProgress, Dialog, TextField } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -95,13 +94,20 @@ const AdminRequestShow = props => {
 
   const openModal = () => {
     if (modalInfo) {
+      const neighborhood = modalInfo.neighborhood
+        ? modalInfo.neighborhood
+        : 'Seattle';
       return (
         <Dialog className='item-modal' open={open} onClose={handleClose}>
-          <Paper elevation={10} className='paper'>
+          <Paper elevation={10} className='paper modal-paper'>
             <h2>{modalInfo.name}</h2>
-            <p>{modalInfo.neighborhood}</p>
-            <p>{modalInfo.cuisine}</p>
-            <p>{modalInfo.price}</p>
+            <p>
+              {neighborhood +
+                ' • ' +
+                modalInfo.cuisine +
+                ' • ' +
+                modalInfo.price}
+            </p>
             <p>{modalInfo.blurb}</p>
             <a href={modalInfo.make_res_link} target='_blank'>
               Reservation Link
@@ -135,7 +141,9 @@ const AdminRequestShow = props => {
   };
 
   const createMapUrl = (name, address) => {
+    console.log(`name: ${name}, address: ${address}`);
     const urlEscaped = encodeURI(name + ' ' + address);
+    console.log(urlEscaped);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     setIFrame(iFrameUrl);
   };
@@ -220,7 +228,7 @@ const AdminRequestShow = props => {
                     scrapeSinglePage(userData, info).then(infoJson => {
                       setOpen(true);
                       setModalInfo(infoJson);
-                      createMapUrl(infoJson.address);
+                      createMapUrl(infoJson.name, infoJson.address);
                     });
                   }}
                 >

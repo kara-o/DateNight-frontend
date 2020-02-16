@@ -7,6 +7,8 @@ import * as moment from 'moment';
 const ItineraryItem = props => {
   const { item, admin, handleRemove } = props;
 
+  console.log(item);
+
   return (
     <>
       <Paper elevation={10} className='paper itin-item-display'>
