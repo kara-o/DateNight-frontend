@@ -16,7 +16,7 @@ DateNight is a single-page web-based application designed for couples/partners w
 
 Please install my [Rails API back end](https://github.com/kara-o/DateNight-backend) as well.
 
-In your terminal navigate to the directory where you want to save the front end game files, then enter and run each step:
+In your terminal navigate to the directory where you want to save the front end files, then enter and run each step:
 
 1. `git git@github.com:kara-o/DateNight-frontend.git`
 1. `cd frontend-datenight`
