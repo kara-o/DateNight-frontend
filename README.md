@@ -1,4 +1,4 @@
-# DateNight
+# DateNight - front end
 
 DateNight is a single-page web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
 
