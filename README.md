@@ -1,66 +1,91 @@
 # DateNight
 
-DateNight is a web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
+DateNight is a single-page web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
 
-## Built With
+### Built With
 
-- React
+- ReactJS
 - Create-React-App
 - Devise Token Auth
 - Google Maps API
 - Twilio API
 - Material UI
 
-## Installation
+### How to Run
 
-You will need package manager [npm](https://docs.npmjs.com/)
+Please install my [Rails API back end](https://github.com/kara-o/DateNight-backend) as well.
 
-To get a local copy up and running:
+In your terminal navigate to the directory where you want to save the front end game files, then enter and run each step:
 
-1. Clone the repo
+1. `git git@github.com:kara-o/DateNight-frontend.git`
+1. `cd frontend-datenight`
+1. `npm install`
+1. `npm start`
 
-```
-git clone git@github.com:kara-o/DateNight-frontend.git
-```
-
-2. Install NPM packages
-
-```
-npm install
-```
-
-## Usage
-
-#### As User:
-
-1. Login to your account or create a new one
-2. See all of your upcoming dates
-3. Review itineraries of past dates and checkout your new itinerary if it is day of your date
-4. Make a new date request
-5. On day of date, (currently only able to demo) receive text messages that detail your intinerary
-
-#### As Admin:
-
-1. Login to your account
-2. See all date requests that need to be fulfilled
-3. Choose a request to fulfill
-4. Fulfill request by choosing venues through a list of pre-designed packages or a list of individual venues, then confirming reservations through OpenTable
-5. Mark as fulfilled
-
-## Roadmap
-
-Lots of plans!
-
-## Screenshots
+### Screenshots
 
 <p align="center">
-  <img src='./src/images/readme/screenshot_1.png'>
-  <img src='./src/images/readme/screenshot_2.png'>
-  <img src='./src/images/readme/screenshot_3.png'>
-  <img src='./src/images/readme/screenshot_4.png'>
+<h4>User</h4>
+<p>
+<img src='./src/images/readme/user_login.png'>
+<br>
+<em>Login</em>
 </p>
 
-<!-- ![Screenshot 1](./src/images/readme/screenshot_1.png)
-![Screenshot 2](./src/images/readme/screenshot_2.png)
-![Screenshot 3](./src/images/readme/screenshot_3.png)
-![Screenshot 4](./src/images/readme/screenshot_4.png) -->
+<p>
+<img src='./src/images/readme/user_home.png'>
+<br>
+<em>Home</em>
+</p>
+
+<p>
+<img src='./src/images/readme/user_make_request.png'>
+<br>
+<em>Make a new request</em>
+</p>
+
+<p>
+<img src='./src/images/readme/user_successful_request.png'>
+<br>
+<em>Request made successfully</em>
+</p>
+
+<p>
+<img src='./src/images/readme/user_itinerary.png'>
+<br>
+<em>Example of itinerary from a past date</em>
+</p>
+</p>
+
+<p align="center">
+<h4>Admin</h4>
+<p>
+<img src='./src/images/readme/admin_login.png'>
+<br>
+<em>Login</em>
+</p>
+
+<p>
+<img src='./src/images/readme/admin_home.png'>
+<br>
+<em>Home</em>
+</p>
+
+<p>
+<img src='./src/images/readme/admin_unfulfilled_request.png'>
+<br>
+<em>Unfulfilled request</em>
+</p>
+
+<p>
+<img src='./src/images/readme/admin_selecting_itin_item.png'>
+<br>
+<em>Selecting itinerary</em>
+</p>
+
+<p>
+<img src='./src/images/readme/admin_fulfilled_request.png'>
+<br>
+<em>Fulfilled request</em>
+</p>
+</p>
