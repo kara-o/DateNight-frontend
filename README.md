@@ -9,7 +9,8 @@ DateNight is a single-page web-based application designed for couples/partners w
 - Devise Token Auth
 - Google Maps API
 - Twilio API
-- Material UI
+- Material UI/custom CSS
+- Nokogiri for scraping HTML from OpenTable
 
 ## How to Run
 
