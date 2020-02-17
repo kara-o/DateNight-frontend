@@ -2,7 +2,7 @@
 
 DateNight is a single-page web-based application designed for couples/partners who need some sponteaneity when it comes to going out to eat. The app is designed to have both user and admin interfaces.
 
-### Built With
+## Built With
 
 - ReactJS
 - Create-React-App
@@ -11,7 +11,7 @@ DateNight is a single-page web-based application designed for couples/partners w
 - Twilio API
 - Material UI
 
-### How to Run
+## How to Run
 
 Please install my [Rails API back end](https://github.com/kara-o/DateNight-backend) as well.
 
@@ -22,9 +22,9 @@ In your terminal navigate to the directory where you want to save the front end 
 1. `npm install`
 1. `npm start`
 
-### Screenshots
+## Screenshots
 
-<h4 align="center">User Interface</h4>
+<h3 align="center">User Interface</h3>
 
 <p align="center">
 <img src='./src/images/readme/user_login.png'>
@@ -56,7 +56,7 @@ In your terminal navigate to the directory where you want to save the front end 
 <em>Example of itinerary from a past date</em>
 </p>
 
-<h4 align="center">Admin Interface</h4>
+<h3 align="center">Admin Interface</h3>
 
 <p align="center">
 <img src='./src/images/readme/admin_login.png'>
