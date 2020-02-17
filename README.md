@@ -24,68 +24,66 @@ In your terminal navigate to the directory where you want to save the front end 
 
 ### Screenshots
 
+<h4 align="center">User Interface</h4>
+
 <p align="center">
-<h4>User</h4>
-<p>
 <img src='./src/images/readme/user_login.png'>
 <br>
 <em>Login</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/user_home.png'>
 <br>
 <em>Home</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/user_make_request.png'>
 <br>
 <em>Make a new request</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/user_successful_request.png'>
 <br>
 <em>Request made successfully</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/user_itinerary.png'>
 <br>
 <em>Example of itinerary from a past date</em>
 </p>
-</p>
+
+<h4 align="center">Admin Interface</h4>
 
 <p align="center">
-<h4>Admin</h4>
-<p>
 <img src='./src/images/readme/admin_login.png'>
 <br>
 <em>Login</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/admin_home.png'>
 <br>
 <em>Home</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/admin_unfulfilled_request.png'>
 <br>
 <em>Unfulfilled request</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/admin_selecting_itin_item.png'>
 <br>
 <em>Selecting itinerary</em>
 </p>
 
-<p>
+<p align="center">
 <img src='./src/images/readme/admin_fulfilled_request.png'>
 <br>
 <em>Fulfilled request</em>
-</p>
 </p>
