@@ -7,11 +7,12 @@ import * as moment from 'moment';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
-  admin: state.admin
+  user: state.user
 });
 
 const ItineraryItem = props => {
-  const { item, admin, handleRemove } = props;
+  const { item, handleRemove } = props;
+  const admin = props.user.admin;
 
   return (
     <>

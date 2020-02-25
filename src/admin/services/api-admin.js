@@ -45,7 +45,6 @@ export const fetchRequests = auth => {
 
 export const fetchRequest = (auth, requestId) => {
   const headers = tokenHeaders(auth);
-  console.log(auth);
   return fetch(`${API_ROOT}/requests/${requestId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
@@ -167,7 +166,6 @@ export const deleteItinItem = (auth, itemId) => {
 };
 
 export const scrapeNames = (auth, time) => {
-  console.log(time);
   const headers = tokenHeaders(auth);
   return fetch(`http://localhost:3000/scrapes`, {
     method: 'POST',

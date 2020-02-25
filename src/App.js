@@ -19,16 +19,16 @@ import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageS
 import AdminItineraryItems from './admin/components/AdminItineraryItems';
 
 import { connect } from 'react-redux';
-import { setAuth, setUser, setAdmin } from './actions';
+import { setAuth, setUser } from './actions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  admin: state.admin,
   auth: state.auth
 });
 
-const App = ({ user, auth, admin, dispatch }) => {
+const App = ({ user, auth, dispatch }) => {
   const loggedIn = !!user.id;
+  const admin = !!user.admin;
 
   const handleLogoutUser = () => {
     logoutUser(auth);
@@ -44,12 +44,10 @@ const App = ({ user, auth, admin, dispatch }) => {
     dispatch(setUser({}));
   };
 
-  const handleLogin = (user, auth, admin) => {
-    console.log(admin);
+  const handleLogin = (user, auth) => {
     dispatch(setAuth(auth));
     dispatch(setUser(user));
-    dispatch(setAdmin(admin));
-    localStorage.setItem('credentials', JSON.stringify({ user, auth, admin }));
+    localStorage.setItem('credentials', JSON.stringify({ user, auth }));
   };
 
   return (

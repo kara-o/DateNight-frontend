@@ -56,7 +56,11 @@ const AdminItineraryPackages = props => {
       const neighborhoods = allPackages.map(p => p.neighborhood);
       const uniques = neighborhoods.filter((v, i, a) => a.indexOf(v) === i);
       return uniques.map(n => {
-        return <MenuItem value={n}>{n}</MenuItem>;
+        return (
+          <MenuItem key={n.id} value={n}>
+            {n}
+          </MenuItem>
+        );
       });
     }
   };

@@ -5,11 +5,11 @@ import Button from './Button';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
-  user: state.user,
-  admin: state.admin
+  user: state.user
 });
 
-const Sidebar = ({ admin, user }) => {
+const Sidebar = ({ user }) => {
+  const admin = user.admin;
   const renderInitials = () => {
     if (!admin) {
       return (

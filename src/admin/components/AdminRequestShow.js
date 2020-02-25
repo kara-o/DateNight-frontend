@@ -46,10 +46,7 @@ const AdminRequestShow = props => {
 
   useEffect(() => {
     if (auth.uid) {
-      console.log(auth.uid);
-      console.log(requestId);
       fetchRequest(auth, requestId).then(res => {
-        console.log(res.request);
         setRequest(res.request);
         scrapeNames(
           auth,
@@ -151,9 +148,7 @@ const AdminRequestShow = props => {
   };
 
   const createMapUrl = (name, address) => {
-    console.log(`name: ${name}, address: ${address}`);
     const urlEscaped = encodeURI(name + ' ' + address);
-    console.log(urlEscaped);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     setIFrame(iFrameUrl);
   };

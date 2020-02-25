@@ -37,7 +37,7 @@ const AdminLogin = props => {
       .then(json => {
         if (!json.errors) {
           user = json.data;
-          props.handleLogin(user, auth, true);
+          props.handleLogin(user, auth);
           props.history.push('/admin');
         } else {
           setError(json.errors);

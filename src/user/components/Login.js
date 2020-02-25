@@ -4,11 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
-import { connect } from 'react-redux';
-
-function useQuery() {
+const useQuery = () => {
   return new URLSearchParams(useLocation().search);
-}
+};
 
 const Login = props => {
   const [formData, setFormData] = useState({
@@ -48,7 +46,7 @@ const Login = props => {
       .then(json => {
         if (!json.errors) {
           user = json.data;
-          props.handleLogin(user, auth, false);
+          props.handleLogin(user, auth);
           props.history.push('/');
         } else {
           setError(json.errors);
@@ -98,4 +96,4 @@ const Login = props => {
   );
 };
 
-export default connect()(Login);
+export default Login;

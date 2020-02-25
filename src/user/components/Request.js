@@ -81,7 +81,7 @@ const Request = props => {
         setPriceRangeSelection(list[0].id);
       });
     }
-  }, [user.id]);
+  }, [auth]);
 
   const handleChange = (value, name) => {
     setFormData({

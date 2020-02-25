@@ -17,7 +17,7 @@ const UserHome = ({ user, auth }) => {
     if (user.id) {
       fetchRequests(user, auth).then(json => setRequests(json));
     }
-  }, [user.id]);
+  }, []);
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
