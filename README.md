@@ -25,6 +25,12 @@ In your terminal navigate to the directory where you want to save the front end 
 1. `npm install`
 1. `npm start`
 
+## Goals
+
+- Currently working on Redux integration!
+- Further developing Admin interface to make reservation booking more streamlined
+- Add different types of venues, other than places to eat?
+
 ## Screenshots
 
 <h3 align="center">User Interface</h3>
