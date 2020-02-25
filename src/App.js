@@ -19,6 +19,7 @@ import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageS
 import AdminItineraryItems from './admin/components/AdminItineraryItems';
 
 import { connect } from 'react-redux';
+import { setAuth, setUser, setAdmin } from './actions';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -26,18 +27,29 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-const App = ({ user, admin, auth }) => {
-  const loggedIn = localStorage.getItem('loggedIn');
-  console.log(`loggedIn: ${loggedIn}`);
+const App = ({ user, auth, admin, dispatch }) => {
+  const loggedIn = !!user.id;
 
   const handleLogoutUser = () => {
     logoutUser(auth);
-    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('credentials');
+    dispatch(setAuth({}));
+    dispatch(setUser({}));
   };
 
   const handleLogoutAdmin = () => {
     logoutAdmin(auth);
-    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('credentials');
+    dispatch(setAuth({}));
+    dispatch(setUser({}));
+  };
+
+  const handleLogin = (user, auth, admin) => {
+    console.log(admin);
+    dispatch(setAuth(auth));
+    dispatch(setUser(user));
+    dispatch(setAdmin(admin));
+    localStorage.setItem('credentials', JSON.stringify({ user, auth, admin }));
   };
 
   return (
@@ -56,7 +68,11 @@ const App = ({ user, admin, auth }) => {
           <Route
             path='/login'
             render={props =>
-              !loggedIn ? <Login {...props} /> : <Redirect to='/' />
+              !loggedIn ? (
+                <Login {...props} handleLogin={handleLogin} />
+              ) : (
+                <Redirect to='/' />
+              )
             }
           />
           <Route
@@ -97,7 +113,9 @@ const App = ({ user, admin, auth }) => {
           />
           <Route
             path='/admin/login'
-            render={props => <AdminLogin {...props} />}
+            render={props => (
+              <AdminLogin {...props} handleLogin={handleLogin} />
+            )}
           />
           <Route
             path='/admin/itinerary_packages/new'

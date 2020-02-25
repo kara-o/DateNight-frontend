@@ -10,7 +10,6 @@ const mapStateToProps = state => ({
 });
 
 const Sidebar = ({ admin, user }) => {
-  console.log(admin);
   const renderInitials = () => {
     if (!admin) {
       return (

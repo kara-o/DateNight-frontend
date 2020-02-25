@@ -1,4 +1,5 @@
 const auth = (state = {}, action) => {
+  console.log(action.auth);
   switch (action.type) {
     case 'SET_AUTH':
       return Object.assign({}, action.auth);

@@ -3,13 +3,19 @@ import { scrapeNames } from '../services/api-admin';
 import { Paper, CircularProgress } from '@material-ui/core/';
 import * as moment from 'moment';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 const AdminItineraryItems = props => {
-  const { userData } = props;
+  const { auth } = props;
   const [scrapedNames, setScrapedNames] = useState([]);
 
   useEffect(() => {
-    if (userData) {
-      scrapeNames(userData, moment().format('YYYY-MM-DD')).then(names =>
+    if (auth.uid) {
+      scrapeNames(auth, moment().format('YYYY-MM-DD')).then(names =>
         setScrapedNames(names)
       );
     }
@@ -49,4 +55,4 @@ const AdminItineraryItems = props => {
   );
 };
 
-export default AdminItineraryItems;
+export default connect(mapStateToProps)(AdminItineraryItems);

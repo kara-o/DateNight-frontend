@@ -8,17 +8,22 @@ import {
   Paper,
   Button
 } from '@material-ui/core/';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const AdminItineraryPackages = props => {
-  const { userData } = props;
+  const { auth } = props;
   const [allPackages, setAllPackages] = useState([]);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    if (userData) {
-      fetchItineraryPackages(userData).then(json => setAllPackages(json));
+    if (auth.uid) {
+      fetchItineraryPackages(auth).then(json => setAllPackages(json));
     }
-  }, [userData]);
+  }, [auth.uid]);
 
   const renderPackages = () => {
     let pkgs;
@@ -89,4 +94,4 @@ const AdminItineraryPackages = props => {
   );
 };
 
-export default AdminItineraryPackages;
+export default connect(mapStateToProps)(AdminItineraryPackages);

@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { Select, MenuItem, InputLabel, Paper } from '@material-ui/core/';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 const AdminHome = props => {
-  const { userData } = props;
+  const { auth } = props;
   const [allRequests, setAllRequests] = useState([]);
   const [filter, setFilter] = useState('Unfulfilled');
 
   useEffect(() => {
-    if (userData) {
-      fetchRequests(userData).then(json => setAllRequests(json));
+    if (auth.uid) {
+      fetchRequests(auth).then(json => setAllRequests(json));
     }
   }, []);
 
@@ -64,4 +70,4 @@ const AdminHome = props => {
   );
 };
 
-export default AdminHome;
+export default connect(mapStateToProps)(AdminHome);

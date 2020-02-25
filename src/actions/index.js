@@ -6,11 +6,10 @@ export const setUser = user => {
   return { type: SET_USER, user };
 };
 
-export const setAdmin = () => {
-  return { type: SET_ADMIN };
+export const setAdmin = admin => {
+  return { type: SET_ADMIN, admin };
 };
 
 export const setAuth = auth => {
-  console.log(`${auth}`);
   return { type: SET_AUTH, auth };
 };

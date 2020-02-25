@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
-import { fetchRequest } from '../../user/services/api';
 import {
+  fetchRequest,
   scrapeNames,
   scrapeSinglePage,
   deleteItinItem,
@@ -22,10 +22,19 @@ import {
   KeyboardTimePicker
 } from '@material-ui/pickers';
 
+import { connect } from 'react-redux';
+import auth from '../../reducers/auth';
+
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
 
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth,
+  admin: state.admin
+});
+
 const AdminRequestShow = props => {
-  const { userData } = props;
+  const { auth } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
@@ -36,24 +45,25 @@ const AdminRequestShow = props => {
   const [iFrame, setIFrame] = useState(null);
 
   useEffect(() => {
-    if (userData) {
-      fetchRequest(userData, requestId).then(res => {
+    if (auth.uid) {
+      console.log(auth.uid);
+      console.log(requestId);
+      fetchRequest(auth, requestId).then(res => {
+        console.log(res.request);
         setRequest(res.request);
         scrapeNames(
-          userData,
+          auth,
           moment(res.request.start_time).format('YYYY-MM-DD')
         ).then(names => setScrapedNames(names));
       });
-      // fetchItineraryPackages(userData).then(setItinPackages);
+      // fetchItineraryPackages(auth).then(setItinPackages);
     }
   }, []);
 
   const handleComplete = () => {
-    toggleRequestFulfilled(
-      userData,
-      requestId,
-      !request.fulfilled
-    ).then(respJson => setRequest(respJson.request));
+    toggleRequestFulfilled(auth, requestId, !request.fulfilled).then(respJson =>
+      setRequest(respJson.request)
+    );
   };
 
   const renderContacts = () => {
@@ -67,18 +77,18 @@ const AdminRequestShow = props => {
   };
 
   // const handleApplyPackage = itinPackageId => {
-  //   applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
+  //   applyItineraryPackage(requestId, itinPackageId, auth).then(respJson =>
   //     setRequest(respJson.request)
   //   );
   // };
 
   const handleMessage = () => {
-    sendTextMessages(userData, requestId);
+    sendTextMessages(auth, requestId);
   };
 
   const handleRemove = item => {
-    deleteItinItem(userData, item.id).then(() => {
-      fetchRequest(userData, requestId).then(res => {
+    deleteItinItem(auth, item.id).then(() => {
+      fetchRequest(auth, requestId).then(res => {
         setRequest(res.request);
       });
     });
@@ -154,7 +164,7 @@ const AdminRequestShow = props => {
       reservation_time: resTime,
       map_iframe_url: iFrame
     };
-    addItinItem(userData, itinInfo, requestId).then(res => {
+    addItinItem(auth, itinInfo, requestId).then(res => {
       setRequest(res.request);
     });
   };
@@ -225,7 +235,7 @@ const AdminRequestShow = props => {
                   className='pkg-link single-item'
                   key={idx}
                   onClick={() => {
-                    scrapeSinglePage(userData, info).then(infoJson => {
+                    scrapeSinglePage(auth, info).then(infoJson => {
                       setOpen(true);
                       setModalInfo(infoJson);
                       createMapUrl(infoJson.name, infoJson.address);
@@ -245,4 +255,4 @@ const AdminRequestShow = props => {
   );
 };
 
-export default AdminRequestShow;
+export default connect(mapStateToProps)(AdminRequestShow);

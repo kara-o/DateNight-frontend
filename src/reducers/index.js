@@ -3,10 +3,16 @@ import auth from './auth';
 import user from './user';
 import admin from './admin';
 
-const dateNightApp = combineReducers({
+export const rootReducer = combineReducers({
   auth,
   user,
   admin
 });
 
-export default dateNightApp;
+const getCredentials = () => {
+  const credentials = localStorage.getItem('credentials');
+  if (!credentials) return {};
+  return JSON.parse(credentials);
+};
+
+export const initialState = getCredentials();

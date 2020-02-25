@@ -4,10 +4,14 @@ import Button from '../../layout/Button';
 import { Paper } from '@material-ui/core';
 import * as moment from 'moment';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  admin: state.admin
+});
+
 const ItineraryItem = props => {
   const { item, admin, handleRemove } = props;
-
-  console.log(item);
 
   return (
     <>
@@ -44,4 +48,4 @@ const ItineraryItem = props => {
   );
 };
 
-export default ItineraryItem;
+export default connect(mapStateToProps)(ItineraryItem);

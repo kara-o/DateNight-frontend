@@ -9,8 +9,13 @@ import { TextField, Paper } from '@material-ui/core';
 import Map from '../../layout/Map';
 import { Link } from 'react-router-dom';
 import SimpleCard from '../../layout/SimpleCard';
+import { connect } from 'react-redux';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const ItineraryItemForm = props => {
   const { onSubmit } = props;
@@ -101,20 +106,20 @@ const ItineraryItemForm = props => {
 };
 
 const AdminItineraryPackageShow = props => {
-  const { userData } = props;
+  const { auth } = props;
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
   const [itinPackageItems, setItinPackageItems] = useState(null);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    if (userData) {
-      fetchItineraryPackage(userData, itinPackageId).then(itinPackage => {
+    if (auth.uid) {
+      fetchItineraryPackage(auth, itinPackageId).then(itinPackage => {
         setItinPackage(itinPackage);
         setItinPackageItems(itinPackage.itinerary_package_items);
       });
     }
-  }, [userData]);
+  }, [auth.uid]);
 
   const displayItinPackage = () => {
     if (itinPackage) {
@@ -136,15 +141,13 @@ const AdminItineraryPackageShow = props => {
   };
 
   const handleItemSubmit = formData => {
-    createItineraryPackageItem(itinPackageId, formData, userData).then(
-      pkgItem => {
-        setItinPackageItems(itinPackageItems.concat([pkgItem]));
-      }
-    );
+    createItineraryPackageItem(itinPackageId, formData, auth).then(pkgItem => {
+      setItinPackageItems(itinPackageItems.concat([pkgItem]));
+    });
   };
 
   const handleDelete = id => {
-    deletePkgItem(userData, itinPackage.id, id);
+    deletePkgItem(auth, itinPackage.id, id);
     const newItinPkgItems = itinPackageItems.filter(item => item.id !== id);
     setItinPackageItems(newItinPkgItems);
   };
@@ -181,4 +184,4 @@ const AdminItineraryPackageShow = props => {
   );
 };
 
-export default AdminItineraryPackageShow;
+export default connect(mapStateToProps)(AdminItineraryPackageShow);

@@ -5,7 +5,6 @@ import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
 import { connect } from 'react-redux';
-import { setAuth, setUser } from '../../actions';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -33,6 +32,8 @@ const Login = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    let auth;
+    let user;
     login(formData)
       .then(res => {
         if (res.status < 400) {
@@ -40,15 +41,14 @@ const Login = props => {
           const client = res.headers.get('client');
           const uid = res.headers.get('uid');
           const expiry = res.headers.get('expiry');
-          props.dispatch(setAuth({ accessToken, client, expiry, uid }));
+          auth = { accessToken, client, expiry, uid };
         }
         return res.json();
       })
       .then(json => {
         if (!json.errors) {
-          props.dispatch(setUser(json.data));
-          console.log(json.data);
-          localStorage.setItem('loggedIn', !!json.data);
+          user = json.data;
+          props.handleLogin(user, auth, false);
           props.history.push('/');
         } else {
           setError(json.errors);

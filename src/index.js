@@ -10,9 +10,13 @@ import './css/grid.css';
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import dateNightApp from './reducers';
+import { rootReducer, initialState } from './reducers';
 
-const store = createStore(dateNightApp);
+const store = createStore(
+  rootReducer,
+  initialState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 render(
   <Provider store={store}>

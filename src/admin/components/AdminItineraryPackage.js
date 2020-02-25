@@ -8,8 +8,14 @@ import {
 } from '../services/api-admin';
 import { fetchOptions } from '../../user/services/api';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 const AdminItineraryPackage = props => {
-  const { userData } = props;
+  const { auth } = props;
   const [title, setTitle] = useState('');
   const [blurb, setBlurb] = useState('');
   const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
@@ -20,18 +26,18 @@ const AdminItineraryPackage = props => {
   const packageId = props.match.params.id;
 
   useEffect(() => {
-    if (userData) {
-      fetchOptions('neighborhoods', userData).then(list => {
+    if (auth.uid) {
+      fetchOptions('neighborhoods', auth).then(list => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then(list => {
+      fetchOptions('price_ranges', auth).then(list => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
       if (props.edit) {
-        fetchItineraryPackage(userData, packageId).then(pkg => {
+        fetchItineraryPackage(auth, packageId).then(pkg => {
           setTitle(pkg.title);
           setBlurb(pkg.blurb);
           setNeighborhoodSelection(pkg.neighborhood_id);
@@ -39,7 +45,7 @@ const AdminItineraryPackage = props => {
         });
       }
     }
-  }, [userData]);
+  }, [auth.uid]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -52,7 +58,7 @@ const AdminItineraryPackage = props => {
     };
 
     if (props.edit) {
-      updateItineraryPackage(packageId, data, userData).then(json => {
+      updateItineraryPackage(packageId, data, auth).then(json => {
         if (!json.errors) {
           props.history.push(`/admin/itinerary_packages/${packageId}`);
         } else {
@@ -63,7 +69,7 @@ const AdminItineraryPackage = props => {
         }
       });
     } else {
-      createItineraryPackage(data, userData).then(json => {
+      createItineraryPackage(data, auth).then(json => {
         if (!json.errors) {
           props.history.push('/admin/itinerary_packages');
         } else {
@@ -151,4 +157,4 @@ const AdminItineraryPackage = props => {
   );
 };
 
-export default AdminItineraryPackage;
+export default connect(mapStateToProps)(AdminItineraryPackage);

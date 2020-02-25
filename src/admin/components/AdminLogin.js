@@ -3,6 +3,8 @@ import { login } from '../services/api-admin';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
+import { connect } from 'react-redux';
+
 const AdminLogin = props => {
   const [formData, setFormData] = useState({
     email: '',
@@ -19,7 +21,8 @@ const AdminLogin = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    let userData;
+    let auth;
+    let user;
     login(formData)
       .then(res => {
         if (res.status < 400) {
@@ -27,14 +30,14 @@ const AdminLogin = props => {
           const client = res.headers.get('client');
           const uid = res.headers.get('uid');
           const expiry = res.headers.get('expiry');
-          userData = { accessToken, client, expiry, uid };
+          auth = { accessToken, client, expiry, uid };
         }
         return res.json();
       })
       .then(json => {
         if (!json.errors) {
-          userData = { ...userData, user: json.data, admin: true };
-          props.handleLogin(userData);
+          user = json.data;
+          props.handleLogin(user, auth, true);
           props.history.push('/admin');
         } else {
           setError(json.errors);
@@ -73,4 +76,4 @@ const AdminLogin = props => {
   );
 };
 
-export default AdminLogin;
+export default connect()(AdminLogin);

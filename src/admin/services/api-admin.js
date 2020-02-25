@@ -6,13 +6,13 @@ const jsonHeaders = {
   Accept: 'application/json'
 };
 
-const tokenHeaders = userData => {
+const tokenHeaders = auth => {
   return {
-    ['access-token']: userData.accessToken,
+    ['access-token']: auth.accessToken,
     ['token-type']: 'Bearer',
-    client: userData.client,
-    expiry: userData.expiry,
-    uid: userData.uid
+    client: auth.client,
+    expiry: auth.expiry,
+    uid: auth.uid
   };
 };
 
@@ -24,8 +24,8 @@ export const login = userData => {
   });
 };
 
-export const logoutAdmin = userData => {
-  const headers = tokenHeaders(userData);
+export const logoutAdmin = auth => {
+  const headers = tokenHeaders(auth);
   return fetch(`${AUTH_ROOT}/sign_out`, {
     method: 'DELETE',
     headers: {
@@ -35,24 +35,25 @@ export const logoutAdmin = userData => {
   });
 };
 
-export const fetchRequests = userData => {
-  const headers = tokenHeaders(userData);
+export const fetchRequests = auth => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/requests`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchRequest = (userData, requestId) => {
-  const headers = tokenHeaders(userData);
+export const fetchRequest = (auth, requestId) => {
+  const headers = tokenHeaders(auth);
+  console.log(auth);
   return fetch(`${API_ROOT}/requests/${requestId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const toggleRequestFulfilled = (userData, requestId, fulfilled) => {
-  const headers = tokenHeaders(userData);
+export const toggleRequestFulfilled = (auth, requestId, fulfilled) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/requests/${requestId}`, {
     method: 'PATCH',
     headers: { ...jsonHeaders, ...headers },
@@ -60,24 +61,24 @@ export const toggleRequestFulfilled = (userData, requestId, fulfilled) => {
   }).then(res => res.json());
 };
 
-export const fetchItineraryPackages = userData => {
-  const headers = tokenHeaders(userData);
+export const fetchItineraryPackages = auth => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/itinerary_packages`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchItineraryPackage = (userData, itinPackageId) => {
-  const headers = tokenHeaders(userData);
+export const fetchItineraryPackage = (auth, itinPackageId) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchItineraryPackageItems = (userData, itinPackagedId) => {
-  const headers = tokenHeaders(userData);
+export const fetchItineraryPackageItems = (auth, itinPackagedId) => {
+  const headers = tokenHeaders(auth);
   return fetch(
     `${API_ROOT}/itinerary_packages/${itinPackagedId}/itinerary_package_items`,
     {
@@ -87,8 +88,8 @@ export const fetchItineraryPackageItems = (userData, itinPackagedId) => {
   ).then(res => res.json());
 };
 
-export const createItineraryPackage = (formData, userData) => {
-  const headers = tokenHeaders(userData);
+export const createItineraryPackage = (formData, auth) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/itinerary_packages`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
@@ -96,8 +97,8 @@ export const createItineraryPackage = (formData, userData) => {
   }).then(res => res.json());
 };
 
-export const updateItineraryPackage = (itinPackageId, formData, userData) => {
-  const headers = tokenHeaders(userData);
+export const updateItineraryPackage = (itinPackageId, formData, auth) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
     method: 'PUT',
     headers: { ...jsonHeaders, ...headers },
@@ -105,12 +106,8 @@ export const updateItineraryPackage = (itinPackageId, formData, userData) => {
   }).then(res => res.json());
 };
 
-export const createItineraryPackageItem = (
-  itinPackageId,
-  formData,
-  userData
-) => {
-  const headers = tokenHeaders(userData);
+export const createItineraryPackageItem = (itinPackageId, formData, auth) => {
+  const headers = tokenHeaders(auth);
   return fetch(
     `${API_ROOT}/itinerary_packages/${itinPackageId}/itinerary_package_items`,
     {
@@ -121,8 +118,8 @@ export const createItineraryPackageItem = (
   ).then(res => res.json());
 };
 
-export const applyItineraryPackage = (requestId, itinPackageId, userData) => {
-  const headers = tokenHeaders(userData);
+export const applyItineraryPackage = (requestId, itinPackageId, auth) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/requests/${requestId}/itinerary_packages`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
@@ -130,8 +127,8 @@ export const applyItineraryPackage = (requestId, itinPackageId, userData) => {
   }).then(res => res.json());
 };
 
-export const sendTextMessages = (userData, requestId) => {
-  const headers = tokenHeaders(userData);
+export const sendTextMessages = (auth, requestId) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/texts`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
@@ -141,8 +138,8 @@ export const sendTextMessages = (userData, requestId) => {
   });
 };
 
-export const deletePkgItem = (userData, pkgId, pkgItemId) => {
-  const headers = tokenHeaders(userData);
+export const deletePkgItem = (auth, pkgId, pkgItemId) => {
+  const headers = tokenHeaders(auth);
   return fetch(
     `${API_ROOT}/itinerary_packages/${pkgId}/itinerary_package_items/${pkgItemId}`,
     {
@@ -152,8 +149,8 @@ export const deletePkgItem = (userData, pkgId, pkgItemId) => {
   );
 };
 
-export const addItinItem = (userData, itinInfo, requestId) => {
-  const headers = tokenHeaders(userData);
+export const addItinItem = (auth, itinInfo, requestId) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/requests/${requestId}/itinerary_items`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
@@ -161,17 +158,17 @@ export const addItinItem = (userData, itinInfo, requestId) => {
   }).then(res => res.json());
 };
 
-export const deleteItinItem = (userData, itemId) => {
-  const headers = tokenHeaders(userData);
+export const deleteItinItem = (auth, itemId) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/itinerary_items/${itemId}`, {
     method: 'DELETE',
     headers: { ...jsonHeaders, ...headers }
   });
 };
 
-export const scrapeNames = (userData, time) => {
+export const scrapeNames = (auth, time) => {
   console.log(time);
-  const headers = tokenHeaders(userData);
+  const headers = tokenHeaders(auth);
   return fetch(`http://localhost:3000/scrapes`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
@@ -181,8 +178,8 @@ export const scrapeNames = (userData, time) => {
   }).then(res => res.json());
 };
 
-export const scrapeSinglePage = (userData, info) => {
-  const headers = tokenHeaders(userData);
+export const scrapeSinglePage = (auth, info) => {
+  const headers = tokenHeaders(auth);
   return fetch(`http://localhost:3000/scrapes/single_page`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },

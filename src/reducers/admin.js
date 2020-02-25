@@ -1,7 +1,8 @@
-const admin = (state = false, action) => {
+const admin = (state = {}, action) => {
+  console.log(action.admin);
   switch (action.type) {
     case 'SET_ADMIN':
-      return !state;
+      return Object.assign({}, { admin: action.admin });
     default:
       return state;
   }
