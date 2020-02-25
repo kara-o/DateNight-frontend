@@ -32,8 +32,8 @@ export const login = userData => {
   });
 };
 
-export const logoutUser = userData => {
-  const headers = tokenHeaders(userData);
+export const logoutUser = auth => {
+  const headers = tokenHeaders(auth);
   return fetch(`${AUTH_ROOT}/sign_out`, {
     method: 'DELETE',
     headers: {
@@ -43,21 +43,21 @@ export const logoutUser = userData => {
   });
 };
 
-export const createRequest = (formData, userData) => {
-  const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/users/${userData.user.id}/requests`, {
+export const createRequest = (formData, user, auth) => {
+  const headers = tokenHeaders(auth);
+  return fetch(`${API_ROOT}/users/${user.id}/requests`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
       ...formData,
-      user_id: userData.user.id
+      user_id: user.id
     })
   }).then(res => res.json());
 };
 
-export const updateRequest = (formData, userData, requestId) => {
-  const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/users/${userData.user.id}/requests/${requestId}`, {
+export const updateRequest = (formData, user, auth, requestId) => {
+  const headers = tokenHeaders(auth);
+  return fetch(`${API_ROOT}/users/${user.id}/requests/${requestId}`, {
     method: 'PATCH',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
@@ -66,9 +66,9 @@ export const updateRequest = (formData, userData, requestId) => {
   }).then(res => res.json());
 };
 
-export const cancelRequest = (userData, requestId) => {
-  const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/users/${userData.user.id}/requests/${requestId}`, {
+export const cancelRequest = (user, auth, requestId) => {
+  const headers = tokenHeaders(auth);
+  return fetch(`${API_ROOT}/users/${user.id}/requests/${requestId}`, {
     method: 'PATCH',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
@@ -77,25 +77,25 @@ export const cancelRequest = (userData, requestId) => {
   }).then(res => res.json());
 };
 
-export const fetchOptions = (type, userData) => {
-  const headers = tokenHeaders(userData);
+export const fetchOptions = (type, auth) => {
+  const headers = tokenHeaders(auth);
   return fetch(`${API_ROOT}/${type}/`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchRequests = userData => {
-  const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/users/${userData.user.id}/requests`, {
+export const fetchRequests = (user, auth) => {
+  const headers = tokenHeaders(auth);
+  return fetch(`${API_ROOT}/users/${user.id}/requests`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
 
-export const fetchRequest = (userData, requestId) => {
-  const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/users/${userData.id}/requests/${requestId}`, {
+export const fetchRequest = (user, auth, requestId) => {
+  const headers = tokenHeaders(auth);
+  return fetch(`${API_ROOT}/users/${user.id}/requests/${requestId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());

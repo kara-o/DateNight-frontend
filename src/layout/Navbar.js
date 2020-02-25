@@ -1,16 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MenuItem, MenuList } from '@material-ui/core';
+import { connect } from 'react-redux';
 
-const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
+const mapStateToProps = state => ({
+  admin: state.admin
+});
+
+const Navbar = ({ admin, logoutUser, logoutAdmin }) => {
   return (
     <MenuList className='nav'>
       <MenuItem>
         <Link
           className='nav-link'
-          to={userData.admin ? '/admin/login' : '/login'}
+          to={admin ? '/admin/login' : '/login'}
           onClick={() => {
-            userData.admin ? logoutAdmin() : logoutUser();
+            admin ? logoutAdmin() : logoutUser();
           }}
         >
           Logout
@@ -21,4 +26,4 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
   );
 };
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);

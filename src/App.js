@@ -18,31 +18,26 @@ import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
 import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
 import AdminItineraryItems from './admin/components/AdminItineraryItems';
 
-function getUserData() {
-  const userDataStr = localStorage.getItem('userData');
-  if (!userDataStr) return null;
-  return JSON.parse(userDataStr);
-}
+import { connect } from 'react-redux';
 
-const App = () => {
-  const [userData, setUserData] = useState(getUserData());
-  const loggedIn = !!userData;
+const mapStateToProps = state => ({
+  user: state.user,
+  admin: state.admin,
+  auth: state.auth
+});
 
-  const loginUser = userData => {
-    localStorage.setItem('userData', JSON.stringify(userData));
-    setUserData(userData);
-  };
+const App = ({ user, admin, auth }) => {
+  const loggedIn = localStorage.getItem('loggedIn');
+  console.log(`loggedIn: ${loggedIn}`);
 
   const handleLogoutUser = () => {
-    logoutUser(userData);
-    localStorage.removeItem('userData');
-    setUserData(null);
+    logoutUser(auth);
+    localStorage.removeItem('loggedIn');
   };
 
   const handleLogoutAdmin = () => {
-    logoutAdmin(userData);
-    localStorage.removeItem('userData');
-    setUserData(null);
+    logoutAdmin(auth);
+    localStorage.removeItem('loggedIn');
   };
 
   return (
@@ -52,9 +47,8 @@ const App = () => {
           <Navbar
             logoutAdmin={handleLogoutAdmin}
             logoutUser={handleLogoutUser}
-            userData={userData}
           />
-          <Sidebar userData={userData} />
+          <Sidebar />
         </>
       ) : null}
       <>
@@ -62,11 +56,7 @@ const App = () => {
           <Route
             path='/login'
             render={props =>
-              !loggedIn ? (
-                <Login {...props} handleLogin={loginUser} />
-              ) : (
-                <Redirect to='/' />
-              )
+              !loggedIn ? <Login {...props} /> : <Redirect to='/' />
             }
           />
           <Route
@@ -78,9 +68,9 @@ const App = () => {
           <Route
             path='/requests/:id/edit'
             render={props =>
-              loggedIn && !userData.admin ? (
+              loggedIn && !admin ? (
                 <div className='user-page'>
-                  <Request edit={true} {...props} userData={userData} />
+                  <Request edit={true} {...props} />
                 </div>
               ) : null
             }
@@ -88,9 +78,9 @@ const App = () => {
           <Route
             path='/requests/new'
             render={props =>
-              loggedIn && !userData.admin ? (
+              loggedIn && !admin ? (
                 <div className='user-page'>
-                  <Request {...props} userData={userData} />
+                  <Request {...props} />
                 </div>
               ) : null
             }
@@ -98,22 +88,22 @@ const App = () => {
           <Route
             path='/requests/:id'
             render={props =>
-              loggedIn && !userData.admin ? (
+              loggedIn && !admin ? (
                 <div className='user-page'>
-                  <RequestShow {...props} userData={userData} />
+                  <RequestShow {...props} />
                 </div>
               ) : null
             }
           />
           <Route
             path='/admin/login'
-            render={props => <AdminLogin {...props} handleLogin={loginUser} />}
+            render={props => <AdminLogin {...props} />}
           />
           <Route
             path='/admin/itinerary_packages/new'
             render={props => (
               <div className='admin-page'>
-                <AdminItineraryPackage {...props} userData={userData} />
+                <AdminItineraryPackage {...props} />
               </div>
             )}
           />
@@ -121,11 +111,7 @@ const App = () => {
             path='/admin/itinerary_packages/:id/edit'
             render={props => (
               <div className='admin-page'>
-                <AdminItineraryPackage
-                  {...props}
-                  edit={true}
-                  userData={userData}
-                />
+                <AdminItineraryPackage {...props} edit={true} />
               </div>
             )}
           />
@@ -133,7 +119,7 @@ const App = () => {
             path='/admin/itinerary_packages/:id'
             render={props => (
               <div className='admin-page'>
-                <AdminItineraryPackageShow {...props} userData={userData} />
+                <AdminItineraryPackageShow {...props} />
               </div>
             )}
           />
@@ -141,7 +127,7 @@ const App = () => {
             path='/admin/itinerary_packages'
             render={props => (
               <div className='admin-page'>
-                <AdminItineraryPackages {...props} userData={userData} />
+                <AdminItineraryPackages {...props} />
               </div>
             )}
           />
@@ -149,7 +135,7 @@ const App = () => {
             path='/admin/itinerary_items'
             render={props => (
               <div className='admin-page'>
-                <AdminItineraryItems {...props} userData={userData} />
+                <AdminItineraryItems {...props} />
               </div>
             )}
           />
@@ -157,16 +143,16 @@ const App = () => {
             path='/admin/requests/:id'
             render={props => (
               <div className='admin-page'>
-                <AdminRequestShow {...props} userData={userData} />
+                <AdminRequestShow {...props} />
               </div>
             )}
           />
           <Route
             path='/admin'
             render={props =>
-              loggedIn && userData.admin ? (
+              loggedIn && admin ? (
                 <div className='admin-page'>
-                  <AdminHome {...props} userData={userData} />
+                  <AdminHome {...props} />
                 </div>
               ) : (
                 <Redirect to='/admin/login' />
@@ -174,9 +160,9 @@ const App = () => {
             }
           />
           <Route path='/'>
-            {loggedIn && !userData.admin ? (
+            {loggedIn && !admin ? (
               <div className='user-page'>
-                <UserHome userData={userData} />
+                <UserHome />
               </div>
             ) : (
               <Redirect to='/login' />
@@ -189,4 +175,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(mapStateToProps)(App);

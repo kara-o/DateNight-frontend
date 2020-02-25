@@ -8,20 +8,26 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { Paper } from '@material-ui/core';
 import ItineraryItem from '../../admin/components/ItineraryItem';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth
+});
 
 const RequestShow = props => {
-  const { userData } = props;
+  const { user, auth } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (userData) {
-      fetchRequest(userData, requestId).then(res => {
+    if (user.id) {
+      fetchRequest(user, auth, requestId).then(res => {
         setRequest(res.request);
       });
     }
-  }, [userData]);
+  }, [user.id]);
 
   const renderContacts = () => {
     return request.contacts.map((c, i) => {
@@ -42,7 +48,7 @@ const RequestShow = props => {
   };
 
   const handleCancel = () => {
-    cancelRequest(userData, requestId).then(console.log);
+    cancelRequest(user, auth, requestId).then(console.log);
     props.history.push('/');
   };
 
@@ -148,4 +154,4 @@ const RequestShow = props => {
   );
 };
 
-export default RequestShow;
+export default connect(mapStateToProps)(RequestShow);

@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
 import { Paper } from '@material-ui/core';
+import { connect } from 'react-redux';
 
-const UserHome = ({ userData }) => {
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth
+});
+
+const UserHome = ({ user, auth }) => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    if (userData) {
-      fetchRequests(userData).then(json => setRequests(json));
+    if (user.id) {
+      fetchRequests(user, auth).then(json => setRequests(json));
     }
-  }, [userData]);
+  }, [user.id]);
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
@@ -66,4 +72,4 @@ const UserHome = ({ userData }) => {
   );
 };
 
-export default UserHome;
+export default connect(mapStateToProps)(UserHome);

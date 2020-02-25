@@ -14,11 +14,17 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth
+});
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
 
-function thisFriday() {
+const thisFriday = () => {
   const dayINeed = 5; // Friday
   const today = moment().isoWeekday();
 
@@ -35,20 +41,20 @@ function thisFriday() {
       .add(1, 'week')
       .toDate();
   }
-}
+};
 
-function tomorrow() {
+const tomorrow = () => {
   return moment()
     .add(1, 'days')
     .toDate();
-}
+};
 
-function defaulStartTime() {
+const defaulStartTime = () => {
   return new Date(2000, 1, 1, 19, 0, 0);
-}
+};
 
 const Request = props => {
-  const { userData } = props;
+  const { user, auth } = props;
   const [formData, setFormData] = useState({
     start_date: thisFriday(),
     start_time: defaulStartTime(),
@@ -59,24 +65,23 @@ const Request = props => {
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
-  const [contacts, setContacts] = useState([userData.user.phone]);
+  const [contacts, setContacts] = useState([user.phone]);
   const [errors, setErrors] = useState(null);
   const [open, setOpen] = useState(false);
 
-  //TODO add loading
   useEffect(() => {
-    if (userData) {
-      fetchOptions('neighborhoods', userData).then(list => {
+    if (user.id) {
+      fetchOptions('neighborhoods', auth).then(list => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then(list => {
+      fetchOptions('price_ranges', auth).then(list => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
     }
-  }, [userData]);
+  }, [user.id]);
 
   const handleChange = (value, name) => {
     setFormData({
@@ -158,7 +163,7 @@ const Request = props => {
 
     const data = getPostData();
 
-    createRequest(data, userData).then(json => {
+    createRequest(data, user, auth).then(json => {
       if (!json.errors) {
         handleClickOpen();
       } else {
@@ -334,4 +339,4 @@ const Request = props => {
   );
 };
 
-export default Request;
+export default connect(mapStateToProps)(Request);

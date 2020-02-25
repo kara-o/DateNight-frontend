@@ -1,16 +1,21 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import { connect } from 'react-redux';
 
-const Sidebar = ({ userData }) => {
+const mapStateToProps = state => ({
+  user: state.user,
+  admin: state.admin
+});
+
+const Sidebar = ({ admin, user }) => {
+  console.log(admin);
   const renderInitials = () => {
-    if (!userData.admin) {
+    if (!admin) {
       return (
         <span className='icon-span'>
-          {`${userData.user.first_name.slice(0, 1)}` +
-            `${userData.user.last_name.slice(0, 1)}`}
+          {`${user.first_name.slice(0, 1)}` + `${user.last_name.slice(0, 1)}`}
         </span>
       );
     } else {
@@ -20,13 +25,10 @@ const Sidebar = ({ userData }) => {
 
   return (
     <div className='sidebar'>
-      <Link
-        className='avatar link'
-        to={userData && userData.admin ? '/admin' : '/'}
-      >
+      <Link className='avatar link' to={user && admin ? '/admin' : '/'}>
         <Avatar className='avatar'>{renderInitials()}</Avatar>
       </Link>
-      {userData && !userData.admin ? (
+      {user && !admin ? (
         <ul className='sidebar-list'>
           <Link className='sidebar-link' to={`/requests/new`}>
             <Button>Make a New Request!</Button>
@@ -36,7 +38,7 @@ const Sidebar = ({ userData }) => {
           </Link>
         </ul>
       ) : null}
-      {userData && userData.admin ? (
+      {user && admin ? (
         <ul className='sidebar-list'>
           <Link className='sidebar-link' to='/admin/'>
             <Button>Requests</Button>
@@ -53,4 +55,4 @@ const Sidebar = ({ userData }) => {
   );
 };
 
-export default Sidebar;
+export default connect(mapStateToProps)(Sidebar);
