@@ -3,8 +3,6 @@ import { login } from '../services/api-admin';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
-import { connect } from 'react-redux';
-
 const AdminLogin = props => {
   const [formData, setFormData] = useState({
     email: '',
@@ -76,4 +74,4 @@ const AdminLogin = props => {
   );
 };
 
-export default connect()(AdminLogin);
+export default AdminLogin;
