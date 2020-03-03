@@ -1,7 +1,5 @@
-const API_ROOT =
-  'http://datenight-1252216837.us-west-2.elb.amazonaws.com/api/v1';
-const AUTH_ROOT =
-  'http://datenight-1252216837.us-west-2.elb.amazonaws.com/api/auth';
+const API_ROOT = '/api/v1';
+const AUTH_ROOT = '/api/auth';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
