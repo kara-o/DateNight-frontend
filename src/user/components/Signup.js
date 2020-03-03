@@ -89,8 +89,8 @@ const Signup = props => {
         <Button type='submit' onClick={handleSubmit}>
           Signup
         </Button>
+        <Link to='/login'>Back</Link>
       </form>
-      <Link to='/login'>Back</Link>
     </div>
   );
 };
