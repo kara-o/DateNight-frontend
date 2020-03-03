@@ -1,5 +1,5 @@
-const API_ROOT = `http://localhost:3000/api/v1`;
-const AUTH_ROOT = 'http://localhost:3000/admin_auth';
+const API_ROOT = `/api/v1`;
+const AUTH_ROOT = '/admin_auth';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
@@ -68,9 +68,9 @@ export const fetchItineraryPackages = userData => {
   }).then(res => res.json());
 };
 
-export const fetchItineraryPackage = (userData, itinPackagedId) => {
+export const fetchItineraryPackage = (userData, itinPackageId) => {
   const headers = tokenHeaders(userData);
-  return fetch(`${API_ROOT}/itinerary_packages/${itinPackagedId}`, {
+  return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
     method: 'GET',
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
@@ -91,6 +91,15 @@ export const createItineraryPackage = (formData, userData) => {
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/itinerary_packages`, {
     method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify(formData)
+  }).then(res => res.json());
+};
+
+export const updateItineraryPackage = (itinPackageId, formData, userData) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_packages/${itinPackageId}`, {
+    method: 'PUT',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify(formData)
   }).then(res => res.json());
@@ -141,4 +150,44 @@ export const deletePkgItem = (userData, pkgId, pkgItemId) => {
       headers: { ...jsonHeaders, ...headers }
     }
   );
+};
+
+export const addItinItem = (userData, itinInfo, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}/itinerary_items`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify(itinInfo)
+  }).then(res => res.json());
+};
+
+export const deleteItinItem = (userData, itemId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/itinerary_items/${itemId}`, {
+    method: 'DELETE',
+    headers: { ...jsonHeaders, ...headers }
+  });
+};
+
+export const scrapeNames = (userData, time) => {
+  console.log(time);
+  const headers = tokenHeaders(userData);
+  return fetch(`http://localhost:3000/scrapes`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      time: time
+    })
+  }).then(res => res.json());
+};
+
+export const scrapeSinglePage = (userData, info) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`http://localhost:3000/scrapes/single_page`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      link: info.link
+    })
+  }).then(res => res.json());
 };
