@@ -25,6 +25,7 @@ export const createUser = userData => {
 };
 
 export const login = userData => {
+  console.log(userData);
   return fetch(`${AUTH_ROOT}/sign_in`, {
     method: 'POST',
     headers: jsonHeaders,
