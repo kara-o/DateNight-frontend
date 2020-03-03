@@ -50,9 +50,7 @@ const RequestShow = props => {
     return (
       <div className='cancel-button-div'>
         {new Date(request.start_time) >= new Date() ? (
-          <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-            Cancel Request
-          </Button>
+          <Button onClick={handleClickOpen}>Cancel Request</Button>
         ) : null}
         <Dialog
           open={open}
@@ -81,14 +79,13 @@ const RequestShow = props => {
   const renderItinerary = () => {
     return (
       <>
-        <h2>Itinerary</h2>
         {request.fulfilled ? (
           new Date(request.start_time) > new Date() ? (
             <Paper elevation={10} className='paper request-show' elevation={10}>
-              <h2>
+              <p>
                 Get excited! Your itinerary is all set. You will be getting text
                 alerts starting on the morning of your date!
-              </h2>
+              </p>
             </Paper>
           ) : (
             <>
@@ -101,10 +98,10 @@ const RequestShow = props => {
           )
         ) : (
           <Paper elevation={10} className='paper request-show' elevation={10}>
-            <h2>We are busy working to get your night out all set up!</h2>
-            <h2>
+            <p>We are busy working to get your night out all set up!</p>
+            <p>
               Check back soon for confirmation that your itinerary is ready...
-            </h2>
+            </p>
           </Paper>
         )}
       </>
@@ -128,20 +125,28 @@ const RequestShow = props => {
       {request ? (
         <>
           <div className='show'>
-            <h2>Request</h2>
-            <Paper elevation={10} className='paper request-show' elevation={10}>
-              <h2>{friendlyRelativeDate()}!</h2>
-              <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-              <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-              <p>Party: {request.party_size} people</p>
-              <ul>{renderContacts()}</ul>
-              <p>Neighborhood: {request.neighborhood}</p>
-              <p>Price Range: {request.price_range}</p>
-              {request.notes ? <p>Notes: {request.notes}</p> : null}
-              {renderAlert()}
-            </Paper>
+            <div className='itin-cards-container'>
+              <Paper
+                elevation={10}
+                className='paper request-show'
+                elevation={10}
+              >
+                <h2>{friendlyRelativeDate()}!</h2>
+                <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+                <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+                <p>Party: {request.party_size} people</p>
+                <ul>{renderContacts()}</ul>
+                <p>Neighborhood: {request.neighborhood}</p>
+                <p>Price Range: {request.price_range}</p>
+                {request.notes ? <p>Notes: {request.notes}</p> : null}
+                {renderAlert()}
+              </Paper>
+            </div>
           </div>
-          <div className='itinerary'>{renderItinerary()}</div>
+          <div className='itinerary'>
+            {' '}
+            <div className='itin-cards-container'>{renderItinerary()}</div>
+          </div>
         </>
       ) : null}
     </>

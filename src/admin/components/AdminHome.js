@@ -45,8 +45,8 @@ const AdminHome = props => {
 
   const renderFilter = () => {
     return (
-      <div className='filter'>
-        <InputLabel id='select-label'>Filter</InputLabel>
+      <div className='filter-pkgs'>
+        {/* <InputLabel id='select-label'>Filter</InputLabel> */}
         <Select labelId='select-label' value={filter} onChange={handleChange}>
           <MenuItem value={'Unfulfilled'}>Unfulfilled</MenuItem>
           <MenuItem value={'All'}>All</MenuItem>

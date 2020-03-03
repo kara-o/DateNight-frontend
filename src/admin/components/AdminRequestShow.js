@@ -168,7 +168,7 @@ const AdminRequestShow = props => {
 
   const renderFilter = () => {
     return (
-      <div className='filter'>
+      <div className='filter-venue'>
         {/* <InputLabel id='select-label'>Filter</InputLabel> */}
         <Select
           labelId='select-label'
@@ -218,16 +218,18 @@ const AdminRequestShow = props => {
       </div>
       <div className='itinerary'>
         <h2>Itinerary</h2>
-        {!request.itinerary_items.length
-          ? 'Empty'
-          : request.itinerary_items.map(item => (
-              <ItineraryItem
-                handleRemove={handleRemove}
-                key={item.id}
-                item={item}
-                admin={true}
-              />
-            ))}
+        <div className='itin-cards-container'>
+          {!request.itinerary_items.length
+            ? 'Empty'
+            : request.itinerary_items.map(item => (
+                <ItineraryItem
+                  handleRemove={handleRemove}
+                  key={item.id}
+                  item={item}
+                  admin={true}
+                />
+              ))}
+        </div>
       </div>
       {!request.fulfilled ? (
         <div className='packages'>
