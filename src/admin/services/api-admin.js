@@ -1,5 +1,5 @@
-const API_ROOT = `http://localhost:3000/api/v1`;
-const AUTH_ROOT = 'http://localhost:3000/admin_auth';
+const API_ROOT = `/api/v1`;
+const AUTH_ROOT = '/api/admin_auth';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
