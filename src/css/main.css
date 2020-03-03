@@ -414,3 +414,7 @@ body
 #main-container > div.admin-page > div > div.show > div > button:nth-child(10) {
   margin-top: 10px;
 }
+
+.past-date-list > li {
+  margin-left: 5px;
+}
