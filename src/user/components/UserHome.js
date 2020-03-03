@@ -37,6 +37,7 @@ const UserHome = ({ userData }) => {
     const pastDates = requests.filter(
       r => !r.cancelled && new Date(r.start_time) < new Date()
     );
+    pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return pastDates.map(r => {
       return (
         <li key={r.id} className='request-row'>
