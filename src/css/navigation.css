@@ -1,0 +1,21 @@
+#buttons {
+  flex: 1 100%;
+  text-align: center;
+  padding: 50px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#main-container
+  > div.user-page
+  > div.MuiPaper-root.MuiPaper-elevation10.create-form.paper.MuiPaper-rounded
+  > form
+  > button {
+  background-color: #53616e;
+}
+
+#main-container > div.user-page > div > div > button {
+  background-color: #53616e;
+}

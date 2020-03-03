@@ -1,19 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MenuItem, MenuList } from '@material-ui/core';
 
 const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
   return (
-    <nav className='nav'>
-      <Link
-        to={userData.admin ? '/admin/login' : '/login'}
-        onClick={() => {
-          userData.admin ? logoutAdmin() : logoutUser();
-        }}
-      >
-        Logout
-      </Link>
-      <Link to={userData.admin ? '/admin' : '/'}>Home</Link>
-    </nav>
+    <MenuList className='nav'>
+      <MenuItem>
+        <Link
+          className='nav-link'
+          to={userData.admin ? '/admin/login' : '/login'}
+          onClick={() => {
+            userData.admin ? logoutAdmin() : logoutUser();
+          }}
+        >
+          Logout
+        </Link>
+      </MenuItem>
+      <p className='icon'>DateNight</p>
+    </MenuList>
   );
 };
 

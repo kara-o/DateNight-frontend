@@ -3,17 +3,12 @@ import {
   fetchItineraryPackage,
   createItineraryPackageItem,
   deletePkgItem
-} from './api-admin';
-import Button from '../layout/Button';
-import {
-  TextField,
-  Typography,
-  Card,
-  CardActions,
-  CardContent,
-  Paper
-} from '@material-ui/core';
-import Map from '../layout/Map';
+} from '../services/api-admin';
+import Button from '../../layout/Button';
+import { TextField, Paper } from '@material-ui/core';
+import Map from '../../layout/Map';
+import { Link } from 'react-router-dom';
+import SimpleCard from '../../layout/SimpleCard';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -57,41 +52,51 @@ const ItineraryItemForm = props => {
   };
 
   return (
-    <form className='create-form'>
-      <TextField
-        label='Duration (minutes)'
-        value={duration}
-        onChange={e => setDuration(e.target.value)}
-      />
-      <TextField
-        label='Address'
-        value={address}
-        onChange={e => setAddress(e.target.value)}
-      />
-      <TextField
-        label='Place'
-        value={place}
-        onChange={e => setPlace(e.target.value)}
-      />
-      <TextField
-        label='Blurb'
-        value={blurb}
-        onChange={e => setBlurb(e.target.value)}
-      />
-      <TextField
-        label='Make reservation link'
-        value={makeResLink}
-        onChange={e => setMakeResLink(e.target.value)}
-      />
-      <TextField
-        label='Map URL'
-        value={mapUrl}
-        onChange={e => setMapUrl(e.target.value)}
-      />
-      <Button onClick={handleCreateMap}>Generate Map</Button>
-      {iFrame ? <Map url={iFrame} /> : null}
-      <Button onClick={handleClick}>Add Item To Package</Button>
-    </form>
+    <Paper elevation={10} className='paper'>
+      <form className='create-form itin-item'>
+        <TextField
+          label='Duration (minutes)'
+          value={duration}
+          onChange={e => setDuration(e.target.value)}
+        />
+        <TextField
+          label='Address'
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+        />
+        <TextField
+          label='Place'
+          value={place}
+          onChange={e => setPlace(e.target.value)}
+        />
+        <TextField
+          multiline
+          rows={3}
+          label='Blurb'
+          value={blurb}
+          onChange={e => setBlurb(e.target.value)}
+        />
+        <TextField
+          label='Make reservation link'
+          value={makeResLink}
+          onChange={e => setMakeResLink(e.target.value)}
+        />
+        <TextField
+          label='Map URL'
+          value={mapUrl}
+          onChange={e => setMapUrl(e.target.value)}
+        />
+        <div className='btns-div'>
+          <Button className='btn' onClick={handleCreateMap}>
+            Generate Map
+          </Button>
+          {iFrame ? <Map url={iFrame} /> : null}
+          <Button className='btn' onClick={handleClick}>
+            Add Item To Package
+          </Button>
+        </div>
+      </form>
+    </Paper>
   );
 };
 
@@ -100,6 +105,7 @@ const AdminItineraryPackageShow = props => {
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
   const [itinPackageItems, setItinPackageItems] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -114,10 +120,16 @@ const AdminItineraryPackageShow = props => {
     if (itinPackage) {
       const i = itinPackage;
       return (
-        <Paper className='paper'>
+        <Paper elevation={10} className='paper'>
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
+          <Link
+            className='edit-link'
+            to={`/admin/itinerary_packages/${itinPackage.id}/edit`}
+          >
+            Edit
+          </Link>
         </Paper>
       );
     }
@@ -145,19 +157,9 @@ const AdminItineraryPackageShow = props => {
     if (itinPackageItems) {
       return itinPackageItems.map(pkgItem => {
         return (
-          <Card key={pkgItem.id} className='card'>
-            <CardContent>
-              <Typography
-                className='card-title'
-                color='textSecondary'
-                gutterBottom
-              >
-                {pkgItem.place}
-              </Typography>
-              <Typography>{pkgItem.duration} minutes</Typography>
-            </CardContent>
-            <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
-          </Card>
+          <>
+            <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />
+          </>
         );
       });
     }
@@ -166,7 +168,7 @@ const AdminItineraryPackageShow = props => {
   return (
     <>
       <div className='pkg-display'>
-        <h1>Itinerary Package: {itinPackage.title}</h1>
+        <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
         <p>{displayItinPackage()}</p>
         <h2>Package Items:</h2>
         <div className='itin-item-cards'>{renderPackageItems()}</div>

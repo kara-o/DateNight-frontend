@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../layout/Button';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { createItineraryPackage } from './api-admin';
-import { fetchOptions } from '../user/services/api';
+import Button from '../../layout/Button';
+import { TextField, MenuItem, Paper } from '@material-ui/core';
+import {
+  createItineraryPackage,
+  fetchItineraryPackage,
+  updateItineraryPackage
+} from '../services/api-admin';
+import { fetchOptions } from '../../user/services/api';
 
 const AdminItineraryPackage = props => {
   const { userData } = props;
@@ -14,8 +17,8 @@ const AdminItineraryPackage = props => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
   const [errors, setErrors] = useState(null);
+  const packageId = props.match.params.id;
 
-  // TODO: Potentially refactor into useNeighborhoods/usePriceRanges
   useEffect(() => {
     if (userData) {
       fetchOptions('neighborhoods', userData).then(list => {
@@ -27,6 +30,14 @@ const AdminItineraryPackage = props => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
+      if (props.edit) {
+        fetchItineraryPackage(userData, packageId).then(pkg => {
+          setTitle(pkg.title);
+          setBlurb(pkg.blurb);
+          setNeighborhoodSelection(pkg.neighborhood_id);
+          setPriceRangeSelection(pkg.price_range_id);
+        });
+      }
     }
   }, [userData]);
 
@@ -40,16 +51,29 @@ const AdminItineraryPackage = props => {
       price_range_id: priceRangeSelection
     };
 
-    createItineraryPackage(data, userData).then(json => {
-      if (!json.errors) {
-        props.history.push('/admin');
-      } else {
-        setErrors({
-          errorObj: json.errors.error_obj,
-          fullMessages: json.errors.full_messages
-        });
-      }
-    });
+    if (props.edit) {
+      updateItineraryPackage(packageId, data, userData).then(json => {
+        if (!json.errors) {
+          props.history.push(`/admin/itinerary_packages/${packageId}`);
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    } else {
+      createItineraryPackage(data, userData).then(json => {
+        if (!json.errors) {
+          props.history.push('/admin/itinerary_packages');
+        } else {
+          setErrors({
+            errorObj: json.errors.error_obj,
+            fullMessages: json.errors.full_messages
+          });
+        }
+      });
+    }
   };
 
   const renderErrors = errors => {
@@ -75,7 +99,7 @@ const AdminItineraryPackage = props => {
   }
 
   return (
-    <>
+    <Paper elevation={10} className='new-pkg-paper'>
       <form className='create-form' autoComplete='off'>
         <h1>Create New Itinerary Package</h1>
         <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
@@ -123,7 +147,7 @@ const AdminItineraryPackage = props => {
           Submit
         </Button>
       </form>
-    </>
+    </Paper>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useDebugValue } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
+import { Paper } from '@material-ui/core';
 
 const UserHome = ({ userData }) => {
   const [requests, setRequests] = useState([]);
@@ -13,7 +14,9 @@ const UserHome = ({ userData }) => {
   }, [userData]);
 
   const renderUncancelledRequests = () => {
-    const uncancelledReqs = requests.filter(r => !r.cancelled);
+    const uncancelledReqs = requests.filter(
+      r => !r.cancelled && new Date(r.start_time) >= new Date()
+    );
     return uncancelledReqs.map(r => {
       return (
         <li key={r.id} className='request-row'>
@@ -31,8 +34,9 @@ const UserHome = ({ userData }) => {
   };
 
   const renderPastDates = () => {
-    const now = new Date();
-    const pastDates = requests.filter(r => !r.cancelled && r.start_time < now);
+    const pastDates = requests.filter(
+      r => !r.cancelled && new Date(r.start_time) < new Date()
+    );
     return pastDates.map(r => {
       return (
         <li key={r.id} className='request-row'>
@@ -50,17 +54,14 @@ const UserHome = ({ userData }) => {
 
   return (
     <>
-      <Link className='new-request-link' to={`/requests/new`}>
-        Make a New Request!
-      </Link>
-      <div className='request-list-div'>
+      <Paper elevation={10} className='list-div paper'>
         <h2>Upcoming dates</h2>
         <ul className='request-list'>{renderUncancelledRequests()}</ul>
-      </div>
-      <div id='request-list-div'>
+      </Paper>
+      <Paper elevation={10} className='list-div paper'>
         <h2>Past dates</h2>
         <ul className='request-list'>{renderPastDates()}</ul>
-      </div>
+      </Paper>
     </>
   );
 };
