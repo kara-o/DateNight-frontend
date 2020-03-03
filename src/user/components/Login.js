@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { login } from '../services/api';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../../layout/Button';
+import TextField from '@material-ui/core/TextField';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -57,34 +58,39 @@ const Login = props => {
   };
 
   return (
-    <div className='container'>
-      {isAccountConfirmationPending ? (
-        <h3>Confirmation email sent - check your inbox!</h3>
-      ) : null}
-      {isAccountConfirmed ? (
-        <h3>Thank you for confirming your account! Please login.</h3>
-      ) : null}
-      <form className='container'>
-        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-        <input
-          type='text'
-          name='email'
-          value={formData.email}
-          onChange={handleChange}
-          placeholder='Email'
-        />
-        <input
-          type='password'
-          name='password'
-          value={formData.password}
-          onChange={handleChange}
-          placeholder='Password'
-        />
-        <Button type='submit' onClick={handleSubmit}>
-          Login
-        </Button>
-      </form>
-      <Link to='/signup'>New user? Sign up for an account</Link>
+    <div className='login-container'>
+      <h1 className='login'>DateNight</h1>
+      <>
+        {isAccountConfirmationPending ? (
+          <h3>Confirmation email sent - check your inbox!</h3>
+        ) : null}
+        {isAccountConfirmed ? (
+          <h3>Thank you for confirming your account! Please login.</h3>
+        ) : null}
+        <form className='login-form'>
+          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
+          <TextField
+            type='text'
+            name='email'
+            value={formData.email}
+            onChange={handleChange}
+            label='Email'
+            variant='filled'
+          />
+          <TextField
+            type='password'
+            name='password'
+            value={formData.password}
+            onChange={handleChange}
+            label='Password'
+            variant='filled'
+          />
+          <Button type='submit' onClick={handleSubmit}>
+            Login
+          </Button>
+        </form>
+        <Link to='/signup'>New user? Sign up for an account</Link>
+      </>
     </div>
   );
 };

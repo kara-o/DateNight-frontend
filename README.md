@@ -1,68 +1,98 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# DateNight - Front End
 
-## Available Scripts
+DateNight is a single-page web-based application designed for couples/partners who are looking for spontaneity when going out. 
 
-In the project directory, you can run:
+This is my final project completed during Module Five at Flatiron School.  It is a single page web application built with a ReactJS front end and a [Rails API backend](https://github.com/kara-o/DateNight-backend).  The app is designed with separate user and admin interfaces.
 
-### `yarn start`
+## Built With
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- ReactJS
+- Create-React-App
+- Devise Token Auth
+- Google Maps API
+- Twilio API
+- Material UI/custom CSS
+- Nokogiri for scraping HTML from OpenTable
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## How to Run
 
-### `yarn test`
+Please install my [Rails API back end](https://github.com/kara-o/DateNight-backend) as well.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In your terminal navigate to the directory where you want to save the front end files, then enter and run each step:
 
-### `yarn build`
+1. `git git@github.com:kara-o/DateNight-frontend.git`
+1. `cd frontend-datenight`
+1. `npm install`
+1. `npm start`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Goals
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- Currently working on Redux integration!
+- Further developing Admin interface to make reservation booking more streamlined
+- Add different types of venues, other than places to eat?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Screenshots
 
-### `yarn eject`
+<h3 align="center">User Interface</h3>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<p align="center">
+<img src='./src/images/readme/user_login.png'>
+<br>
+<em>Login</em>
+</p>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<p align="center">
+<img src='./src/images/readme/user_home.png'>
+<br>
+<em>Home</em>
+</p>
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<p align="center">
+<img src='./src/images/readme/user_make_request.png'>
+<br>
+<em>Make a new request</em>
+</p>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<p align="center">
+<img src='./src/images/readme/user_successful_request.png'>
+<br>
+<em>Request made successfully</em>
+</p>
 
-## Learn More
+<p align="center">
+<img src='./src/images/readme/user_itinerary.png'>
+<br>
+<em>Example of itinerary from a past date</em>
+</p>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<h3 align="center">Admin Interface</h3>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<p align="center">
+<img src='./src/images/readme/admin_login.png'>
+<br>
+<em>Login</em>
+</p>
 
-### Code Splitting
+<p align="center">
+<img src='./src/images/readme/admin_home.png'>
+<br>
+<em>Home</em>
+</p>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+<p align="center">
+<img src='./src/images/readme/admin_unfulfilled_request.png'>
+<br>
+<em>Unfulfilled request</em>
+</p>
 
-### Analyzing the Bundle Size
+<p align="center">
+<img src='./src/images/readme/admin_selecting_itin_item.png'>
+<br>
+<em>Selecting itinerary</em>
+</p>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<p align="center">
+<img src='./src/images/readme/admin_fulfilled_request.png'>
+<br>
+<em>Fulfilled request</em>
+</p>

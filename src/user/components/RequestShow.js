@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../layout/Button';
 import { fetchRequest, cancelRequest } from '../services/api';
-import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { Paper, Typography } from '@material-ui/core';
-import ItineraryItem from '../../admin/ItineraryItem';
+import { Paper } from '@material-ui/core';
+import ItineraryItem from '../../admin/components/ItineraryItem';
 
 const RequestShow = props => {
   const { userData } = props;
@@ -50,9 +49,11 @@ const RequestShow = props => {
   const renderAlert = () => {
     return (
       <div className='cancel-button-div'>
-        <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-          Cancel
-        </Button>
+        {new Date(request.start_time) >= new Date() ? (
+          <Button variant='outlined' color='primary' onClick={handleClickOpen}>
+            Cancel Request
+          </Button>
+        ) : null}
         <Dialog
           open={open}
           onClose={handleClose}
@@ -64,7 +65,7 @@ const RequestShow = props => {
               Are you sure you want to cancel this request?
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions className='modal-btns'>
             <Button onClick={handleClose} color='primary'>
               No way!
             </Button>
@@ -79,40 +80,70 @@ const RequestShow = props => {
 
   const renderItinerary = () => {
     return (
-      <div className='itinerary'>
+      <>
         <h2>Itinerary</h2>
-        {!request.itinerary_items.length
-          ? 'Empty'
-          : request.itinerary_items.map(item => (
-              <ItineraryItem key={item.id} item={item} />
-            ))}
-      </div>
+        {request.fulfilled ? (
+          new Date(request.start_time) > new Date() ? (
+            <Paper elevation={10} className='paper request-show' elevation={10}>
+              <h2>
+                Get excited! Your itinerary is all set. You will be getting text
+                alerts starting on the morning of your date!
+              </h2>
+            </Paper>
+          ) : (
+            <>
+              {!request.itinerary_items.length
+                ? 'Empty'
+                : request.itinerary_items.map(item => (
+                    <ItineraryItem key={item.id} item={item} />
+                  ))}
+            </>
+          )
+        ) : (
+          <Paper elevation={10} className='paper request-show' elevation={10}>
+            <h2>We are busy working to get your night out all set up!</h2>
+            <h2>
+              Check back soon for confirmation that your itinerary is ready...
+            </h2>
+          </Paper>
+        )}
+      </>
     );
+  };
+
+  const friendlyRelativeDate = () => {
+    const dateDay = moment(request.start_time).startOf('h:mm a');
+    const now = moment();
+    if (dateDay < now) {
+      return `Your date was ${dateDay.fromNow()}`;
+    } else if (dateDay.diff(now, 'days') < 2) {
+      return 'Your date is tomorrow';
+    } else {
+      return `Your date is ${dateDay.fromNow()}`;
+    }
   };
 
   return (
     <>
-      {request && !request.fulfilled ? (
-        <Paper className='paper request-show' elevation={10}>
-          <h2>
-            Your date is
-            {' ' +
-              moment(request.start_time)
-                .startOf('h:mm a')
-                .fromNow()}
-            !
-          </h2>
-          <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-          <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-          <p>Party: {request.party_size} people</p>
-          <ul>{renderContacts()}</ul>
-          <p>Neighborhood: {request.neighborhood}</p>
-          <p>Price Range: {request.price_range}</p>
-          <p>Notes: {request.notes}</p>
-          {renderAlert()}
-        </Paper>
+      {request ? (
+        <>
+          <div className='show'>
+            <h2>Request</h2>
+            <Paper elevation={10} className='paper request-show' elevation={10}>
+              <h2>{friendlyRelativeDate()}!</h2>
+              <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+              <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+              <p>Party: {request.party_size} people</p>
+              <ul>{renderContacts()}</ul>
+              <p>Neighborhood: {request.neighborhood}</p>
+              <p>Price Range: {request.price_range}</p>
+              {request.notes ? <p>Notes: {request.notes}</p> : null}
+              {renderAlert()}
+            </Paper>
+          </div>
+          <div className='itinerary'>{renderItinerary()}</div>
+        </>
       ) : null}
-      {request && request.fulfilled ? renderItinerary() : null}
     </>
   );
 };
