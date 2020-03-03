@@ -58,8 +58,8 @@ const AdminItineraryPackages = props => {
 
   const renderFilter = () => {
     return (
-      <div className='filter'>
-        <InputLabel id='select-label'>Filter By Neighborhood</InputLabel>
+      <div className='filter-pkgs'>
+        <InputLabel id='select-label'>Choose Neighborhood</InputLabel>
         <Select labelId='select-label' value={filter} onChange={handleChange}>
           {renderMenuItems()}
         </Select>
