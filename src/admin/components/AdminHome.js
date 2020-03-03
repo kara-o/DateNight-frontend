@@ -22,6 +22,7 @@ const AdminHome = props => {
     } else {
       requests = allRequests;
     }
+    requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return requests.map(r => {
       return (
         <li key={r.id} className='request-row'>

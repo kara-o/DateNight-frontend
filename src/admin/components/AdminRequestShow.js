@@ -190,7 +190,7 @@ const AdminRequestShow = props => {
     <div className='admin-show'>
       <div className='show'>
         <h2>Request</h2>
-        <Paper elevation={10} className='paper show'>
+        <Paper elevation={10} className='paper'>
           <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
           <p>Time: {moment(request.start_time).format('h:mm a')}</p>
           <p>Party: {request.party_size} people</p>
