@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../layout/Button';
 import { fetchRequest } from '../../user/services/api';
 import {
@@ -15,7 +16,14 @@ import {
   sendTextMessages
 } from '../services/api-admin';
 import ItineraryItem from './ItineraryItem';
-import { Paper, CircularProgress, Dialog, TextField } from '@material-ui/core';
+import {
+  Paper,
+  CircularProgress,
+  Dialog,
+  Select,
+  MenuItem,
+  InputLabel
+} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -34,6 +42,7 @@ const AdminRequestShow = props => {
   const [modalInfo, setModalInfo] = useState(null);
   const [resTime, setResTime] = useState(null);
   const [iFrame, setIFrame] = useState(null);
+  const [filter, setFilter] = useState('Single Venues');
 
   useEffect(() => {
     if (userData) {
@@ -44,7 +53,7 @@ const AdminRequestShow = props => {
           moment(res.request.start_time).format('YYYY-MM-DD')
         ).then(names => setScrapedNames(names));
       });
-      // fetchItineraryPackages(userData).then(setItinPackages);
+      fetchItineraryPackages(userData).then(setItinPackages);
     }
   }, []);
 
@@ -66,11 +75,11 @@ const AdminRequestShow = props => {
     });
   };
 
-  // const handleApplyPackage = itinPackageId => {
-  //   applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
-  //     setRequest(respJson.request)
-  //   );
-  // };
+  const handleApplyPackage = itinPackageId => {
+    applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
+      setRequest(respJson.request)
+    );
+  };
 
   const handleMessage = () => {
     sendTextMessages(userData, requestId);
@@ -141,9 +150,7 @@ const AdminRequestShow = props => {
   };
 
   const createMapUrl = (name, address) => {
-    console.log(`name: ${name}, address: ${address}`);
     const urlEscaped = encodeURI(name + ' ' + address);
-    console.log(urlEscaped);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     setIFrame(iFrameUrl);
   };
@@ -157,6 +164,26 @@ const AdminRequestShow = props => {
     addItinItem(userData, itinInfo, requestId).then(res => {
       setRequest(res.request);
     });
+  };
+
+  const renderFilter = () => {
+    return (
+      <div className='filter'>
+        {/* <InputLabel id='select-label'>Filter</InputLabel> */}
+        <Select
+          labelId='select-label'
+          value={filter}
+          onChange={e => setFilter(e.target.value)}
+        >
+          <MenuItem className='filter-choice' value={'Single Venues'}>
+            Venues for {moment(request.start_time).format('MMMM Do YYYY')}
+          </MenuItem>
+          <MenuItem className='filter-choice' value={'Packages'}>
+            Packages
+          </MenuItem>
+        </Select>
+      </div>
+    );
   };
 
   return request ? (
@@ -202,42 +229,57 @@ const AdminRequestShow = props => {
               />
             ))}
       </div>
-      <div className='packages'>
-        {/* <h2>Packages</h2>
-        <ul className='pkg-list-show'>
-          {itinPackages.map(pkg => (
-            <li className='pkg-link' key={pkg.id}>
-              <Link to={`/admin/itinerary_packages/${pkg.id}`}>
-                {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
-                {pkg.title}
-              </Link>
-              <Button type='button' onClick={() => handleApplyPackage(pkg.id)}>
-                Apply
-              </Button>
-            </li>
-          ))}
-        </ul> */}
-        <h2>Venues for {moment(request.start_time).format('MMMM Do YYYY')}</h2>
-        <ul className='pkg-list-show'>
-          {scrapedNames.length > 0
-            ? scrapedNames.map((info, idx) => (
-                <li
-                  className='pkg-link single-item'
-                  key={idx}
-                  onClick={() => {
-                    scrapeSinglePage(userData, info).then(infoJson => {
-                      setOpen(true);
-                      setModalInfo(infoJson);
-                      createMapUrl(infoJson.name, infoJson.address);
-                    });
-                  }}
-                >
-                  {info.name}
-                </li>
-              ))
-            : loading()}
-        </ul>
-      </div>
+      {!request.fulfilled ? (
+        <div className='packages'>
+          {renderFilter()}
+          {filter === 'Packages' ? (
+            <>
+              {/* <h2>Packages</h2> */}
+              <ul className='pkg-list-show'>
+                {itinPackages.map(pkg => (
+                  <li className='pkg-link' key={pkg.id}>
+                    <Link to={`/admin/itinerary_packages/${pkg.id}`}>
+                      {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
+                      {pkg.title}
+                    </Link>
+                    <Button
+                      type='button'
+                      onClick={() => handleApplyPackage(pkg.id)}
+                    >
+                      Apply
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              {/* <h2>
+              Venues for {moment(request.start_time).format('MMMM Do YYYY')}
+            </h2> */}
+              <ul className='pkg-list-show'>
+                {scrapedNames.length > 0
+                  ? scrapedNames.map((info, idx) => (
+                      <li
+                        className='pkg-link single-item'
+                        key={idx}
+                        onClick={() => {
+                          scrapeSinglePage(userData, info).then(infoJson => {
+                            setOpen(true);
+                            setModalInfo(infoJson);
+                            createMapUrl(infoJson.name, infoJson.address);
+                          });
+                        }}
+                      >
+                        {info.name}
+                      </li>
+                    ))
+                  : loading()}
+              </ul>
+            </>
+          )}
+        </div>
+      ) : null}
       {openModal()}
     </div>
   ) : (
