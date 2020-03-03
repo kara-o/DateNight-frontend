@@ -5,16 +5,6 @@ body {
   background-size: cover;
 }
 
-.icon {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 36px;
-  padding: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 h1.login {
   font-family: 'Permanent Marker', cursive;
   font-size: 80px;
@@ -30,6 +20,11 @@ h1.login {
 
 .signup-container {
   height: 70vh;
+}
+
+#main-container > div > form > button {
+  align-self: center;
+  margin: 10px;
 }
 
 .login-form {
@@ -55,6 +50,13 @@ h1.login {
   margin-bottom: 0;
 }
 
+#main-container > div > form > a {
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 50px;
+  color: white;
+}
+
 .paper.show {
   display: flex;
   flex-direction: column;
@@ -69,32 +71,6 @@ h1.login {
   flex-flow: row wrap;
   align-items: stretch;
   justify-content: center;
-}
-
-.nav {
-  flex: 1 100%;
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0;
-  background: #53616e;
-}
-
-ul.nav {
-  padding: 0;
-}
-
-.nav-link {
-  color: white;
-}
-
-@media all and (max-width: 500px) {
-  .nav {
-    justify-content: center;
-  }
-  .nav a {
-    text-decoration: none;
-    padding: 10px;
-  }
 }
 
 .user-page,
@@ -142,6 +118,11 @@ ul.nav {
   margin-top: 5%;
   padding: 40px;
   flex: 1;
+}
+
+.itin-item-display {
+  display: flex;
+  flex-direction: column;
 }
 
 .itinerary-item-form {
@@ -426,4 +407,31 @@ body
 
 .filter {
   margin: 0;
+}
+
+.filter-pkgs > label {
+  margin-top: 10px;
+}
+
+.filter-pkgs {
+  flex: 1 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* #main-container > div > div > div > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+} */
+
+.footer-text {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.itin-cards-container {
+  max-height: 100vh;
+  overflow: scroll;
 }
