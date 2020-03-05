@@ -1,4 +1,4 @@
-const API_ROOT = `${process.env.BASE_URL}/api/v1`;
+const API_ROOT = `${process.env.REACT_APP_BASE_URL}/api/v1`;
 const AUTH_ROOT = `${process.env.REACT_APP_BASE_URL}/admin_auth`;
 
 const jsonHeaders = {
@@ -183,7 +183,7 @@ export const scrapeNames = (userData, time) => {
 
 export const scrapeSinglePage = (userData, info) => {
   const headers = tokenHeaders(userData);
-  return fetch(`${process.env.BASE_URL}/scrapes/single_page`, {
+  return fetch(`${process.env.REACT_APP_BASE_URL}/scrapes/single_page`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
