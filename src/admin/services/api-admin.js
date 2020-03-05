@@ -1,5 +1,5 @@
-const API_ROOT = `http://localhost:3000/api/v1`;
-const AUTH_ROOT = 'http://localhost:3000/admin_auth';
+const API_ROOT = `${process.env.BASE_URL}/api/v1`;
+const AUTH_ROOT = `${process.env.REACT_APP_BASE_URL}/admin_auth`;
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ export const deleteItinItem = (userData, itemId) => {
 export const scrapeNames = (userData, time) => {
   console.log(time);
   const headers = tokenHeaders(userData);
-  return fetch(`http://localhost:3000/scrapes`, {
+  return fetch(`${process.env.REACT_APP_BASE_URL}/scrapes`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
@@ -183,7 +183,7 @@ export const scrapeNames = (userData, time) => {
 
 export const scrapeSinglePage = (userData, info) => {
   const headers = tokenHeaders(userData);
-  return fetch(`http://localhost:3000/scrapes/single_page`, {
+  return fetch(`${process.env.BASE_URL}/scrapes/single_page`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({

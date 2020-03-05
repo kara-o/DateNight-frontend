@@ -1,5 +1,5 @@
-const API_ROOT = `http://localhost:3000/api/v1`;
-const AUTH_ROOT = 'http://localhost:3000/auth';
+const API_ROOT = `${process.env.REACT_APP_BASE_URL}/api/v1`;
+const AUTH_ROOT = `${process.env.REACT_APP_BASE_URL}/auth`;
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
