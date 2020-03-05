@@ -172,7 +172,7 @@ export const deleteItinItem = (userData, itemId) => {
 export const scrapeNames = (userData, time) => {
   console.log(time);
   const headers = tokenHeaders(userData);
-  return fetch(`${AUTH_ROOT}/scrapes`, {
+  return fetch(`${API_ROOT}/scrapes`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
@@ -183,7 +183,7 @@ export const scrapeNames = (userData, time) => {
 
 export const scrapeSinglePage = (userData, info) => {
   const headers = tokenHeaders(userData);
-  return fetch(`${AUTH_ROOT}/scrapes/single_page`, {
+  return fetch(`${API_ROOT}/scrapes/single_page`, {
     method: 'POST',
     headers: { ...jsonHeaders, ...headers },
     body: JSON.stringify({
