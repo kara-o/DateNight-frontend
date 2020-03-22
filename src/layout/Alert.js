@@ -49,35 +49,3 @@ export default function AlertDialog() {
     </div>
   );
 }
-
-// const renderAlert = () => {
-//   return (
-//     <div className='cancel-button-div'>
-//       {new Date(request.start_time) >= new Date() ? (
-//         <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-//           Cancel
-//         </Button>
-//       ) : null}
-//       <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         aria-labelledby='alert-dialog-title'
-//         aria-describedby='alert-dialog-description'
-//       >
-//         <DialogContent>
-//           <DialogContentText id='alert-dialog-description'>
-//             Are you sure you want to cancel this request?
-//           </DialogContentText>
-//         </DialogContent>
-//         <DialogActions className='modal-btns'>
-//           <Button onClick={handleClose} color='primary'>
-//             No way!
-//           </Button>
-//           <Button onClick={handleCancel} color='primary' autoFocus>
-//             Yes, please cancel.
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// };

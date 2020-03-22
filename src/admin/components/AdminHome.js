@@ -25,12 +25,9 @@ const AdminHome = props => {
     requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return requests.map(r => {
       return (
-        <li key={r.id} className='request-row'>
+        <li key={r.id}>
           <Link to={`/admin/requests/${r.id}`}>
-            <ul
-              style={r.cancelled ? { color: 'red' } : null}
-              className='admin-row-list'
-            >
+            <ul style={r.cancelled ? { color: 'red' } : null}>
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.cancelled ? <span>CANCELLED</span> : null}</li>
             </ul>
@@ -46,7 +43,7 @@ const AdminHome = props => {
 
   const renderFilter = () => {
     return (
-      <div className='filter-pkgs'>
+      <div>
         {/* <InputLabel id='select-label'>Filter</InputLabel> */}
         <Select labelId='select-label' value={filter} onChange={handleChange}>
           <MenuItem value={'Unfulfilled'}>Unfulfilled</MenuItem>
@@ -57,10 +54,10 @@ const AdminHome = props => {
   };
 
   return (
-    <Paper elevation={10} className='list-div paper'>
+    <Paper elevation={10}>
       <h1>{filter} Requests</h1>
       {renderFilter()}
-      <ul className='request-list'>{renderRequests()}</ul>
+      <ul>{renderRequests()}</ul>
     </Paper>
   );
 };

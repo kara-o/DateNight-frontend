@@ -19,8 +19,8 @@ const AdminItineraryItems = props => {
     if (scrapedNames) {
       return scrapedNames.map(name => {
         return (
-          <li key={name.id} className='request-row'>
-            <ul className='admin-row-list'>
+          <li key={name.id}>
+            <ul>
               <li>{name}</li>
             </ul>
           </li>
@@ -37,13 +37,13 @@ const AdminItineraryItems = props => {
     <>
       {scrapedNames.length > 0 ? (
         <>
-          <Paper elevation={10} className='paper list-div'>
+          <Paper elevation={10}>
             <h1>Itinerary Items</h1>
-            <ul className='request-list'>{renderNames()}</ul>
+            <ul>{renderNames()}</ul>
           </Paper>
         </>
       ) : (
-        <div className='loading-div'>{loading()}</div>
+        <div>{loading()}</div>
       )}
     </>
   );

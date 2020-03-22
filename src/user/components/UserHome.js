@@ -19,9 +19,9 @@ const UserHome = ({ userData }) => {
     );
     return uncancelledReqs.map(r => {
       return (
-        <li key={r.id} className='request-row'>
+        <li key={r.id}>
           <Link to={`/requests/${r.id}`}>
-            <ul className='upcoming-date-list'>
+            <ul>
               <li>{moment(r.start_time).calendar()}</li>
               <li>{r.party_size} people</li>
               <li>{r.neighborhood}</li>
@@ -40,9 +40,9 @@ const UserHome = ({ userData }) => {
     pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return pastDates.map(r => {
       return (
-        <li key={r.id} className='request-row'>
+        <li key={r.id}>
           <Link to={`/requests/${r.id}`}>
-            <ul className='past-date-list'>
+            <ul>
               <li>{moment(r.start_time).format('MMMM Do YYYY')}</li>
               <li>{r.party_size} people</li>
               <li>{r.neighborhood}</li>
@@ -55,13 +55,13 @@ const UserHome = ({ userData }) => {
 
   return (
     <>
-      <Paper elevation={10} className='list-div paper'>
+      <Paper elevation={10}>
         <h2>Upcoming dates</h2>
-        <ul className='request-list'>{renderUncancelledRequests()}</ul>
+        <ul>{renderUncancelledRequests()}</ul>
       </Paper>
-      <Paper elevation={10} className='list-div paper'>
+      <Paper elevation={10}>
         <h2>Past dates</h2>
-        <ul className='request-list'>{renderPastDates()}</ul>
+        <ul>{renderPastDates()}</ul>
       </Paper>
     </>
   );

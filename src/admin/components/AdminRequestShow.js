@@ -68,7 +68,7 @@ const AdminRequestShow = props => {
   const renderContacts = () => {
     return request.contacts.map((c, i) => {
       return (
-        <li key={c.id} className='contact'>
+        <li key={c.id}>
           Contact #{i + 1}: {c.phone}
         </li>
       );
@@ -107,8 +107,8 @@ const AdminRequestShow = props => {
         ? modalInfo.neighborhood
         : 'Seattle';
       return (
-        <Dialog className='item-modal' open={open} onClose={handleClose}>
-          <Paper elevation={10} className='paper modal-paper'>
+        <Dialog open={open} onClose={handleClose}>
+          <Paper elevation={10}>
             <h2>{modalInfo.name}</h2>
             <p>
               {neighborhood +
@@ -168,29 +168,27 @@ const AdminRequestShow = props => {
 
   const renderFilter = () => {
     return (
-      <div className='filter-venue'>
+      <div>
         {/* <InputLabel id='select-label'>Filter</InputLabel> */}
         <Select
           labelId='select-label'
           value={filter}
           onChange={e => setFilter(e.target.value)}
         >
-          <MenuItem className='filter-choice' value={'Single Venues'}>
+          <MenuItem value={'Single Venues'}>
             Venues for {moment(request.start_time).format('MMMM Do YYYY')}
           </MenuItem>
-          <MenuItem className='filter-choice' value={'Packages'}>
-            Packages
-          </MenuItem>
+          <MenuItem value={'Packages'}>Packages</MenuItem>
         </Select>
       </div>
     );
   };
 
   return request ? (
-    <div className='admin-show'>
-      <div className='show'>
+    <div>
+      <div>
         <h2>Request</h2>
-        <Paper elevation={10} className='paper'>
+        <Paper elevation={10}>
           <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
           <p>Time: {moment(request.start_time).format('h:mm a')}</p>
           <p>Party: {request.party_size} people</p>
@@ -216,9 +214,9 @@ const AdminRequestShow = props => {
           ) : null}
         </Paper>
       </div>
-      <div className='itinerary'>
+      <div>
         <h2>Itinerary</h2>
-        <div className='itin-cards-container'>
+        <div>
           {!request.itinerary_items.length
             ? 'Empty'
             : request.itinerary_items.map(item => (
@@ -232,14 +230,14 @@ const AdminRequestShow = props => {
         </div>
       </div>
       {!request.fulfilled ? (
-        <div className='packages'>
+        <div>
           {renderFilter()}
           {filter === 'Packages' ? (
             <>
               {/* <h2>Packages</h2> */}
-              <ul className='pkg-list-show'>
+              <ul>
                 {itinPackages.map(pkg => (
-                  <li className='pkg-link' key={pkg.id}>
+                  <li key={pkg.id}>
                     <Link to={`/admin/itinerary_packages/${pkg.id}`}>
                       {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
                       {pkg.title}
@@ -259,11 +257,10 @@ const AdminRequestShow = props => {
               {/* <h2>
               Venues for {moment(request.start_time).format('MMMM Do YYYY')}
             </h2> */}
-              <ul className='pkg-list-show'>
+              <ul>
                 {scrapedNames.length > 0
                   ? scrapedNames.map((info, idx) => (
                       <li
-                        className='pkg-link single-item'
                         key={idx}
                         onClick={() => {
                           scrapeSinglePage(userData, info).then(infoJson => {

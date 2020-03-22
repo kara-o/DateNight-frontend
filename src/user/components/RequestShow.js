@@ -26,7 +26,7 @@ const RequestShow = props => {
   const renderContacts = () => {
     return request.contacts.map((c, i) => {
       return (
-        <li key={c.id} className='contact'>
+        <li key={c.id}>
           Contact #{i + 1}: {c.phone}
         </li>
       );
@@ -48,7 +48,7 @@ const RequestShow = props => {
 
   const renderAlert = () => {
     return (
-      <div className='cancel-button-div'>
+      <div>
         {new Date(request.start_time) >= new Date() ? (
           <Button onClick={handleClickOpen}>Cancel Request</Button>
         ) : null}
@@ -63,7 +63,7 @@ const RequestShow = props => {
               Are you sure you want to cancel this request?
             </DialogContentText>
           </DialogContent>
-          <DialogActions className='modal-btns'>
+          <DialogActions>
             <Button onClick={handleClose} color='primary'>
               No way!
             </Button>
@@ -81,7 +81,7 @@ const RequestShow = props => {
       <>
         {request.fulfilled ? (
           new Date(request.start_time) > new Date() ? (
-            <Paper elevation={10} className='paper request-show' elevation={10}>
+            <Paper elevation={10} elevation={10}>
               <p>
                 Get excited! Your itinerary is all set. You will be getting text
                 alerts starting on the morning of your date!
@@ -97,7 +97,7 @@ const RequestShow = props => {
             </>
           )
         ) : (
-          <Paper elevation={10} className='paper request-show' elevation={10}>
+          <Paper elevation={10} elevation={10}>
             <p>We are busy working to get your night out all set up!</p>
             <p>
               Check back soon for confirmation that your itinerary is ready...
@@ -124,13 +124,9 @@ const RequestShow = props => {
     <>
       {request ? (
         <>
-          <div className='show'>
-            <div className='itin-cards-container'>
-              <Paper
-                elevation={10}
-                className='paper request-show'
-                elevation={10}
-              >
+          <div>
+            <div>
+              <Paper elevation={10} elevation={10}>
                 <h2>{friendlyRelativeDate()}!</h2>
                 <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
                 <p>Time: {moment(request.start_time).format('h:mm a')}</p>
@@ -143,9 +139,9 @@ const RequestShow = props => {
               </Paper>
             </div>
           </div>
-          <div className='itinerary'>
+          <div>
             {' '}
-            <div className='itin-cards-container'>{renderItinerary()}</div>
+            <div>{renderItinerary()}</div>
           </div>
         </>
       ) : null}

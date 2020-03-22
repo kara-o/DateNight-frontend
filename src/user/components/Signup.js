@@ -40,10 +40,10 @@ const Signup = props => {
   };
 
   return (
-    <div className='signup-container'>
-      <h1 className='login'>Welcome</h1>
-      <form className='signup-form'>
-        <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
+    <div>
+      <h1>Welcome</h1>
+      <form>
+        <ul>{errors ? renderErrors(errors) : null}</ul>
         <TextField
           type='text'
           name='email'

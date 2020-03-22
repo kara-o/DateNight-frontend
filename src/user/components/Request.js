@@ -207,9 +207,9 @@ const Request = props => {
 
   return (
     <>
-      <Paper elevation={10} className='create-form paper'>
-        <form className='create-form' autoComplete='off'>
-          <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
+      <Paper elevation={10}>
+        <form autoComplete='off'>
+          <ul>{errors ? renderErrors(errors) : null}</ul>
           <fieldset className='datepickers unstyled'>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -298,7 +298,7 @@ const Request = props => {
           {renderAlert()}
         </form>
       </Paper>
-      <Paper elevation={10} className='request-tutorial'>
+      <Paper elevation={10}>
         <h3>
           Let us create a fun night for you! Give us some guidance through this
           request form, and we will do our best to make it all happen!

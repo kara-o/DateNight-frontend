@@ -4,6 +4,14 @@ import { Link, useLocation } from 'react-router-dom';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  loginContainer: {
+    gridArea: 'main'
+  }
+});
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -14,6 +22,8 @@ const Login = props => {
     password: ''
   });
   const [error, setError] = useState(null);
+
+  const classes = useStyles();
 
   const query = useQuery();
   const isAccountConfirmationPending = !!query.get(
@@ -58,8 +68,8 @@ const Login = props => {
   };
 
   return (
-    <div className='login-container'>
-      <h1 className='login'>DateNight</h1>
+    <div className={classes.loginContainer}>
+      <h1>DateNight</h1>
       <>
         {isAccountConfirmationPending ? (
           <h3>Confirmation email sent - check your inbox!</h3>
@@ -67,8 +77,8 @@ const Login = props => {
         {isAccountConfirmed ? (
           <h3>Thank you for confirming your account! Please login.</h3>
         ) : null}
-        <form className='login-form'>
-          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
+        <form>
+          <ul>{error ? <li>{error}</li> : null}</ul>
           <TextField
             type='text'
             name='email'

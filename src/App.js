@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import Sidebar from './layout/Sidebar';
 import UserHome from './user/components/UserHome';
 import Login from './user/components/Login';
 import Navbar from './layout/Navbar';
@@ -18,15 +17,32 @@ import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
 import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
 import AdminItineraryItems from './admin/components/AdminItineraryItems';
 
-function getUserData() {
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  mainContainer: {
+    display: 'grid',
+    gridTemplateColumns: '50% 50%',
+    gridTemplateRows: 'auto',
+    gridTemplateAreas: `
+    'navbar navbar'
+    'main main'
+    'footer footer'`,
+    justifyItems: 'center'
+  }
+});
+
+const getUserData = () => {
   const userDataStr = localStorage.getItem('userData');
   if (!userDataStr) return null;
   return JSON.parse(userDataStr);
-}
+};
 
 const App = () => {
   const [userData, setUserData] = useState(getUserData());
   const loggedIn = !!userData;
+
+  const classes = useStyles();
 
   const loginUser = userData => {
     localStorage.setItem('userData', JSON.stringify(userData));
@@ -46,7 +62,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div className={classes.mainContainer}>
       {loggedIn ? (
         <>
           <Navbar
@@ -54,7 +70,6 @@ const App = () => {
             logoutUser={handleLogoutUser}
             userData={userData}
           />
-          {/* <Sidebar userData={userData} /> */}
         </>
       ) : null}
       <>
@@ -79,7 +94,7 @@ const App = () => {
             path='/requests/:id/edit'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div className='user-page'>
+                <div>
                   <Request edit={true} {...props} userData={userData} />
                 </div>
               ) : null
@@ -89,7 +104,7 @@ const App = () => {
             path='/requests/new'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div className='user-page'>
+                <div>
                   <Request {...props} userData={userData} />
                 </div>
               ) : null
@@ -99,7 +114,7 @@ const App = () => {
             path='/requests/:id'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div className='user-page'>
+                <div>
                   <RequestShow {...props} userData={userData} />
                 </div>
               ) : null
@@ -112,7 +127,7 @@ const App = () => {
           <Route
             path='/admin/itinerary_packages/new'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminItineraryPackage {...props} userData={userData} />
               </div>
             )}
@@ -120,7 +135,7 @@ const App = () => {
           <Route
             path='/admin/itinerary_packages/:id/edit'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminItineraryPackage
                   {...props}
                   edit={true}
@@ -132,7 +147,7 @@ const App = () => {
           <Route
             path='/admin/itinerary_packages/:id'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminItineraryPackageShow {...props} userData={userData} />
               </div>
             )}
@@ -140,7 +155,7 @@ const App = () => {
           <Route
             path='/admin/itinerary_packages'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminItineraryPackages {...props} userData={userData} />
               </div>
             )}
@@ -148,7 +163,7 @@ const App = () => {
           <Route
             path='/admin/itinerary_items'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminItineraryItems {...props} userData={userData} />
               </div>
             )}
@@ -156,7 +171,7 @@ const App = () => {
           <Route
             path='/admin/requests/:id'
             render={props => (
-              <div className='admin-page'>
+              <div>
                 <AdminRequestShow {...props} userData={userData} />
               </div>
             )}
@@ -165,7 +180,7 @@ const App = () => {
             path='/admin'
             render={props =>
               loggedIn && userData.admin ? (
-                <div className='admin-page'>
+                <div>
                   <AdminHome {...props} userData={userData} />
                 </div>
               ) : (
@@ -175,7 +190,7 @@ const App = () => {
           />
           <Route path='/'>
             {loggedIn && !userData.admin ? (
-              <div className='user-page'>
+              <div>
                 <UserHome userData={userData} />
               </div>
             ) : (
@@ -185,7 +200,7 @@ const App = () => {
         </Switch>
       </>
       <Footer />
-    </>
+    </div>
   );
 };
 
