@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useDebugValue } from 'react';
-import { Link } from 'react-router-dom';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
 import ListContainer from '../../layout/ListContainer';
@@ -33,14 +32,12 @@ const UserHome = ({ userData }) => {
     );
     return uncancelledReqs.map(r => {
       return (
-        <Link to={`/requests/${r.id}`}>
-          <ListItem key={r.id}>
-            <p>{moment(r.start_time).calendar()}</p>
-            <p>{r.party_size} people</p>
-            <p>{r.neighborhood}</p>
-            <p>{r.fulfilled ? 'ITINERARY IS READY' : null}</p>
-          </ListItem>
-        </Link>
+        <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <p>{moment(r.start_time).calendar()}</p>
+          <p>{r.party_size} people</p>
+          <p>{r.neighborhood}</p>
+          <p>{r.fulfilled ? 'ITINERARY IS READY' : null}</p>
+        </ListItem>
       );
     });
   };
@@ -51,16 +48,31 @@ const UserHome = ({ userData }) => {
     );
     pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return pastDates.map(r => {
+      displayPlaceNames(r);
       return (
-        <Link to={`/requests/${r.id}`}>
-          <ListItem key={r.id}>
-            <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
-            <p>{r.party_size} people</p>
-            <p>{r.neighborhood}</p>
-          </ListItem>
-        </Link>
+        <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <p></p>
+          <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
+          <p>{displayPlaceNames(r)}</p>
+          <p></p>
+        </ListItem>
       );
     });
+  };
+
+  const displayPlaceNames = request => {
+    let stringOfNames = '';
+    const arrayOfNames = request.itinerary_items.map(item => {
+      return item.place;
+    });
+    for (let i = 0; i < arrayOfNames.length; i++) {
+      if (i > 0) {
+        stringOfNames += ', ';
+      }
+      stringOfNames += arrayOfNames[i];
+    }
+    console.log(stringOfNames);
+    return stringOfNames;
   };
 
   return requests ? (

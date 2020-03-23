@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import MyLink from './MyLink';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -15,25 +15,28 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
     <nav className={classes.navbar}>
       {userData && !userData.admin ? (
         <>
-          <Link to={`/`}>Home</Link>
-          <Link to={`/requests/new`}>Make A New Request!</Link>
+          <MyLink destination={`/`}>Home</MyLink>
+          <span> | </span>
+          <MyLink destination={`/requests/new`}>Make A New Request!</MyLink>
+          <span> | </span>
         </>
       ) : null}
       {userData && userData.admin ? (
         <div>
-          <Link to='/admin/'>Requests</Link>
-          <span>|</span>
-          <Link to='/admin/itinerary_packages'>Packages</Link>
+          <MyLink destination='/admin/'>Requests</MyLink>
+          <span> | </span>
+          <MyLink destination='/admin/itinerary_packages'>Packages</MyLink>
+          <span> | </span>
         </div>
       ) : null}
-      <Link
-        to={userData.admin ? '/admin/login' : '/login'}
+      <MyLink
+        destination={userData.admin ? '/admin/login' : '/login'}
         onClick={() => {
           userData.admin ? logoutAdmin() : logoutUser();
         }}
       >
         Logout
-      </Link>
+      </MyLink>
     </nav>
   );
 };

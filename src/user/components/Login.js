@@ -5,7 +5,6 @@ import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
 import LoginSignUpContainer from '../../layout/LoginSignUpContainer';
 import Form from '../../layout/Form';
-import { createUseStyles } from 'react-jss';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
