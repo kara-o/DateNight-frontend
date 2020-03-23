@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
     gridTemplateAreas: `
     'navbar navbar'
     'main main'
+    'main main'
     'footer footer'`,
     justifyItems: 'center'
   }
@@ -190,9 +191,7 @@ const App = () => {
           />
           <Route path='/'>
             {loggedIn && !userData.admin ? (
-              <div>
-                <UserHome userData={userData} />
-              </div>
+              <UserHome userData={userData} />
             ) : (
               <Redirect to='/login' />
             )}
