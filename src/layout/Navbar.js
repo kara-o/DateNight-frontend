@@ -1,25 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MenuItem, MenuList } from '@material-ui/core';
-import Button from './Button';
-import Avatar from '@material-ui/core/Avatar';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  navbar: {
+    gridArea: 'navbar'
+  }
+});
 
 const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
-  const renderInitials = () => {
-    if (!userData.admin) {
-      return (
-        <span>
-          {`${userData.user.first_name.slice(0, 1)}` +
-            `${userData.user.last_name.slice(0, 1)}`}
-        </span>
-      );
-    } else {
-      return 'ADMIN';
-    }
-  };
+  const classes = useStyles();
 
   return (
-    <nav>
+    <nav className={classes.navbar}>
       {userData && !userData.admin ? (
         <>
           <Link to={`/`}>Home</Link>

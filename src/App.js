@@ -4,7 +4,7 @@ import UserHome from './user/components/UserHome';
 import Login from './user/components/Login';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
-import Signup from './user/components/Signup';
+import SignUp from './user/components/SignUp';
 import Request from './user/components/Request';
 import RequestShow from './user/components/RequestShow';
 import { logoutUser } from './user/services/api';
@@ -87,7 +87,7 @@ const App = () => {
           <Route
             path='/signup'
             render={props =>
-              !loggedIn ? <Signup {...props} /> : <Redirect to='/' />
+              !loggedIn ? <SignUp {...props} /> : <Redirect to='/' />
             }
           />
           <Route

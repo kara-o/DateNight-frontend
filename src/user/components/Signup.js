@@ -3,8 +3,10 @@ import { createUser } from '../services/api';
 import { Link } from 'react-router-dom';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
+import Form from '../../layout/Form';
+import LoginSignUpContainer from '../../layout/LoginSignUpContainer';
 
-const Signup = props => {
+const SignUp = props => {
   const [formData, setFormData] = useState({
     password: '',
     password_confirmation: '',
@@ -40,9 +42,9 @@ const Signup = props => {
   };
 
   return (
-    <div>
+    <LoginSignUpContainer>
       <h1>Welcome</h1>
-      <form>
+      <Form>
         <ul>{errors ? renderErrors(errors) : null}</ul>
         <TextField
           type='text'
@@ -90,9 +92,9 @@ const Signup = props => {
           Signup
         </Button>
         <Link to='/login'>Back</Link>
-      </form>
-    </div>
+      </Form>
+    </LoginSignUpContainer>
   );
 };
 
-export default Signup;
+export default SignUp;

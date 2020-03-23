@@ -3,18 +3,13 @@ import { login } from '../services/api';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../../layout/Button';
 import TextField from '@material-ui/core/TextField';
-
+import LoginSignUpContainer from '../../layout/LoginSignUpContainer';
+import Form from '../../layout/Form';
 import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles({
-  loginContainer: {
-    gridArea: 'main'
-  }
-});
-
-function useQuery() {
+const useQuery = () => {
   return new URLSearchParams(useLocation().search);
-}
+};
 
 const Login = props => {
   const [formData, setFormData] = useState({
@@ -22,9 +17,6 @@ const Login = props => {
     password: ''
   });
   const [error, setError] = useState(null);
-
-  const classes = useStyles();
-
   const query = useQuery();
   const isAccountConfirmationPending = !!query.get(
     'account_confirmation_pending'
@@ -68,7 +60,7 @@ const Login = props => {
   };
 
   return (
-    <div className={classes.loginContainer}>
+    <LoginSignUpContainer>
       <h1>DateNight</h1>
       <>
         {isAccountConfirmationPending ? (
@@ -77,7 +69,7 @@ const Login = props => {
         {isAccountConfirmed ? (
           <h3>Thank you for confirming your account! Please login.</h3>
         ) : null}
-        <form>
+        <Form>
           <ul>{error ? <li>{error}</li> : null}</ul>
           <TextField
             type='text'
@@ -98,10 +90,10 @@ const Login = props => {
           <Button type='submit' onClick={handleSubmit}>
             Login
           </Button>
-        </form>
+        </Form>
         <Link to='/signup'>New user? Sign up for an account</Link>
       </>
-    </div>
+    </LoginSignUpContainer>
   );
 };
 
