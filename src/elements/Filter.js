@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Filter = ({ title, value, onChange, children, styles }) => {
+const Filter = ({ title, value, onChange, children }) => {
   const classes = useStyles();
   return (
     <div className={classes.filter}>

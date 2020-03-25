@@ -4,7 +4,8 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   form: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    textAlign: 'center'
   }
 });
 

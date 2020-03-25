@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, QuestionModal } from '../../elements';
+import { QuestionModal, Form, MyInput, Filter } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -8,20 +8,25 @@ import {
 } from '@material-ui/pickers';
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
-import {
-  TextField,
-  MenuItem,
-  FormLabel,
-  Paper,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  textArea: {
+    resize: 'none',
+    margin: '20px'
+  },
+  contactsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    padding: '10px'
+  }
+});
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
 
-function thisFriday() {
+const thisFriday = () => {
   const dayINeed = 5; // Friday
   const today = moment().isoWeekday();
 
@@ -38,17 +43,17 @@ function thisFriday() {
       .add(1, 'week')
       .toDate();
   }
-}
+};
 
-function tomorrow() {
+const tomorrow = () => {
   return moment()
     .add(1, 'days')
     .toDate();
-}
+};
 
-function defaulStartTime() {
+const defaulStartTime = () => {
   return new Date(2000, 1, 1, 19, 0, 0);
-}
+};
 
 const Request = props => {
   const { userData } = props;
@@ -65,6 +70,7 @@ const Request = props => {
   const [contacts, setContacts] = useState([userData.user.phone]);
   const [errors, setErrors] = useState(null);
   const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
   //TODO add loading
   useEffect(() => {
@@ -126,7 +132,6 @@ const Request = props => {
     return createRequest(data, userData).then(json => {
       if (!json.errors) {
         console.log('sucessfully created request!', json);
-        return json;
       } else {
         console.log('errors creating request!');
         setErrors({
@@ -158,9 +163,9 @@ const Request = props => {
   const renderOptions = (array, attribute) => {
     return array.map(o => {
       return (
-        <MenuItem key={o.id} value={o.id}>
+        <option key={o.id} value={o.id}>
           {o[`${attribute}`]}
-        </MenuItem>
+        </option>
       );
     });
   };
@@ -175,105 +180,88 @@ const Request = props => {
 
   return (
     <>
-      <Paper elevation={10}>
-        <form autoComplete='off'>
-          <ul>{errors ? renderErrors(errors) : null}</ul>
-          <fieldset className='datepickers unstyled'>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant='inline'
-                format='MM/dd/yyyy'
-                margin='normal'
-                label='Date'
-                minDate={tomorrow()}
-                value={formData.start_date}
-                onChange={date => handleChange(date, 'start_date')}
+      <Form autoComplete='off'>
+        <ul>{errors ? renderErrors(errors) : null}</ul>
+        <fieldset>
+          <legend>Date and Time</legend>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              label='Date'
+              minDate={tomorrow()}
+              value={formData.start_date}
+              onChange={date => handleChange(date, 'start_date')}
+            />
+            <KeyboardTimePicker
+              disableToolbar
+              variant='inline'
+              minutesStep={30}
+              margin='normal'
+              label='Time'
+              value={formData.start_time}
+              onChange={time => handleChange(time, 'start_time')}
+            />
+          </MuiPickersUtilsProvider>
+        </fieldset>
+        <Filter
+          title='Party Size: '
+          value={formData.party_size}
+          onChange={e => handleChange(e.target.value, 'party_size')}
+        >
+          <option value='1'>1</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+        </Filter>
+        <Filter
+          title='Neighborhood: '
+          value={neighborhoodSelection}
+          onChange={e => setNeighborhoodSelection(e.target.value)}
+        >
+          {renderOptions(neighborhoods, 'name')}
+        </Filter>
+        <Filter
+          title='Price Range: '
+          value={priceRangeSelection}
+          onChange={e => setPriceRangeSelection(e.target.value)}
+        >
+          {renderOptions(priceRanges, 'max_amount')}
+        </Filter>
+        <fieldset className={classes.contactsContainer}>
+          <legend>Contact Phone Numbers (up to 4)</legend>
+          {contacts
+            .concat([''])
+            .slice(0, 4) // limit to 4
+            .map((contact, i) => (
+              <MyInput
+                key={i}
+                label={`Phone ${i + 1}`}
+                value={contact}
+                type='tel'
+                onChange={e => updateContactAt(e.target.value, i)}
               />
-              <KeyboardTimePicker
-                disableToolbar
-                variant='inline'
-                minutesStep={30}
-                margin='normal'
-                label='Time'
-                value={formData.start_time}
-                onChange={time => handleChange(time, 'start_time')}
-              />
-            </MuiPickersUtilsProvider>
-          </fieldset>
-          <TextField
-            select
-            label='Party size'
-            className='select party-size-picker'
-            value={formData.party_size}
-            onChange={e => handleChange(e.target.value, 'party_size')}
-            margin='normal'
-          >
-            <MenuItem value='1'>1</MenuItem>
-            <MenuItem value='2'>2</MenuItem>
-            <MenuItem value='3'>3</MenuItem>
-            <MenuItem value='4'>4</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label='Neighborhood'
-            className='select neighborhood-picker'
-            value={neighborhoodSelection}
-            onChange={e => setNeighborhoodSelection(e.target.value)}
-            margin='normal'
-          >
-            {renderOptions(neighborhoods, 'name')}
-          </TextField>
-          <TextField
-            select
-            label='Price range'
-            className='select price-picker'
-            value={priceRangeSelection}
-            onChange={e => setPriceRangeSelection(e.target.value)}
-            margin='normal'
-          >
-            {renderOptions(priceRanges, 'max_amount')}
-          </TextField>
-          <fieldset className='contacts unstyled'>
-            <FormLabel className='contacts-group-label'>
-              Contact phone numbers (up to 4)
-            </FormLabel>
-            {contacts
-              .concat([''])
-              .slice(0, 4) // limit to 4
-              .map((contact, i) => (
-                <TextField
-                  key={i}
-                  label={`Phone ${i + 1}`}
-                  variant='outlined'
-                  value={contact}
-                  inputProps={{
-                    type: 'tel'
-                  }}
-                  onChange={e => updateContactAt(e.target.value, i)}
-                />
-              ))}
-          </fieldset>
-          <TextField
-            multiline
-            rows={3}
-            label='Notes'
-            className='textarea notes'
-            value={formData.notes}
-            onChange={e => handleChange(e.target.value, 'notes')}
-            margin='normal'
-          />
-          <QuestionModal
-            questionText='Success! We will get busy setting up your perfect night out! You
+            ))}
+        </fieldset>
+        <textarea
+          placeholder='Any additional notes?'
+          className={classes.textArea}
+          rows={5}
+          value={formData.notes}
+          onChange={e => handleChange(e.target.value, 'notes')}
+        />
+        <QuestionModal
+          questionText='Success! We will get busy setting up your perfect night out! You
             will get your first text on the day of your date at 10 am!'
-            acceptText="Can't Wait!"
-            navigateAwayAction={handleClose}
-            buttonText='Submit Request'
-            onClick={handleSubmit}
-          />
-        </form>
-      </Paper>
-      <Paper elevation={10}>
+          acceptText="Can't Wait!"
+          navigateAwayAction={handleClose}
+          buttonText='Submit Request'
+          onClick={handleSubmit}
+        />
+      </Form>
+      <div>
         <h3>
           Let us create a fun night for you! Give us some guidance through this
           request form, and we will do our best to make it all happen!
@@ -301,9 +289,8 @@ const Request = props => {
           restrictions/time constraints, etc. We want to make this night perfect
           for you!
         </p>
-
         <h3>Press submit when you're done!</h3>
-      </Paper>
+      </div>
     </>
   );
 };
