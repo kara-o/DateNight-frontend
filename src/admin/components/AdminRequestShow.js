@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../../layout/Button';
+import { Button, MyLink } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
+  toggleRequestFulfilled,
+  fetchItineraryPackages,
+  applyItineraryPackage,
+  sendTextMessages,
   scrapeNames,
   scrapeSinglePage,
   deleteItinItem,
   addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
-import {
-  toggleRequestFulfilled,
-  fetchItineraryPackages,
-  applyItineraryPackage,
-  sendTextMessages
-} from '../services/api-admin';
 import ItineraryItem from './ItineraryItem';
 import {
   Paper,
   CircularProgress,
   Dialog,
   Select,
-  MenuItem,
-  InputLabel
+  MenuItem
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -238,10 +234,10 @@ const AdminRequestShow = props => {
               <ul>
                 {itinPackages.map(pkg => (
                   <li key={pkg.id}>
-                    <Link to={`/admin/itinerary_packages/${pkg.id}`}>
+                    <MyLink destination={`/admin/itinerary_packages/${pkg.id}`}>
                       {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
                       {pkg.title}
-                    </Link>
+                    </MyLink>
                     <Button
                       type='button'
                       onClick={() => handleApplyPackage(pkg.id)}

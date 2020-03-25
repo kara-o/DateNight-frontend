@@ -4,11 +4,8 @@ import {
   createItineraryPackageItem,
   deletePkgItem
 } from '../services/api-admin';
-import Button from '../../layout/Button';
+import { Button, MyLink, SimpleCard, Map } from '../../elements';
 import { TextField, Paper } from '@material-ui/core';
-import Map from '../../layout/Map';
-import { Link } from 'react-router-dom';
-import SimpleCard from '../../layout/SimpleCard';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
 
@@ -120,9 +117,11 @@ const AdminItineraryPackageShow = props => {
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
-          <Link to={`/admin/itinerary_packages/${itinPackage.id}/edit`}>
+          <MyLink
+            destination={`/admin/itinerary_packages/${itinPackage.id}/edit`}
+          >
             Edit
-          </Link>
+          </MyLink>
         </Paper>
       );
     }

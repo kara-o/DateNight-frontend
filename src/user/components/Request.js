@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../../layout/Button';
-import { TextField, MenuItem } from '@material-ui/core';
+import { Button } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -9,11 +8,16 @@ import {
 } from '@material-ui/pickers';
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
-import { FormLabel, Paper } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import {
+  TextField,
+  MenuItem,
+  FormLabel,
+  Paper,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText
+} from '@material-ui/core';
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
 

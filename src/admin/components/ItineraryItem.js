@@ -1,6 +1,5 @@
 import React from 'react';
-import Map from '../../layout/Map';
-import Button from '../../layout/Button';
+import { Map, Button } from '../../elements';
 import { Paper } from '@material-ui/core';
 import * as moment from 'moment';
 

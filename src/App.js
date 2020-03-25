@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import UserHome from './user/components/UserHome';
 import Login from './user/components/Login';
-import Navbar from './layout/Navbar';
-import Footer from './layout/Footer';
+import { Navbar, Footer } from './elements';
 import SignUp from './user/components/SignUp';
 import Request from './user/components/Request';
 import RequestShow from './user/components/RequestShow';
@@ -95,9 +94,9 @@ const App = () => {
             path='/requests/:id/edit'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div>
+                <>
                   <Request edit={true} {...props} userData={userData} />
-                </div>
+                </>
               ) : null
             }
           />
@@ -105,9 +104,9 @@ const App = () => {
             path='/requests/new'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div>
+                <>
                   <Request {...props} userData={userData} />
-                </div>
+                </>
               ) : null
             }
           />
@@ -115,9 +114,9 @@ const App = () => {
             path='/requests/:id'
             render={props =>
               loggedIn && !userData.admin ? (
-                <div>
+                <>
                   <RequestShow {...props} userData={userData} />
-                </div>
+                </>
               ) : null
             }
           />
@@ -128,62 +127,62 @@ const App = () => {
           <Route
             path='/admin/itinerary_packages/new'
             render={props => (
-              <div>
+              <>
                 <AdminItineraryPackage {...props} userData={userData} />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin/itinerary_packages/:id/edit'
             render={props => (
-              <div>
+              <>
                 <AdminItineraryPackage
                   {...props}
                   edit={true}
                   userData={userData}
                 />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin/itinerary_packages/:id'
             render={props => (
-              <div>
+              <>
                 <AdminItineraryPackageShow {...props} userData={userData} />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin/itinerary_packages'
             render={props => (
-              <div>
+              <>
                 <AdminItineraryPackages {...props} userData={userData} />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin/itinerary_items'
             render={props => (
-              <div>
+              <>
                 <AdminItineraryItems {...props} userData={userData} />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin/requests/:id'
             render={props => (
-              <div>
+              <>
                 <AdminRequestShow {...props} userData={userData} />
-              </div>
+              </>
             )}
           />
           <Route
             path='/admin'
             render={props =>
               loggedIn && userData.admin ? (
-                <div>
+                <>
                   <AdminHome {...props} userData={userData} />
-                </div>
+                </>
               ) : (
                 <Redirect to='/admin/login' />
               )

@@ -10,7 +10,7 @@ const useStyles = createUseStyles({
 
 const LoginSignUpContainer = ({ children }) => {
   const classes = useStyles();
-  return <form className={classes.container}>{children}</form>;
+  return <div className={classes.container}>{children}</div>;
 };
 
 export default LoginSignUpContainer;

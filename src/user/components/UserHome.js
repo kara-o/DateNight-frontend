@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useDebugValue } from 'react';
 import { fetchRequests } from '../services/api';
 import * as moment from 'moment';
-import ListContainer from '../../layout/ListContainer';
-import ListItem from '../../layout/ListItem';
+import { ListContainer, ListItem } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -24,7 +23,7 @@ const UserHome = ({ userData }) => {
     if (userData) {
       fetchRequests(userData).then(json => setRequests(json));
     }
-  }, [userData]);
+  }, []);
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
@@ -48,19 +47,18 @@ const UserHome = ({ userData }) => {
     );
     pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return pastDates.map(r => {
-      displayPlaceNames(r);
       return (
         <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
           <p></p>
           <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
-          <p>{displayPlaceNames(r)}</p>
+          <p>{placeNamesToString(r)}</p>
           <p></p>
         </ListItem>
       );
     });
   };
 
-  const displayPlaceNames = request => {
+  const placeNamesToString = request => {
     let stringOfNames = '';
     const arrayOfNames = request.itinerary_items.map(item => {
       return item.place;
@@ -71,7 +69,6 @@ const UserHome = ({ userData }) => {
       }
       stringOfNames += arrayOfNames[i];
     }
-    console.log(stringOfNames);
     return stringOfNames;
   };
 

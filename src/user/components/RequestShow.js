@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../../layout/Button';
+import { Button } from '../../elements';
 import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import { Paper } from '@material-ui/core';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText
+} from '@material-ui/core';
 import ItineraryItem from '../../admin/components/ItineraryItem';
+import QuestionModal from '../../elements/QuestionModal';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({});
 
 const RequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
-  const [open, setOpen] = useState(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -33,60 +39,17 @@ const RequestShow = props => {
     });
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleCancel = () => {
-    cancelRequest(userData, requestId).then(console.log);
-    props.history.push('/');
-  };
-
-  const renderAlert = () => {
-    return (
-      <div>
-        {new Date(request.start_time) >= new Date() ? (
-          <Button onClick={handleClickOpen}>Cancel Request</Button>
-        ) : null}
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              Are you sure you want to cancel this request?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color='primary'>
-              No way!
-            </Button>
-            <Button onClick={handleCancel} color='primary' autoFocus>
-              Yes, please cancel.
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  };
-
   const renderItinerary = () => {
     return (
       <>
         {request.fulfilled ? (
           new Date(request.start_time) > new Date() ? (
-            <Paper elevation={10} elevation={10}>
+            <div elevation={10} elevation={10}>
               <p>
                 Get excited! Your itinerary is all set. You will be getting text
                 alerts starting on the morning of your date!
               </p>
-            </Paper>
+            </div>
           ) : (
             <>
               {!request.itinerary_items.length
@@ -97,12 +60,12 @@ const RequestShow = props => {
             </>
           )
         ) : (
-          <Paper elevation={10} elevation={10}>
+          <div elevation={10} elevation={10}>
             <p>We are busy working to get your night out all set up!</p>
             <p>
               Check back soon for confirmation that your itinerary is ready...
             </p>
-          </Paper>
+          </div>
         )}
       </>
     );
@@ -120,23 +83,32 @@ const RequestShow = props => {
     }
   };
 
+  const handleCancel = () => {
+    cancelRequest(userData, requestId).then(props.history.push('/'));
+  };
+
   return (
     <>
       {request ? (
         <>
           <div>
             <div>
-              <Paper elevation={10} elevation={10}>
-                <h2>{friendlyRelativeDate()}!</h2>
-                <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-                <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-                <p>Party: {request.party_size} people</p>
-                <ul>{renderContacts()}</ul>
-                <p>Neighborhood: {request.neighborhood}</p>
-                <p>Price Range: {request.price_range}</p>
-                {request.notes ? <p>Notes: {request.notes}</p> : null}
-                {renderAlert()}
-              </Paper>
+              <h2>{friendlyRelativeDate()}!</h2>
+              <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+              <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+              <p>Party: {request.party_size} people</p>
+              <ul>{renderContacts()}</ul>
+              <p>Neighborhood: {request.neighborhood}</p>
+              <p>Price Range: {request.price_range}</p>
+              {request.notes ? <p>Notes: {request.notes}</p> : null}
+              {new Date(request.start_time) >= new Date() ? (
+                <QuestionModal
+                  question='Are you sure you want to cancel this request?'
+                  decline='No way!'
+                  accept='Yes, please cancel.'
+                  handleCancel={handleCancel}
+                />
+              ) : null}
             </div>
           </div>
           <div>

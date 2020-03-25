@@ -4,7 +4,13 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   navbar: {
-    gridArea: 'navbar'
+    gridArea: 'navbar',
+    display: 'grid',
+    gridTemplateColumns:
+      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]',
+    gridTemplateRows: 'auto',
+    justifyItems: 'center',
+    width: '100%'
   }
 });
 
@@ -16,18 +22,14 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
       {userData && !userData.admin ? (
         <>
           <MyLink destination={`/`}>Home</MyLink>
-          <span> | </span>
           <MyLink destination={`/requests/new`}>Make A New Request!</MyLink>
-          <span> | </span>
         </>
       ) : null}
       {userData && userData.admin ? (
-        <div>
+        <>
           <MyLink destination='/admin/'>Requests</MyLink>
-          <span> | </span>
           <MyLink destination='/admin/itinerary_packages'>Packages</MyLink>
-          <span> | </span>
-        </div>
+        </>
       ) : null}
       <MyLink
         destination={userData.admin ? '/admin/login' : '/login'}

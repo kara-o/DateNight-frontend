@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { login } from '../services/api';
-import { Link, useLocation } from 'react-router-dom';
-import Button from '../../layout/Button';
-import TextField from '@material-ui/core/TextField';
-import LoginSignUpContainer from '../../layout/LoginSignUpContainer';
-import Form from '../../layout/Form';
+import { useLocation } from 'react-router-dom';
+import {
+  Button,
+  LoginSignUpContainer,
+  Form,
+  MyLink,
+  MyInput
+} from '../../elements';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -70,27 +73,25 @@ const Login = props => {
         ) : null}
         <Form>
           <ul>{error ? <li>{error}</li> : null}</ul>
-          <TextField
+          <MyInput
             type='text'
             name='email'
             value={formData.email}
             onChange={handleChange}
             label='Email'
-            variant='filled'
           />
-          <TextField
+          <MyInput
             type='password'
             name='password'
             value={formData.password}
             onChange={handleChange}
             label='Password'
-            variant='filled'
           />
           <Button type='submit' onClick={handleSubmit}>
             Login
           </Button>
         </Form>
-        <Link to='/signup'>New user? Sign up for an account</Link>
+        <MyLink destination='/signup'>New user? Sign up for an account</MyLink>
       </>
     </LoginSignUpContainer>
   );
