@@ -19,8 +19,7 @@ const QuestionModal = ({
 
   const handleClickOpen = e => {
     if (onClick) {
-      onClick(e);
-      setOpen(true);
+      onClick(e).then(setOpen(true));
     } else {
       setOpen(true);
     }
