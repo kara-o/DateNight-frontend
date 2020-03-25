@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
 import ItineraryItem from '../../admin/components/ItineraryItem';
-import QuestionModal from '../../elements/QuestionModal';
+import { QuestionModal, SideDialog } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({});
@@ -37,12 +37,12 @@ const RequestShow = props => {
       <>
         {request.fulfilled ? (
           new Date(request.start_time) > new Date() ? (
-            <div elevation={10} elevation={10}>
+            <SideDialog>
               <p>
                 Get excited! Your itinerary is all set. You will be getting text
                 alerts starting on the morning of your date!
               </p>
-            </div>
+            </SideDialog>
           ) : (
             <>
               {!request.itinerary_items.length
@@ -53,12 +53,12 @@ const RequestShow = props => {
             </>
           )
         ) : (
-          <div elevation={10} elevation={10}>
+          <SideDialog>
             <p>We are busy working to get your night out all set up!</p>
             <p>
               Check back soon for confirmation that your itinerary is ready...
             </p>
-          </div>
+          </SideDialog>
         )}
       </>
     );
@@ -90,30 +90,25 @@ const RequestShow = props => {
       {request ? (
         <>
           <div>
-            <div>
-              <h2>{friendlyRelativeDate()}!</h2>
-              <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-              <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-              <p>Party: {request.party_size} people</p>
-              <ul>{renderContacts()}</ul>
-              <p>Neighborhood: {request.neighborhood}</p>
-              <p>Price Range: {request.price_range}</p>
-              {request.notes ? <p>Notes: {request.notes}</p> : null}
-              {new Date(request.start_time) >= new Date() ? (
-                <QuestionModal
-                  questionText='Are you sure you want to cancel this request?'
-                  buttonText='Cancel Request'
-                  declineText='No way!'
-                  acceptText='Yes, please cancel.'
-                  navigateAwayAction={handleCancel}
-                />
-              ) : null}
-            </div>
+            <h2>{friendlyRelativeDate()}!</h2>
+            <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+            <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+            <p>Party: {request.party_size} people</p>
+            <ul>{renderContacts()}</ul>
+            <p>Neighborhood: {request.neighborhood}</p>
+            <p>Price Range: {request.price_range}</p>
+            {request.notes ? <p>Notes: {request.notes}</p> : null}
+            {new Date(request.start_time) >= new Date() ? (
+              <QuestionModal
+                questionText='Are you sure you want to cancel this request?'
+                buttonText='Cancel Request'
+                declineText='No way!'
+                acceptText='Yes, please cancel.'
+                navigateAwayAction={handleCancel}
+              />
+            ) : null}
           </div>
-          <div>
-            {' '}
-            <div>{renderItinerary()}</div>
-          </div>
+          {renderItinerary()}
         </>
       ) : null}
     </>

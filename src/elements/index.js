@@ -11,6 +11,7 @@ import Navbar from './Navbar';
 import MyInput from './MyInput';
 import Filter from './Filter';
 import QuestionModal from './QuestionModal';
+import SideDialog from './SideDialog';
 
 export {
   Button,
@@ -25,5 +26,6 @@ export {
   Navbar,
   MyInput,
   Filter,
-  QuestionModal
+  QuestionModal,
+  SideDialog
 };

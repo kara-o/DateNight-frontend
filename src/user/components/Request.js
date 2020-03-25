@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { QuestionModal, Form, MyInput, Filter, Button } from '../../elements';
+import {
+  QuestionModal,
+  Form,
+  MyInput,
+  Filter,
+  Button,
+  SideDialog
+} from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -21,6 +28,9 @@ const useStyles = createUseStyles({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     padding: '10px'
+  },
+  requestTitle: {
+    marginBottom: '5px'
   },
   helpLink: {
     fontStyle: 'italic',
@@ -194,45 +204,50 @@ const Request = props => {
   }
 
   const renderHelpPage = () => {
+    //TODO make list??
     return (
-      <div>
-        <h3>
-          Let us create a fun night for you! Give us some guidance through this
-          request form, and we will do our best to make it all happen!
-        </h3>
+      <SideDialog>
+        <h2 className={classes.helpTitle}>
+          Give us some guidance, then let us create the perfect night for you.
+        </h2>
         <p>
-          Choose the day and time for your date. Depending on your budget and
+          • Choose the day and time for your date. Depending on your budget and
           special instructions, we will schedule up to a total duration of 4
           hours.
-        </p>
-        <p>Which area of Seattle do you want to go to?</p>
-        <p>
-          How big is your party? Let us know, we don't assume that everyone is a
-          couple of 2 and we can make reservations for up to 4 people!
-        </p>
-        <p>
-          Let us know your approximate budget per person. We cannot guarantee we
-          will be exact, but we always try our best!
-        </p>
-        <p>
-          Provide us up to four contact numbers where we will send text alerts
+          <br />
+          <br />
+          • Which area of Seattle do you want to go to?
+          <br />
+          <br />
+          • How big is your party? Let us know, we don't assume that everyone is
+          a couple of 2 and we can make reservations for up to 4 people!
+          <br />
+          <br />
+          • Let us know your approximate budget per person. We cannot guarantee
+          we will be exact, but we always try our best!
+          <br />
+          <br />
+          • Provide us up to four contact numbers where we will send text alerts
           containing your itinerary!
-        </p>
-        <p>
-          Leave us any special requests in the notes sections, such as dietary
+          <br />
+          <br />
+          • Leave us any special requests in the notes sections, such as dietary
           restrictions/time constraints, etc. We want to make this night perfect
           for you!
+          <br />
         </p>
         <h3>Press submit when you're done!</h3>
         <Button onClick={() => setShowHelp(false)}>Got it!</Button>
-      </div>
+      </SideDialog>
     );
   };
 
   return (
     <>
       <div className={showHelp ? classes.withHelp : classes.noHelp}>
-        <h2>What kind of night do you want?</h2>
+        <h2 className={classes.requestTitle}>
+          What kind of night do you want?
+        </h2>
         {!showHelp ? (
           <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
             {' '}
