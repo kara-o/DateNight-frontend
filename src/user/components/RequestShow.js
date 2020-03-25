@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '../../elements';
 import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core';
 import ItineraryItem from '../../admin/components/ItineraryItem';
 import QuestionModal from '../../elements/QuestionModal';
 import { createUseStyles } from 'react-jss';
@@ -84,7 +77,12 @@ const RequestShow = props => {
   };
 
   const handleCancel = () => {
-    cancelRequest(userData, requestId).then(props.history.push('/'));
+    cancelRequest(userData, requestId).then(requestJson => {
+      props.history.push({
+        pathname: '/',
+        state: { cancelledRequest: requestJson }
+      });
+    });
   };
 
   return (

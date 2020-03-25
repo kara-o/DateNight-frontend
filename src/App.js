@@ -188,13 +188,18 @@ const App = () => {
               )
             }
           />
-          <Route path='/'>
-            {loggedIn && !userData.admin ? (
-              <UserHome userData={userData} />
-            ) : (
-              <Redirect to='/login' />
-            )}
-          </Route>
+          <Route
+            path='/'
+            render={props =>
+              loggedIn && !userData.admin ? (
+                <>
+                  <UserHome {...props} userData={userData} />
+                </>
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
         </Switch>
       </>
       <Footer />

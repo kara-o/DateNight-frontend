@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useDebugValue } from 'react';
-import { fetchRequests } from '../services/api';
+import { fetchRequests, cancelRequest } from '../services/api';
 import * as moment from 'moment';
 import { ListContainer, ListItem } from '../../elements';
 import { createUseStyles } from 'react-jss';
@@ -15,15 +15,18 @@ const useStyles = createUseStyles({
   }
 });
 
-const UserHome = ({ userData }) => {
+const UserHome = props => {
+  const { userData } = props;
   const [requests, setRequests] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
+    console.log(props.location.state);
     if (userData) {
+      console.log('fetching requests!');
       fetchRequests(userData).then(json => setRequests(json));
     }
-  }, []);
+  }, [userData]);
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
