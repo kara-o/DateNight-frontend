@@ -7,11 +7,23 @@ import {
 } from '@material-ui/core';
 import Button from './Button';
 
-const QuestionModal = ({ question, accept, decline, handleCancel }) => {
+const QuestionModal = ({
+  buttonText,
+  questionText,
+  acceptText,
+  declineText = null,
+  navigateAwayAction,
+  onClick = null
+}) => {
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = e => {
+    if (onClick) {
+      onClick(e);
+      setOpen(true);
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -20,7 +32,7 @@ const QuestionModal = ({ question, accept, decline, handleCancel }) => {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Cancel Request</Button>
+      <Button onClick={handleClickOpen}>{buttonText}</Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -29,15 +41,17 @@ const QuestionModal = ({ question, accept, decline, handleCancel }) => {
       >
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            {question}
+            {questionText}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
-            {decline}
-          </Button>
-          <Button onClick={handleCancel} color='primary' autoFocus>
-            {accept}
+          {declineText ? (
+            <Button onClick={handleClose} color='primary'>
+              {declineText}
+            </Button>
+          ) : null}
+          <Button onClick={navigateAwayAction} color='primary' autoFocus>
+            {acceptText}
           </Button>
         </DialogActions>
       </Dialog>

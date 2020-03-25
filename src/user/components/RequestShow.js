@@ -101,10 +101,11 @@ const RequestShow = props => {
               {request.notes ? <p>Notes: {request.notes}</p> : null}
               {new Date(request.start_time) >= new Date() ? (
                 <QuestionModal
-                  question='Are you sure you want to cancel this request?'
-                  decline='No way!'
-                  accept='Yes, please cancel.'
-                  handleCancel={handleCancel}
+                  questionText='Are you sure you want to cancel this request?'
+                  buttonText='Cancel Request'
+                  declineText='No way!'
+                  acceptText='Yes, please cancel.'
+                  navigateAwayAction={handleCancel}
                 />
               ) : null}
             </div>

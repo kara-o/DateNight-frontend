@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '../../elements';
+import { Button, QuestionModal } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -90,12 +90,9 @@ const Request = props => {
 
   const getPostData = () => {
     const startDate = new Date(
-      // pull date from formData.start_date
       formData.start_date.getFullYear(),
       formData.start_date.getMonth(),
       formData.start_date.getDate(),
-
-      // pull time from formData.start_time
       formData.start_time.getHours(),
       formData.start_time.getMinutes()
     );
@@ -158,7 +155,6 @@ const Request = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     const data = getPostData();
 
     createRequest(data, userData).then(json => {
@@ -299,7 +295,14 @@ const Request = props => {
             onChange={e => handleChange(e.target.value, 'notes')}
             margin='normal'
           />
-          {renderAlert()}
+          <QuestionModal
+            questionText='Success! We will get busy setting up your perfect night out! You
+            will get your first text on the day of your date at 10 am!'
+            acceptText="Can't Wait!"
+            navigateAwayAction={handleClose}
+            buttonText='Submit Request'
+            onClick={handleSubmit}
+          />
         </form>
       </Paper>
       <Paper elevation={10}>

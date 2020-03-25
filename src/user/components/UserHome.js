@@ -21,12 +21,11 @@ const UserHome = props => {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(props.location.state);
     if (userData) {
-      console.log('fetching requests!');
+      console.log('fetching requests!', props.location.state);
       fetchRequests(userData).then(json => setRequests(json));
     }
-  }, [userData]);
+  }, [props.location.state, userData]); //TODO do I really need props.location.state
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
