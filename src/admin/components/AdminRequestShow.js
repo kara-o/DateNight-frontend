@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, MyLink } from '../../elements';
+import { Button, MyLink, ItineraryItem } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
   toggleRequestFulfilled,
@@ -12,7 +12,6 @@ import {
   addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
-import ItineraryItem from './ItineraryItem';
 import {
   Paper,
   CircularProgress,

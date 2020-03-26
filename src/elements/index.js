@@ -12,6 +12,7 @@ import MyInput from './MyInput';
 import Filter from './Filter';
 import QuestionModal from './QuestionModal';
 import SideDialog from './SideDialog';
+import ItineraryItem from './ItineraryItem';
 
 export {
   Button,
@@ -27,5 +28,6 @@ export {
   MyInput,
   Filter,
   QuestionModal,
-  SideDialog
+  SideDialog,
+  ItineraryItem
 };

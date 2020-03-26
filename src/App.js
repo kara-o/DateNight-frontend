@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import UserHome from './user/components/UserHome';
-import Login from './user/components/Login';
+import {
+  Login,
+  SignUp,
+  Request,
+  RequestShow,
+  UserHome
+} from './user/components';
+import {
+  AdminHome,
+  AdminItineraryPackage,
+  AdminItineraryPackageShow,
+  AdminItineraryPackages,
+  AdminItineraryItems,
+  AdminLogin,
+  AdminRequestShow
+} from './admin/components';
 import { Navbar, Footer } from './elements';
-import SignUp from './user/components/SignUp';
-import Request from './user/components/Request';
-import RequestShow from './user/components/RequestShow';
 import { logoutUser } from './user/services/api';
 import { logoutAdmin } from './admin/services/api-admin';
-import AdminLogin from './admin/components/AdminLogin';
-import AdminHome from './admin/components/AdminHome';
-import AdminRequestShow from './admin/components/AdminRequestShow';
-import AdminItineraryPackages from './admin/components/AdminItineraryPackages';
-import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
-import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
-import AdminItineraryItems from './admin/components/AdminItineraryItems';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({

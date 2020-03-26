@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
-import ItineraryItem from '../../admin/components/ItineraryItem';
-import { QuestionModal, SideDialog } from '../../elements';
+import { QuestionModal, SideDialog, ItineraryItem } from '../../elements';
 
 const RequestShow = props => {
   const { userData } = props;
