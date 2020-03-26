@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../services/api-admin';
-import Button from '../../layout/Button';
-import TextField from '@material-ui/core/TextField';
+import { Button, Form, LoginSignUpContainer, MyInput } from '../../elements';
 
 const AdminLogin = props => {
   const [formData, setFormData] = useState({
@@ -47,18 +46,18 @@ const AdminLogin = props => {
   };
 
   return (
-    <div className='admin-login'>
-      <h2 className='icon'>DateNight Admin Login</h2>
-      <form className='admin-login'>
-        <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-        <TextField
+    <LoginSignUpContainer>
+      <h1>DateNight Admin Login</h1>
+      <Form>
+        <ul>{error ? <li>{error}</li> : null}</ul>
+        <MyInput
           type='text'
           name='email'
           value={formData.email}
           onChange={handleChange}
           label='Email'
         />
-        <TextField
+        <MyInput
           type='password'
           name='password'
           value={formData.password}
@@ -68,8 +67,8 @@ const AdminLogin = props => {
         <Button type='submit' onClick={handleSubmit}>
           Login
         </Button>
-      </form>
-    </div>
+      </Form>
+    </LoginSignUpContainer>
   );
 };
 

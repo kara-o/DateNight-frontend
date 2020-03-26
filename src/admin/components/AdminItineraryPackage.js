@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../../layout/Button';
+import { Button } from '../../elements';
 import { TextField, MenuItem, Paper } from '@material-ui/core';
 import {
   createItineraryPackage,
@@ -92,21 +92,20 @@ const AdminItineraryPackage = props => {
 
   if (neighborhoodSelection === null || priceRangeSelection === null) {
     return (
-      <form className='create-form' autoComplete='off'>
+      <form autoComplete='off'>
         <p>Loading...</p>
       </form>
     );
   }
 
   return (
-    <Paper elevation={10} className='new-pkg-paper'>
-      <form className='create-form' autoComplete='off'>
+    <Paper elevation={10}>
+      <form autoComplete='off'>
         <h1>Create New Itinerary Package</h1>
-        <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
+        <ul>{errors ? renderErrors(errors) : null}</ul>
 
         <TextField
           label='Title'
-          className='title text'
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
@@ -114,7 +113,6 @@ const AdminItineraryPackage = props => {
         <TextField
           select
           label='Neighborhood'
-          className='select neighborhood-picker'
           value={neighborhoodSelection}
           onChange={e => setNeighborhoodSelection(e.target.value)}
           margin='normal'
@@ -125,7 +123,6 @@ const AdminItineraryPackage = props => {
         <TextField
           select
           label='Price range'
-          className='select price-picker'
           value={priceRangeSelection}
           onChange={e => setPriceRangeSelection(e.target.value)}
           margin='normal'
@@ -137,7 +134,6 @@ const AdminItineraryPackage = props => {
           multiline
           rows={3}
           label='Blurb'
-          className='textarea notes'
           value={blurb}
           onChange={e => setBlurb(e.target.value)}
           margin='normal'

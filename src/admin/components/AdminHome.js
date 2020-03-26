@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { fetchRequests } from '../services/api-admin';
-import { Link } from 'react-router-dom';
+import { ListContainer, ListItem, Filter } from '../../elements';
 import * as moment from 'moment';
-import { Select, MenuItem, InputLabel, Paper } from '@material-ui/core/';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  requests: {
+    gridColumn: '1/3',
+    gridRow: 'auto'
+  }
+});
 
 const AdminHome = props => {
   const { userData } = props;
   const [allRequests, setAllRequests] = useState([]);
   const [filter, setFilter] = useState('Unfulfilled');
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -25,43 +33,37 @@ const AdminHome = props => {
     requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return requests.map(r => {
       return (
-        <li key={r.id} className='request-row'>
-          <Link to={`/admin/requests/${r.id}`}>
-            <ul
-              style={r.cancelled ? { color: 'red' } : null}
-              className='admin-row-list'
-            >
-              <li>{moment(r.start_time).calendar()}</li>
-              <li>{r.cancelled ? <span>CANCELLED</span> : null}</li>
-            </ul>
-          </Link>
-        </li>
+        <ListItem key={r.id} id={r.id} destination={`/admin/requests/${r.id}`}>
+          <p></p>
+          <p>{moment(r.start_time).calendar()}</p>
+          <p>{r.cancelled ? <span>CANCELLED</span> : null}</p>
+          <p></p>
+        </ListItem>
       );
     });
   };
 
   const handleChange = e => {
-    setFilter(e.target.value);
+    const optionsArray = Array.from(e.target.options);
+    optionsArray
+      .filter(option => option.selected)
+      .forEach(option => setFilter(option.value));
   };
 
   const renderFilter = () => {
     return (
-      <div className='filter-pkgs'>
-        {/* <InputLabel id='select-label'>Filter</InputLabel> */}
-        <Select labelId='select-label' value={filter} onChange={handleChange}>
-          <MenuItem value={'Unfulfilled'}>Unfulfilled</MenuItem>
-          <MenuItem value={'All'}>All</MenuItem>
-        </Select>
-      </div>
+      <Filter title='Filter: ' value={filter} onChange={handleChange}>
+        <option value='Unfulfilled'>Unfulfilled</option>
+        <option value='All'>All</option>
+      </Filter>
     );
   };
 
   return (
-    <Paper elevation={10} className='list-div paper'>
-      <h1>{filter} Requests</h1>
+    <ListContainer title={filter + ' ' + 'Requests'} styles={classes.requests}>
       {renderFilter()}
-      <ul className='request-list'>{renderRequests()}</ul>
-    </Paper>
+      {renderRequests()}
+    </ListContainer>
   );
 };
 

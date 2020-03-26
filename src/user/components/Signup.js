@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { createUser } from '../services/api';
-import { Link } from 'react-router-dom';
-import Button from '../../layout/Button';
-import TextField from '@material-ui/core/TextField';
+import {
+  Button,
+  MyLink,
+  Form,
+  LoginSignUpContainer,
+  MyInput
+} from '../../elements';
 
-const Signup = props => {
+const SignUp = props => {
   const [formData, setFormData] = useState({
     password: '',
     password_confirmation: '',
@@ -40,46 +44,46 @@ const Signup = props => {
   };
 
   return (
-    <div className='signup-container'>
-      <h1 className='login'>Welcome</h1>
-      <form className='signup-form'>
-        <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-        <TextField
+    <LoginSignUpContainer>
+      <h1>Welcome</h1>
+      <Form>
+        <ul>{errors ? renderErrors(errors) : null}</ul>
+        <MyInput
           type='text'
           name='email'
           value={formData.email}
           onChange={handleChange}
           label='Email'
         />
-        <TextField
+        <MyInput
           type='password'
           name='password'
           value={formData.password}
           onChange={handleChange}
           label='Password'
         />
-        <TextField
+        <MyInput
           type='password'
           name='password_confirmation'
           value={formData.password_confirmation}
           onChange={handleChange}
           label='Confirm Password'
         />
-        <TextField
+        <MyInput
           type='text'
           name='first_name'
           value={formData.first_name}
           onChange={handleChange}
           label='First Name'
         />
-        <TextField
+        <MyInput
           type='text'
           name='last_name'
           value={formData.last_name}
           onChange={handleChange}
           label='Last Name'
         />
-        <TextField
+        <MyInput
           type='text'
           name='phone'
           value={formData.phone}
@@ -89,10 +93,10 @@ const Signup = props => {
         <Button type='submit' onClick={handleSubmit}>
           Signup
         </Button>
-        <Link to='/login'>Back</Link>
-      </form>
-    </div>
+        <MyLink destination='/login'>Back</MyLink>
+      </Form>
+    </LoginSignUpContainer>
   );
 };
 
-export default Signup;
+export default SignUp;

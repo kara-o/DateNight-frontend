@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { login } from '../services/api';
-import { Link, useLocation } from 'react-router-dom';
-import Button from '../../layout/Button';
-import TextField from '@material-ui/core/TextField';
+import { useLocation } from 'react-router-dom';
+import {
+  Button,
+  LoginSignUpContainer,
+  Form,
+  MyLink,
+  MyInput
+} from '../../elements';
 
-function useQuery() {
+const useQuery = () => {
   return new URLSearchParams(useLocation().search);
-}
+};
 
 const Login = props => {
   const [formData, setFormData] = useState({
@@ -14,7 +19,6 @@ const Login = props => {
     password: ''
   });
   const [error, setError] = useState(null);
-
   const query = useQuery();
   const isAccountConfirmationPending = !!query.get(
     'account_confirmation_pending'
@@ -58,8 +62,8 @@ const Login = props => {
   };
 
   return (
-    <div className='login-container'>
-      <h1 className='login'>DateNight</h1>
+    <LoginSignUpContainer>
+      <h1>DateNight</h1>
       <>
         {isAccountConfirmationPending ? (
           <h3>Confirmation email sent - check your inbox!</h3>
@@ -67,31 +71,29 @@ const Login = props => {
         {isAccountConfirmed ? (
           <h3>Thank you for confirming your account! Please login.</h3>
         ) : null}
-        <form className='login-form'>
-          <ul className='errors'>{error ? <li>{error}</li> : null}</ul>
-          <TextField
+        <Form>
+          <ul>{error ? <li>{error}</li> : null}</ul>
+          <MyInput
             type='text'
             name='email'
             value={formData.email}
             onChange={handleChange}
             label='Email'
-            variant='filled'
           />
-          <TextField
+          <MyInput
             type='password'
             name='password'
             value={formData.password}
             onChange={handleChange}
             label='Password'
-            variant='filled'
           />
           <Button type='submit' onClick={handleSubmit}>
             Login
           </Button>
-        </form>
-        <Link to='/signup'>New user? Sign up for an account</Link>
+        </Form>
+        <MyLink destination='/signup'>New user? Sign up for an account</MyLink>
       </>
-    </div>
+    </LoginSignUpContainer>
   );
 };
 

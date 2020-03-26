@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../../layout/Button';
-import { TextField, MenuItem } from '@material-ui/core';
+import {
+  QuestionModal,
+  Form,
+  MyInput,
+  Filter,
+  Button,
+  SideDialog
+} from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -9,15 +15,44 @@ import {
 } from '@material-ui/pickers';
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
-import { FormLabel, Paper } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  textArea: {
+    resize: 'none',
+    margin: '20px'
+  },
+  contactsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    padding: '10px'
+  },
+  requestTitle: {
+    marginBottom: '5px'
+  },
+  helpLink: {
+    fontStyle: 'italic',
+    margin: '0px',
+    '&:hover': {
+      color: 'turquoise',
+      cursor: 'pointer'
+    }
+  },
+  noHelp: {
+    gridColumn: '1/3',
+    textAlign: 'center'
+  },
+  withHelp: {
+    gridColumn: '1/2',
+    textAlign: 'center'
+  }
+});
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
 
-function thisFriday() {
+const thisFriday = () => {
   const dayINeed = 5; // Friday
   const today = moment().isoWeekday();
 
@@ -34,17 +69,17 @@ function thisFriday() {
       .add(1, 'week')
       .toDate();
   }
-}
+};
 
-function tomorrow() {
+const tomorrow = () => {
   return moment()
     .add(1, 'days')
     .toDate();
-}
+};
 
-function defaulStartTime() {
+const defaulStartTime = () => {
   return new Date(2000, 1, 1, 19, 0, 0);
-}
+};
 
 const Request = props => {
   const { userData } = props;
@@ -60,7 +95,8 @@ const Request = props => {
   const [priceRanges, setPriceRanges] = useState([]);
   const [contacts, setContacts] = useState([userData.user.phone]);
   const [errors, setErrors] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const classes = useStyles();
 
   //TODO add loading
   useEffect(() => {
@@ -86,12 +122,9 @@ const Request = props => {
 
   const getPostData = () => {
     const startDate = new Date(
-      // pull date from formData.start_date
       formData.start_date.getFullYear(),
       formData.start_date.getMonth(),
       formData.start_date.getDate(),
-
-      // pull time from formData.start_time
       formData.start_time.getHours(),
       formData.start_time.getMinutes()
     );
@@ -113,54 +146,19 @@ const Request = props => {
     return data;
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
     props.history.push('/');
-  };
-
-  const renderAlert = () => {
-    return (
-      <div>
-        <div className='submit-div'>
-          <Button type='submit' onClick={handleSubmit}>
-            Submit Request
-          </Button>
-        </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              Success! We will get busy setting up your perfect night out! You
-              will get your first text on the day of your date at 10 am!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color='primary' autoFocus>
-              Can't Wait!
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-
     const data = getPostData();
 
-    createRequest(data, userData).then(json => {
+    return createRequest(data, userData).then(json => {
       if (!json.errors) {
-        handleClickOpen();
+        console.log('sucessfully created request!', json);
       } else {
+        console.log('errors creating request!');
         setErrors({
           errorObj: json.errors.error_obj,
           fullMessages: json.errors.full_messages
@@ -190,9 +188,9 @@ const Request = props => {
   const renderOptions = (array, attribute) => {
     return array.map(o => {
       return (
-        <MenuItem key={o.id} value={o.id}>
+        <option key={o.id} value={o.id}>
           {o[`${attribute}`]}
-        </MenuItem>
+        </option>
       );
     });
   };
@@ -205,12 +203,62 @@ const Request = props => {
     );
   }
 
+  const renderHelpPage = () => {
+    //TODO make list??
+    return (
+      <SideDialog>
+        <h2 className={classes.helpTitle}>
+          Give us some guidance, then let us create the perfect night for you.
+        </h2>
+        <p>
+          • Choose the day and time for your date. Depending on your budget and
+          special instructions, we will schedule up to a total duration of 4
+          hours.
+          <br />
+          <br />
+          • Which area of Seattle do you want to go to?
+          <br />
+          <br />
+          • How big is your party? Let us know, we don't assume that everyone is
+          a couple of 2 and we can make reservations for up to 4 people!
+          <br />
+          <br />
+          • Let us know your approximate budget per person. We cannot guarantee
+          we will be exact, but we always try our best!
+          <br />
+          <br />
+          • Provide us up to four contact numbers where we will send text alerts
+          containing your itinerary!
+          <br />
+          <br />
+          • Leave us any special requests in the notes sections, such as dietary
+          restrictions/time constraints, etc. We want to make this night perfect
+          for you!
+          <br />
+        </p>
+        <h3>Press submit when you're done!</h3>
+        <Button onClick={() => setShowHelp(false)}>Got it!</Button>
+      </SideDialog>
+    );
+  };
+
   return (
     <>
-      <Paper elevation={10} className='create-form paper'>
-        <form className='create-form' autoComplete='off'>
-          <ul className='errors'>{errors ? renderErrors(errors) : null}</ul>
-          <fieldset className='datepickers unstyled'>
+      <div className={showHelp ? classes.withHelp : classes.noHelp}>
+        <h2 className={classes.requestTitle}>
+          What kind of night do you want?
+        </h2>
+        {!showHelp ? (
+          <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
+            {' '}
+            *Tell me more!
+          </p>
+        ) : null}
+
+        <Form>
+          <ul>{errors ? renderErrors(errors) : null}</ul>
+          <fieldset>
+            <legend>Date and Time</legend>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -233,102 +281,63 @@ const Request = props => {
               />
             </MuiPickersUtilsProvider>
           </fieldset>
-          <TextField
-            select
-            label='Party size'
-            className='select party-size-picker'
+          <Filter
+            title='Party Size: '
             value={formData.party_size}
             onChange={e => handleChange(e.target.value, 'party_size')}
-            margin='normal'
           >
-            <MenuItem value='1'>1</MenuItem>
-            <MenuItem value='2'>2</MenuItem>
-            <MenuItem value='3'>3</MenuItem>
-            <MenuItem value='4'>4</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label='Neighborhood'
-            className='select neighborhood-picker'
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+          </Filter>
+          <Filter
+            title='Neighborhood: '
             value={neighborhoodSelection}
             onChange={e => setNeighborhoodSelection(e.target.value)}
-            margin='normal'
           >
             {renderOptions(neighborhoods, 'name')}
-          </TextField>
-          <TextField
-            select
-            label='Price range'
-            className='select price-picker'
+          </Filter>
+          <Filter
+            title='Price Range: '
             value={priceRangeSelection}
             onChange={e => setPriceRangeSelection(e.target.value)}
-            margin='normal'
           >
             {renderOptions(priceRanges, 'max_amount')}
-          </TextField>
-          <fieldset className='contacts unstyled'>
-            <FormLabel className='contacts-group-label'>
-              Contact phone numbers (up to 4)
-            </FormLabel>
+          </Filter>
+          <fieldset className={classes.contactsContainer}>
+            <legend>Contact Phone Numbers (up to 4)</legend>
             {contacts
               .concat([''])
               .slice(0, 4) // limit to 4
               .map((contact, i) => (
-                <TextField
+                <MyInput
                   key={i}
                   label={`Phone ${i + 1}`}
-                  variant='outlined'
                   value={contact}
-                  inputProps={{
-                    type: 'tel'
-                  }}
+                  type='tel'
                   onChange={e => updateContactAt(e.target.value, i)}
                 />
               ))}
           </fieldset>
-          <TextField
-            multiline
-            rows={3}
-            label='Notes'
-            className='textarea notes'
+          <textarea
+            placeholder='Any additional notes?'
+            className={classes.textArea}
+            rows={5}
             value={formData.notes}
             onChange={e => handleChange(e.target.value, 'notes')}
-            margin='normal'
           />
-          {renderAlert()}
-        </form>
-      </Paper>
-      <Paper elevation={10} className='request-tutorial'>
-        <h3>
-          Let us create a fun night for you! Give us some guidance through this
-          request form, and we will do our best to make it all happen!
-        </h3>
-        <p>
-          Choose the day and time for your date. Depending on your budget and
-          special instructions, we will schedule up to a total duration of 4
-          hours.
-        </p>
-        <p>Which area of Seattle do you want to go to?</p>
-        <p>
-          How big is your party? Let us know, we don't assume that everyone is a
-          couple of 2 and we can make reservations for up to 4 people!
-        </p>
-        <p>
-          Let us know your approximate budget per person. We cannot guarantee we
-          will be exact, but we always try our best!
-        </p>
-        <p>
-          Provide us up to four contact numbers where we will send text alerts
-          containing your itinerary!
-        </p>
-        <p>
-          Leave us any special requests in the notes sections, such as dietary
-          restrictions/time constraints, etc. We want to make this night perfect
-          for you!
-        </p>
-
-        <h3>Press submit when you're done!</h3>
-      </Paper>
+          <QuestionModal
+            questionText='Success! We will get busy setting up your perfect night out! You
+            will get your first text on the day of your date at 10 am!'
+            acceptText="Can't Wait!"
+            navigateAwayAction={handleClose}
+            buttonText='Submit Request'
+            onClick={handleSubmit}
+          />
+        </Form>
+      </div>
+      {showHelp ? renderHelpPage() : null}
     </>
   );
 };

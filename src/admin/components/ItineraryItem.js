@@ -1,6 +1,5 @@
 import React from 'react';
-import Map from '../../layout/Map';
-import Button from '../../layout/Button';
+import { Map, Button } from '../../elements';
 import { Paper } from '@material-ui/core';
 import * as moment from 'moment';
 
@@ -11,10 +10,10 @@ const ItineraryItem = props => {
 
   return (
     <>
-      <Paper elevation={10} className='paper itin-item-display'>
-        <div className='details'>
+      <Paper elevation={10}>
+        <div>
           <h3>Details</h3>
-          <div className='details-p'>
+          <div>
             <p>{moment(item.arrival_time).format('h:mm a')}</p>
             <p>{item.place}</p>
             <p>{item.address}</p>
