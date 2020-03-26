@@ -3,16 +3,11 @@ import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
 import ItineraryItem from '../../admin/components/ItineraryItem';
 import { QuestionModal, SideDialog } from '../../elements';
-import { createUseStyles } from 'react-jss';
-
-const useStyles = createUseStyles({});
 
 const RequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
-
-  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {

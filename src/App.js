@@ -15,20 +15,22 @@ import AdminItineraryPackages from './admin/components/AdminItineraryPackages';
 import AdminItineraryPackage from './admin/components/AdminItineraryPackage';
 import AdminItineraryPackageShow from './admin/components/AdminItineraryPackageShow';
 import AdminItineraryItems from './admin/components/AdminItineraryItems';
-
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  mainContainer: {
-    display: 'grid',
-    gridTemplateColumns: '50% 50%',
-    gridTemplateRows: 'auto',
-    gridTemplateAreas: `
-    'navbar navbar'
-    'main main'
-    'main main'
-    'footer footer'`,
-    justifyItems: 'center'
+  '@global': {
+    '#root': {
+      height: '100vh',
+      display: 'grid',
+      gridTemplateColumns: '50% 50%',
+      gridTemplateRows: '50px auto auto 50px',
+      gridTemplateAreas: `
+      'navbar navbar'
+      'main main'
+      'main main'
+      'footer footer'`,
+      justifyItems: 'center'
+    }
   }
 });
 
@@ -39,10 +41,9 @@ const getUserData = () => {
 };
 
 const App = () => {
+  useStyles();
   const [userData, setUserData] = useState(getUserData());
   const loggedIn = !!userData;
-
-  const classes = useStyles();
 
   const loginUser = userData => {
     localStorage.setItem('userData', JSON.stringify(userData));
@@ -62,7 +63,7 @@ const App = () => {
   };
 
   return (
-    <div className={classes.mainContainer}>
+    <>
       {loggedIn ? (
         <>
           <Navbar
@@ -203,7 +204,7 @@ const App = () => {
         </Switch>
       </>
       <Footer />
-    </div>
+    </>
   );
 };
 
