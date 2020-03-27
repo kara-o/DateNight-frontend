@@ -2,11 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { fetchRequest, cancelRequest } from '../services/api';
 import * as moment from 'moment';
 import { QuestionModal, SideDialog, ItineraryItem } from '../../elements';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  details: {
+    marginTop: '0px'
+  }
+});
 
 const RequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -26,6 +34,30 @@ const RequestShow = props => {
     });
   };
 
+  const sortItinItemsByDate = items => {
+    const sortedItems = items.sort((item1, item2) => {
+      const time1 = new Date(item1.arrival_time);
+      const time2 = new Date(item2.arrival_time);
+      if (time1 > time2) {
+        return 1;
+      }
+      if (time1 < time2) {
+        return -1;
+      }
+      return 0;
+    });
+
+    return sortedItems.map(item => {
+      return (
+        <ItineraryItem
+          key={item.id}
+          item={item}
+          index={sortedItems.indexOf(item)}
+        />
+      );
+    });
+  };
+
   const renderItinerary = () => {
     return (
       <>
@@ -41,9 +73,7 @@ const RequestShow = props => {
             <>
               {!request.itinerary_items.length
                 ? 'Empty'
-                : request.itinerary_items.map(item => (
-                    <ItineraryItem key={item.id} item={item} />
-                  ))}
+                : sortItinItemsByDate(request.itinerary_items)}
             </>
           )
         ) : (
@@ -83,15 +113,17 @@ const RequestShow = props => {
     <>
       {request ? (
         <>
-          <div>
+          <SideDialog>
             <h2>{friendlyRelativeDate()}!</h2>
-            <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-            <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-            <p>Party: {request.party_size} people</p>
-            <ul>{renderContacts()}</ul>
-            <p>Neighborhood: {request.neighborhood}</p>
-            <p>Price Range: {request.price_range}</p>
-            {request.notes ? <p>Notes: {request.notes}</p> : null}
+            <p className={classes.details}>
+              <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
+              <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+              <p>Party: {request.party_size} people</p>
+              <ul>{renderContacts()}</ul>
+              <p>Neighborhood: {request.neighborhood}</p>
+              <p>Price Range: {request.price_range}</p>
+              {request.notes ? <p>Notes: {request.notes}</p> : null}
+            </p>
             {new Date(request.start_time) >= new Date() ? (
               <QuestionModal
                 questionText='Are you sure you want to cancel this request?'
@@ -101,7 +133,7 @@ const RequestShow = props => {
                 navigateAwayAction={handleCancel}
               />
             ) : null}
-          </div>
+          </SideDialog>
           {renderItinerary()}
         </>
       ) : null}

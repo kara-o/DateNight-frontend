@@ -5,7 +5,8 @@ const useStyles = createUseStyles({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    textAlign: 'center'
+    textAlign: 'center',
+    maxWidth: '600px'
   }
 });
 

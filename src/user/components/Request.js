@@ -40,13 +40,17 @@ const useStyles = createUseStyles({
       cursor: 'pointer'
     }
   },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   noHelp: {
-    gridColumn: '1/3',
-    textAlign: 'center'
+    gridColumn: '1/3'
   },
   withHelp: {
-    gridColumn: '1/2',
-    textAlign: 'center'
+    gridColumn: '1/2'
   }
 });
 
@@ -211,30 +215,29 @@ const Request = props => {
           Give us some guidance, then let us create the perfect night for you.
         </h2>
         <p>
-          • Choose the day and time for your date. Depending on your budget and
-          special instructions, we will schedule up to a total duration of 4
-          hours.
-          <br />
-          <br />
-          • Which area of Seattle do you want to go to?
-          <br />
-          <br />
-          • How big is your party? Let us know, we don't assume that everyone is
-          a couple of 2 and we can make reservations for up to 4 people!
-          <br />
-          <br />
-          • Let us know your approximate budget per person. We cannot guarantee
-          we will be exact, but we always try our best!
-          <br />
-          <br />
-          • Provide us up to four contact numbers where we will send text alerts
-          containing your itinerary!
-          <br />
-          <br />
-          • Leave us any special requests in the notes sections, such as dietary
-          restrictions/time constraints, etc. We want to make this night perfect
-          for you!
-          <br />
+          <p>
+            Choose the day and time for your date. Depending on your budget and
+            special instructions, we will schedule up to a total duration of 4
+            hours.
+          </p>
+          <p>Which area of Seattle do you want to go to?</p>
+          <p>
+            How big is your party? Let us know, we don't assume that everyone is
+            a couple of 2 and we can make reservations for up to 4 people!
+          </p>
+          <p>
+            Let us know your approximate budget per person. We cannot guarantee
+            we will be exact, but we always try our best!
+          </p>
+          <p>
+            Provide us up to four contact numbers where we will send text alerts
+            containing your itinerary!
+          </p>
+          <p>
+            Leave us any special requests in the notes sections, such as dietary
+            restrictions/time constraints, etc. We want to make this night
+            perfect for you!
+          </p>
         </p>
         <h3>Press submit when you're done!</h3>
         <Button onClick={() => setShowHelp(false)}>Got it!</Button>
@@ -244,7 +247,13 @@ const Request = props => {
 
   return (
     <>
-      <div className={showHelp ? classes.withHelp : classes.noHelp}>
+      <div
+        className={
+          (showHelp ? classes.withHelp : classes.noHelp) +
+          ' ' +
+          classes.container
+        }
+      >
         <h2 className={classes.requestTitle}>
           What kind of night do you want?
         </h2>

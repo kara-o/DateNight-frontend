@@ -1,45 +1,54 @@
 import React from 'react';
-import { Map, Button } from '.';
-import { Paper } from '@material-ui/core';
+import { Map, Button, SideDialog } from '.';
 import * as moment from 'moment';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  title: {
+    marginBottom: '0px'
+  }
+});
 
 const ItineraryItem = props => {
-  const { item, admin, handleRemove } = props;
+  const { item, admin, handleRemove, index } = props;
+  const classes = useStyles();
 
-  console.log(item);
+  const getNumberWithOrdinal = n => {
+    //https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number/13627586
+    const s = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  };
 
   return (
-    <>
-      <Paper elevation={10}>
-        <div>
-          <h3>Details</h3>
-          <div>
-            <p>{moment(item.arrival_time).format('h:mm a')}</p>
-            <p>{item.place}</p>
-            <p>{item.address}</p>
-            <p>{item.blurb}</p>
-            {admin && item.make_res_link ? (
-              <p>
-                <a href={item.make_res_link} target='_blank'>
-                  Restaurant Link
-                </a>
-              </p>
-            ) : null}
-            <p>
-              <a href={item.map_url} target='_blank'>
-                Google Map
-              </a>
-            </p>
-          </div>
-        </div>
-        <Map url={item.map_iframe_url} />
-        {admin ? (
-          <Button onClick={() => handleRemove(item)}>
-            Remove from Itinerary
-          </Button>
+    <SideDialog>
+      <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
+      <div>
+        <p>{moment(item.arrival_time).format('h:mm a')}</p>
+        <p>{item.place}</p>
+        <p>{item.address}</p>
+        <p>{item.blurb}</p>
+        {admin && item.make_res_link ? (
+          <p>
+            <a href={item.make_res_link} target='_blank'>
+              Restaurant Link
+            </a>
+          </p>
         ) : null}
-      </Paper>
-    </>
+        <p>
+          <a href={item.map_url} target='_blank'>
+            Google Map
+          </a>
+        </p>
+      </div>
+
+      <Map url={item.map_iframe_url} />
+      {admin ? (
+        <Button onClick={() => handleRemove(item)}>
+          Remove from Itinerary
+        </Button>
+      ) : null}
+    </SideDialog>
   );
 };
 
