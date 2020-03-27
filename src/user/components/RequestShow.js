@@ -57,6 +57,19 @@ const RequestShow = props => {
   };
 
   const renderItinerary = () => {
+    const sortedItems = sortItinItemsByDate(request.itinerary_items);
+    return sortedItems.map(item => {
+      return (
+        <ItineraryItem
+          key={item.id}
+          item={item}
+          index={sortedItems.indexOf(item)}
+        />
+      );
+    });
+  };
+
+  const renderDialogOrItinerary = () => {
     if (request.fulfilled) {
       if (new Date(request.start_time) > new Date()) {
         return (
@@ -68,16 +81,9 @@ const RequestShow = props => {
           </SideDialog>
         );
       } else {
-        const sortedItems = sortItinItemsByDate(request.itinerary_items);
-        return sortedItems.map(item => {
-          return (
-            <ItineraryItem
-              key={item.id}
-              item={item}
-              index={sortedItems.indexOf(item)}
-            />
-          );
-        });
+        return (
+          <div className={classes.scrollContainer}>{renderItinerary()}</div>
+        );
       }
     } else {
       return (
@@ -137,7 +143,7 @@ const RequestShow = props => {
               />
             ) : null}
           </SideDialog>
-          <div className={classes.scrollContainer}>{renderItinerary()}</div>
+          {renderDialogOrItinerary()}
         </>
       ) : null}
     </>
