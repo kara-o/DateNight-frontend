@@ -5,15 +5,16 @@ const useStyles = createUseStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
-    maxWidth: '600px'
+    width: '100%',
+    maxHeight: '100vh',
+    overflow: 'scroll'
   }
 });
 
-const SideDialog = ({ children, styles }) => {
+const ScrollContainer = ({ children }) => {
   const classes = useStyles();
-  return <div className={classes.container + ' ' + styles}>{children}</div>;
+  return <div className={classes.container}>{children}</div>;
 };
 
-export default SideDialog;
+export default ScrollContainer;

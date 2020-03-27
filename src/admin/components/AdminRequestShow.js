@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, MyLink, ItineraryItem } from '../../elements';
+import {
+  Button,
+  MyLink,
+  ItineraryItem,
+  SideDialog,
+  RequestContainer,
+  ScrollContainer
+} from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
   toggleRequestFulfilled,
@@ -12,20 +19,30 @@ import {
   addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
-import {
-  Paper,
-  CircularProgress,
-  Dialog,
-  Select,
-  MenuItem
-} from '@material-ui/core';
+import { Dialog, Select, MenuItem } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker
 } from '@material-ui/pickers';
+import { createUseStyles } from 'react-jss';
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
+
+const useStyles = createUseStyles({
+  showVenues: {
+    gridColumn: '1/2',
+    gridRow: '3/4'
+  },
+  hideVenues: {
+    gridColumn: '2/3',
+    gridRow: '2/4'
+  },
+  venueContainer: {
+    gridColumn: '2/3',
+    gridRow: '2/4'
+  }
+});
 
 const AdminRequestShow = props => {
   const { userData } = props;
@@ -38,6 +55,8 @@ const AdminRequestShow = props => {
   const [resTime, setResTime] = useState(null);
   const [iFrame, setIFrame] = useState(null);
   const [filter, setFilter] = useState('Single Venues');
+  const [showVenues, setShowVenues] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -60,16 +79,6 @@ const AdminRequestShow = props => {
     ).then(respJson => setRequest(respJson.request));
   };
 
-  const renderContacts = () => {
-    return request.contacts.map((c, i) => {
-      return (
-        <li key={c.id}>
-          Contact #{i + 1}: {c.phone}
-        </li>
-      );
-    });
-  };
-
   const handleApplyPackage = itinPackageId => {
     applyItineraryPackage(requestId, itinPackageId, userData).then(respJson =>
       setRequest(respJson.request)
@@ -88,10 +97,6 @@ const AdminRequestShow = props => {
     });
   };
 
-  const loading = () => {
-    return <CircularProgress />;
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -103,42 +108,36 @@ const AdminRequestShow = props => {
         : 'Seattle';
       return (
         <Dialog open={open} onClose={handleClose}>
-          <Paper elevation={10}>
-            <h2>{modalInfo.name}</h2>
-            <p>
-              {neighborhood +
-                ' • ' +
-                modalInfo.cuisine +
-                ' • ' +
-                modalInfo.price}
-            </p>
-            <p>{modalInfo.blurb}</p>
-            <a href={modalInfo.make_res_link} target='_blank'>
-              Reservation Link
-            </a>
+          <h2>{modalInfo.name}</h2>
+          <p>
+            {neighborhood + ' • ' + modalInfo.cuisine + ' • ' + modalInfo.price}
+          </p>
+          <p>{modalInfo.blurb}</p>
+          <a href={modalInfo.make_res_link} target='_blank'>
+            Reservation Link
+          </a>
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardTimePicker
-                disableToolbar
-                variant='inline'
-                minutesStep={15}
-                margin='normal'
-                label='Time'
-                value={resTime}
-                onChange={time => setResTime(time)}
-              />
-            </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardTimePicker
+              disableToolbar
+              variant='inline'
+              minutesStep={15}
+              margin='normal'
+              label='Time'
+              value={resTime}
+              onChange={time => setResTime(time)}
+            />
+          </MuiPickersUtilsProvider>
 
-            <Button
-              type='button'
-              onClick={() => {
-                handleClose();
-                handleAddItinItem();
-              }}
-            >
-              Add to Itinerary
-            </Button>
-          </Paper>
+          <Button
+            type='button'
+            onClick={() => {
+              handleClose();
+              handleAddItinItem();
+            }}
+          >
+            Add to Itinerary
+          </Button>
         </Dialog>
       );
     }
@@ -179,106 +178,96 @@ const AdminRequestShow = props => {
     );
   };
 
-  return request ? (
-    <div>
-      <div>
-        <h2>Request</h2>
-        <Paper elevation={10}>
-          <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-          <p>Time: {moment(request.start_time).format('h:mm a')}</p>
-          <p>Party: {request.party_size} people</p>
-          <ul>{renderContacts()}</ul>
-          <p>Neighborhood: {request.neighborhood}</p>
-          <p>Price Range: {request.price_range}</p>
-          <p>Notes: {request.notes}</p>
-          <p>
-            Fulfilled: {(!!request.fulfilled).toString()}{' '}
-            {request.cancelled ? (
-              <span>
-                <strong style={{ color: 'red' }}>CANCELLED</strong>
-              </span>
-            ) : null}
-          </p>
-          <Button type='button' onClick={handleComplete}>
-            {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
+  const displayPackages = () => {
+    return itinPackages.map(pkg => {
+      return (
+        <li key={pkg.id}>
+          <MyLink destination={`/admin/itinerary_packages/${pkg.id}`}>
+            {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} - {pkg.title}
+          </MyLink>
+          <Button type='button' onClick={() => handleApplyPackage(pkg.id)}>
+            Apply
           </Button>
-          {request.fulfilled ? (
-            <Button type='button' onClick={handleMessage}>
-              Alert (DEMO ONLY)
-            </Button>
-          ) : null}
-        </Paper>
-      </div>
-      <div>
+        </li>
+      );
+    });
+  };
+
+  const displayScrapedVenues = () => {
+    return scrapedNames.length
+      ? scrapedNames.map((info, idx) => (
+          <li
+            key={idx}
+            onClick={() => {
+              scrapeSinglePage(userData, info).then(infoJson => {
+                setOpen(true);
+                setModalInfo(infoJson);
+                createMapUrl(infoJson.name, infoJson.address);
+              });
+            }}
+          >
+            {info.name}
+          </li>
+        ))
+      : null;
+  };
+
+  const displayVenues = () => {
+    return (
+      <>
+        {renderFilter()}
+        <ScrollContainer>
+          {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
+        </ScrollContainer>
+      </>
+    );
+  };
+
+  return request ? (
+    <>
+      <RequestContainer
+        className={classes.requestContainer}
+        title='Request'
+        request={request}
+        admin={true}
+      >
+        <Button type='button' onClick={handleComplete}>
+          {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
+        </Button>
+        {request.fulfilled ? (
+          <Button type='button' onClick={handleMessage}>
+            Alert (DEMO ONLY)
+          </Button>
+        ) : null}
+      </RequestContainer>
+      <SideDialog styles={showVenues ? classes.showVenues : classes.hideVenues}>
         <h2>Itinerary</h2>
-        <div>
-          {!request.itinerary_items.length
-            ? 'Empty'
-            : request.itinerary_items.map(item => (
+        {!request.fulfilled ? (
+          <Button type='button' onClick={() => setShowVenues(true)}>
+            Add to Itinerary
+          </Button>
+        ) : null}
+        <ScrollContainer>
+          {request.itinerary_items.length
+            ? request.itinerary_items.map(item => (
                 <ItineraryItem
                   handleRemove={handleRemove}
                   key={item.id}
                   item={item}
                   admin={true}
                 />
-              ))}
-        </div>
-      </div>
-      {!request.fulfilled ? (
-        <div>
-          {renderFilter()}
-          {filter === 'Packages' ? (
-            <>
-              {/* <h2>Packages</h2> */}
-              <ul>
-                {itinPackages.map(pkg => (
-                  <li key={pkg.id}>
-                    <MyLink destination={`/admin/itinerary_packages/${pkg.id}`}>
-                      {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} -{' '}
-                      {pkg.title}
-                    </MyLink>
-                    <Button
-                      type='button'
-                      onClick={() => handleApplyPackage(pkg.id)}
-                    >
-                      Apply
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <>
-              {/* <h2>
-              Venues for {moment(request.start_time).format('MMMM Do YYYY')}
-            </h2> */}
-              <ul>
-                {scrapedNames.length > 0
-                  ? scrapedNames.map((info, idx) => (
-                      <li
-                        key={idx}
-                        onClick={() => {
-                          scrapeSinglePage(userData, info).then(infoJson => {
-                            setOpen(true);
-                            setModalInfo(infoJson);
-                            createMapUrl(infoJson.name, infoJson.address);
-                          });
-                        }}
-                      >
-                        {info.name}
-                      </li>
-                    ))
-                  : loading()}
-              </ul>
-            </>
-          )}
-        </div>
+              ))
+            : null}
+        </ScrollContainer>
+      </SideDialog>
+      {showVenues ? (
+        <SideDialog styles={classes.venueContainer}>
+          {displayVenues()}
+        </SideDialog>
       ) : null}
       {openModal()}
-    </div>
-  ) : (
-    loading()
-  );
+    </>
+  ) : null;
 };
 
 export default AdminRequestShow;

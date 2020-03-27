@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { scrapeNames } from '../services/api-admin';
-import { Paper, CircularProgress } from '@material-ui/core/';
 import * as moment from 'moment';
 
 const AdminItineraryItems = props => {
@@ -29,22 +28,14 @@ const AdminItineraryItems = props => {
     }
   };
 
-  const loading = () => {
-    return <CircularProgress />;
-  };
-
   return (
     <>
       {scrapedNames.length > 0 ? (
         <>
-          <Paper elevation={10}>
-            <h1>Itinerary Items</h1>
-            <ul>{renderNames()}</ul>
-          </Paper>
+          <h1>Itinerary Items</h1>
+          <ul>{renderNames()}</ul>
         </>
-      ) : (
-        <div>{loading()}</div>
-      )}
+      ) : null}
     </>
   );
 };
