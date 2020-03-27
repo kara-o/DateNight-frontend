@@ -7,6 +7,14 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   details: {
     marginTop: '0px'
+  },
+  scrollContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    maxHeight: '100vh',
+    overflow: 'scroll'
   }
 });
 
@@ -35,7 +43,7 @@ const RequestShow = props => {
   };
 
   const sortItinItemsByDate = items => {
-    const sortedItems = items.sort((item1, item2) => {
+    return items.sort((item1, item2) => {
       const time1 = new Date(item1.arrival_time);
       const time2 = new Date(item2.arrival_time);
       if (time1 > time2) {
@@ -46,46 +54,41 @@ const RequestShow = props => {
       }
       return 0;
     });
-
-    return sortedItems.map(item => {
-      return (
-        <ItineraryItem
-          key={item.id}
-          item={item}
-          index={sortedItems.indexOf(item)}
-        />
-      );
-    });
   };
 
   const renderItinerary = () => {
-    return (
-      <>
-        {request.fulfilled ? (
-          new Date(request.start_time) > new Date() ? (
-            <SideDialog>
-              <p>
-                Get excited! Your itinerary is all set. You will be getting text
-                alerts starting on the morning of your date!
-              </p>
-            </SideDialog>
-          ) : (
-            <>
-              {!request.itinerary_items.length
-                ? 'Empty'
-                : sortItinItemsByDate(request.itinerary_items)}
-            </>
-          )
-        ) : (
+    if (request.fulfilled) {
+      if (new Date(request.start_time) > new Date()) {
+        return (
           <SideDialog>
-            <p>We are busy working to get your night out all set up!</p>
             <p>
-              Check back soon for confirmation that your itinerary is ready...
+              Get excited! Your itinerary is all set. You will be getting text
+              alerts starting on the morning of your date!
             </p>
           </SideDialog>
-        )}
-      </>
-    );
+        );
+      } else {
+        const sortedItems = sortItinItemsByDate(request.itinerary_items);
+        return sortedItems.map(item => {
+          return (
+            <ItineraryItem
+              key={item.id}
+              item={item}
+              index={sortedItems.indexOf(item)}
+            />
+          );
+        });
+      }
+    } else {
+      return (
+        <SideDialog>
+          <p>We are busy working to get your night out all set up!</p>
+          <p>
+            Check back soon for confirmation that your itinerary is ready...
+          </p>
+        </SideDialog>
+      );
+    }
   };
 
   const friendlyRelativeDate = () => {
@@ -134,7 +137,7 @@ const RequestShow = props => {
               />
             ) : null}
           </SideDialog>
-          {renderItinerary()}
+          <div className={classes.scrollContainer}>{renderItinerary()}</div>
         </>
       ) : null}
     </>

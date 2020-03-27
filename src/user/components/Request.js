@@ -200,15 +200,11 @@ const Request = props => {
   };
 
   if (neighborhoodSelection === null || priceRangeSelection === null) {
-    return (
-      <form className='create-form' autoComplete='off'>
-        <p>Loading...</p>
-      </form>
-    );
+    //TODO update???
+    return <p></p>;
   }
 
   const renderHelpPage = () => {
-    //TODO make list??
     return (
       <SideDialog>
         <h2 className={classes.helpTitle}>
