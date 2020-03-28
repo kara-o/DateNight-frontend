@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
       minHeight: '100vh',
       display: 'grid',
       gridTemplateColumns: '50% 50%',
-      gridTemplateRows: '50px auto auto 50px',
+      gridTemplateRows: '1fr 45vh 45vh 1fr',
       gridTemplateAreas: `
       'navbar navbar'
       'main main'

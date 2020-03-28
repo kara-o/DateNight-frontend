@@ -41,7 +41,9 @@ const useStyles = createUseStyles({
   },
   venueContainer: {
     gridColumn: '2/3',
-    gridRow: '2/4'
+    gridRow: '2/4',
+    width: '100%',
+    textAlign: 'center'
   }
 });
 
@@ -209,7 +211,7 @@ const AdminRequestShow = props => {
   const displayVenues = () => {
     return (
       <div className={classes.venueContainer}>
-        {renderFilter()}
+        {/* {renderFilter()} */}
         <ScrollContainer styles={classes.venueScroll}>
           {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
         </ScrollContainer>

@@ -6,7 +6,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    maxHeight: '80vh',
+    height: '100%',
     overflow: 'scroll'
   }
 });
