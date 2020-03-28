@@ -3,6 +3,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   filter: {
+    textAlign: 'center',
     display: 'block',
     paddingTop: '20px',
     paddingBottom: '20px'

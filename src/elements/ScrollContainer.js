@@ -5,16 +5,15 @@ const useStyles = createUseStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     width: '100%',
-    maxHeight: '100vh',
+    maxHeight: '80vh',
     overflow: 'scroll'
   }
 });
 
-const ScrollContainer = ({ children }) => {
+const ScrollContainer = ({ children, styles }) => {
   const classes = useStyles();
-  return <div className={classes.container}>{children}</div>;
+  return <div className={classes.container + ' ' + styles}>{children}</div>;
 };
 
 export default ScrollContainer;

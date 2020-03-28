@@ -5,7 +5,8 @@ import {
   ItineraryItem,
   SideDialog,
   RequestContainer,
-  ScrollContainer
+  ScrollContainer,
+  Filter
 } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
@@ -162,19 +163,12 @@ const AdminRequestShow = props => {
 
   const renderFilter = () => {
     return (
-      <div>
-        {/* <InputLabel id='select-label'>Filter</InputLabel> */}
-        <Select
-          labelId='select-label'
-          value={filter}
-          onChange={e => setFilter(e.target.value)}
-        >
-          <MenuItem value={'Single Venues'}>
-            Venues for {moment(request.start_time).format('MMMM Do YYYY')}
-          </MenuItem>
-          <MenuItem value={'Packages'}>Packages</MenuItem>
-        </Select>
-      </div>
+      <Filter value={filter} onChange={e => setFilter(e.target.value)}>
+        <option value={'Single Venues'}>
+          Venues for {moment(request.start_time).format('MMMM Do YYYY')}
+        </option>
+        <option value={'Packages'}>Packages</option>
+      </Filter>
     );
   };
 
@@ -214,12 +208,12 @@ const AdminRequestShow = props => {
 
   const displayVenues = () => {
     return (
-      <>
+      <div className={classes.venueContainer}>
         {renderFilter()}
-        <ScrollContainer>
+        <ScrollContainer styles={classes.venueScroll}>
           {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
         </ScrollContainer>
-      </>
+      </div>
     );
   };
 
@@ -260,11 +254,7 @@ const AdminRequestShow = props => {
             : null}
         </ScrollContainer>
       </SideDialog>
-      {showVenues ? (
-        <SideDialog styles={classes.venueContainer}>
-          {displayVenues()}
-        </SideDialog>
-      ) : null}
+      {showVenues ? displayVenues() : null}
       {openModal()}
     </>
   ) : null;

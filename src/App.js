@@ -24,7 +24,7 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   '@global': {
     '#root': {
-      height: '100vh',
+      minHeight: '100vh',
       display: 'grid',
       gridTemplateColumns: '50% 50%',
       gridTemplateRows: '50px auto auto 50px',
