@@ -1,17 +1,24 @@
 import React from 'react';
-import MaterialButton from '@material-ui/core/Button';
+import { createUseStyles } from 'react-jss';
 
-const Button = ({ type, onClick, className = '', children }) => {
+const useStyles = createUseStyles({
+  button: {
+    width: '50px',
+    padding: '5px'
+  }
+});
+
+const Button = ({ type = 'button', onClick, styles, children }) => {
+  const classes = useStyles();
+  console.log('in button element with onClick of: ', onClick);
   return (
-    <MaterialButton
-      onClick={onClick}
-      className={`${className} button`}
+    <button
+      onClick={() => onClick()}
+      className={classes.button + ' ' + styles}
       type={type}
-      variant='contained'
-      color='primary'
     >
       {children}
-    </MaterialButton>
+    </button>
   );
 };
 

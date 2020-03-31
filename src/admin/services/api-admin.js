@@ -170,7 +170,6 @@ export const deleteItinItem = (userData, itemId) => {
 };
 
 export const scrapeNames = (userData, time) => {
-  console.log(time);
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/scrapes`, {
     method: 'POST',

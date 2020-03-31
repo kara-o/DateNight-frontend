@@ -1,23 +1,46 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
 import Button from './Button';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  container: {
+    width: '200px',
+    height: '200px',
+    position: 'relative',
+    border: '1px solid black',
+    padding: '10px',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    marginBottom: '10px'
+  },
+  button: {
+    position: 'absolute',
+    bottom: '20px'
+  },
+  duration: {
+    position: 'absolute',
+    bottom: '40px'
+  },
+  place: {
+    position: 'absolute',
+    top: '10px'
+  }
+});
 
 const SimpleCard = ({ pkgItem, handleDelete }) => {
+  const classes = useStyles();
   return (
-    <Card elevation={10} key={pkgItem.id} className='card'>
-      <CardContent>
-        <Typography className='card-title' color='textSecondary' gutterBottom>
-          {pkgItem.place}
-        </Typography>
-        <Typography>{pkgItem.duration} minutes</Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
-      </CardActions>
-    </Card>
+    <div key={pkgItem.id} className={classes.container}>
+      <p className={classes.place}>{pkgItem.place}</p>
+      <p className={classes.duration}>{pkgItem.duration} minutes</p>
+
+      <Button styles={classes.button} onClick={() => handleDelete(pkgItem.id)}>
+        Remove
+      </Button>
+    </div>
   );
 };
 

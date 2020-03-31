@@ -33,8 +33,7 @@ const Login = props => {
     });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     let userData;
     login(formData)
       .then(res => {
@@ -79,18 +78,16 @@ const Login = props => {
             name='email'
             value={formData.email}
             onChange={handleChange}
-            label='Email'
+            placeholder='Email'
           />
           <MyInput
             type='password'
             name='password'
             value={formData.password}
             onChange={handleChange}
-            label='Password'
+            placeholder='Password'
           />
-          <Button type='submit' onClick={handleSubmit}>
-            Login
-          </Button>
+          <Button onClick={handleSubmit}>Login</Button>
         </Form>
         <MyLink destination='/signup'>New user? Sign up for an account</MyLink>
       </>

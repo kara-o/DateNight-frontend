@@ -26,9 +26,9 @@ const useStyles = createUseStyles({
   contactsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    padding: '10px'
+    padding: '10px',
+    maxWidth: '200px',
+    alignSelf: 'center'
   },
   requestTitle: {
     marginBottom: '5px'
@@ -314,14 +314,14 @@ const Request = props => {
             {renderOptions(priceRanges, 'max_amount')}
           </Filter>
           <fieldset className={classes.contactsContainer}>
-            <legend>Contact Phone Numbers (up to 4)</legend>
+            <legend>Contacts (up to 4)</legend>
             {contacts
               .concat([''])
               .slice(0, 4) // limit to 4
               .map((contact, i) => (
                 <MyInput
                   key={i}
-                  label={`Phone ${i + 1}`}
+                  placeholder={`Phone ${i + 1}`}
                   value={contact}
                   type='tel'
                   onChange={e => updateContactAt(e.target.value, i)}
@@ -329,7 +329,7 @@ const Request = props => {
               ))}
           </fieldset>
           <textarea
-            placeholder='Any additional notes?'
+            placeholder='Any additional notes for us?'
             className={classes.textArea}
             rows={5}
             value={formData.notes}

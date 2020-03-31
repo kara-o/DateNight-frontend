@@ -55,14 +55,14 @@ const AdminLogin = props => {
           name='email'
           value={formData.email}
           onChange={handleChange}
-          label='Email'
+          placeholder='Email'
         />
         <MyInput
           type='password'
           name='password'
           value={formData.password}
           onChange={handleChange}
-          label='Password'
+          placeholder='Password'
         />
         <Button type='submit' onClick={handleSubmit}>
           Login

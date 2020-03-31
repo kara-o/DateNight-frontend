@@ -12,7 +12,6 @@ import {
   AdminItineraryPackage,
   AdminItineraryPackageShow,
   AdminItineraryPackages,
-  AdminItineraryItems,
   AdminLogin,
   AdminRequestShow
 } from './admin/components';
@@ -23,7 +22,13 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   '@global': {
+    body: {
+      margin: '0px'
+    },
     '#root': {
+      maxWidth: '1500px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
       minHeight: '100vh',
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -161,14 +166,6 @@ const App = () => {
             render={props => (
               <>
                 <AdminItineraryPackages {...props} userData={userData} />
-              </>
-            )}
-          />
-          <Route
-            path='/admin/itinerary_items'
-            render={props => (
-              <>
-                <AdminItineraryItems {...props} userData={userData} />
               </>
             )}
           />

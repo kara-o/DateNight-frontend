@@ -5,11 +5,14 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   title: {
-    marginBottom: '0px',
+    margin: '0px',
     textAlign: 'center'
   },
   container: {
-    maxWidth: '600px'
+    maxWidth: '600px',
+    border: '1px solid lightgrey',
+    padding: '20px',
+    marginBottom: '20px'
   }
 });
 

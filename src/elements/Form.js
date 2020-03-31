@@ -6,6 +6,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'center',
+    alignItems: 'center',
     maxWidth: '600px',
     margin: '10px'
   }

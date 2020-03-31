@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   Button,
   MyLink,
-  ItineraryItem,
-  SideDialog,
+  ItineraryDisplay,
   RequestContainer,
-  ScrollContainer,
-  Filter
+  Filter,
+  ListContainer
 } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
@@ -20,7 +19,7 @@ import {
   addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
-import { Dialog, Select, MenuItem } from '@material-ui/core';
+import { Dialog } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -33,17 +32,16 @@ const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay 
 const useStyles = createUseStyles({
   showVenues: {
     gridColumn: '1/2',
-    gridRow: '3/4'
+    gridRow: '2/3'
   },
   hideVenues: {
     gridColumn: '2/3',
-    gridRow: '2/4'
+    gridRow: '2/3'
   },
   venueContainer: {
     gridColumn: '2/3',
-    gridRow: '2/4',
-    width: '100%',
-    textAlign: 'center'
+    gridArea: 'main',
+    width: '100%'
   }
 });
 
@@ -72,7 +70,7 @@ const AdminRequestShow = props => {
       });
       fetchItineraryPackages(userData).then(setItinPackages);
     }
-  }, []);
+  }, [userData]);
 
   const handleComplete = () => {
     toggleRequestFulfilled(
@@ -119,7 +117,6 @@ const AdminRequestShow = props => {
           <a href={modalInfo.make_res_link} target='_blank'>
             Reservation Link
           </a>
-
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardTimePicker
               disableToolbar
@@ -131,7 +128,6 @@ const AdminRequestShow = props => {
               onChange={time => setResTime(time)}
             />
           </MuiPickersUtilsProvider>
-
           <Button
             type='button'
             onClick={() => {
@@ -210,53 +206,55 @@ const AdminRequestShow = props => {
 
   const displayVenues = () => {
     return (
-      <div className={classes.venueContainer}>
-        {/* {renderFilter()} */}
-        <ScrollContainer styles={classes.venueScroll}>
-          {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
-        </ScrollContainer>
-      </div>
+      <ListContainer title={renderFilter()}>
+        {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
+      </ListContainer>
     );
   };
 
   return request ? (
     <>
-      <RequestContainer
-        className={classes.requestContainer}
-        title='Request'
-        request={request}
-        admin={true}
-      >
-        <Button type='button' onClick={handleComplete}>
-          {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
-        </Button>
-        {request.fulfilled ? (
-          <Button type='button' onClick={handleMessage}>
-            Alert (DEMO ONLY)
+      <div className={classes.columnOne}>
+        <RequestContainer
+          className={classes.requestContainer}
+          title='Request'
+          request={request}
+          admin={true}
+        >
+          <Button type='button' onClick={handleComplete}>
+            {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
           </Button>
+          {request.fulfilled ? (
+            <Button type='button' onClick={handleMessage}>
+              Alert (DEMO ONLY)
+            </Button>
+          ) : null}
+        </RequestContainer>
+        {showVenues ? (
+          <ItineraryDisplay
+            items={request.itinerary_items}
+            admin={true}
+            handleRemove={handleRemove}
+          />
         ) : null}
-      </RequestContainer>
-      <SideDialog styles={showVenues ? classes.showVenues : classes.hideVenues}>
-        <h2>Itinerary</h2>
-        {!request.fulfilled ? (
-          <Button type='button' onClick={() => setShowVenues(true)}>
-            Add to Itinerary
-          </Button>
-        ) : null}
-        <ScrollContainer>
-          {request.itinerary_items.length
-            ? request.itinerary_items.map(item => (
-                <ItineraryItem
-                  handleRemove={handleRemove}
-                  key={item.id}
-                  item={item}
-                  admin={true}
-                />
-              ))
-            : null}
-        </ScrollContainer>
-      </SideDialog>
-      {showVenues ? displayVenues() : null}
+      </div>
+      <div className={classes.columnTwo}>
+        {showVenues ? (
+          displayVenues()
+        ) : (
+          <ItineraryDisplay
+            items={request.itinerary_items}
+            admin={true}
+            handleRemove={handleRemove}
+          >
+            {!request.fulfilled ? (
+              <Button type='button' onClick={() => setShowVenues(true)}>
+                Add to Itinerary
+              </Button>
+            ) : null}
+          </ItineraryDisplay>
+        )}
+      </div>
       {openModal()}
     </>
   ) : null;

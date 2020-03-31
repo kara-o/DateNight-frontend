@@ -1,15 +1,24 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import { createUseStyles } from 'react-jss';
 
-const MyInput = ({ type, name, value, onChange, label }) => {
+const useStyles = createUseStyles({
+  input: {
+    padding: '10px',
+    margin: '10px',
+    minWidth: '200px'
+  }
+});
+
+const MyInput = ({ type, name, value, onChange, placeholder }) => {
+  const classes = useStyles();
   return (
-    <TextField
+    <input
+      className={classes.input}
+      placeholder={placeholder}
       type={type}
       name={name}
       value={value}
       onChange={onChange}
-      label={label}
-      variant='filled'
     />
   );
 };
