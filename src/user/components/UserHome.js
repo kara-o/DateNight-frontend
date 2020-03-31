@@ -7,10 +7,11 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   mainContainer: {
     gridArea: 'main',
-    width: '100%'
+    width: '100%',
+    padding: '50px'
   },
-  row: {
-    minHeight: '40vh'
+  noDates: {
+    fontStyle: 'italic'
   }
 });
 
@@ -30,33 +31,40 @@ const UserHome = props => {
     const uncancelledReqs = requests.filter(
       r => !r.cancelled && new Date(r.start_time) >= new Date()
     );
-    return uncancelledReqs.map(r => {
-      return (
-        <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
-          <p>{moment(r.start_time).calendar()}</p>
-          <p>{r.party_size} people</p>
-          <p>{r.neighborhood}</p>
-          <p>{r.fulfilled ? 'ITINERARY IS READY' : null}</p>
-        </ListItem>
-      );
-    });
+
+    if (uncancelledReqs.length) {
+      return uncancelledReqs.map(r => {
+        return (
+          <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+            <p>{moment(r.start_time).calendar()}</p>
+            <p>{r.party_size} people</p>
+            <p>{r.neighborhood}</p>
+            <p>{r.fulfilled ? 'ITINERARY IS READY' : null}</p>
+          </ListItem>
+        );
+      });
+    }
+    return <p className={classes.noDates}>Book some nights out!</p>;
   };
 
   const renderPastDates = () => {
     const pastDates = requests.filter(
       r => !r.cancelled && new Date(r.start_time) < new Date()
     );
-    pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
-    return pastDates.map(r => {
-      return (
-        <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
-          <p></p>
-          <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
-          <p>{placeNamesToString(r)}</p>
-          <p></p>
-        </ListItem>
-      );
-    });
+    if (pastDates.length) {
+      pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
+      return pastDates.map(r => {
+        return (
+          <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+            <p></p>
+            <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
+            <p>{placeNamesToString(r)}</p>
+            <p></p>
+          </ListItem>
+        );
+      });
+    }
+    return <p className={classes.noDates}>Your past dates will go here!</p>;
   };
 
   const placeNamesToString = request => {
@@ -75,12 +83,10 @@ const UserHome = props => {
 
   return requests ? (
     <div className={classes.mainContainer}>
-      <ListContainer title='Upcoming Dates' styles={classes.row}>
+      <ListContainer title='Upcoming Dates'>
         {renderUncancelledRequests()}
       </ListContainer>
-      <ListContainer title='Past Dates' styles={classes.row}>
-        {renderPastDates()}
-      </ListContainer>
+      <ListContainer title='Past Dates'>{renderPastDates()}</ListContainer>
     </div>
   ) : null;
 };

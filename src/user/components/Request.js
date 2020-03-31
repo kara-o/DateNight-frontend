@@ -6,7 +6,8 @@ import {
   Filter,
   Button,
   SideDialog,
-  Errors
+  Errors,
+  Fieldset
 } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -21,17 +22,17 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   textArea: {
     resize: 'none',
-    margin: '20px'
-  },
-  contactsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '10px',
-    maxWidth: '200px',
-    alignSelf: 'center'
+    width: '100%',
+    border: 'none',
+    outline: 'none'
   },
   requestTitle: {
     marginBottom: '5px'
+  },
+  requestContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   helpLink: {
     fontStyle: 'italic',
@@ -41,17 +42,9 @@ const useStyles = createUseStyles({
       cursor: 'pointer'
     }
   },
-  requestContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  helpContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%'
+  column: {
+    width: '100%',
+    boxSizing: 'border-box'
   },
   noHelp: {
     gridColumn: '1/3'
@@ -210,9 +203,9 @@ const Request = props => {
   const renderHelpPage = () => {
     return (
       <SideDialog>
-        <h2>
+        <h3>
           Give us some guidance, then let us create the perfect night for you.
-        </h2>
+        </h3>
         <div className={classes.helpText}>
           <p>
             Choose the day and time for your date. Depending on your budget and
@@ -248,104 +241,111 @@ const Request = props => {
     <>
       <div
         className={
-          (showHelp ? classes.withHelp : classes.noHelp) +
-          ' ' +
-          classes.requestContainer
+          (showHelp ? classes.withHelp : classes.noHelp) + ' ' + classes.column
         }
       >
-        <h2 className={classes.requestTitle}>
-          What kind of night do you want?
-        </h2>
-        {!showHelp ? (
-          <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
-            {' '}
-            *Tell me more!
-          </p>
-        ) : null}
+        <div className={classes.requestContainer}>
+          <h2 className={classes.requestTitle}>
+            What kind of night do you want?
+          </h2>
+          {!showHelp ? (
+            <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
+              {' '}
+              *Tell me more!
+            </p>
+          ) : null}
 
-        <Form>
-          {errors ? <Errors errors={errors} /> : null}
-          <fieldset>
-            <legend>Date and Time</legend>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant='inline'
-                format='MM/dd/yyyy'
-                margin='normal'
-                label='Date'
-                minDate={tomorrow()}
-                value={formData.start_date}
-                onChange={date => handleChange(date, 'start_date')}
-              />
-              <KeyboardTimePicker
-                disableToolbar
-                variant='inline'
-                minutesStep={30}
-                margin='normal'
-                label='Time'
-                value={formData.start_time}
-                onChange={time => handleChange(time, 'start_time')}
-              />
-            </MuiPickersUtilsProvider>
-          </fieldset>
-          <Filter
-            title='Party Size: '
-            value={formData.party_size}
-            onChange={e => handleChange(e.target.value, 'party_size')}
-          >
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-          </Filter>
-          <Filter
-            title='Neighborhood: '
-            value={neighborhoodSelection}
-            onChange={e => setNeighborhoodSelection(e.target.value)}
-          >
-            {renderOptions(neighborhoods, 'name')}
-          </Filter>
-          <Filter
-            title='Price Range: '
-            value={priceRangeSelection}
-            onChange={e => setPriceRangeSelection(e.target.value)}
-          >
-            {renderOptions(priceRanges, 'max_amount')}
-          </Filter>
-          <fieldset className={classes.contactsContainer}>
-            <legend>Contacts (up to 4)</legend>
-            {contacts
-              .concat([''])
-              .slice(0, 4) // limit to 4
-              .map((contact, i) => (
-                <MyInput
-                  key={i}
-                  placeholder={`Phone ${i + 1}`}
-                  value={contact}
-                  type='tel'
-                  onChange={e => updateContactAt(e.target.value, i)}
+          <Form>
+            {errors ? <Errors errors={errors} /> : null}
+            <Fieldset legend='Date and Time'>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant='inline'
+                  format='MM/dd/yyyy'
+                  margin='normal'
+                  label='Date'
+                  minDate={tomorrow()}
+                  value={formData.start_date}
+                  onChange={date => handleChange(date, 'start_date')}
                 />
-              ))}
-          </fieldset>
-          <textarea
-            placeholder='Any additional notes for us?'
-            className={classes.textArea}
-            rows={5}
-            value={formData.notes}
-            onChange={e => handleChange(e.target.value, 'notes')}
-          />
-          <QuestionModal
-            questionText='Success! We will get busy setting up your perfect night out! You
+                <KeyboardTimePicker
+                  disableToolbar
+                  variant='inline'
+                  minutesStep={30}
+                  margin='normal'
+                  label='Time'
+                  value={formData.start_time}
+                  onChange={time => handleChange(time, 'start_time')}
+                />
+              </MuiPickersUtilsProvider>
+            </Fieldset>
+            <Fieldset legend='Specifics'>
+              <Filter
+                title='Party Size: '
+                value={formData.party_size}
+                onChange={e => handleChange(e.target.value, 'party_size')}
+              >
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+              </Filter>
+              <Filter
+                title='Neighborhood: '
+                value={neighborhoodSelection}
+                onChange={e => setNeighborhoodSelection(e.target.value)}
+              >
+                {renderOptions(neighborhoods, 'name')}
+              </Filter>
+              <Filter
+                title='Price Range: '
+                value={priceRangeSelection}
+                onChange={e => setPriceRangeSelection(e.target.value)}
+              >
+                {renderOptions(priceRanges, 'max_amount')}
+              </Filter>
+            </Fieldset>
+            <Fieldset
+              legend='Contacts (up to 4)'
+              styles={classes.contactsContainer}
+            >
+              {contacts
+                .concat([''])
+                .slice(0, 4) // limit to 4
+                .map((contact, i) => (
+                  <MyInput
+                    key={i}
+                    placeholder={`Phone ${i + 1}`}
+                    value={contact}
+                    type='tel'
+                    onChange={e => updateContactAt(e.target.value, i)}
+                  />
+                ))}
+            </Fieldset>
+            <Fieldset legend='Notes'>
+              <textarea
+                placeholder='Any additional notes for us?'
+                className={classes.textArea}
+                rows={5}
+                value={formData.notes}
+                onChange={e => handleChange(e.target.value, 'notes')}
+              />
+            </Fieldset>
+            <QuestionModal
+              questionText='Success! We will get busy setting up your perfect night out! You
             will get your first text on the day of your date at 10 am!'
-            acceptText="Can't Wait!"
-            navigateAwayAction={handleClose}
-            buttonText='Submit Request'
-            onClick={handleSubmit}
-          />
-        </Form>
+              acceptText="Can't Wait!"
+              navigateAwayAction={handleClose}
+              buttonText='Submit Request'
+              onClick={handleSubmit}
+            />
+          </Form>
+        </div>
       </div>
-      {showHelp ? renderHelpPage() : null}
+      {showHelp ? (
+        <div className={classes.column}>{renderHelpPage()}</div>
+      ) : null}
     </>
   );
 };

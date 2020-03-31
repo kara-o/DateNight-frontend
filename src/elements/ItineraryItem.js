@@ -12,7 +12,10 @@ const useStyles = createUseStyles({
     maxWidth: '600px',
     border: '1px solid lightgrey',
     padding: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 });
 

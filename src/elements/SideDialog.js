@@ -3,12 +3,8 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    maxWidth: '600px',
-    maxHeight: '600px'
+    padding: '50px',
+    textAlign: 'center'
   }
 });
 

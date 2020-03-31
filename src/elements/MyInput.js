@@ -5,7 +5,8 @@ const useStyles = createUseStyles({
   input: {
     padding: '10px',
     margin: '10px',
-    minWidth: '200px'
+    minWidth: '200px',
+    outline: 'none'
   }
 });
 

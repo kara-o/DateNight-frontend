@@ -3,8 +3,9 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   button: {
-    width: '50px',
-    padding: '5px'
+    maxWidth: '150px',
+    padding: '10px',
+    margin: '5px'
   }
 });
 

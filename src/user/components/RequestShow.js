@@ -7,11 +7,20 @@ import {
   ItineraryDisplay,
   RequestContainer
 } from '../../elements';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  column: {
+    width: '100%',
+    boxSizing: 'border-box'
+  }
+});
 
 const RequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -72,21 +81,23 @@ const RequestShow = props => {
     <>
       {request ? (
         <>
-          <RequestContainer
-            title={`${friendlyRelativeDate()}!`}
-            request={request}
-          >
-            {new Date(request.start_time) >= new Date() ? (
-              <QuestionModal
-                questionText='Are you sure you want to cancel this request?'
-                buttonText='Cancel Request'
-                declineText='No way!'
-                acceptText='Yes, please cancel.'
-                navigateAwayAction={handleCancel}
-              />
-            ) : null}
-          </RequestContainer>
-          {renderDialogOrItinerary()}
+          <div className={classes.column}>
+            <RequestContainer
+              title={`${friendlyRelativeDate()}!`}
+              request={request}
+            >
+              {new Date(request.start_time) >= new Date() ? (
+                <QuestionModal
+                  questionText='Are you sure you want to cancel this request?'
+                  buttonText='Cancel Request'
+                  declineText='No way!'
+                  acceptText='Yes, please cancel.'
+                  navigateAwayAction={handleCancel}
+                />
+              ) : null}
+            </RequestContainer>
+          </div>
+          <div className={classes.column}>{renderDialogOrItinerary()}</div>
         </>
       ) : null}
     </>

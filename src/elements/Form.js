@@ -7,8 +7,9 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     textAlign: 'center',
     alignItems: 'center',
-    maxWidth: '600px',
-    margin: '10px'
+    width: '600px',
+    margin: '10px',
+    padding: '10px'
   }
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import MyLink from './MyLink';
+import { MyLink, ExtendedBackground } from '.';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -13,15 +13,7 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     width: '100%',
     backgroundColor: '#E8E8E8',
-    position: 'relative',
-    '&:before': {
-      position: 'absolute',
-      zIndex: '-1',
-      width: '200vw',
-      left: '-100vw',
-      height: '100%',
-      backgroundColor: '#E8E8E8'
-    }
+    position: 'relative'
   }
 });
 
@@ -30,6 +22,7 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
 
   return (
     <nav className={classes.navbar}>
+      <ExtendedBackground />
       {userData && !userData.admin ? (
         <>
           <MyLink destination={`/`}>Home</MyLink>

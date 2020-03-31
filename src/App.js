@@ -23,7 +23,8 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   '@global': {
     body: {
-      margin: '0px'
+      margin: '0px',
+      overflowX: 'hidden'
     },
     '#root': {
       maxWidth: '1500px',

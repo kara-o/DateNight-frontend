@@ -16,8 +16,7 @@ const AdminLogin = props => {
     });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     let userData;
     login(formData)
       .then(res => {
@@ -64,9 +63,7 @@ const AdminLogin = props => {
           onChange={handleChange}
           placeholder='Password'
         />
-        <Button type='submit' onClick={handleSubmit}>
-          Login
-        </Button>
+        <Button onClick={handleSubmit}>Login</Button>
       </Form>
     </LoginSignUpContainer>
   );

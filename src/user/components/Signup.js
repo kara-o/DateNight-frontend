@@ -92,7 +92,7 @@ const SignUp = props => {
           placeholder='Phone Number'
         />
         <Button type='submit' onClick={handleSubmit}>
-          Signup
+          Sign Up
         </Button>
       </Form>
       <MyLink destination='/login'>Back</MyLink>

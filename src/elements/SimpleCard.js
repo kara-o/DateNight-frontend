@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     position: 'relative',
     border: '1px solid black',
     padding: '10px',
-    boxSizing: 'border-box',
+    // boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

@@ -6,6 +6,13 @@ import {
   DialogContentText
 } from '@material-ui/core';
 import Button from './Button';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  'body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div': {
+    padding: '20px'
+  }
+});
 
 const QuestionModal = ({
   buttonText,
@@ -16,6 +23,7 @@ const QuestionModal = ({
   onClick = null
 }) => {
   const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
   const handleClickOpen = e => {
     if (onClick) {

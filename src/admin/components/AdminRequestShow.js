@@ -30,17 +30,10 @@ import { createUseStyles } from 'react-jss';
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
 
 const useStyles = createUseStyles({
-  showVenues: {
-    gridColumn: '1/2',
-    gridRow: '2/3'
+  columnOne: {
+    width: '100%'
   },
-  hideVenues: {
-    gridColumn: '2/3',
-    gridRow: '2/3'
-  },
-  venueContainer: {
-    gridColumn: '2/3',
-    gridArea: 'main',
+  columnTwo: {
     width: '100%'
   }
 });

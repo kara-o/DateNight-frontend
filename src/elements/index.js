@@ -18,6 +18,8 @@ import RequestContainer from './RequestContainer';
 import ScrollContainer from './ScrollContainer';
 import Errors from './Errors';
 import ItineraryDisplay from './ItineraryDisplay';
+import ExtendedBackground from './ExtendedBackground';
+import Fieldset from './Fieldset';
 
 export {
   Button,
@@ -39,5 +41,7 @@ export {
   RequestContainer,
   ScrollContainer,
   Errors,
-  ItineraryDisplay
+  ItineraryDisplay,
+  ExtendedBackground,
+  Fieldset
 };
