@@ -6,7 +6,9 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'center',
-    maxWidth: '600px'
+    alignItems: 'center',
+    maxWidth: '600px',
+    margin: '10px'
   }
 });
 

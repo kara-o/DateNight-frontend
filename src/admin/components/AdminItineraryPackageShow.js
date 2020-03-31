@@ -4,10 +4,18 @@ import {
   createItineraryPackageItem,
   deletePkgItem
 } from '../services/api-admin';
-import { Button, MyLink, SimpleCard, Map } from '../../elements';
-import { TextField, Paper } from '@material-ui/core';
+import { Button, MyLink, SimpleCard, Map, Form, MyInput } from '../../elements';
+import { createUseStyles } from 'react-jss';
 
-const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs';
+const useStyles = createUseStyles({
+  cardsContainer: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'space-evenly'
+  }
+});
+
+const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; //public Google API key, ok if here
 
 const ItineraryItemForm = props => {
   const { onSubmit } = props;
@@ -45,51 +53,50 @@ const ItineraryItemForm = props => {
   const createMapUrl = (place, address) => {
     const urlEscaped = encodeURI(place + ' ' + address);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
+    console.log(iFrameUrl);
     return iFrameUrl;
   };
 
   return (
-    <Paper elevation={10}>
-      <form>
-        <TextField
-          label='Duration (minutes)'
-          value={duration}
-          onChange={e => setDuration(e.target.value)}
-        />
-        <TextField
-          label='Address'
-          value={address}
-          onChange={e => setAddress(e.target.value)}
-        />
-        <TextField
-          label='Place'
-          value={place}
-          onChange={e => setPlace(e.target.value)}
-        />
-        <TextField
-          multiline
-          rows={3}
-          label='Blurb'
-          value={blurb}
-          onChange={e => setBlurb(e.target.value)}
-        />
-        <TextField
-          label='Make reservation link'
-          value={makeResLink}
-          onChange={e => setMakeResLink(e.target.value)}
-        />
-        <TextField
-          label='Map URL'
-          value={mapUrl}
-          onChange={e => setMapUrl(e.target.value)}
-        />
-        <div>
-          <Button onClick={handleCreateMap}>Generate Map</Button>
-          {iFrame ? <Map url={iFrame} /> : null}
-          <Button onClick={handleClick}>Add Item To Package</Button>
-        </div>
-      </form>
-    </Paper>
+    <Form>
+      <MyInput
+        placeholder='Duration (minutes)'
+        value={duration}
+        onChange={e => setDuration(e.target.value)}
+      />
+      <MyInput
+        placeholder='Address'
+        value={address}
+        onChange={e => setAddress(e.target.value)}
+      />
+      <MyInput
+        placeholder='Place'
+        value={place}
+        onChange={e => setPlace(e.target.value)}
+      />
+      <MyInput
+        multiline
+        rows={3}
+        placeholder='Blurb'
+        value={blurb}
+        onChange={e => setBlurb(e.target.value)}
+      />
+      <MyInput
+        placeholder='Make reservation link'
+        value={makeResLink}
+        onChange={e => setMakeResLink(e.target.value)}
+      />
+      <MyInput
+        placeholder='Map URL'
+        value={mapUrl}
+        onChange={e => setMapUrl(e.target.value)}
+      />
+      <div>
+        <Button onClick={handleCreateMap}>Generate Map</Button>
+        {iFrame ? <Map url={iFrame} /> : null}
+        <Button onClick={handleClick}>Add Item To Package</Button>
+      </div>
+    </Form>
   );
 };
 
@@ -98,7 +105,8 @@ const AdminItineraryPackageShow = props => {
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
   const [itinPackageItems, setItinPackageItems] = useState(null);
-  const [expanded, setExpanded] = useState(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -113,7 +121,7 @@ const AdminItineraryPackageShow = props => {
     if (itinPackage) {
       const i = itinPackage;
       return (
-        <Paper elevation={10}>
+        <div>
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
@@ -122,7 +130,7 @@ const AdminItineraryPackageShow = props => {
           >
             Edit
           </MyLink>
-        </Paper>
+        </div>
       );
     }
   };
@@ -148,11 +156,7 @@ const AdminItineraryPackageShow = props => {
   const renderPackageItems = () => {
     if (itinPackageItems) {
       return itinPackageItems.map(pkgItem => {
-        return (
-          <>
-            <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />
-          </>
-        );
+        return <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />;
       });
     }
   };
@@ -163,7 +167,7 @@ const AdminItineraryPackageShow = props => {
         <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
         <p>{displayItinPackage()}</p>
         <h2>Package Items:</h2>
-        <div>{renderPackageItems()}</div>
+        <div className={classes.cardsContainer}>{renderPackageItems()}</div>
       </div>
       <div>
         <h2>Add Items</h2>

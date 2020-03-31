@@ -1,25 +1,24 @@
 import React from 'react';
+import { ScrollContainer } from '.';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  list: {
-    listStyle: 'none',
-    margin: '0',
-    padding: '0'
-  },
   container: {
-    textAlign: 'center',
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 });
 
-const ListContainer = ({ title, children, styles }) => {
+const ListContainer = ({ title = null, children, styles }) => {
+  console.log(children);
   const classes = useStyles();
 
   return (
     <div className={styles + ' ' + classes.container}>
-      <h2>{title}</h2>
-      <ul className={classes.list}>{children}</ul>
+      {title ? <h2>{title}</h2> : null}
+      <ScrollContainer className={classes.list}>{children}</ScrollContainer>
     </div>
   );
 };

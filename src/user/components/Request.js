@@ -5,7 +5,8 @@ import {
   MyInput,
   Filter,
   Button,
-  SideDialog
+  SideDialog,
+  Errors
 } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -25,9 +26,9 @@ const useStyles = createUseStyles({
   contactsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    padding: '10px'
+    padding: '10px',
+    maxWidth: '200px',
+    alignSelf: 'center'
   },
   requestTitle: {
     marginBottom: '5px'
@@ -40,11 +41,17 @@ const useStyles = createUseStyles({
       cursor: 'pointer'
     }
   },
-  container: {
+  requestContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  helpContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '100%'
   },
   noHelp: {
     gridColumn: '1/3'
@@ -185,10 +192,6 @@ const Request = props => {
     setContacts(contactsCopy);
   };
 
-  const renderErrors = errors => {
-    return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
-  };
-
   const renderOptions = (array, attribute) => {
     return array.map(o => {
       return (
@@ -207,10 +210,10 @@ const Request = props => {
   const renderHelpPage = () => {
     return (
       <SideDialog>
-        <h2 className={classes.helpTitle}>
+        <h2>
           Give us some guidance, then let us create the perfect night for you.
         </h2>
-        <p>
+        <div className={classes.helpText}>
           <p>
             Choose the day and time for your date. Depending on your budget and
             special instructions, we will schedule up to a total duration of 4
@@ -234,7 +237,7 @@ const Request = props => {
             restrictions/time constraints, etc. We want to make this night
             perfect for you!
           </p>
-        </p>
+        </div>
         <h3>Press submit when you're done!</h3>
         <Button onClick={() => setShowHelp(false)}>Got it!</Button>
       </SideDialog>
@@ -247,7 +250,7 @@ const Request = props => {
         className={
           (showHelp ? classes.withHelp : classes.noHelp) +
           ' ' +
-          classes.container
+          classes.requestContainer
         }
       >
         <h2 className={classes.requestTitle}>
@@ -261,7 +264,7 @@ const Request = props => {
         ) : null}
 
         <Form>
-          <ul>{errors ? renderErrors(errors) : null}</ul>
+          {errors ? <Errors errors={errors} /> : null}
           <fieldset>
             <legend>Date and Time</legend>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -311,14 +314,14 @@ const Request = props => {
             {renderOptions(priceRanges, 'max_amount')}
           </Filter>
           <fieldset className={classes.contactsContainer}>
-            <legend>Contact Phone Numbers (up to 4)</legend>
+            <legend>Contacts (up to 4)</legend>
             {contacts
               .concat([''])
               .slice(0, 4) // limit to 4
               .map((contact, i) => (
                 <MyInput
                   key={i}
-                  label={`Phone ${i + 1}`}
+                  placeholder={`Phone ${i + 1}`}
                   value={contact}
                   type='tel'
                   onChange={e => updateContactAt(e.target.value, i)}
@@ -326,7 +329,7 @@ const Request = props => {
               ))}
           </fieldset>
           <textarea
-            placeholder='Any additional notes?'
+            placeholder='Any additional notes for us?'
             className={classes.textArea}
             rows={5}
             value={formData.notes}

@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '../../elements';
-import { TextField, MenuItem, Paper } from '@material-ui/core';
+import {
+  Button,
+  Errors,
+  MyInput,
+  Filter,
+  Form,
+  LoadingScreen
+} from '../../elements';
 import {
   createItineraryPackage,
   fetchItineraryPackage,
   updateItineraryPackage
 } from '../services/api-admin';
 import { fetchOptions } from '../../user/services/api';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  container: {
+    gridArea: 'main'
+  },
+  blurb: {
+    margin: '10px',
+    padding: '10px'
+  }
+});
 
 const AdminItineraryPackage = props => {
   const { userData } = props;
@@ -18,6 +35,7 @@ const AdminItineraryPackage = props => {
   const [priceRanges, setPriceRanges] = useState([]);
   const [errors, setErrors] = useState(null);
   const packageId = props.match.params.id;
+  const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
@@ -76,74 +94,59 @@ const AdminItineraryPackage = props => {
     }
   };
 
-  const renderErrors = errors => {
-    return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
-  };
-
   const renderOptions = (array, attribute) => {
     return array.map(o => {
       return (
-        <MenuItem key={o.id} value={o.id}>
+        <option key={o.id} value={o.id}>
           {o[`${attribute}`]}
-        </MenuItem>
+        </option>
       );
     });
   };
 
   if (neighborhoodSelection === null || priceRangeSelection === null) {
-    return (
-      <form autoComplete='off'>
-        <p>Loading...</p>
-      </form>
-    );
+    return <LoadingScreen />;
   }
 
   return (
-    <Paper elevation={10}>
-      <form autoComplete='off'>
+    <div className={classes.container}>
+      <Form>
         <h1>Create New Itinerary Package</h1>
-        <ul>{errors ? renderErrors(errors) : null}</ul>
+        {errors ? <Errors errors={errors} /> : null}
 
-        <TextField
-          label='Title'
+        <MyInput
+          placeholder='Package title'
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
 
-        <TextField
-          select
-          label='Neighborhood'
+        <Filter
           value={neighborhoodSelection}
           onChange={e => setNeighborhoodSelection(e.target.value)}
-          margin='normal'
         >
           {renderOptions(neighborhoods, 'name')}
-        </TextField>
+        </Filter>
 
-        <TextField
-          select
-          label='Price range'
+        <Filter
           value={priceRangeSelection}
           onChange={e => setPriceRangeSelection(e.target.value)}
-          margin='normal'
         >
           {renderOptions(priceRanges, 'max_amount')}
-        </TextField>
+        </Filter>
 
-        <TextField
-          multiline
-          rows={3}
-          label='Blurb'
+        <textarea
+          className={classes.blurb}
+          rows={5}
+          placeholder='Write a blurb about this package...'
           value={blurb}
           onChange={e => setBlurb(e.target.value)}
-          margin='normal'
         />
 
         <Button type='submit' onClick={handleSubmit}>
           Submit
         </Button>
-      </form>
-    </Paper>
+      </Form>
+    </div>
   );
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 const Map = props => {
   const { url } = props;
+  console.log('here in map!', url);
   return (
     <iframe
       width='600'

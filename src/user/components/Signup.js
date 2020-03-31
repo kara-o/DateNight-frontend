@@ -5,7 +5,8 @@ import {
   MyLink,
   Form,
   LoginSignUpContainer,
-  MyInput
+  MyInput,
+  Errors
 } from '../../elements';
 
 const SignUp = props => {
@@ -47,54 +48,54 @@ const SignUp = props => {
     <LoginSignUpContainer>
       <h1>Welcome</h1>
       <Form>
-        <ul>{errors ? renderErrors(errors) : null}</ul>
+        {errors ? <Errors errors={errors} /> : null}
         <MyInput
           type='text'
           name='email'
           value={formData.email}
           onChange={handleChange}
-          label='Email'
+          placeholder='Email'
         />
         <MyInput
           type='password'
           name='password'
           value={formData.password}
           onChange={handleChange}
-          label='Password'
+          placeholder='Password'
         />
         <MyInput
           type='password'
           name='password_confirmation'
           value={formData.password_confirmation}
           onChange={handleChange}
-          label='Confirm Password'
+          placeholder='Confirm Password'
         />
         <MyInput
           type='text'
           name='first_name'
           value={formData.first_name}
           onChange={handleChange}
-          label='First Name'
+          placeholder='First Name'
         />
         <MyInput
           type='text'
           name='last_name'
           value={formData.last_name}
           onChange={handleChange}
-          label='Last Name'
+          placeholder='Last Name'
         />
         <MyInput
           type='text'
           name='phone'
           value={formData.phone}
           onChange={handleChange}
-          label='Phone Number'
+          placeholder='Phone Number'
         />
         <Button type='submit' onClick={handleSubmit}>
           Signup
         </Button>
-        <MyLink destination='/login'>Back</MyLink>
       </Form>
+      <MyLink destination='/login'>Back</MyLink>
     </LoginSignUpContainer>
   );
 };

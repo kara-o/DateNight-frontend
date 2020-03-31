@@ -4,9 +4,8 @@ import * as moment from 'moment';
 import {
   QuestionModal,
   SideDialog,
-  ItineraryItem,
-  RequestContainer,
-  ScrollContainer
+  ItineraryDisplay,
+  RequestContainer
 } from '../../elements';
 
 const RequestShow = props => {
@@ -22,55 +21,28 @@ const RequestShow = props => {
     }
   }, [userData]);
 
-  const sortItinItemsByDate = items => {
-    return items.sort((item1, item2) => {
-      const time1 = new Date(item1.arrival_time);
-      const time2 = new Date(item2.arrival_time);
-      if (time1 > time2) {
-        return 1;
-      }
-      if (time1 < time2) {
-        return -1;
-      }
-      return 0;
-    });
-  };
-
-  const renderItinerary = () => {
-    const sortedItems = sortItinItemsByDate(request.itinerary_items);
-    return sortedItems.map(item => {
-      return (
-        <ItineraryItem
-          key={item.id}
-          item={item}
-          index={sortedItems.indexOf(item)}
-        />
-      );
-    });
-  };
-
   const renderDialogOrItinerary = () => {
     if (request.fulfilled) {
       if (new Date(request.start_time) > new Date()) {
         return (
-          <>
+          <SideDialog>
             <p>
               Get excited! Your itinerary is all set. You will be getting text
               alerts starting on the morning of your date!
             </p>
-          </>
+          </SideDialog>
         );
       } else {
-        return <ScrollContainer>{renderItinerary()}</ScrollContainer>;
+        return <ItineraryDisplay items={request.itinerary_items} />;
       }
     } else {
       return (
-        <>
+        <SideDialog>
           <p>We are busy working to get your night out all set up!</p>
           <p>
             Check back soon for confirmation that your itinerary is ready...
           </p>
-        </>
+        </SideDialog>
       );
     }
   };
@@ -114,7 +86,7 @@ const RequestShow = props => {
               />
             ) : null}
           </RequestContainer>
-          <SideDialog>{renderDialogOrItinerary()}</SideDialog>
+          {renderDialogOrItinerary()}
         </>
       ) : null}
     </>

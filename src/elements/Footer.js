@@ -9,7 +9,16 @@ const useStyles = createUseStyles({
     justifyItems: 'center',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#E8E8E8'
+    backgroundColor: '#E8E8E8',
+    position: 'relative',
+    '&:before': {
+      position: 'absolute',
+      zIndex: '-1',
+      width: '200vw',
+      left: '-100vw',
+      height: '100%',
+      backgroundColor: '#E8E8E8'
+    }
   },
   text: {
     margin: '0px'
