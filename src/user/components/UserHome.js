@@ -5,13 +5,12 @@ import { ListContainer, ListItem } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  upcoming: {
-    gridColumn: '1/3',
-    gridRow: '2/3'
+  mainContainer: {
+    gridArea: 'main',
+    width: '100%'
   },
-  past: {
-    gridColumn: '1/3',
-    gridRow: '3/4'
+  row: {
+    minHeight: '40vh'
   }
 });
 
@@ -75,14 +74,14 @@ const UserHome = props => {
   };
 
   return requests ? (
-    <>
-      <ListContainer title='Upcoming Dates' styles={classes.upcoming}>
+    <div className={classes.mainContainer}>
+      <ListContainer title='Upcoming Dates' styles={classes.row}>
         {renderUncancelledRequests()}
       </ListContainer>
-      <ListContainer title='Past Dates' styles={classes.past}>
+      <ListContainer title='Past Dates' styles={classes.row}>
         {renderPastDates()}
       </ListContainer>
-    </>
+    </div>
   ) : null;
 };
 

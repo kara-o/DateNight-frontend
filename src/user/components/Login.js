@@ -6,7 +6,8 @@ import {
   LoginSignUpContainer,
   Form,
   MyLink,
-  MyInput
+  MyInput,
+  Errors
 } from '../../elements';
 
 const useQuery = () => {
@@ -18,7 +19,7 @@ const Login = props => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
   const query = useQuery();
   const isAccountConfirmationPending = !!query.get(
     'account_confirmation_pending'
@@ -52,7 +53,7 @@ const Login = props => {
           props.handleLogin(userData);
           props.history.push('/');
         } else {
-          setError(json.errors);
+          setErrors(json.errors);
         }
       });
     setFormData({
@@ -72,7 +73,7 @@ const Login = props => {
           <h3>Thank you for confirming your account! Please login.</h3>
         ) : null}
         <Form>
-          <ul>{error ? <li>{error}</li> : null}</ul>
+          {errors ? <Errors errors={errors} /> : null}
           <MyInput
             type='text'
             name='email'

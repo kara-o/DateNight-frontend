@@ -26,11 +26,10 @@ const useStyles = createUseStyles({
     '#root': {
       minHeight: '100vh',
       display: 'grid',
-      gridTemplateColumns: '50% 50%',
-      gridTemplateRows: '1fr 45vh 45vh 1fr',
+      gridTemplateColumns: '1fr 1fr',
+      gridTemplateRows: '50px auto 50px',
       gridTemplateAreas: `
       'navbar navbar'
-      'main main'
       'main main'
       'footer footer'`,
       justifyItems: 'center'

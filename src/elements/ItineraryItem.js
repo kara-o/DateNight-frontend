@@ -1,11 +1,15 @@
 import React from 'react';
-import { Map, Button, SideDialog } from '.';
+import { Map, Button, Itin } from '.';
 import * as moment from 'moment';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   title: {
-    marginBottom: '0px'
+    marginBottom: '0px',
+    textAlign: 'center'
+  },
+  container: {
+    maxWidth: '600px'
   }
 });
 
@@ -21,7 +25,7 @@ const ItineraryItem = props => {
   };
 
   return (
-    <SideDialog>
+    <div className={classes.container}>
       <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
       <div>
         <p>{moment(item.arrival_time).format('h:mm a')}</p>
@@ -48,7 +52,7 @@ const ItineraryItem = props => {
           Remove from Itinerary
         </Button>
       ) : null}
-    </SideDialog>
+    </div>
   );
 };
 

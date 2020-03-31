@@ -6,7 +6,7 @@ import {
   SideDialog,
   ItineraryItem,
   RequestContainer,
-  ScrollContainer
+  ListContainer
 } from '../../elements';
 
 const RequestShow = props => {
@@ -40,11 +40,9 @@ const RequestShow = props => {
     const sortedItems = sortItinItemsByDate(request.itinerary_items);
     return sortedItems.map(item => {
       return (
-        <ItineraryItem
-          key={item.id}
-          item={item}
-          index={sortedItems.indexOf(item)}
-        />
+        <li key={item.id}>
+          <ItineraryItem item={item} index={sortedItems.indexOf(item)} />
+        </li>
       );
     });
   };
@@ -53,24 +51,26 @@ const RequestShow = props => {
     if (request.fulfilled) {
       if (new Date(request.start_time) > new Date()) {
         return (
-          <>
+          <SideDialog>
             <p>
               Get excited! Your itinerary is all set. You will be getting text
               alerts starting on the morning of your date!
             </p>
-          </>
+          </SideDialog>
         );
       } else {
-        return <ScrollContainer>{renderItinerary()}</ScrollContainer>;
+        return (
+          <ListContainer title='Itinerary'>{renderItinerary()}</ListContainer>
+        );
       }
     } else {
       return (
-        <>
+        <SideDialog>
           <p>We are busy working to get your night out all set up!</p>
           <p>
             Check back soon for confirmation that your itinerary is ready...
           </p>
-        </>
+        </SideDialog>
       );
     }
   };
@@ -114,7 +114,7 @@ const RequestShow = props => {
               />
             ) : null}
           </RequestContainer>
-          <SideDialog>{renderDialogOrItinerary()}</SideDialog>
+          {renderDialogOrItinerary()}
         </>
       ) : null}
     </>

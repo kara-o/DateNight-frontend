@@ -5,7 +5,8 @@ import {
   MyLink,
   Form,
   LoginSignUpContainer,
-  MyInput
+  MyInput,
+  Errors
 } from '../../elements';
 
 const SignUp = props => {
@@ -47,7 +48,7 @@ const SignUp = props => {
     <LoginSignUpContainer>
       <h1>Welcome</h1>
       <Form>
-        <ul>{errors ? renderErrors(errors) : null}</ul>
+        {errors ? <Errors errors={errors} /> : null}
         <MyInput
           type='text'
           name='email'
@@ -93,8 +94,8 @@ const SignUp = props => {
         <Button type='submit' onClick={handleSubmit}>
           Signup
         </Button>
-        <MyLink destination='/login'>Back</MyLink>
       </Form>
+      <MyLink destination='/login'>Back</MyLink>
     </LoginSignUpContainer>
   );
 };

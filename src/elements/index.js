@@ -16,6 +16,7 @@ import ItineraryItem from './ItineraryItem';
 import LoadingScreen from './LoadingScreen';
 import RequestContainer from './RequestContainer';
 import ScrollContainer from './ScrollContainer';
+import Errors from './Errors';
 
 export {
   Button,
@@ -35,5 +36,6 @@ export {
   ItineraryItem,
   LoadingScreen,
   RequestContainer,
-  ScrollContainer
+  ScrollContainer,
+  Errors
 };
