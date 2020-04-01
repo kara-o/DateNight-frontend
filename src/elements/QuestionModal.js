@@ -8,11 +8,7 @@ import {
 import Button from './Button';
 import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles({
-  'body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div': {
-    padding: '20px'
-  }
-});
+const useStyles = createUseStyles({});
 
 const QuestionModal = ({
   buttonText,
