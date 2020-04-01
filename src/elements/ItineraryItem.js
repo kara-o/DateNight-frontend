@@ -16,6 +16,9 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  button: {
+    margin: '20px 0px 0px 0px'
   }
 });
 
@@ -54,7 +57,7 @@ const ItineraryItem = props => {
 
       <Map url={item.map_iframe_url} />
       {admin ? (
-        <Button onClick={() => handleRemove(item)}>
+        <Button styles={classes.button} onClick={() => handleRemove(item)}>
           Remove from Itinerary
         </Button>
       ) : null}

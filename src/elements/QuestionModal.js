@@ -1,10 +1,4 @@
 import React, { useState } from 'react';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core';
 import Button from './Button';
 import { createUseStyles } from 'react-jss';
 
@@ -36,28 +30,22 @@ const QuestionModal = ({
   return (
     <div>
       <Button onClick={handleClickOpen}>{buttonText}</Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {questionText}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {declineText ? (
-            <Button onClick={handleClose} color='primary'>
-              {declineText}
+      {open ? (
+        <div className={classes.modalContainer}>
+          <p>{questionText}</p>
+
+          <div>
+            {declineText ? (
+              <Button onClick={handleClose} color='primary'>
+                {declineText}
+              </Button>
+            ) : null}
+            <Button onClick={navigateAwayAction} color='primary' autoFocus>
+              {acceptText}
             </Button>
-          ) : null}
-          <Button onClick={navigateAwayAction} color='primary' autoFocus>
-            {acceptText}
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

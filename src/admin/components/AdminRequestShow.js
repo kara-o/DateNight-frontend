@@ -35,6 +35,9 @@ const useStyles = createUseStyles({
   },
   columnTwo: {
     width: '100%'
+  },
+  addBtn: {
+    margin: '0px 0px 20px 0px'
   }
 });
 
@@ -241,7 +244,11 @@ const AdminRequestShow = props => {
             handleRemove={handleRemove}
           >
             {!request.fulfilled ? (
-              <Button type='button' onClick={() => setShowVenues(true)}>
+              <Button
+                styles={classes.addBtn}
+                type='button'
+                onClick={() => setShowVenues(true)}
+              >
                 Add to Itinerary
               </Button>
             ) : null}
