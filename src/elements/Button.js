@@ -11,7 +11,6 @@ const useStyles = createUseStyles({
 
 const Button = ({ type = 'button', onClick, styles, children }) => {
   const classes = useStyles();
-  console.log('in button element with onClick of: ', onClick);
   return (
     <button
       onClick={() => onClick()}

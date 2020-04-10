@@ -1,24 +1,45 @@
-import React, { useState } from 'react';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles({});
+const useStyles = createUseStyles({
+  container: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.6)'
+  },
+  modal: {
+    position: 'fixed',
+    background: 'white',
+    width: 'auto',
+    maxWidth: '50%',
+    height: 'auto',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '30px',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
 
 const QuestionModal = ({
-  buttonText,
-  questionText,
+  buttonText = null,
+  children,
   acceptText,
   declineText = null,
+  closeAction = null,
   navigateAwayAction,
-  onClick = null
+  onClick = null,
+  startOpen = false
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(startOpen);
   const classes = useStyles();
 
   const handleClickOpen = e => {
@@ -35,29 +56,30 @@ const QuestionModal = ({
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>{buttonText}</Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {questionText}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {declineText ? (
-            <Button onClick={handleClose} color='primary'>
-              {declineText}
-            </Button>
-          ) : null}
-          <Button onClick={navigateAwayAction} color='primary' autoFocus>
-            {acceptText}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {buttonText ? <Button onClick={handleClickOpen}>{buttonText}</Button> : null}
+      {open ? (
+        <div className={classes.container}>
+          <div className={classes.modal}>
+            {children}
+            <div>
+              {declineText ? (
+                <Button onClick={closeAction ? () => {
+                  handleClose()
+                  closeAction()
+                } : handleClose} color='primary'>
+                  {declineText}
+                </Button>
+              ) : null}
+              <Button onClick={() => {
+                navigateAwayAction()
+                handleClose()
+              }} color='primary'>
+                {acceptText}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

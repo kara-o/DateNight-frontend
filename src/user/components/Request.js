@@ -154,8 +154,7 @@ const Request = props => {
     props.history.push('/');
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const data = getPostData();
 
     return createRequest(data, userData).then(json => {
@@ -333,13 +332,14 @@ const Request = props => {
               />
             </Fieldset>
             <QuestionModal
-              questionText='Success! We will get busy setting up your perfect night out! You
-            will get your first text on the day of your date at 10 am!'
               acceptText="Can't Wait!"
               navigateAwayAction={handleClose}
               buttonText='Submit Request'
               onClick={handleSubmit}
-            />
+            >
+              Success! We will get busy setting up your perfect night out! You
+              will get your first text on the day of your date at 10 am!
+            </QuestionModal>
           </Form>
         </div>
       </div>
