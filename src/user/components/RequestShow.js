@@ -88,12 +88,13 @@ const RequestShow = props => {
             >
               {new Date(request.start_time) >= new Date() ? (
                 <QuestionModal
-                  questionText='Are you sure you want to cancel this request?'
                   buttonText='Cancel Request'
                   declineText='No way!'
                   acceptText='Yes, please cancel.'
                   navigateAwayAction={handleCancel}
-                />
+                >
+                  Are you sure you want to cancel this request?
+                </QuestionModal>
               ) : null}
             </RequestContainer>
           </div>

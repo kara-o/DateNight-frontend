@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import { createUseStyles } from 'react-jss';
 
@@ -20,20 +20,26 @@ const useStyles = createUseStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    padding: '20px',
-    textAlign: 'center'
+    padding: '30px',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 const QuestionModal = ({
-  buttonText,
-  questionText,
+  buttonText = null,
+  children,
   acceptText,
   declineText = null,
+  closeAction = null,
   navigateAwayAction,
-  onClick = null
+  onClick = null,
+  startOpen = false
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(startOpen);
   const classes = useStyles();
 
   const handleClickOpen = e => {
@@ -50,18 +56,24 @@ const QuestionModal = ({
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>{buttonText}</Button>
+      {buttonText ? <Button onClick={handleClickOpen}>{buttonText}</Button> : null}
       {open ? (
         <div className={classes.container}>
           <div className={classes.modal}>
-            <p>{questionText}</p>
+            {children}
             <div>
               {declineText ? (
-                <Button onClick={handleClose} color='primary'>
+                <Button onClick={closeAction ? () => {
+                  handleClose()
+                  closeAction()
+                } : handleClose} color='primary'>
                   {declineText}
                 </Button>
               ) : null}
-              <Button onClick={navigateAwayAction} color='primary'>
+              <Button onClick={() => {
+                navigateAwayAction()
+                handleClose()
+              }} color='primary'>
                 {acceptText}
               </Button>
             </div>

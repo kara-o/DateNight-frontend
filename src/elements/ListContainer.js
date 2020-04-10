@@ -12,7 +12,6 @@ const useStyles = createUseStyles({
 });
 
 const ListContainer = ({ title = null, children, styles }) => {
-  console.log(children);
   const classes = useStyles();
 
   return (

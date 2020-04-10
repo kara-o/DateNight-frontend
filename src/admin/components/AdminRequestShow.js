@@ -5,7 +5,8 @@ import {
   ItineraryDisplay,
   RequestContainer,
   Filter,
-  ListContainer
+  ListContainer,
+  QuestionModal
 } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
@@ -19,7 +20,6 @@ import {
   addItinItem
 } from '../services/api-admin';
 import * as moment from 'moment';
-import { Dialog } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -38,6 +38,12 @@ const useStyles = createUseStyles({
   },
   addBtn: {
     margin: '0px 0px 20px 0px'
+  },
+  timePicker: {
+    maxWidth: '25%'
+  },
+  emptyItin: {
+    fontStyle: 'italic'
   }
 });
 
@@ -47,7 +53,6 @@ const AdminRequestShow = props => {
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
   const [scrapedNames, setScrapedNames] = useState([]);
-  const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
   const [resTime, setResTime] = useState(null);
   const [iFrame, setIFrame] = useState(null);
@@ -94,26 +99,31 @@ const AdminRequestShow = props => {
     });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const openModal = () => {
-    if (modalInfo) {
-      const neighborhood = modalInfo.neighborhood
-        ? modalInfo.neighborhood
-        : 'Seattle';
-      return (
-        <Dialog open={open} onClose={handleClose}>
-          <h2>{modalInfo.name}</h2>
-          <p>
-            {neighborhood + ' • ' + modalInfo.cuisine + ' • ' + modalInfo.price}
-          </p>
-          <p>{modalInfo.blurb}</p>
-          <a href={modalInfo.make_res_link} target='_blank'>
-            Reservation Link
+    const neighborhood = modalInfo.neighborhood
+      ? modalInfo.neighborhood
+      : 'Seattle';
+    return (
+      <QuestionModal
+        startOpen={true}
+        acceptText='Add to Itinerary'
+        navigateAwayAction={() => {
+          handleAddItinItem()
+          setModalInfo(null)
+        }}
+        declineText='Back'
+        closeAction={() => setModalInfo(null)}
+      >
+        <h2>{modalInfo.name}</h2>
+        <p>
+          {neighborhood + ' • ' + modalInfo.cuisine + ' • ' + modalInfo.price}
+        </p>
+        <p>{modalInfo.blurb}</p>
+        <a href={modalInfo.make_res_link} target='_blank'>
+          Reservation Link
           </a>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className={classes.timePicker}>
+          <MuiPickersUtilsProvider className={classes.timePicker} utils={DateFnsUtils}>
             <KeyboardTimePicker
               disableToolbar
               variant='inline'
@@ -124,18 +134,9 @@ const AdminRequestShow = props => {
               onChange={time => setResTime(time)}
             />
           </MuiPickersUtilsProvider>
-          <Button
-            type='button'
-            onClick={() => {
-              handleClose();
-              handleAddItinItem();
-            }}
-          >
-            Add to Itinerary
-          </Button>
-        </Dialog>
-      );
-    }
+        </div>
+      </QuestionModal>
+    );
   };
 
   const createMapUrl = (name, address) => {
@@ -184,19 +185,18 @@ const AdminRequestShow = props => {
   const displayScrapedVenues = () => {
     return scrapedNames.length
       ? scrapedNames.map((info, idx) => (
-          <li
-            key={idx}
-            onClick={() => {
-              scrapeSinglePage(userData, info).then(infoJson => {
-                setOpen(true);
-                setModalInfo(infoJson);
-                createMapUrl(infoJson.name, infoJson.address);
-              });
-            }}
-          >
-            {info.name}
-          </li>
-        ))
+        <li
+          key={idx}
+          onClick={() => {
+            scrapeSinglePage(userData, info).then(infoJson => {
+              setModalInfo(infoJson);
+              createMapUrl(infoJson.name, infoJson.address);
+            });
+          }}
+        >
+          {info.name}
+        </li>
+      ))
       : null;
   };
 
@@ -231,31 +231,33 @@ const AdminRequestShow = props => {
             items={request.itinerary_items}
             admin={true}
             handleRemove={handleRemove}
-          />
+          >
+            {!request.itinerary_items.length ? <p className={classes.emptyItin}>Add some venues!</p> : null}
+          </ItineraryDisplay>
         ) : null}
       </div>
       <div className={classes.columnTwo}>
         {showVenues ? (
           displayVenues()
         ) : (
-          <ItineraryDisplay
-            items={request.itinerary_items}
-            admin={true}
-            handleRemove={handleRemove}
-          >
-            {!request.fulfilled ? (
-              <Button
-                styles={classes.addBtn}
-                type='button'
-                onClick={() => setShowVenues(true)}
-              >
-                Add to Itinerary
-              </Button>
-            ) : null}
-          </ItineraryDisplay>
-        )}
+            <ItineraryDisplay
+              items={request.itinerary_items}
+              admin={true}
+              handleRemove={handleRemove}
+            >
+              {!request.fulfilled ? (
+                <Button
+                  styles={classes.addBtn}
+                  type='button'
+                  onClick={() => setShowVenues(true)}
+                >
+                  Add to Itinerary
+                </Button>
+              ) : null}
+            </ItineraryDisplay>
+          )}
       </div>
-      {openModal()}
+      {modalInfo ? openModal() : null}
     </>
   ) : null;
 };
