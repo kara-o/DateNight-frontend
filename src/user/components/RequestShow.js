@@ -5,7 +5,8 @@ import {
   QuestionModal,
   SideDialog,
   ItineraryDisplay,
-  RequestContainer
+  RequestContainer,
+  Rating
 } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
@@ -95,7 +96,7 @@ const RequestShow = props => {
                 >
                   Are you sure you want to cancel this request?
                 </QuestionModal>
-              ) : null}
+              ) : <Rating request={request} />}
             </RequestContainer>
           </div>
           <div className={classes.column}>{renderDialogOrItinerary()}</div>
