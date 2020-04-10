@@ -2,7 +2,28 @@ import React, { useState } from 'react';
 import Button from './Button';
 import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles({});
+const useStyles = createUseStyles({
+  container: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.6)'
+  },
+  modal: {
+    position: 'fixed',
+    background: 'white',
+    width: 'auto',
+    maxWidth: '50%',
+    height: 'auto',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '20px',
+    textAlign: 'center'
+  }
+});
 
 const QuestionModal = ({
   buttonText,
@@ -31,18 +52,19 @@ const QuestionModal = ({
     <div>
       <Button onClick={handleClickOpen}>{buttonText}</Button>
       {open ? (
-        <div className={classes.modalContainer}>
-          <p>{questionText}</p>
-
-          <div>
-            {declineText ? (
-              <Button onClick={handleClose} color='primary'>
-                {declineText}
+        <div className={classes.container}>
+          <div className={classes.modal}>
+            <p>{questionText}</p>
+            <div>
+              {declineText ? (
+                <Button onClick={handleClose} color='primary'>
+                  {declineText}
+                </Button>
+              ) : null}
+              <Button onClick={navigateAwayAction} color='primary'>
+                {acceptText}
               </Button>
-            ) : null}
-            <Button onClick={navigateAwayAction} color='primary' autoFocus>
-              {acceptText}
-            </Button>
+            </div>
           </div>
         </div>
       ) : null}
