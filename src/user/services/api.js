@@ -101,3 +101,15 @@ export const fetchRequest = (userData, requestId) => {
     headers: { ...jsonHeaders, ...headers }
   }).then(res => res.json());
 };
+
+export const createReview = (userData, requestId, rating, feedback) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/users/${userData.id}/requests/${requestId}/reviews`, {
+    method: 'POST',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({
+      rating,
+      feedback
+    })
+  }).then(res => res.json());
+};
