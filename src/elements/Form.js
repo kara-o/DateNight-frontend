@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     textAlign: 'center',
     alignItems: 'center',
-    width: '600px',
+    maxWidth: '600px',
     margin: '10px',
     padding: '10px'
   }

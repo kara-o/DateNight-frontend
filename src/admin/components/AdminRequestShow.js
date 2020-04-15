@@ -232,6 +232,7 @@ const AdminRequestShow = props => {
           ) : (
               <Review admin={true} request={request} userData={userData} />
             )}
+          <Button onClick={() => window.open(`mailto:${request.user.email}?subject=Message Regarding Your ${moment(request.start_time).format('MM/DD/YYYY')} Date`)}>Contact User</Button>
         </RequestContainer>
         {showVenues ? (
           <ItineraryDisplay

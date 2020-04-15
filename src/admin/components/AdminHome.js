@@ -34,7 +34,7 @@ const AdminHome = props => {
     return requests.map(r => {
       let status;
       if (r.fulfilled) {
-        status = 'FULFILLED'
+        status = new Date(r.start_time) < new Date() ? 'COMPLETED' : 'FULFILLED'
       }
       else if (r.cancelled) {
         status = 'CANCELLED'
@@ -43,7 +43,7 @@ const AdminHome = props => {
         status = 'UNFULFILLED'
       }
       return (
-        <ListItem key={r.id} id={r.id} destination={`/admin/requests/${r.id}`}>
+        <ListItem styles={filter === 'Unfulfilled' ? 'unfulfilledOnly' : 'upcomingPastDates'} key={r.id} id={r.id} destination={`/admin/requests/${r.id}`}>
           <p>{moment(r.start_time).calendar()}</p>
           <p>{status}</p>
           <p>{r.review ? <Stars review={r.review} /> : null}</p>

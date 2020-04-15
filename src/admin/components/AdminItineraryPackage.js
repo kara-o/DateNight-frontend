@@ -59,9 +59,7 @@ const AdminItineraryPackage = props => {
     }
   }, [userData]);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     const data = {
       title,
       blurb,
@@ -69,29 +67,19 @@ const AdminItineraryPackage = props => {
       price_range_id: priceRangeSelection
     };
 
-    if (props.edit) {
-      updateItineraryPackage(packageId, data, userData).then(json => {
+    let action = props.edit ? () => updateItineraryPackage(packageId, data, userData) : () => createItineraryPackage(data, userData)
+    action().then(
+      json => {
         if (!json.errors) {
-          props.history.push(`/admin/itinerary_packages/${packageId}`);
+          props.history.push(`/admin/itinerary_packages/${json.id}`);
         } else {
           setErrors({
             errorObj: json.errors.error_obj,
             fullMessages: json.errors.full_messages
           });
         }
-      });
-    } else {
-      createItineraryPackage(data, userData).then(json => {
-        if (!json.errors) {
-          props.history.push('/admin/itinerary_packages');
-        } else {
-          setErrors({
-            errorObj: json.errors.error_obj,
-            fullMessages: json.errors.full_messages
-          });
-        }
-      });
-    }
+      }
+    )
   };
 
   const renderOptions = (array, attribute) => {
@@ -142,7 +130,7 @@ const AdminItineraryPackage = props => {
           onChange={e => setBlurb(e.target.value)}
         />
 
-        <Button type='submit' onClick={handleSubmit}>
+        <Button onClick={handleSubmit}>
           Submit
         </Button>
       </Form>

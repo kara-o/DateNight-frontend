@@ -4,7 +4,7 @@ import {
   createItineraryPackageItem,
   deletePkgItem
 } from '../services/api-admin';
-import { Button, MyLink, SimpleCard, Map, Form, MyInput } from '../../elements';
+import { Button, MyLink, SimpleCard, Map, Form, MyInput, SideDialog } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -12,6 +12,16 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexFlow: 'row wrap',
     justifyContent: 'space-evenly'
+  },
+  column: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  container: {
+    width: '100%',
+    textAlign: 'center'
   }
 });
 
@@ -163,15 +173,19 @@ const AdminItineraryPackageShow = props => {
 
   return (
     <>
-      <div>
-        <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
-        <p>{displayItinPackage()}</p>
-        <h2>Package Items:</h2>
-        <div className={classes.cardsContainer}>{renderPackageItems()}</div>
+      <div className={classes.column}>
+        <div className={classes.container}>
+          <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
+          <p>{displayItinPackage()}</p>
+          <h2>Package Items:</h2>
+          <div className={classes.cardsContainer}>{renderPackageItems()}</div>
+        </div>
       </div>
-      <div>
-        <h2>Add Items</h2>
-        <ItineraryItemForm onSubmit={handleItemSubmit} />
+      <div className={classes.column}>
+        <div className={classes.container}>
+          <h2>Add Items</h2>
+          <ItineraryItemForm onSubmit={handleItemSubmit} />
+        </div>
       </div>
     </>
   );

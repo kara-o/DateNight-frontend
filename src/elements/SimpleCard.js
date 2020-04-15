@@ -9,24 +9,13 @@ const useStyles = createUseStyles({
     position: 'relative',
     border: '1px solid black',
     padding: '10px',
-    // boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
     marginBottom: '10px'
   },
-  button: {
-    position: 'absolute',
-    bottom: '20px'
-  },
-  duration: {
-    position: 'absolute',
-    bottom: '40px'
-  },
-  place: {
-    position: 'absolute',
-    top: '10px'
+  details: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    position: 'absolute'
   }
 });
 
@@ -34,12 +23,13 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
   const classes = useStyles();
   return (
     <div key={pkgItem.id} className={classes.container}>
-      <p className={classes.place}>{pkgItem.place}</p>
-      <p className={classes.duration}>{pkgItem.duration} minutes</p>
-
-      <Button styles={classes.button} onClick={() => handleDelete(pkgItem.id)}>
-        Remove
+      <div className={classes.details}>
+        <p>{pkgItem.place}</p>
+        <p>{pkgItem.duration} minutes</p>
+        <Button onClick={() => handleDelete(pkgItem.id)}>
+          Remove
       </Button>
+      </div>
     </div>
   );
 };
