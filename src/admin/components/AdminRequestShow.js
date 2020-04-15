@@ -6,7 +6,8 @@ import {
   RequestContainer,
   Filter,
   ListContainer,
-  QuestionModal
+  QuestionModal,
+  Review
 } from '../../elements';
 import { fetchRequest } from '../../user/services/api';
 import {
@@ -60,7 +61,7 @@ const AdminRequestShow = props => {
   const [showVenues, setShowVenues] = useState(false);
   const classes = useStyles();
 
-  useEffect(() => {
+  useEffect(() => {  //TODO add cleanup function?
     if (userData) {
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
@@ -217,14 +218,20 @@ const AdminRequestShow = props => {
           request={request}
           admin={true}
         >
-          <Button type='button' onClick={handleComplete}>
-            {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
-          </Button>
-          {request.fulfilled ? (
-            <Button type='button' onClick={handleMessage}>
-              Alert (DEMO ONLY)
-            </Button>
-          ) : null}
+          {new Date(request.start_time) >= new Date() ? (
+            <>
+              <Button type='button' onClick={handleComplete}>
+                {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
+              </Button>
+              {request.fulfilled ? (
+                <Button type='button' onClick={handleMessage}>
+                  Alert (DEMO ONLY)
+                </Button>
+              ) : null}
+            </>
+          ) : (
+              <Review admin={true} request={request} userData={userData} />
+            )}
         </RequestContainer>
         {showVenues ? (
           <ItineraryDisplay

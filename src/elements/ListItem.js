@@ -6,7 +6,7 @@ const useStyles = createUseStyles({
   listItem: {
     display: 'grid',
     gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end]',
+      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]',
     gridTemplateRows: 'auto',
     justifyItems: 'center',
     textAlign: 'center'

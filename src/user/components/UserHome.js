@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useDebugValue } from 'react';
 import { fetchRequests, cancelRequest } from '../services/api';
 import * as moment from 'moment';
-import { ListContainer, ListItem } from '../../elements';
+import { ListContainer, ListItem, Stars } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -9,9 +9,6 @@ const useStyles = createUseStyles({
     gridArea: 'main',
     width: '100%',
     padding: '50px'
-  },
-  noDates: {
-    fontStyle: 'italic'
   }
 });
 
@@ -37,9 +34,8 @@ const UserHome = props => {
         return (
           <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
             <p>{moment(r.start_time).calendar()}</p>
-            <p>{r.party_size} people</p>
             <p>{r.neighborhood}</p>
-            <p>{r.fulfilled ? 'ITINERARY IS READY' : null}</p>
+            <p>{r.fulfilled ? 'ITINERARY IS READY' : 'ITINERARY PENDING'}</p>
           </ListItem>
         );
       });
@@ -56,15 +52,14 @@ const UserHome = props => {
       return pastDates.map(r => {
         return (
           <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
-            <p></p>
             <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
             <p>{placeNamesToString(r)}</p>
-            <p></p>
+            <p>{r.review ? <Stars review={r.review} /> : 'Review this date!'.italics()}</p>
           </ListItem>
         );
       });
     }
-    return <p className={classes.noDates}>Your past dates will go here!</p>;
+    return <p>{('Your past dates will go here!').italics()}</p>;
   };
 
   const placeNamesToString = request => {

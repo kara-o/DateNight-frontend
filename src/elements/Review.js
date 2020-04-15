@@ -76,7 +76,7 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
 
   return (
     <div className={classes.reviewContainer}>
-      <h2>{request.review ? 'Your review:' : 'Review your night out!'}</h2>
+      <h2>{admin ? (request.review ? 'Review:' : 'Not reviewed.') : (request.review ? 'Your review:' : 'Review your night out!')}</h2>
       <div className={classes.starsContainer}>
         <Stars styles={classes.starsContainer} review={request.review || request || null} onClick={handleClickStar} />
       </div>
