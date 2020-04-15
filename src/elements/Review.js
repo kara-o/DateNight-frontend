@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { createReview } from '../user/services/api'
-import { Button } from '.'
+import { Button, Stars } from '.'
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -10,40 +10,25 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  starsContainer: {
-    fontSize: '24px'
-  },
-  star: {
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  },
   feedback: {
     resize: 'none',
     width: '100%',
     outline: 'none',
     margin: '10px',
     padding: '10px'
+  },
+  starsContainer: {
+    fontSize: '24px'
   }
 });
 
 const Review = ({ admin = false, request: initialRequest, userData }) => {
   const classes = useStyles()
-  const [stars, setStars] = useState({
-    '1': false,
-    '2': false,
-    '3': false,
-    '4': false,
-    '5': false
-  })
   const [review, setReview] = useState({
     rating: 0,
     feedback: ''
   })
   const [request, setRequest] = useState(initialRequest)
-  const filledStar = '★'
-  const emptyStar = '☆'
-
 
   const handleClickStar = id => {
     if (request.review) {
@@ -72,25 +57,6 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
     })
   }
 
-  const setStarColor = id => {
-    if (request.review) {
-      return id <= request.review.rating ? filledStar : emptyStar
-    }
-    if (review) {
-      return id <= review.rating ? filledStar : emptyStar
-    }
-    else {
-      return emptyStar
-    }
-  }
-
-  const renderStars = () => {
-    return [1, 2, 3, 4, 5].map(id => {
-      return <span key={id} className={classes.star} onClick={() => handleClickStar(id)}>{setStarColor(id)}</span>
-    })
-
-  }
-
   const renderFeedback = () => {
     if (request.review) {
       return request.review.feedback ? <p>{request.review.feedback}</p> : null
@@ -112,7 +78,7 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
     <div className={classes.reviewContainer}>
       <h2>{request.review ? 'Your review:' : 'Review your night out!'}</h2>
       <div className={classes.starsContainer}>
-        {renderStars()}
+        <Stars styles={classes.starsContainer} review={request.review || request || null} onClick={handleClickStar} />
       </div>
       {renderFeedback()}
       {!request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}

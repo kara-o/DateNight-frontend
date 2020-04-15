@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchRequests } from '../services/api-admin';
-import { ListContainer, ListItem, Filter } from '../../elements';
+import { ListContainer, ListItem, Filter, Stars } from '../../elements';
 import * as moment from 'moment';
 import { createUseStyles } from 'react-jss';
 
@@ -32,12 +32,21 @@ const AdminHome = props => {
     }
     requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
     return requests.map(r => {
+      let status;
+      if (r.fulfilled) {
+        status = 'FULFILLED'
+      }
+      else if (r.cancelled) {
+        status = 'CANCELLED'
+      }
+      else {
+        status = 'UNFULFILLED'
+      }
       return (
         <ListItem key={r.id} id={r.id} destination={`/admin/requests/${r.id}`}>
-          <p></p>
           <p>{moment(r.start_time).calendar()}</p>
-          <p>{r.cancelled ? <span>CANCELLED</span> : null}</p>
-          <p></p>
+          <p>{status}</p>
+          <p>{r.review ? <Stars review={r.review} /> : null}</p>
         </ListItem>
       );
     });
