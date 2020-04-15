@@ -8,8 +8,7 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    gridColumn: '1/2'
+    width: '100%'
   },
   details: {
     marginTop: '0px'

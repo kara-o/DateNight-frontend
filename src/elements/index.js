@@ -20,6 +20,8 @@ import Errors from './Errors';
 import ItineraryDisplay from './ItineraryDisplay';
 import ExtendedBackground from './ExtendedBackground';
 import Fieldset from './Fieldset';
+import Review from './Review'
+import Stars from './Stars'
 
 export {
   Button,
@@ -43,5 +45,7 @@ export {
   Errors,
   ItineraryDisplay,
   ExtendedBackground,
-  Fieldset
+  Fieldset,
+  Review,
+  Stars
 };
