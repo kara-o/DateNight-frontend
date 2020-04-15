@@ -5,24 +5,33 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   listItem: {
     display: 'grid',
-    gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]',
     gridTemplateRows: 'auto',
     justifyItems: 'center',
     textAlign: 'center'
+  },
+  packages: {
+    gridTemplateColumns:
+      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end]'
+  },
+  unfulfilledOnly: {
+    gridTemplateColumns:
+      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end]'
+  },
+  upcomingPastDates: {
+    gridTemplateColumns:
+      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]'
   },
   outerLi: {
     width: '100%'
   }
 });
 
-const ListItem = ({ children, destination, id }) => {
+const ListItem = ({ children, destination, id, styles }) => {
   const classes = useStyles();
-
   return (
     <li className={classes.outerLi} key={id}>
       <MyLink destination={destination}>
-        <span className={classes.listItem}>{children}</span>
+        <span className={classes.listItem + ' ' + classes[`${styles}`]}>{children}</span>
       </MyLink>
     </li>
   );

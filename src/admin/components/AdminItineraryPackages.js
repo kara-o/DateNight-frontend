@@ -32,6 +32,7 @@ const AdminItineraryPackages = props => {
     return pkgs.map(pkg => {
       return (
         <ListItem
+          styles='packages'
           key={pkg.id}
           id={pkg.id}
           destination={`/admin/itinerary_packages/${pkg.id}`}

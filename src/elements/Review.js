@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { createReview } from '../user/services/api'
-import { Button, Stars } from '.'
+import { Button, Stars, Fieldset } from '.'
 import { createUseStyles } from 'react-jss';
+import * as moment from 'moment';
 
 const useStyles = createUseStyles({
   reviewContainer: {
@@ -10,7 +11,7 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  feedback: {
+  feedbackTextArea: {
     resize: 'none',
     width: '100%',
     outline: 'none',
@@ -19,6 +20,18 @@ const useStyles = createUseStyles({
   },
   starsContainer: {
     fontSize: '24px'
+  },
+  smallPrint: {
+    fontSize: '10px',
+    marginTop: '0px',
+    marginBottom: '20px'
+  },
+  boldText: {
+    fontWeight: 'bold'
+  },
+  feedbackFieldSet: {
+    textAlign: 'center',
+    marginTop: '20px'
   }
 });
 
@@ -59,13 +72,13 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
 
   const renderFeedback = () => {
     if (request.review) {
-      return request.review.feedback ? <p>{request.review.feedback}</p> : null
+      return request.review.feedback ? <Fieldset styles={classes.feedbackFieldSet} legend='Feedback'><p>{request.review.feedback}</p></Fieldset> : null
     }
     else {
       return (
         <textarea
           placeholder='Any additional feedback?'
-          className={classes.feedback}
+          className={classes.feedbackTextArea}
           rows={5}
           value={review.feedback}
           onChange={e => handleChangeFeedback(e.target.value)}
@@ -76,12 +89,16 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
 
   return (
     <div className={classes.reviewContainer}>
-      <h2>{admin ? (request.review ? 'Review:' : 'Not reviewed.') : (request.review ? 'Your review:' : 'Review your night out!')}</h2>
+      <h2>{admin ? (request.review ? 'Review' : 'Not reviewed.') : 'Your Review'}</h2>
       <div className={classes.starsContainer}>
-        <Stars styles={classes.starsContainer} review={request.review || request || null} onClick={handleClickStar} />
+        <Stars styles={classes.starsContainer} review={request.review ? request.review : review} onClick={handleClickStar} />
       </div>
       {renderFeedback()}
-      {!request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}
+      {!admin && !request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}
+      {admin && request.review ?
+        <div>
+          <p className={classes.smallPrint}>Reviewed on: {moment(request.review.created_at).format('MMMM Do YYYY, h:mm:ss a')}</p>
+        </div> : null}
     </div>
 
   )

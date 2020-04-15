@@ -9,6 +9,9 @@ const useStyles = createUseStyles({
     gridArea: 'main',
     width: '100%',
     padding: '50px'
+  },
+  italicFont: {
+    fontStyle: 'italic'
   }
 });
 
@@ -32,7 +35,7 @@ const UserHome = props => {
     if (uncancelledReqs.length) {
       return uncancelledReqs.map(r => {
         return (
-          <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <ListItem styles='upcomingPastDates' key={r.id} id={r.id} destination={`/requests/${r.id}`}>
             <p>{moment(r.start_time).calendar()}</p>
             <p>{r.neighborhood}</p>
             <p>{r.fulfilled ? 'ITINERARY IS READY' : 'ITINERARY PENDING'}</p>
@@ -51,15 +54,15 @@ const UserHome = props => {
       pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
       return pastDates.map(r => {
         return (
-          <ListItem key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <ListItem styles='upcomingPastDates' key={r.id} id={r.id} destination={`/requests/${r.id}`}>
             <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
             <p>{placeNamesToString(r)}</p>
-            <p>{r.review ? <Stars review={r.review} /> : 'Review this date!'.italics()}</p>
+            <p>{r.review ? <Stars review={r.review} /> : <span className={classes.italicFont}>Review this date!</span>}</p>
           </ListItem>
         );
       });
     }
-    return <p>{('Your past dates will go here!').italics()}</p>;
+    return <p className={classes.italicFont}>{'Your past dates will go here!'}</p>;
   };
 
   const placeNamesToString = request => {
