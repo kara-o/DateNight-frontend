@@ -9,7 +9,7 @@ import {
   QuestionModal,
   Review
 } from '../../elements';
-import { fetchRequest, fetchOptions } from '../../user/services/api';
+import { fetchRequest } from '../../user/services/api';
 import {
   toggleRequestFulfilled,
   fetchItineraryPackages,
@@ -45,9 +45,6 @@ const useStyles = createUseStyles({
   },
   emptyItin: {
     fontStyle: 'italic'
-  },
-  filter: {
-    paddingBottom: '10px'
   }
 });
 
@@ -62,8 +59,6 @@ const AdminRequestShow = props => {
   const [iFrame, setIFrame] = useState(null);
   const [filter, setFilter] = useState('Single Venues');
   const [showVenues, setShowVenues] = useState(false);
-  const [neighborhoods, setNeighborhoods] = useState([])
-  const [scrapedNeighborhood, setScrapedNeighborhood] = useState('All')
   const classes = useStyles();
 
   useEffect(() => {  //TODO add cleanup function?
@@ -72,15 +67,10 @@ const AdminRequestShow = props => {
         setRequest(res.request);
         scrapeNames(
           userData,
-          moment(res.request.start_time).format('YYYY-MM-DD'),
-          scrapedNeighborhood
+          moment(res.request.start_time).format('YYYY-MM-DD')
         ).then(names => setScrapedNames(names));
       });
       fetchItineraryPackages(userData).then(setItinPackages);
-      fetchOptions('neighborhoods', userData).then(list => {
-        list.sort((a, b) => a.name.localeCompare(b.name));
-        setNeighborhoods(list);
-      });
     }
   }, [userData]);
 
@@ -193,27 +183,6 @@ const AdminRequestShow = props => {
     });
   };
 
-  const setLocation = (selection) => {
-    if (selection === 'Capitol Hill') {
-      return 'ch'
-    }
-    else if (selection === 'Downtown') {
-      return 'd'
-    }
-    else if (selection === 'Queen Anne / Magnolia') {
-      return 'qa/m'
-    }
-    else if (selection === 'Ballard / Fremont / Wallingford') {
-      return 'b/f'
-    }
-    else if (selection === 'Greenwood / Greenlake / Phinney Ridge') {
-      return 'p/g/g'
-    }
-    else {
-      return 'all'
-    }
-  }
-
   const displayScrapedVenues = () => {
     return scrapedNames.length
       ? scrapedNames.map((info, idx) => (
@@ -235,18 +204,6 @@ const AdminRequestShow = props => {
   const displayVenues = () => {
     return (
       <ListContainer title={renderFilter()}>
-        {filter === 'Single Venues' ? (
-          <Filter styles={classes.filter} value={scrapedNeighborhood} onChange={e => {
-            const location = setLocation(e.target.value)
-            console.log(location)
-            setScrapedNeighborhood(location)
-          }}>
-            <option value='All'>All</option>
-            {neighborhoods.map(n => {
-              return <option value={n.name}>{n.name}</option>
-            })}
-          </Filter>
-        ) : null}
         {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
       </ListContainer>
     );
