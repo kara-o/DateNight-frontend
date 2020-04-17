@@ -7,6 +7,9 @@ const useStyles = createUseStyles({
   packages: {
     gridColumn: '1/3',
     gridRow: 'auto'
+  },
+  filter: {
+    padding: '20px 0px 20px 0px'
   }
 });
 
@@ -73,6 +76,7 @@ const AdminItineraryPackages = props => {
   const renderFilter = () => {
     return (
       <Filter
+        styles={classes.filter}
         title='Choose Neighborhood: '
         value={filter}
         onChange={handleChange}

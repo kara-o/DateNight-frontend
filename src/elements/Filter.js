@@ -4,16 +4,14 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   filter: {
     textAlign: 'center',
-    display: 'block',
-    paddingTop: '20px',
-    paddingBottom: '20px'
+    display: 'block'
   }
 });
 
-const Filter = ({ title, value, onChange, children }) => {
+const Filter = ({ title, value, onChange, children, styles }) => {
   const classes = useStyles();
   return (
-    <div className={classes.filter}>
+    <div className={classes.filter + ' ' + styles}>
       <label>
         {title}
         <select value={value} onChange={onChange}>

@@ -22,6 +22,9 @@ const useStyles = createUseStyles({
   blurb: {
     margin: '10px',
     padding: '10px'
+  },
+  filter: {
+    padding: '20px 0px 20px 0px'
   }
 });
 
@@ -111,6 +114,7 @@ const AdminItineraryPackage = props => {
         <Filter
           value={neighborhoodSelection}
           onChange={e => setNeighborhoodSelection(e.target.value)}
+          styles={classes.filter}
         >
           {renderOptions(neighborhoods, 'name')}
         </Filter>
@@ -118,6 +122,7 @@ const AdminItineraryPackage = props => {
         <Filter
           value={priceRangeSelection}
           onChange={e => setPriceRangeSelection(e.target.value)}
+          styles={classes.filter}
         >
           {renderOptions(priceRanges, 'max_amount')}
         </Filter>

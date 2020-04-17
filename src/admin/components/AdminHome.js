@@ -8,6 +8,9 @@ const useStyles = createUseStyles({
   requests: {
     gridColumn: '1/3',
     gridRow: 'auto'
+  },
+  filter: {
+    padding: '20px 0px 20px 0px'
   }
 });
 
@@ -61,7 +64,7 @@ const AdminHome = props => {
 
   const renderFilter = () => {
     return (
-      <Filter title='Filter: ' value={filter} onChange={handleChange}>
+      <Filter styles={classes.filter} title='Filter: ' value={filter} onChange={handleChange}>
         <option value='Unfulfilled'>Unfulfilled</option>
         <option value='All'>All</option>
       </Filter>
