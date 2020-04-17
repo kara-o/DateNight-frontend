@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { createReview } from '../user/services/api'
+import { updateAdminReview } from '../admin/services/api-admin'
 import { Button, Stars, Fieldset } from '.'
 import { createUseStyles } from 'react-jss';
 import * as moment from 'moment';
@@ -9,11 +10,13 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '100%'
   },
   feedbackTextArea: {
     resize: 'none',
-    width: '100%',
+    width: '50%',
     outline: 'none',
     margin: '10px',
     padding: '10px'
@@ -31,7 +34,11 @@ const useStyles = createUseStyles({
   },
   feedbackFieldSet: {
     textAlign: 'center',
-    marginTop: '20px'
+    marginTop: '20px',
+    width: '50%'
+  },
+  italic: {
+    fontStyle: 'italic'
   }
 });
 
@@ -95,9 +102,17 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
       </div>
       {renderFeedback()}
       {!admin && !request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}
-      {admin && request.review ?
+      {request.review ?
         <div>
-          <p className={classes.smallPrint}>Reviewed on: {moment(request.review.created_at).format('MMMM Do YYYY, h:mm:ss a')}</p>
+          <p className={classes.smallPrint}>- Reviewed on {moment(request.review.created_at).format('MMMM Do YYYY, [at] h:mm:ss a')}</p>
+          {request.review.admin_reviewed ? <p className={classes.smallPrint}>- Admin acknowledged on {moment(request.review.admin_reviewed).format('MMMM Do YYYY, [at] h:mm:ss a')}</p> : (
+            admin ? (<label className={classes.smallPrint}>Acknowledge <input className={classes.smallPrint} onChange={e => {
+              if (e.target.checked) {
+                updateAdminReview(userData, request.id, request.review.id, new Date()).then(json =>
+                  !json.errors ? setRequest({ ...request, review: json }) : console.log('There was an error updating the review'))
+              }
+            }} type='checkbox' /></label>) : <p className={classes.smallPrint + ' ' + classes.italic}>Admin has not yet seen your review</p>
+          )}
         </div> : null}
     </div>
 

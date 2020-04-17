@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
 const AdminItineraryPackages = props => {
   const { userData } = props;
   const [allPackages, setAllPackages] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('All');
   const classes = useStyles();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const AdminItineraryPackages = props => {
 
   const renderPackages = () => {
     let pkgs;
-    if (filter) {
+    if (filter !== 'All') {
       pkgs = allPackages.filter(pkg => pkg.neighborhood === filter);
     } else {
       pkgs = allPackages;
@@ -81,6 +81,7 @@ const AdminItineraryPackages = props => {
         value={filter}
         onChange={handleChange}
       >
+        <option value={'All'}>All</option>
         {renderMenuItems()}
       </Filter>
     );
