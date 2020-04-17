@@ -11,12 +11,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const ListContainer = ({ title = null, children, styles }) => {
+const ListContainer = ({ title = null, filter = null, children, styles }) => {
   const classes = useStyles();
 
   return (
     <div className={styles + ' ' + classes.container}>
       {title ? <h2>{title}</h2> : null}
+      {filter}
       <ScrollContainer className={classes.list}>{children}</ScrollContainer>
     </div>
   );
