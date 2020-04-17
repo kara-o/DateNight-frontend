@@ -67,6 +67,10 @@ const useStyles = createUseStyles({
   },
   buttonDiv: {
     marginBottom: '16px'
+  },
+  venueContainer: {
+    width: '100%',
+    textAlign: 'center'
   }
 });
 
@@ -86,6 +90,8 @@ const AdminRequestShow = props => {
   const [neighborhoods, setNeighborhoods] = useState([])
   const size = useWindowSize()
   const classes = useStyles();
+
+  console.log(size)
 
   useEffect(() => {  //TODO add cleanup function?
     if (userData) {
@@ -253,12 +259,12 @@ const AdminRequestShow = props => {
     const buttonText = singleVenue ? 'Packages' : 'Single Venues'
     const title = !singleVenue ? 'Packages' : `Venues for ${moment(request.start_time).format('MMMM Do YYYY')}`
     return (
-      <>
+      <div className={classes.venueContainer}>
         <Button styles={classes.button} onClick={() => setSingleVenue(!singleVenue)}>{buttonText}</Button>
         <ListContainer title={title} filter={singleVenue ? renderFilter() : null}>
           {singleVenue ? displayScrapedVenues() : displayPackages()}
         </ListContainer>
-      </>
+      </div>
     );
   };
 

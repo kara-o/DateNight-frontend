@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
     marginBottom: '10px'
   },
   form: {
-    width: '600px'
+    // width: '600px'  COMMENTED OUT
   }
 });
 

@@ -96,26 +96,29 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
 
   return (
     <div className={classes.reviewContainer}>
-      <h2>{admin ? (request.review ? 'Review' : 'Not reviewed.') : 'Your Review'}</h2>
-      <div className={classes.starsContainer}>
-        <Stars styles={classes.starsContainer} review={request.review ? request.review : review} onClick={handleClickStar} />
-      </div>
-      {renderFeedback()}
-      {!admin && !request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}
-      {request.review ?
-        <div>
-          <p className={classes.smallPrint}>- Reviewed on {moment(request.review.created_at).format('MMMM Do YYYY, [at] h:mm:ss a')}</p>
-          {request.review.admin_reviewed ? <p className={classes.smallPrint}>- Admin acknowledged on {moment(request.review.admin_reviewed).format('MMMM Do YYYY, [at] h:mm:ss a')}</p> : (
-            admin ? (<label className={classes.smallPrint}>Acknowledge <input className={classes.smallPrint} onChange={e => {
-              if (e.target.checked) {
-                updateAdminReview(userData, request.id, request.review.id, new Date()).then(json =>
-                  !json.errors ? setRequest({ ...request, review: json }) : console.log('There was an error updating the review'))
-              }
-            }} type='checkbox' /></label>) : <p className={classes.smallPrint + ' ' + classes.italic}>Admin has not yet seen your review</p>
-          )}
-        </div> : null}
+      {admin && !request.review ? <h2>Not yet reviewed.</h2> : (
+        <>
+          <h2>{admin ? 'Review' : 'Your Review'}</h2>
+          <div className={classes.starsContainer}>
+            <Stars styles={classes.starsContainer} review={request.review ? request.review : review} onClick={handleClickStar} />
+          </div>
+          {renderFeedback()}
+          {!admin && !request.review ? <Button onClick={handleSubmit}>Submit Review</Button> : null}
+          {request.review ?
+            <div>
+              <p className={classes.smallPrint}>- Reviewed on {moment(request.review.created_at).format('MMMM Do YYYY, [at] h:mm:ss a')}</p>
+              {request.review.admin_reviewed ? <p className={classes.smallPrint}>- Admin acknowledged on {moment(request.review.admin_reviewed).format('MMMM Do YYYY, [at] h:mm:ss a')}</p> : (
+                admin ? (<label className={classes.smallPrint}>Acknowledge <input className={classes.smallPrint} onChange={e => {
+                  if (e.target.checked) {
+                    updateAdminReview(userData, request.id, request.review.id, new Date()).then(json =>
+                      !json.errors ? setRequest({ ...request, review: json }) : console.log('There was an error updating the review'))
+                  }
+                }} type='checkbox' /></label>) : <p className={classes.smallPrint + ' ' + classes.italic}>Admin has not yet seen your review</p>
+              )}
+            </div> : null}
+        </>
+      )}
     </div>
-
   )
 }
 

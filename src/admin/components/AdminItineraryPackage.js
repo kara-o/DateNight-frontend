@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
   blurb: {
     margin: '10px',
     padding: '10px',
-    minWidth: '400px',
+    width: '75%',
     outline: 'none',
     resize: 'none'
   },

@@ -59,7 +59,7 @@ const AdminItineraryPackages = props => {
       const minutes = totalDuration - hours * 60;
       return `${hours} hr ${minutes} min`;
     } else {
-      return `${totalDuration} min)`;
+      return `${totalDuration} min`;
     }
   };
 

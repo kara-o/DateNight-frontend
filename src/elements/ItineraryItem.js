@@ -1,7 +1,8 @@
 import React from 'react';
-import { Map, Button, Itin } from '.';
+import { Map, Button } from '.';
 import * as moment from 'moment';
 import { createUseStyles } from 'react-jss';
+import { useWindowSize } from '../hooks'
 
 const useStyles = createUseStyles({
   title: {
@@ -9,22 +10,57 @@ const useStyles = createUseStyles({
     textAlign: 'center'
   },
   container: {
-    maxWidth: '600px',
     border: '1px solid lightgrey',
-    padding: '20px',
-    marginBottom: '20px',
+    margin: '0px 20px 20px 20px',
+    padding: '20px 20px 20px 20px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   button: {
     margin: '20px 0px 0px 0px'
+  },
+  size1: {
+    width: '400px',
+    height: '700px'
+  },
+  size2: {
+    width: '500px',
+    height: '700px'
+  },
+  size3: {
+    width: '500px',
+    height: '700px'
+  },
+  size4: {
+    width: '650px',
+    height: '850px'
+  },
+  details: {
+    width: '100%'
   }
 });
 
 const ItineraryItem = props => {
   const { item, admin, handleRemove, index } = props;
   const classes = useStyles();
+  const size = useWindowSize()
+
+  const getClassName = () => {
+    if (size.width < 600) {
+      return 'size1'
+    }
+    else if (size.width > 600 && size.width < 800) {
+      return 'size2'
+    }
+    else if (size.width >= 800 && size.width < 1000) {
+      return 'size3'
+    }
+    else {
+      return 'size4'
+    }
+  }
 
   const getNumberWithOrdinal = n => {
     //https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number/13627586
@@ -34,9 +70,9 @@ const ItineraryItem = props => {
   };
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container + ' ' + classes[`${getClassName()}`]}>
       <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
-      <div>
+      <div className={classes.details}>
         <p>{moment(item.arrival_time).format('h:mm a')}</p>
         <p>{item.place}</p>
         <p>{item.address}</p>

@@ -22,6 +22,9 @@ const useStyles = createUseStyles({
   container: {
     width: '100%',
     textAlign: 'center'
+  },
+  italic: {
+    fontStyle: 'italic'
   }
 });
 
@@ -114,9 +117,8 @@ const AdminItineraryPackageShow = props => {
   const { userData } = props;
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
-  const [itinPackageItems, setItinPackageItems] = useState(null);
-
-  const classes = useStyles();
+  const [itinPackageItems, setItinPackageItems] = useState([]);
+  const classes = useStyles()
 
   useEffect(() => {
     if (userData) {
@@ -164,11 +166,9 @@ const AdminItineraryPackageShow = props => {
   }
 
   const renderPackageItems = () => {
-    if (itinPackageItems) {
-      return itinPackageItems.map(pkgItem => {
-        return <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />;
-      });
-    }
+    return itinPackageItems.map(pkgItem => {
+      return <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />;
+    });
   };
 
   return (
@@ -178,7 +178,8 @@ const AdminItineraryPackageShow = props => {
           <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
           <p>{displayItinPackage()}</p>
           <h2>Package Items:</h2>
-          <div className={classes.cardsContainer}>{renderPackageItems()}</div>
+          {itinPackageItems.length ? <div className={classes.cardsContainer}>{renderPackageItems()}</div> : <p className={classes.italic}>No Items</p>}
+
         </div>
       </div>
       <div className={classes.column}>
