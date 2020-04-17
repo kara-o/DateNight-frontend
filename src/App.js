@@ -26,19 +26,37 @@ const useStyles = createUseStyles({
       margin: '0px',
       overflowX: 'hidden'
     },
-    '#root': {
-      maxWidth: '1500px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      minHeight: '100vh',
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gridTemplateRows: '50px auto 50px',
-      gridTemplateAreas: `
-      'navbar navbar'
-      'main main'
-      'footer footer'`,
-      justifyItems: 'center'
+    '@media all and (min-width: 600px)': {
+      '#root': {
+        maxWidth: '1500px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        minHeight: '100vh',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridTemplateRows: '50px auto 50px',
+        gridTemplateAreas: `
+        'navbar navbar'
+        'main main'
+        'footer footer'`,
+        justifyItems: 'center'
+      }
+    },
+    '@media all and (max-width: 799px)': {
+      '#root': {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        minHeight: '100vh',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: '50px auto auto 50px',
+        gridTemplateAreas: `
+        'navbar'
+        'main'
+        'main'
+        'footer'`,
+        justifyItems: 'center'
+      }
     }
   }
 });
@@ -90,8 +108,8 @@ const App = () => {
               !loggedIn ? (
                 <Login {...props} handleLogin={loginUser} />
               ) : (
-                <Redirect to='/' />
-              )
+                  <Redirect to='/' />
+                )
             }
           />
           <Route
@@ -186,8 +204,8 @@ const App = () => {
                   <AdminHome {...props} userData={userData} />
                 </>
               ) : (
-                <Redirect to='/admin/login' />
-              )
+                  <Redirect to='/admin/login' />
+                )
             }
           />
           <Route
@@ -198,8 +216,8 @@ const App = () => {
                   <UserHome {...props} userData={userData} />
                 </>
               ) : (
-                <Redirect to='/login' />
-              )
+                  <Redirect to='/login' />
+                )
             }
           />
         </Switch>

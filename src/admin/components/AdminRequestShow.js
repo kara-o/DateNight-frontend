@@ -9,6 +9,7 @@ import {
   QuestionModal,
   Review
 } from '../../elements';
+import { useWindowSize } from '../../hooks'
 import { fetchRequest, fetchOptions } from '../../user/services/api';
 import {
   toggleRequestFulfilled,
@@ -31,12 +32,14 @@ import { createUseStyles } from 'react-jss';
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
 
 const useStyles = createUseStyles({
-  columnOne: {
+  column: {
     width: '100%'
   },
-  columnTwo: {
-    width: '100%',
-    textAlign: 'center'
+  column1: {
+    gridRow: '2/3'
+  },
+  column2: {
+    gridRow: '3/4'
   },
   addBtn: {
     margin: '0px 0px 20px 0px'
@@ -81,6 +84,7 @@ const AdminRequestShow = props => {
   const [showVenues, setShowVenues] = useState(false);
   const [singleVenue, setSingleVenue] = useState(true)
   const [neighborhoods, setNeighborhoods] = useState([])
+  const size = useWindowSize()
   const classes = useStyles();
 
   useEffect(() => {  //TODO add cleanup function?
@@ -264,7 +268,7 @@ const AdminRequestShow = props => {
 
   return request ? (
     <>
-      <div className={classes.columnOne}>
+      <div className={size.width >= 800 ? classes.column : classes.column1}>
         <RequestContainer
           className={classes.requestContainer}
           title='Request'
@@ -297,7 +301,7 @@ const AdminRequestShow = props => {
           </ItineraryDisplay>
         ) : null}
       </div>
-      <div className={classes.columnTwo}>
+      <div className={size.width >= 800 ? classes.column : classes.column2}>
         {showVenues ? (
           displayVenues()
         ) : (

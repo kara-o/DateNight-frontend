@@ -8,12 +8,19 @@ import {
   RequestContainer,
   Review
 } from '../../elements';
+import { useWindowSize } from '../../hooks'
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   column: {
     width: '100%',
     boxSizing: 'border-box'
+  },
+  column1: {
+    gridRow: '2/3'
+  },
+  column2: {
+    gridRow: '3/4'
   }
 });
 
@@ -21,6 +28,7 @@ const RequestShow = props => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
+  const size = useWindowSize()
   const classes = useStyles();
 
   useEffect(() => {
@@ -78,11 +86,13 @@ const RequestShow = props => {
     });
   };
 
+  console.log(window.innerWidth, window.innerHeight)
+
   return (
     <>
       {request ? (
         <>
-          <div className={classes.column}>
+          <div className={size.width >= 800 ? classes.column : classes.column1}>
             <RequestContainer
               title={`${friendlyRelativeDate()}!`}
               request={request}
@@ -99,7 +109,7 @@ const RequestShow = props => {
               ) : <Review request={request} userData={userData} />}
             </RequestContainer>
           </div>
-          <div className={classes.column}>{renderDialogOrItinerary()}</div>
+          <div className={size.width >= 800 ? classes.column : classes.column2}>{renderDialogOrItinerary()}</div>
         </>
       ) : null}
     </>
