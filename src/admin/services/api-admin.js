@@ -191,3 +191,12 @@ export const scrapeSinglePage = (userData, info) => {
     })
   }).then(res => res.json());
 };
+
+export const updateAdminReview = (userData, requestId, reviewId, datetime) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}/reviews/${reviewId}`, {
+    method: 'PATCH',
+    headers: { ...jsonHeaders, ...headers },
+    body: JSON.stringify({ admin_reviewed: datetime })
+  }).then(res => res.json())
+};

@@ -7,15 +7,14 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     textAlign: 'center',
     alignItems: 'center',
-    maxWidth: '600px',
     margin: '10px',
     padding: '10px'
   }
 });
 
-const Form = ({ children }) => {
+const Form = ({ children, styles }) => {
   const classes = useStyles();
-  return <form className={classes.form}>{children}</form>;
+  return <form className={classes.form + ' ' + styles}>{children}</form>;
 };
 
 export default Form;

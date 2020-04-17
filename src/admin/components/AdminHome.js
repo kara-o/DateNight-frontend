@@ -30,7 +30,11 @@ const AdminHome = props => {
     let requests;
     if (filter === 'Unfulfilled') {
       requests = allRequests.filter(r => !r.fulfilled);
-    } else {
+    }
+    else if (filter === 'New Reviews') {
+      requests = allRequests.filter(r => r.review && !r.review.admin_reviewed);
+    }
+    else {
       requests = allRequests;
     }
     requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
@@ -66,13 +70,14 @@ const AdminHome = props => {
     return (
       <Filter styles={classes.filter} title='Filter: ' value={filter} onChange={handleChange}>
         <option value='Unfulfilled'>Unfulfilled</option>
+        <option value='New Reviews'>New Reviews</option>
         <option value='All'>All</option>
       </Filter>
     );
   };
 
   return (
-    <ListContainer title={filter + ' ' + 'Requests'} styles={classes.requests}>
+    <ListContainer title={filter === 'New Reviews' ? 'Newly Reviewed' : filter + ' ' + 'Requests'} styles={classes.requests}>
       {renderFilter()}
       {renderRequests()}
     </ListContainer>

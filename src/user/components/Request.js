@@ -51,6 +51,13 @@ const useStyles = createUseStyles({
   },
   withHelp: {
     gridColumn: '1/2'
+  },
+  filter: {
+    marginTop: '10px',
+    marginBottom: '10px'
+  },
+  form: {
+    width: '600px'
   }
 });
 
@@ -254,7 +261,7 @@ const Request = props => {
             </p>
           ) : null}
 
-          <Form>
+          <Form styles={classes.form}>
             {errors ? <Errors errors={errors} /> : null}
             <Fieldset legend='Date and Time'>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -284,6 +291,7 @@ const Request = props => {
                 title='Party Size: '
                 value={formData.party_size}
                 onChange={e => handleChange(e.target.value, 'party_size')}
+                styles={classes.filter}
               >
                 <option value='1'>1</option>
                 <option value='2'>2</option>
@@ -301,6 +309,7 @@ const Request = props => {
                 title='Price Range: '
                 value={priceRangeSelection}
                 onChange={e => setPriceRangeSelection(e.target.value)}
+                styles={classes.filter}
               >
                 {renderOptions(priceRanges, 'max_amount')}
               </Filter>

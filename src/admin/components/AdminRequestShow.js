@@ -52,6 +52,15 @@ const useStyles = createUseStyles({
   },
   filter: {
     marginBottom: '20px'
+  },
+  contactBtn: {
+    marginTop: '0px'
+  },
+  scrapedListItem: {
+    '&:hover': {
+      cursor: 'pointer',
+      color: 'turquoise'
+    }
   }
 });
 
@@ -215,6 +224,7 @@ const AdminRequestShow = props => {
         return scrapedNames.indexOf(scrapedNames.find(value => value.name === item.name)) === i
       }).map((info, idx) => (
         <li
+          className={classes.scrapedListItem}
           key={idx}
           onClick={() => {
             scrapeSinglePage(userData, info).then(infoJson => {
@@ -269,7 +279,7 @@ const AdminRequestShow = props => {
           ) : (
               <Review admin={true} request={request} userData={userData} />
             )}
-          <Button onClick={() => window.open(`mailto:${request.user.email}?subject=Message Regarding Your ${moment(request.start_time).format('MM/DD/YYYY')} Date`)}>Contact User</Button>
+          <Button styles={classes.contactBtn} onClick={() => window.open(`mailto:${request.user.email}?subject=Message Regarding Your ${moment(request.start_time).format('MM/DD/YYYY')} Date`)}>Contact User</Button>
         </RequestContainer>
         {showVenues ? (
           <ItineraryDisplay
