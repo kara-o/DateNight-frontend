@@ -35,7 +35,8 @@ const useStyles = createUseStyles({
     width: '100%'
   },
   columnTwo: {
-    width: '100%'
+    width: '100%',
+    textAlign: 'center'
   },
   addBtn: {
     margin: '0px 0px 20px 0px'
@@ -46,13 +47,17 @@ const useStyles = createUseStyles({
   emptyItin: {
     fontStyle: 'italic'
   },
+  button: {
+    marginTop: '20px'
+  },
   filter: {
-    paddingBottom: '10px'
+    marginBottom: '20px'
   }
 });
 
 const AdminRequestShow = props => {
   const { userData } = props;
+  const [isFetching, setIsFetching] = useState(false)
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
   const [itinPackages, setItinPackages] = useState(null);
@@ -60,27 +65,30 @@ const AdminRequestShow = props => {
   const [modalInfo, setModalInfo] = useState(null);
   const [resTime, setResTime] = useState(null);
   const [iFrame, setIFrame] = useState(null);
-  const [filter, setFilter] = useState('Single Venues');
+  const [filter, setFilter] = useState('All');
   const [showVenues, setShowVenues] = useState(false);
+  const [singleVenue, setSingleVenue] = useState(true)
   const [neighborhoods, setNeighborhoods] = useState([])
-  const [scrapedNeighborhood, setScrapedNeighborhood] = useState('All')
   const classes = useStyles();
 
   useEffect(() => {  //TODO add cleanup function?
     if (userData) {
       fetchRequest(userData, requestId).then(res => {
         setRequest(res.request);
+        setIsFetching(true)
         scrapeNames(
           userData,
-          moment(res.request.start_time).format('YYYY-MM-DD'),
-          scrapedNeighborhood
-        ).then(names => setScrapedNames(names));
+          moment(res.request.start_time).format('YYYY-MM-DD')
+        ).then(names => {
+          setScrapedNames(names)
+          setIsFetching(false)
+        });
       });
       fetchItineraryPackages(userData).then(setItinPackages);
       fetchOptions('neighborhoods', userData).then(list => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
-      });
+      })
     }
   }, [userData]);
 
@@ -169,11 +177,19 @@ const AdminRequestShow = props => {
 
   const renderFilter = () => {
     return (
-      <Filter value={filter} onChange={e => setFilter(e.target.value)}>
-        <option value={'Single Venues'}>
-          Venues for {moment(request.start_time).format('MMMM Do YYYY')}
-        </option>
-        <option value={'Packages'}>Packages</option>
+      <Filter styles={classes.filter} value={filter} onChange={e => {
+        setFilter(e.target.value)
+        setIsFetching(true)
+        scrapeNames(userData, moment(request.start_time).format('YYYY-MM-DD'), e.target.value)
+          .then(json => {
+            setIsFetching(false)
+            setScrapedNames(json)
+          })
+      }}>
+        <option value='All'>All</option>
+        {neighborhoods.map(n => {
+          return <option key={n.id} value={n.name}>{n.name}</option>
+        })}
       </Filter>
     );
   };
@@ -193,30 +209,11 @@ const AdminRequestShow = props => {
     });
   };
 
-  const setLocation = (selection) => {
-    if (selection === 'Capitol Hill') {
-      return 'ch'
-    }
-    else if (selection === 'Downtown') {
-      return 'd'
-    }
-    else if (selection === 'Queen Anne / Magnolia') {
-      return 'qa/m'
-    }
-    else if (selection === 'Ballard / Fremont / Wallingford') {
-      return 'b/f'
-    }
-    else if (selection === 'Greenwood / Greenlake / Phinney Ridge') {
-      return 'p/g/g'
-    }
-    else {
-      return 'all'
-    }
-  }
-
   const displayScrapedVenues = () => {
-    return scrapedNames.length
-      ? scrapedNames.map((info, idx) => (
+    return isFetching ? loading() : scrapedNames.length
+      ? scrapedNames.filter((item, i) => {
+        return scrapedNames.indexOf(scrapedNames.find(value => value.name === item.name)) === i
+      }).map((info, idx) => (
         <li
           key={idx}
           onClick={() => {
@@ -229,28 +226,25 @@ const AdminRequestShow = props => {
           {info.name}
         </li>
       ))
-      : null;
+      : <p>There are no venues available for that specification.</p>;
   };
 
   const displayVenues = () => {
+    const buttonText = singleVenue ? 'Packages' : 'Single Venues'
+    const title = !singleVenue ? 'Packages' : `Venues for ${moment(request.start_time).format('MMMM Do YYYY')}`
     return (
-      <ListContainer title={renderFilter()}>
-        {filter === 'Single Venues' ? (
-          <Filter styles={classes.filter} value={scrapedNeighborhood} onChange={e => {
-            const location = setLocation(e.target.value)
-            console.log(location)
-            setScrapedNeighborhood(location)
-          }}>
-            <option value='All'>All</option>
-            {neighborhoods.map(n => {
-              return <option value={n.name}>{n.name}</option>
-            })}
-          </Filter>
-        ) : null}
-        {filter === 'Packages' ? displayPackages() : displayScrapedVenues()}
-      </ListContainer>
+      <>
+        <Button styles={classes.button} onClick={() => setSingleVenue(!singleVenue)}>{buttonText}</Button>
+        <ListContainer title={title} filter={singleVenue ? renderFilter() : null}>
+          {singleVenue ? displayScrapedVenues() : displayPackages()}
+        </ListContainer>
+      </>
     );
   };
+
+  const loading = () => {
+    return <p>Loading...</p>
+  }
 
   return request ? (
     <>

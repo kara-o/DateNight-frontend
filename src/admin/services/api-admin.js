@@ -169,7 +169,7 @@ export const deleteItinItem = (userData, itemId) => {
   });
 };
 
-export const scrapeNames = (userData, time, location) => {
+export const scrapeNames = (userData, time, location = 'All') => {
   const headers = tokenHeaders(userData);
   return fetch(`${API_ROOT}/scrapes`, {
     method: 'POST',
