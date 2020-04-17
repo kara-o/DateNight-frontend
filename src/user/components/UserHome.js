@@ -43,7 +43,7 @@ const UserHome = props => {
         );
       });
     }
-    return <p className={classes.noDates}>Book some nights out!</p>;
+    return <p className={classes.italicFont}>Book some nights out!</p>;
   };
 
   const renderPastDates = () => {

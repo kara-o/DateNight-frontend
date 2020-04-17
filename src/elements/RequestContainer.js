@@ -12,6 +12,9 @@ const useStyles = createUseStyles({
   },
   details: {
     marginTop: '0px'
+  },
+  italic: {
+    fontStyle: 'italic'
   }
 });
 
@@ -38,7 +41,7 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
         <ul>{renderContacts(request)}</ul>
         <p>Neighborhood: {request.neighborhood}</p>
         <p>Price Range: {request.price_range}</p>
-        <p>Notes: {request.notes}</p>
+        <p>Notes: {request.notes ? request.notes : <span className={classes.italic}>none</span>}</p>
         {admin ? (
           <p>
             Fulfilled: {(!!request.fulfilled).toString()}{' '}

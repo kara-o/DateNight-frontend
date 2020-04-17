@@ -26,6 +26,9 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  buttonDiv: {
+    margin: '30px 0px 0px 0px'
   }
 });
 
@@ -61,7 +64,7 @@ const QuestionModal = ({
         <div className={classes.container}>
           <div className={classes.modal}>
             {children}
-            <div>
+            <div className={classes.buttonDiv}>
               {declineText ? (
                 <Button onClick={closeAction ? () => {
                   handleClose()

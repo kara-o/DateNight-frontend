@@ -61,6 +61,9 @@ const useStyles = createUseStyles({
       cursor: 'pointer',
       color: 'turquoise'
     }
+  },
+  buttonDiv: {
+    marginBottom: '16px'
   }
 });
 
@@ -106,7 +109,10 @@ const AdminRequestShow = props => {
       userData,
       requestId,
       !request.fulfilled
-    ).then(respJson => setRequest(respJson.request));
+    ).then(respJson => {
+      setRequest(respJson.request)
+      setShowVenues(false)
+    });
   };
 
   const handleApplyPackage = itinPackageId => {
@@ -266,7 +272,7 @@ const AdminRequestShow = props => {
           admin={true}
         >
           {new Date(request.start_time) >= new Date() ? (
-            <>
+            <div className={classes.buttonDiv}>
               <Button type='button' onClick={handleComplete}>
                 {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
               </Button>
@@ -275,7 +281,7 @@ const AdminRequestShow = props => {
                   Alert (DEMO ONLY)
                 </Button>
               ) : null}
-            </>
+            </div>
           ) : (
               <Review admin={true} request={request} userData={userData} />
             )}
