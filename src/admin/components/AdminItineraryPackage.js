@@ -5,36 +5,33 @@ import {
   MyInput,
   Filter,
   Form,
-  LoadingScreen
+  LoadingScreen,
 } from '../../elements';
 import {
   createItineraryPackage,
   fetchItineraryPackage,
-  updateItineraryPackage
+  updateItineraryPackage,
 } from '../services/api-admin';
 import { fetchOptions } from '../../user/services/api';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   container: {
-    gridArea: 'main'
+    gridColumn: '1/3',
   },
   blurb: {
     margin: '10px',
     padding: '10px',
     width: '75%',
     outline: 'none',
-    resize: 'none'
+    resize: 'none',
   },
-  filterTop: {
-    padding: '20px 0px 10px 0px'
+  filter: {
+    margin: '10px',
   },
-  filterBottom: {
-    padding: '10px 0px 20px 0px'
-  }
 });
 
-const AdminItineraryPackage = props => {
+const AdminItineraryPackage = (props) => {
   const { userData } = props;
   const [title, setTitle] = useState('');
   const [blurb, setBlurb] = useState('');
@@ -48,17 +45,17 @@ const AdminItineraryPackage = props => {
 
   useEffect(() => {
     if (userData) {
-      fetchOptions('neighborhoods', userData).then(list => {
+      fetchOptions('neighborhoods', userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then(list => {
+      fetchOptions('price_ranges', userData).then((list) => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
       if (props.edit) {
-        fetchItineraryPackage(userData, packageId).then(pkg => {
+        fetchItineraryPackage(userData, packageId).then((pkg) => {
           setTitle(pkg.title);
           setBlurb(pkg.blurb);
           setNeighborhoodSelection(pkg.neighborhood_id);
@@ -73,26 +70,26 @@ const AdminItineraryPackage = props => {
       title,
       blurb,
       neighborhood_id: neighborhoodSelection,
-      price_range_id: priceRangeSelection
+      price_range_id: priceRangeSelection,
     };
 
-    let action = props.edit ? () => updateItineraryPackage(packageId, data, userData) : () => createItineraryPackage(data, userData)
-    action().then(
-      json => {
-        if (!json.errors) {
-          props.history.push(`/admin/itinerary_packages/${json.id}`);
-        } else {
-          setErrors({
-            errorObj: json.errors.error_obj,
-            fullMessages: json.errors.full_messages
-          });
-        }
+    let action = props.edit
+      ? () => updateItineraryPackage(packageId, data, userData)
+      : () => createItineraryPackage(data, userData);
+    action().then((json) => {
+      if (!json.errors) {
+        props.history.push(`/admin/itinerary_packages/${json.id}`);
+      } else {
+        setErrors({
+          errorObj: json.errors.error_obj,
+          fullMessages: json.errors.full_messages,
+        });
       }
-    )
+    });
   };
 
   const renderOptions = (array, attribute) => {
-    return array.map(o => {
+    return array.map((o) => {
       return (
         <option key={o.id} value={o.id}>
           {o[`${attribute}`]}
@@ -114,21 +111,21 @@ const AdminItineraryPackage = props => {
         <MyInput
           placeholder='Package title'
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
 
         <Filter
           value={neighborhoodSelection}
-          onChange={e => setNeighborhoodSelection(e.target.value)}
-          styles={classes.filterTop}
+          onChange={(e) => setNeighborhoodSelection(e.target.value)}
+          styles={classes.filter}
         >
           {renderOptions(neighborhoods, 'name')}
         </Filter>
 
         <Filter
           value={priceRangeSelection}
-          onChange={e => setPriceRangeSelection(e.target.value)}
-          styles={classes.filterBottom}
+          onChange={(e) => setPriceRangeSelection(e.target.value)}
+          styles={classes.filter}
         >
           {renderOptions(priceRanges, 'max_amount')}
         </Filter>
@@ -138,12 +135,10 @@ const AdminItineraryPackage = props => {
           rows={5}
           placeholder='Write a blurb about this package...'
           value={blurb}
-          onChange={e => setBlurb(e.target.value)}
+          onChange={(e) => setBlurb(e.target.value)}
         />
 
-        <Button onClick={handleSubmit}>
-          Submit
-        </Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </Form>
     </div>
   );

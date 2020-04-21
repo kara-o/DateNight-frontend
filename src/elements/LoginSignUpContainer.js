@@ -3,9 +3,9 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   container: {
-    gridArea: 'main',
-    textAlign: 'center'
-  }
+    gridColumn: '1/3',
+    textAlign: 'center',
+  },
 });
 
 const LoginSignUpContainer = ({ children }) => {

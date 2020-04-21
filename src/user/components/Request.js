@@ -7,13 +7,13 @@ import {
   Button,
   SideDialog,
   Errors,
-  Fieldset
+  Fieldset,
 } from '../../elements';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { fetchOptions, createRequest } from '../services/api';
 import * as moment from 'moment';
@@ -24,41 +24,45 @@ const useStyles = createUseStyles({
     resize: 'none',
     width: '100%',
     border: 'none',
-    outline: 'none'
+    outline: 'none',
   },
   requestTitle: {
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   requestContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   helpLink: {
     fontStyle: 'italic',
     margin: '0px',
     '&:hover': {
       color: 'turquoise',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   column: {
     width: '100%',
-    boxSizing: 'border-box'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   noHelp: {
-    gridColumn: '1/3'
+    gridColumn: '1/3',
   },
   withHelp: {
-    gridColumn: '1/2'
+    gridColumn: '1/2',
   },
   filter: {
     marginTop: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   form: {
-    // width: '600px'  COMMENTED OUT
-  }
+    width: '500px',
+  },
 });
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
@@ -76,29 +80,25 @@ const thisFriday = () => {
       .add(7 - today + dayINeed, 'days')
       .toDate();
   } else {
-    return moment()
-      .add(1, 'week')
-      .toDate();
+    return moment().add(1, 'week').toDate();
   }
 };
 
 const tomorrow = () => {
-  return moment()
-    .add(1, 'days')
-    .toDate();
+  return moment().add(1, 'days').toDate();
 };
 
 const defaulStartTime = () => {
   return new Date(2000, 1, 1, 19, 0, 0);
 };
 
-const Request = props => {
+const Request = (props) => {
   const { userData } = props;
   const [formData, setFormData] = useState({
     start_date: thisFriday(),
     start_time: defaulStartTime(),
     party_size: '2',
-    notes: ''
+    notes: '',
   });
   const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
@@ -112,12 +112,12 @@ const Request = props => {
   //TODO add loading
   useEffect(() => {
     if (userData) {
-      fetchOptions('neighborhoods', userData).then(list => {
+      fetchOptions('neighborhoods', userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then(list => {
+      fetchOptions('price_ranges', userData).then((list) => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
@@ -127,7 +127,7 @@ const Request = props => {
   const handleChange = (value, name) => {
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -148,9 +148,9 @@ const Request = props => {
       end_time: endDate.toString(),
       neighborhood_id: neighborhoodSelection,
       price_range_id: priceRangeSelection,
-      contacts_attributes: contacts.map(contact => ({
-        phone: contact
-      }))
+      contacts_attributes: contacts.map((contact) => ({
+        phone: contact,
+      })),
     };
     delete data.start_date;
     delete data.end_date;
@@ -164,14 +164,14 @@ const Request = props => {
   const handleSubmit = () => {
     const data = getPostData();
 
-    return createRequest(data, userData).then(json => {
+    return createRequest(data, userData).then((json) => {
       if (!json.errors) {
         console.log('sucessfully created request!', json);
       } else {
         console.log('errors creating request!');
         setErrors({
           errorObj: json.errors.error_obj,
-          fullMessages: json.errors.full_messages
+          fullMessages: json.errors.full_messages,
         });
       }
     });
@@ -192,7 +192,7 @@ const Request = props => {
   };
 
   const renderOptions = (array, attribute) => {
-    return array.map(o => {
+    return array.map((o) => {
       return (
         <option key={o.id} value={o.id}>
           {o[`${attribute}`]}
@@ -273,7 +273,7 @@ const Request = props => {
                   label='Date'
                   minDate={tomorrow()}
                   value={formData.start_date}
-                  onChange={date => handleChange(date, 'start_date')}
+                  onChange={(date) => handleChange(date, 'start_date')}
                 />
                 <KeyboardTimePicker
                   disableToolbar
@@ -282,7 +282,7 @@ const Request = props => {
                   margin='normal'
                   label='Time'
                   value={formData.start_time}
-                  onChange={time => handleChange(time, 'start_time')}
+                  onChange={(time) => handleChange(time, 'start_time')}
                 />
               </MuiPickersUtilsProvider>
             </Fieldset>
@@ -290,7 +290,7 @@ const Request = props => {
               <Filter
                 title='Party Size: '
                 value={formData.party_size}
-                onChange={e => handleChange(e.target.value, 'party_size')}
+                onChange={(e) => handleChange(e.target.value, 'party_size')}
                 styles={classes.filter}
               >
                 <option value='1'>1</option>
@@ -301,14 +301,14 @@ const Request = props => {
               <Filter
                 title='Neighborhood: '
                 value={neighborhoodSelection}
-                onChange={e => setNeighborhoodSelection(e.target.value)}
+                onChange={(e) => setNeighborhoodSelection(e.target.value)}
               >
                 {renderOptions(neighborhoods, 'name')}
               </Filter>
               <Filter
                 title='Price Range: '
                 value={priceRangeSelection}
-                onChange={e => setPriceRangeSelection(e.target.value)}
+                onChange={(e) => setPriceRangeSelection(e.target.value)}
                 styles={classes.filter}
               >
                 {renderOptions(priceRanges, 'max_amount')}
@@ -327,7 +327,7 @@ const Request = props => {
                     placeholder={`Phone ${i + 1}`}
                     value={contact}
                     type='tel'
-                    onChange={e => updateContactAt(e.target.value, i)}
+                    onChange={(e) => updateContactAt(e.target.value, i)}
                   />
                 ))}
             </Fieldset>
@@ -337,7 +337,7 @@ const Request = props => {
                 className={classes.textArea}
                 rows={5}
                 value={formData.notes}
-                onChange={e => handleChange(e.target.value, 'notes')}
+                onChange={(e) => handleChange(e.target.value, 'notes')}
               />
             </Fieldset>
             <QuestionModal

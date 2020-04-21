@@ -2,13 +2,8 @@ import React from 'react';
 import { Map, Button } from '.';
 import * as moment from 'moment';
 import { createUseStyles } from 'react-jss';
-import { useWindowSize } from '../hooks'
 
 const useStyles = createUseStyles({
-  title: {
-    margin: '0px',
-    textAlign: 'center'
-  },
   container: {
     border: '1px solid lightgrey',
     margin: '0px 20px 20px 20px',
@@ -16,53 +11,37 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '@media all and (max-width: 599px)': {
+      width: '400px',
+      height: '700px',
+    },
+    '@media all and (min-width: 600px) and (max-width: 1050px)': {
+      width: '550px',
+      height: '750px',
+    },
+    '@media all and (min-width: 1000px)': {
+      width: '650px',
+      height: '850px',
+    },
+  },
+  title: {
+    margin: '0px',
+    textAlign: 'center',
   },
   button: {
-    margin: '20px 0px 0px 0px'
-  },
-  size1: {
-    width: '400px',
-    height: '700px'
-  },
-  size2: {
-    width: '500px',
-    height: '700px'
-  },
-  size3: {
-    width: '500px',
-    height: '700px'
-  },
-  size4: {
-    width: '650px',
-    height: '850px'
+    margin: '20px 0px 0px 0px',
   },
   details: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
-const ItineraryItem = props => {
+const ItineraryItem = (props) => {
   const { item, admin, handleRemove, index } = props;
   const classes = useStyles();
-  const size = useWindowSize()
 
-  const getClassName = () => {
-    if (size.width < 600) {
-      return 'size1'
-    }
-    else if (size.width > 600 && size.width < 800) {
-      return 'size2'
-    }
-    else if (size.width >= 800 && size.width < 1000) {
-      return 'size3'
-    }
-    else {
-      return 'size4'
-    }
-  }
-
-  const getNumberWithOrdinal = n => {
+  const getNumberWithOrdinal = (n) => {
     //https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number/13627586
     const s = ['th', 'st', 'nd', 'rd'];
     const v = n % 100;
@@ -70,7 +49,7 @@ const ItineraryItem = props => {
   };
 
   return (
-    <div className={classes.container + ' ' + classes[`${getClassName()}`]}>
+    <div className={classes.container}>
       <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
       <div className={classes.details}>
         <p>{moment(item.arrival_time).format('h:mm a')}</p>

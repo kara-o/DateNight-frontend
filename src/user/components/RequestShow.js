@@ -6,34 +6,28 @@ import {
   SideDialog,
   ItineraryDisplay,
   RequestContainer,
-  Review
+  Review,
 } from '../../elements';
-import { useWindowSize } from '../../hooks'
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   column: {
     width: '100%',
-    boxSizing: 'border-box'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  column1: {
-    gridRow: '2/3'
-  },
-  column2: {
-    gridRow: '3/4'
-  }
 });
 
-const RequestShow = props => {
+const RequestShow = (props) => {
   const { userData } = props;
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
-  const size = useWindowSize()
   const classes = useStyles();
 
   useEffect(() => {
     if (userData) {
-      fetchRequest(userData, requestId).then(res => {
+      fetchRequest(userData, requestId).then((res) => {
         setRequest(res.request);
       });
     }
@@ -43,24 +37,30 @@ const RequestShow = props => {
     if (request.fulfilled) {
       if (new Date(request.start_time) > new Date()) {
         return (
-          <SideDialog>
-            <p>
-              Get excited! Your itinerary is all set. You will be getting text
-              alerts starting on the morning of your date!
-            </p>
-          </SideDialog>
+          <>
+            <h2>Stay tuned...</h2>
+            <SideDialog>
+              <p>
+                Get excited! Your itinerary is all set. You will be getting text
+                alerts starting on the morning of your date!
+              </p>
+            </SideDialog>
+          </>
         );
       } else {
         return <ItineraryDisplay items={request.itinerary_items} />;
       }
     } else {
       return (
-        <SideDialog>
-          <p>We are busy working to get your night out all set up!</p>
-          <p>
-            Check back soon for confirmation that your itinerary is ready...
-          </p>
-        </SideDialog>
+        <>
+          <h2>Stay tuned...</h2>
+          <SideDialog>
+            <p>We are busy working to get your night out all set up!</p>
+            <p>
+              Check back soon for confirmation that your itinerary is ready...
+            </p>
+          </SideDialog>
+        </>
       );
     }
   };
@@ -78,21 +78,21 @@ const RequestShow = props => {
   };
 
   const handleCancel = () => {
-    cancelRequest(userData, requestId).then(requestJson => {
+    cancelRequest(userData, requestId).then((requestJson) => {
       props.history.push({
         pathname: '/',
-        state: { cancelledRequest: requestJson }
+        state: { cancelledRequest: requestJson },
       });
     });
   };
 
-  console.log(window.innerWidth, window.innerHeight)
+  console.log(window.innerWidth, window.innerHeight);
 
   return (
     <>
       {request ? (
         <>
-          <div className={size.width >= 800 ? classes.column : classes.column1}>
+          <div className={classes.column}>
             <RequestContainer
               title={`${friendlyRelativeDate()}!`}
               request={request}
@@ -106,10 +106,13 @@ const RequestShow = props => {
                 >
                   Are you sure you want to cancel this request?
                 </QuestionModal>
-              ) : <Review request={request} userData={userData} />}
+              ) : null}
             </RequestContainer>
+            {new Date(request.start_time) < new Date() ? (
+              <Review request={request} userData={userData} />
+            ) : null}
           </div>
-          <div className={size.width >= 800 ? classes.column : classes.column2}>{renderDialogOrItinerary()}</div>
+          <div className={classes.column}>{renderDialogOrItinerary()}</div>
         </>
       ) : null}
     </>

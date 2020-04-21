@@ -8,20 +8,24 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   details: {
-    marginTop: '0px'
+    marginTop: '0px',
+    padding: '0px 10px 0px 10px',
   },
   italic: {
-    fontStyle: 'italic'
-  }
+    fontStyle: 'italic',
+  },
+  title: {
+    textAlign: 'center',
+  },
 });
 
 const RequestContainer = ({ title, request, children, admin = false }) => {
   const classes = useStyles();
 
-  const renderContacts = request => {
+  const renderContacts = (request) => {
     return request.contacts.map((c, i) => {
       return (
         <li key={c.id}>
@@ -33,7 +37,7 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
 
   return (
     <div className={classes.container}>
-      <h2>{title}</h2>
+      <h2 className={classes.title}>{title}</h2>
       <div className={classes.details}>
         <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
         <p>Time: {moment(request.start_time).format('h:mm a')}</p>
@@ -41,13 +45,20 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
         <ul>{renderContacts(request)}</ul>
         <p>Neighborhood: {request.neighborhood}</p>
         <p>Price Range: {request.price_range}</p>
-        <p>Notes: {request.notes ? request.notes : <span className={classes.italic}>none</span>}</p>
+        <p>
+          Notes:{' '}
+          {request.notes ? (
+            request.notes
+          ) : (
+            <span className={classes.italic}>none</span>
+          )}
+        </p>
         {admin ? (
           <p>
             Fulfilled: {(!!request.fulfilled).toString()}{' '}
             {request.cancelled ? (
               <span>
-                <strong style={{ color: 'red' }}>CANCELLED</strong>
+                <strong style={{ color: 'red' }}> - CANCELLED</strong>
               </span>
             ) : null}
           </p>

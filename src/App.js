@@ -5,7 +5,7 @@ import {
   SignUp,
   Request,
   RequestShow,
-  UserHome
+  UserHome,
 } from './user/components';
 import {
   AdminHome,
@@ -13,7 +13,7 @@ import {
   AdminItineraryPackageShow,
   AdminItineraryPackages,
   AdminLogin,
-  AdminRequestShow
+  AdminRequestShow,
 } from './admin/components';
 import { Navbar, Footer } from './elements';
 import { logoutUser } from './user/services/api';
@@ -22,43 +22,37 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   '@global': {
+    '*': {
+      boxSizing: 'border-box',
+    },
     body: {
       margin: '0px',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
     },
-    '@media all and (min-width: 600px)': {
-      '#root': {
-        maxWidth: '1500px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        minHeight: '100vh',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gridTemplateRows: '50px auto 50px',
-        gridTemplateAreas: `
-        'navbar navbar'
-        'main main'
-        'footer footer'`,
-        justifyItems: 'center'
-      }
+    '#root': {
+      maxWidth: '1500px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      minHeight: '100vh',
+      display: 'grid',
+      gridTemplateRows: '50px auto 50px',
+      gridTemplateAreas: `
+      'navbar'
+      'main'
+      'footer'`,
+      justifyItems: 'center',
     },
-    '@media all and (max-width: 799px)': {
-      '#root': {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        minHeight: '100vh',
-        display: 'grid',
-        gridTemplateColumns: '1fr',
-        gridTemplateRows: '50px auto auto 50px',
-        gridTemplateAreas: `
-        'navbar'
-        'main'
-        'main'
-        'footer'`,
-        justifyItems: 'center'
-      }
-    }
-  }
+  },
+  mainContainer: {
+    gridArea: 'main',
+    width: '100%',
+    padding: '0 20px 0 20px',
+    '@media all and (min-width: 900px)': {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      columnGap: '10px',
+    },
+  },
 });
 
 const getUserData = () => {
@@ -68,11 +62,11 @@ const getUserData = () => {
 };
 
 const App = () => {
-  useStyles();
+  const classes = useStyles();
   const [userData, setUserData] = useState(getUserData());
   const loggedIn = !!userData;
 
-  const loginUser = userData => {
+  const loginUser = (userData) => {
     localStorage.setItem('userData', JSON.stringify(userData));
     setUserData(userData);
   };
@@ -92,136 +86,116 @@ const App = () => {
   return (
     <>
       {loggedIn ? (
-        <>
-          <Navbar
-            logoutAdmin={handleLogoutAdmin}
-            logoutUser={handleLogoutUser}
-            userData={userData}
-          />
-        </>
+        <Navbar
+          logoutAdmin={handleLogoutAdmin}
+          logoutUser={handleLogoutUser}
+          userData={userData}
+        />
       ) : null}
-      <>
+      <div className={classes.mainContainer}>
         <Switch>
           <Route
             path='/login'
-            render={props =>
+            render={(props) =>
               !loggedIn ? (
                 <Login {...props} handleLogin={loginUser} />
               ) : (
-                  <Redirect to='/' />
-                )
+                <Redirect to='/' />
+              )
             }
           />
           <Route
             path='/signup'
-            render={props =>
+            render={(props) =>
               !loggedIn ? <SignUp {...props} /> : <Redirect to='/' />
             }
           />
           <Route
             path='/requests/:id/edit'
-            render={props =>
+            render={(props) =>
               loggedIn && !userData.admin ? (
-                <>
-                  <Request edit={true} {...props} userData={userData} />
-                </>
+                <Request edit={true} {...props} userData={userData} />
               ) : null
             }
           />
           <Route
             path='/requests/new'
-            render={props =>
+            render={(props) =>
               loggedIn && !userData.admin ? (
-                <>
-                  <Request {...props} userData={userData} />
-                </>
+                <Request {...props} userData={userData} />
               ) : null
             }
           />
           <Route
             path='/requests/:id'
-            render={props =>
+            render={(props) =>
               loggedIn && !userData.admin ? (
-                <>
-                  <RequestShow {...props} userData={userData} />
-                </>
+                <RequestShow {...props} userData={userData} />
               ) : null
             }
           />
           <Route
             path='/admin/login'
-            render={props => <AdminLogin {...props} handleLogin={loginUser} />}
+            render={(props) => (
+              <AdminLogin {...props} handleLogin={loginUser} />
+            )}
           />
           <Route
             path='/admin/itinerary_packages/new'
-            render={props => (
-              <>
-                <AdminItineraryPackage {...props} userData={userData} />
-              </>
+            render={(props) => (
+              <AdminItineraryPackage {...props} userData={userData} />
             )}
           />
           <Route
             path='/admin/itinerary_packages/:id/edit'
-            render={props => (
-              <>
-                <AdminItineraryPackage
-                  {...props}
-                  edit={true}
-                  userData={userData}
-                />
-              </>
+            render={(props) => (
+              <AdminItineraryPackage
+                {...props}
+                edit={true}
+                userData={userData}
+              />
             )}
           />
           <Route
             path='/admin/itinerary_packages/:id'
-            render={props => (
-              <>
-                <AdminItineraryPackageShow {...props} userData={userData} />
-              </>
+            render={(props) => (
+              <AdminItineraryPackageShow {...props} userData={userData} />
             )}
           />
           <Route
             path='/admin/itinerary_packages'
-            render={props => (
-              <>
-                <AdminItineraryPackages {...props} userData={userData} />
-              </>
+            render={(props) => (
+              <AdminItineraryPackages {...props} userData={userData} />
             )}
           />
           <Route
             path='/admin/requests/:id'
-            render={props => (
-              <>
-                <AdminRequestShow {...props} userData={userData} />
-              </>
+            render={(props) => (
+              <AdminRequestShow {...props} userData={userData} />
             )}
           />
           <Route
             path='/admin'
-            render={props =>
+            render={(props) =>
               loggedIn && userData.admin ? (
-                <>
-                  <AdminHome {...props} userData={userData} />
-                </>
+                <AdminHome {...props} userData={userData} />
               ) : (
-                  <Redirect to='/admin/login' />
-                )
+                <Redirect to='/admin/login' />
+              )
             }
           />
           <Route
             path='/'
-            render={props =>
+            render={(props) =>
               loggedIn && !userData.admin ? (
-                <>
-                  <UserHome {...props} userData={userData} />
-                </>
+                <UserHome {...props} userData={userData} />
               ) : (
-                  <Redirect to='/login' />
-                )
+                <Redirect to='/login' />
+              )
             }
           />
         </Switch>
-      </>
+      </div>
       <Footer />
     </>
   );

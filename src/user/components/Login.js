@@ -7,17 +7,17 @@ import {
   Form,
   MyLink,
   MyInput,
-  Errors
+  Errors,
 } from '../../elements';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
-const Login = props => {
+const Login = (props) => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [errors, setErrors] = useState(null);
   const query = useQuery();
@@ -26,17 +26,17 @@ const Login = props => {
   );
   const isAccountConfirmed = !!query.get('account_confirmation_success');
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = () => {
     let userData;
     login(formData)
-      .then(res => {
+      .then((res) => {
         if (res.status < 400) {
           const accessToken = res.headers.get('access-token');
           const client = res.headers.get('client');
@@ -46,7 +46,7 @@ const Login = props => {
         }
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (!json.errors) {
           userData = { ...userData, user: json.data, admin: false };
           props.handleLogin(userData);
@@ -57,7 +57,7 @@ const Login = props => {
       });
     setFormData({
       email: '',
-      password: ''
+      password: '',
     });
   };
 

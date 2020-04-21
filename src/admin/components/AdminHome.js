@@ -7,14 +7,14 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   requests: {
     gridColumn: '1/3',
-    gridRow: 'auto'
+    gridRow: 'auto',
   },
   filter: {
-    padding: '20px 0px 20px 0px'
-  }
+    padding: '20px 0px 20px 0px',
+  },
 });
 
-const AdminHome = props => {
+const AdminHome = (props) => {
   const { userData } = props;
   const [allRequests, setAllRequests] = useState([]);
   const [filter, setFilter] = useState('Unfulfilled');
@@ -22,35 +22,42 @@ const AdminHome = props => {
 
   useEffect(() => {
     if (userData) {
-      fetchRequests(userData).then(json => setAllRequests(json));
+      fetchRequests(userData).then((json) => setAllRequests(json));
     }
   }, []);
 
   const renderRequests = () => {
     let requests;
     if (filter === 'Unfulfilled') {
-      requests = allRequests.filter(r => !r.fulfilled);
-    }
-    else if (filter === 'New Reviews') {
-      requests = allRequests.filter(r => r.review && !r.review.admin_reviewed);
-    }
-    else {
+      requests = allRequests.filter((r) => !r.fulfilled);
+    } else if (filter === 'New Reviews') {
+      requests = allRequests.filter(
+        (r) => r.review && !r.review.admin_reviewed
+      );
+    } else if (filter === 'Cancelled') {
+      requests = allRequests.filter((r) => r.cancelled);
+    } else {
       requests = allRequests;
     }
     requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
-    return requests.map(r => {
+    return requests.map((r) => {
       let status;
       if (r.fulfilled) {
-        status = new Date(r.start_time) < new Date() ? 'COMPLETED' : 'FULFILLED'
+        status =
+          new Date(r.start_time) < new Date() ? 'COMPLETED' : 'FULFILLED';
+      } else {
+        status = 'UNFULFILLED';
       }
-      else if (r.cancelled) {
-        status = 'CANCELLED'
-      }
-      else {
-        status = 'UNFULFILLED'
-      }
+      status = r.cancelled ? status + ', CANCELLED' : status;
       return (
-        <ListItem styles={filter === 'Unfulfilled' ? 'unfulfilledOnly' : 'upcomingPastDates'} key={r.id} id={r.id} destination={`/admin/requests/${r.id}`}>
+        <ListItem
+          styles={
+            filter === 'Unfulfilled' ? 'unfulfilledOnly' : 'upcomingPastDates'
+          }
+          key={r.id}
+          id={r.id}
+          destination={`/admin/requests/${r.id}`}
+        >
           <p>{moment(r.start_time).calendar()}</p>
           <p>{status}</p>
           <p>{r.review ? <Stars review={r.review} /> : null}</p>
@@ -59,25 +66,36 @@ const AdminHome = props => {
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const optionsArray = Array.from(e.target.options);
     optionsArray
-      .filter(option => option.selected)
-      .forEach(option => setFilter(option.value));
+      .filter((option) => option.selected)
+      .forEach((option) => setFilter(option.value));
   };
 
   const renderFilter = () => {
     return (
-      <Filter styles={classes.filter} title='Filter: ' value={filter} onChange={handleChange}>
+      <Filter
+        styles={classes.filter}
+        title='Filter: '
+        value={filter}
+        onChange={handleChange}
+      >
         <option value='Unfulfilled'>Unfulfilled</option>
         <option value='New Reviews'>New Reviews</option>
+        <option value='Cancelled'>Cancelled</option>
         <option value='All'>All</option>
       </Filter>
     );
   };
 
   return (
-    <ListContainer title={filter === 'New Reviews' ? 'Newly Reviewed' : filter + ' ' + 'Requests'} styles={classes.requests}>
+    <ListContainer
+      title={
+        filter === 'New Reviews' ? 'Newly Reviewed' : filter + ' ' + 'Requests'
+      }
+      styles={classes.requests}
+    >
       {renderFilter()}
       {renderRequests()}
     </ListContainer>

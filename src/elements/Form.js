@@ -7,9 +7,8 @@ const useStyles = createUseStyles({
     flexDirection: 'column',
     textAlign: 'center',
     alignItems: 'center',
-    margin: '10px',
-    padding: '10px'
-  }
+    padding: '10px',
+  },
 });
 
 const Form = ({ children, styles }) => {

@@ -5,17 +5,15 @@ import { ListContainer, ListItem, Stars } from '../../elements';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  mainContainer: {
-    gridArea: 'main',
-    width: '100%',
-    padding: '50px'
-  },
   italicFont: {
-    fontStyle: 'italic'
-  }
+    fontStyle: 'italic',
+  },
+  listContainer: {
+    gridColumn: '1/3',
+  },
 });
 
-const UserHome = props => {
+const UserHome = (props) => {
   const { userData } = props;
   const [requests, setRequests] = useState([]);
   const classes = useStyles();
@@ -23,19 +21,24 @@ const UserHome = props => {
   useEffect(() => {
     if (userData) {
       console.log('fetching requests!', props.location.state);
-      fetchRequests(userData).then(json => setRequests(json));
+      fetchRequests(userData).then((json) => setRequests(json));
     }
   }, [props.location.state, userData]); //TODO do I really need props.location.state
 
   const renderUncancelledRequests = () => {
     const uncancelledReqs = requests.filter(
-      r => !r.cancelled && new Date(r.start_time) >= new Date()
+      (r) => !r.cancelled && new Date(r.start_time) >= new Date()
     );
 
     if (uncancelledReqs.length) {
-      return uncancelledReqs.map(r => {
+      return uncancelledReqs.map((r) => {
         return (
-          <ListItem styles='upcomingPastDates' key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <ListItem
+            styles='upcomingPastDates'
+            key={r.id}
+            id={r.id}
+            destination={`/requests/${r.id}`}
+          >
             <p>{moment(r.start_time).calendar()}</p>
             <p>{r.neighborhood}</p>
             <p>{r.fulfilled ? 'ITINERARY IS READY' : 'ITINERARY PENDING'}</p>
@@ -48,26 +51,39 @@ const UserHome = props => {
 
   const renderPastDates = () => {
     const pastDates = requests.filter(
-      r => !r.cancelled && new Date(r.start_time) < new Date()
+      (r) => !r.cancelled && new Date(r.start_time) < new Date()
     );
     if (pastDates.length) {
       pastDates.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
-      return pastDates.map(r => {
+      return pastDates.map((r) => {
         return (
-          <ListItem styles='upcomingPastDates' key={r.id} id={r.id} destination={`/requests/${r.id}`}>
+          <ListItem
+            styles='upcomingPastDates'
+            key={r.id}
+            id={r.id}
+            destination={`/requests/${r.id}`}
+          >
             <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
             <p>{placeNamesToString(r)}</p>
-            <p>{r.review ? <Stars review={r.review} /> : <span className={classes.italicFont}>Review this date!</span>}</p>
+            <p>
+              {r.review ? (
+                <Stars review={r.review} />
+              ) : (
+                <span className={classes.italicFont}>Review this date!</span>
+              )}
+            </p>
           </ListItem>
         );
       });
     }
-    return <p className={classes.italicFont}>{'Your past dates will go here!'}</p>;
+    return (
+      <p className={classes.italicFont}>{'Your past dates will go here!'}</p>
+    );
   };
 
-  const placeNamesToString = request => {
+  const placeNamesToString = (request) => {
     let stringOfNames = '';
-    const arrayOfNames = request.itinerary_items.map(item => {
+    const arrayOfNames = request.itinerary_items.map((item) => {
       return item.place;
     });
     for (let i = 0; i < arrayOfNames.length; i++) {
@@ -80,12 +96,14 @@ const UserHome = props => {
   };
 
   return requests ? (
-    <div className={classes.mainContainer}>
-      <ListContainer title='Upcoming Dates'>
+    <>
+      <ListContainer styles={classes.listContainer} title='Upcoming Dates'>
         {renderUncancelledRequests()}
       </ListContainer>
-      <ListContainer title='Past Dates'>{renderPastDates()}</ListContainer>
-    </div>
+      <ListContainer styles={classes.listContainer} title='Past Dates'>
+        {renderPastDates()}
+      </ListContainer>
+    </>
   ) : null;
 };
 
