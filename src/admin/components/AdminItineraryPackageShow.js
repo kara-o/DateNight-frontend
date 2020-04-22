@@ -4,7 +4,7 @@ import {
   createItineraryPackageItem,
   deletePkgItem,
 } from '../services/api-admin';
-import { Button, MyLink, SimpleCard, Map, Form, MyInput } from '../../elements';
+import { Button, SimpleCard, Map, Form, MyInput } from '../../elements';
 import { createUseStyles } from 'react-jss';
 import { useHistory } from 'react-router-dom';
 

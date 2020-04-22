@@ -4,19 +4,20 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   container: {
-    width: '200px',
-    height: '200px',
+    width: '300px',
+    height: '300px',
     position: 'relative',
     border: '1px solid black',
-    padding: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   details: {
     top: '50%',
     left: '50%',
+    width: '100%',
     transform: 'translate(-50%, -50%)',
-    position: 'absolute'
-  }
+    position: 'absolute',
+    padding: '10px',
+  },
 });
 
 const SimpleCard = ({ pkgItem, handleDelete }) => {
@@ -26,9 +27,8 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
       <div className={classes.details}>
         <p>{pkgItem.place}</p>
         <p>{pkgItem.duration} minutes</p>
-        <Button onClick={() => handleDelete(pkgItem.id)}>
-          Remove
-      </Button>
+        <p>{pkgItem.blurb}</p>
+        <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
       </div>
     </div>
   );
