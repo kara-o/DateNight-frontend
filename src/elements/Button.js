@@ -5,8 +5,8 @@ const useStyles = createUseStyles({
   button: {
     maxWidth: '150px',
     padding: '10px',
-    margin: '5px'
-  }
+    margin: '5px',
+  },
 });
 
 const Button = ({ type = 'button', onClick, styles, children }) => {

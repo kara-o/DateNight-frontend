@@ -2,35 +2,44 @@ import React, { useState, useEffect } from 'react';
 import {
   fetchItineraryPackage,
   createItineraryPackageItem,
-  deletePkgItem
+  deletePkgItem,
 } from '../services/api-admin';
-import { Button, MyLink, SimpleCard, Map, Form, MyInput, SideDialog } from '../../elements';
+import { Button, MyLink, SimpleCard, Map, Form, MyInput } from '../../elements';
 import { createUseStyles } from 'react-jss';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = createUseStyles({
   cardsContainer: {
     display: 'flex',
     flexFlow: 'row wrap',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   column: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   container: {
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   italic: {
-    fontStyle: 'italic'
-  }
+    fontStyle: 'italic',
+  },
+  blurb: {
+    width: '50%',
+    resize: 'none',
+    margin: '10px',
+  },
+  buttons: {
+    margin: '10px',
+  },
 });
 
 const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; //public Google API key, ok if here
 
-const ItineraryItemForm = props => {
+const ItineraryItemForm = (props) => {
   const { onSubmit } = props;
   const [duration, setDuration] = useState('');
   const [address, setAddress] = useState('');
@@ -39,6 +48,7 @@ const ItineraryItemForm = props => {
   const [makeResLink, setMakeResLink] = useState('');
   const [iFrame, setIFrame] = useState('');
   const [mapUrl, setMapUrl] = useState('');
+  const classes = useStyles();
 
   const handleClick = () => {
     onSubmit({
@@ -48,7 +58,7 @@ const ItineraryItemForm = props => {
       blurb,
       make_res_link: makeResLink,
       map_iframe_url: iFrame,
-      map_url: mapUrl
+      map_url: mapUrl,
     });
     setDuration('');
     setAddress('');
@@ -66,7 +76,6 @@ const ItineraryItemForm = props => {
   const createMapUrl = (place, address) => {
     const urlEscaped = encodeURI(place + ' ' + address);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
-    console.log(iFrameUrl);
     return iFrameUrl;
   };
 
@@ -75,36 +84,38 @@ const ItineraryItemForm = props => {
       <MyInput
         placeholder='Duration (minutes)'
         value={duration}
-        onChange={e => setDuration(e.target.value)}
+        onChange={(e) => setDuration(e.target.value)}
+      />
+      <MyInput
+        placeholder='Venue Name'
+        value={place}
+        onChange={(e) => setPlace(e.target.value)}
       />
       <MyInput
         placeholder='Address'
         value={address}
-        onChange={e => setAddress(e.target.value)}
+        onChange={(e) => setAddress(e.target.value)}
       />
-      <MyInput
-        placeholder='Place'
-        value={place}
-        onChange={e => setPlace(e.target.value)}
-      />
-      <MyInput
-        multiline
+      <textarea
+        className={classes.blurb}
         rows={3}
         placeholder='Blurb'
         value={blurb}
-        onChange={e => setBlurb(e.target.value)}
+        onChange={(e) => setBlurb(e.target.value)}
       />
-      <MyInput
-        placeholder='Make reservation link'
-        value={makeResLink}
-        onChange={e => setMakeResLink(e.target.value)}
-      />
-      <MyInput
-        placeholder='Map URL'
-        value={mapUrl}
-        onChange={e => setMapUrl(e.target.value)}
-      />
-      <div>
+      <div className={classes.links}>
+        <MyInput
+          placeholder='Make reservation link'
+          value={makeResLink}
+          onChange={(e) => setMakeResLink(e.target.value)}
+        />
+        <MyInput
+          placeholder='Map URL'
+          value={mapUrl}
+          onChange={(e) => setMapUrl(e.target.value)}
+        />
+      </div>
+      <div className={classes.buttons}>
         <Button onClick={handleCreateMap}>Generate Map</Button>
         {iFrame ? <Map url={iFrame} /> : null}
         <Button onClick={handleClick}>Add Item To Package</Button>
@@ -113,16 +124,17 @@ const ItineraryItemForm = props => {
   );
 };
 
-const AdminItineraryPackageShow = props => {
+const AdminItineraryPackageShow = (props) => {
   const { userData } = props;
   const itinPackageId = props.match.params.id;
   const [itinPackage, setItinPackage] = useState(null);
   const [itinPackageItems, setItinPackageItems] = useState([]);
-  const classes = useStyles()
+  const classes = useStyles();
+  const history = useHistory();
 
   useEffect(() => {
     if (userData) {
-      fetchItineraryPackage(userData, itinPackageId).then(itinPackage => {
+      fetchItineraryPackage(userData, itinPackageId).then((itinPackage) => {
         setItinPackage(itinPackage);
         setItinPackageItems(itinPackage.itinerary_package_items);
       });
@@ -137,27 +149,34 @@ const AdminItineraryPackageShow = props => {
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
-          <MyLink
+          {/* <MyLink
             destination={`/admin/itinerary_packages/${itinPackage.id}/edit`}
           >
             Edit
-          </MyLink>
+          </MyLink> */}
+          <Button
+            onClick={() =>
+              history.push(`/admin/itinerary_packages/${itinPackage.id}/edit`)
+            }
+          >
+            Edit
+          </Button>
         </div>
       );
     }
   };
 
-  const handleItemSubmit = formData => {
+  const handleItemSubmit = (formData) => {
     createItineraryPackageItem(itinPackageId, formData, userData).then(
-      pkgItem => {
+      (pkgItem) => {
         setItinPackageItems(itinPackageItems.concat([pkgItem]));
       }
     );
   };
 
-  const handleDelete = id => {
+  const handleDelete = (id) => {
     deletePkgItem(userData, itinPackage.id, id);
-    const newItinPkgItems = itinPackageItems.filter(item => item.id !== id);
+    const newItinPkgItems = itinPackageItems.filter((item) => item.id !== id);
     setItinPackageItems(newItinPkgItems);
   };
 
@@ -166,7 +185,7 @@ const AdminItineraryPackageShow = props => {
   }
 
   const renderPackageItems = () => {
-    return itinPackageItems.map(pkgItem => {
+    return itinPackageItems.map((pkgItem) => {
       return <SimpleCard pkgItem={pkgItem} handleDelete={handleDelete} />;
     });
   };
@@ -178,8 +197,11 @@ const AdminItineraryPackageShow = props => {
           <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
           <p>{displayItinPackage()}</p>
           <h2>Package Items:</h2>
-          {itinPackageItems.length ? <div className={classes.cardsContainer}>{renderPackageItems()}</div> : <p className={classes.italic}>No Items</p>}
-
+          {itinPackageItems.length ? (
+            <div className={classes.cardsContainer}>{renderPackageItems()}</div>
+          ) : (
+            <p className={classes.italic}>No Items</p>
+          )}
         </div>
       </div>
       <div className={classes.column}>

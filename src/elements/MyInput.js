@@ -6,8 +6,8 @@ const useStyles = createUseStyles({
     padding: '10px',
     margin: '10px',
     // minWidth: '200px', COMMENTED OUT
-    outline: 'none'
-  }
+    outline: 'none',
+  },
 });
 
 const MyInput = ({ type, name, value, onChange, placeholder }) => {

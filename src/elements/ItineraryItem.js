@@ -24,13 +24,19 @@ const useStyles = createUseStyles({
       width: '650px',
       height: '850px',
     },
+    position: 'relative',
   },
   title: {
     margin: '0px',
     textAlign: 'center',
   },
   button: {
-    margin: '20px 0px 0px 0px',
+    // margin: '16px 0px 0px 0px',
+    // height: '50px',
+    top: '0px',
+    right: '0px',
+    position: 'absolute',
+    padding: '5px',
   },
   details: {
     width: '100%',
@@ -50,6 +56,11 @@ const ItineraryItem = (props) => {
 
   return (
     <div className={classes.container}>
+      {admin ? (
+        <Button styles={classes.button} onClick={() => handleRemove(item)}>
+          X
+        </Button>
+      ) : null}
       <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
       <div className={classes.details}>
         <p>{moment(item.arrival_time).format('h:mm a')}</p>
@@ -71,11 +82,6 @@ const ItineraryItem = (props) => {
       </div>
 
       <Map url={item.map_iframe_url} />
-      {admin ? (
-        <Button styles={classes.button} onClick={() => handleRemove(item)}>
-          Remove from Itinerary
-        </Button>
-      ) : null}
     </div>
   );
 };

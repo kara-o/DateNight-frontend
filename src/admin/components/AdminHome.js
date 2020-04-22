@@ -12,6 +12,9 @@ const useStyles = createUseStyles({
   filter: {
     padding: '20px 0px 20px 0px',
   },
+  redText: {
+    color: 'red',
+  },
 });
 
 const AdminHome = (props) => {
@@ -36,6 +39,11 @@ const AdminHome = (props) => {
       );
     } else if (filter === 'Cancelled') {
       requests = allRequests.filter((r) => r.cancelled);
+    } else if (filter === 'Completed') {
+      requests = allRequests.filter(
+        (r) =>
+          r.fulfilled && !r.cancelled && new Date(r.start_time) < new Date()
+      );
     } else {
       requests = allRequests;
     }
@@ -43,12 +51,14 @@ const AdminHome = (props) => {
     return requests.map((r) => {
       let status;
       if (r.fulfilled) {
-        status =
-          new Date(r.start_time) < new Date() ? 'COMPLETED' : 'FULFILLED';
+        if (new Date(r.start_time) < new Date() && !r.cancelled) {
+          status = 'COMPLETED';
+        } else {
+          status = 'FULFILLED';
+        }
       } else {
         status = 'UNFULFILLED';
       }
-      status = r.cancelled ? status + ', CANCELLED' : status;
       return (
         <ListItem
           styles={
@@ -59,7 +69,12 @@ const AdminHome = (props) => {
           destination={`/admin/requests/${r.id}`}
         >
           <p>{moment(r.start_time).calendar()}</p>
-          <p>{status}</p>
+          <p>
+            {status}
+            {r.cancelled ? (
+              <span className={classes.redText}> - CANCELLED</span>
+            ) : null}
+          </p>
           <p>{r.review ? <Stars review={r.review} /> : null}</p>
         </ListItem>
       );
@@ -83,6 +98,7 @@ const AdminHome = (props) => {
       >
         <option value='Unfulfilled'>Unfulfilled</option>
         <option value='New Reviews'>New Reviews</option>
+        <option value='Completed'>Completed</option>
         <option value='Cancelled'>Cancelled</option>
         <option value='All'>All</option>
       </Filter>
