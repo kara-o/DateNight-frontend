@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
     left: '0',
     width: '100%',
     height: '100%',
-    background: 'rgba(0, 0, 0, 0.6)'
+    background: 'rgba(0, 0, 0, 0.6)',
+    zIndex: '1',
   },
   modal: {
     position: 'fixed',
@@ -25,11 +26,12 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: '2',
   },
   buttonDiv: {
-    margin: '30px 0px 0px 0px'
-  }
+    margin: '30px 0px 0px 0px',
+  },
 });
 
 const QuestionModal = ({
@@ -40,12 +42,12 @@ const QuestionModal = ({
   closeAction = null,
   navigateAwayAction,
   onClick = null,
-  startOpen = false
+  startOpen = false,
 }) => {
   const [open, setOpen] = useState(startOpen);
   const classes = useStyles();
 
-  const handleClickOpen = e => {
+  const handleClickOpen = (e) => {
     if (onClick) {
       onClick(e).then(setOpen(true));
     } else {
@@ -59,24 +61,36 @@ const QuestionModal = ({
 
   return (
     <div>
-      {buttonText ? <Button onClick={handleClickOpen}>{buttonText}</Button> : null}
+      {buttonText ? (
+        <Button onClick={handleClickOpen}>{buttonText}</Button>
+      ) : null}
       {open ? (
         <div className={classes.container}>
           <div className={classes.modal}>
             {children}
             <div className={classes.buttonDiv}>
               {declineText ? (
-                <Button onClick={closeAction ? () => {
-                  handleClose()
-                  closeAction()
-                } : handleClose} color='primary'>
+                <Button
+                  onClick={
+                    closeAction
+                      ? () => {
+                          handleClose();
+                          closeAction();
+                        }
+                      : handleClose
+                  }
+                  color='primary'
+                >
                   {declineText}
                 </Button>
               ) : null}
-              <Button onClick={() => {
-                navigateAwayAction()
-                handleClose()
-              }} color='primary'>
+              <Button
+                onClick={() => {
+                  navigateAwayAction();
+                  handleClose();
+                }}
+                color='primary'
+              >
                 {acceptText}
               </Button>
             </div>

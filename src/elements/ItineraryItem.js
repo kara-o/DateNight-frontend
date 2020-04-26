@@ -16,11 +16,11 @@ const useStyles = createUseStyles({
       width: '400px',
       height: '700px',
     },
-    '@media all and (min-width: 600px) and (max-width: 1050px)': {
+    '@media all and (min-width: 600px) and (max-width: 1099px)': {
       width: '550px',
       height: '750px',
     },
-    '@media all and (min-width: 1000px)': {
+    '@media all and (min-width: 1100px)': {
       width: '650px',
       height: '850px',
     },
