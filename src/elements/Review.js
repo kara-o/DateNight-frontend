@@ -53,10 +53,17 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
     if (request.review) {
       return;
     }
-    setReview({
-      ...review,
-      rating: id,
-    });
+    if (review.rating && review.rating === id) {
+      setReview({
+        ...review,
+        rating: 0,
+      });
+    } else {
+      setReview({
+        ...review,
+        rating: id,
+      });
+    }
   };
 
   const handleChangeFeedback = (text) => {
