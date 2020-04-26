@@ -35,6 +35,9 @@ const useStyles = createUseStyles({
   buttons: {
     width: '100%',
     padding: '0 40px 0 40px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 
@@ -118,7 +121,7 @@ const ItineraryItemForm = (props) => {
       </div>
       <div className={classes.buttons}>
         <Button onClick={handleCreateMap}>Generate Map</Button>
-        {iFrame ? <Map height='450px' url={iFrame} /> : null}
+        {iFrame ? <Map width='75%' height='300px' url={iFrame} /> : null}
         <Button onClick={handleClick}>Add Item To Package</Button>
       </div>
     </Form>
