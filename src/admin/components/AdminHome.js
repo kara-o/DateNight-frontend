@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchRequests } from "../services/api-admin";
-import { ListContainer, ListItem, Filter, Stars, Button } from "../../elements";
+import { ListContainer, ListItem, Stars, Button } from "../../elements";
 import * as moment from "moment";
 import { createUseStyles } from "react-jss";
 
@@ -43,7 +43,11 @@ const AdminHome = (props) => {
         setUnfulfilledRequests(
           json.filter((r) => !r.fulfilled && !r.cancelled)
         );
-        setCancelledRequests(json.filter((r) => r.cancelled && r.fulfilled));
+        setCancelledRequests(
+          json.filter(
+            (r) => r.cancelled && r.fulfilled && !r.admin_addressed_cancel
+          )
+        );
         setNewlyReviewed(
           json.filter((r) => r.review && !r.review.admin_reviewed)
         );
@@ -107,29 +111,6 @@ const AdminHome = (props) => {
       <p className={classes.italicFont}>No new requests for this category!</p>
     );
   };
-
-  // const handleChange = (e) => {
-  //   const optionsArray = Array.from(e.target.options);
-  //   optionsArray
-  //     .filter((option) => option.selected)
-  //     .forEach((option) => setFilter(option.value));
-  // };
-
-  // const renderFilter = () => {
-  //   return (
-  //     <Filter
-  //       styles={classes.filter}
-  //       title="Filter: "
-  //       value={filter}
-  //       onChange={handleChange}
-  //     >
-  //       <option value="Unfulfilled">Unfulfilled</option>
-  //       <option value="New Reviews">New Reviews</option>
-  //       <option value="Completed">Completed</option>
-  //       <option value="All">All</option>
-  //     </Filter>
-  //   );
-  // };
 
   return (
     <div className={classes.mainContainer}>

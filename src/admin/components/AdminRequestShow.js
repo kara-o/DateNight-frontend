@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   MyLink,
@@ -8,8 +8,8 @@ import {
   ListContainer,
   QuestionModal,
   Review,
-} from '../../elements';
-import { fetchRequest, fetchOptions } from '../../user/services/api';
+} from "../../elements";
+import { fetchRequest, fetchOptions } from "../../user/services/api";
 import {
   toggleRequestFulfilled,
   fetchItineraryPackages,
@@ -19,51 +19,62 @@ import {
   scrapeSinglePage,
   deleteItinItem,
   addItinItem,
-} from '../services/api-admin';
-import * as moment from 'moment';
-import DateFnsUtils from '@date-io/date-fns';
+  addressCancel,
+} from "../services/api-admin";
+import * as moment from "moment";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-} from '@material-ui/pickers';
-import { createUseStyles } from 'react-jss';
+} from "@material-ui/pickers";
+import { createUseStyles } from "react-jss";
 
-const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; // Google Maps API, okay if public
+const KEY = "AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs"; // Google Maps API, okay if public
 
 const useStyles = createUseStyles({
   column: {
-    width: '100%',
+    width: "100%",
   },
   addBtn: {
-    margin: '0px 0px 20px 0px',
+    margin: "0px 0px 20px 0px",
   },
   timePicker: {
-    maxWidth: '25%',
+    maxWidth: "25%",
   },
   emptyItin: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   button: {
-    marginTop: '20px',
+    marginTop: "20px",
   },
   filter: {
-    marginBottom: '20px',
+    marginBottom: "20px",
   },
   contactBtn: {
-    marginTop: '0px',
+    marginTop: "0px",
   },
   scrapedListItem: {
-    '&:hover': {
-      cursor: 'pointer',
-      color: 'turquoise',
+    "&:hover": {
+      cursor: "pointer",
+      color: "turquoise",
     },
   },
   buttonDiv: {
-    marginBottom: '16px',
+    marginBottom: "16px",
   },
   venueContainer: {
-    width: '100%',
-    textAlign: 'center',
+    width: "100%",
+    textAlign: "center",
+  },
+  cancelText: {
+    gridColumn: "1/3",
+    margin: "0 auto 0 auto",
+    padding: "10px",
+  },
+  cancelCheckbox: {
+    verticalAlign: "middle",
+    width: "20px",
+    height: "20px",
   },
 });
 
@@ -77,7 +88,7 @@ const AdminRequestShow = (props) => {
   const [modalInfo, setModalInfo] = useState(null);
   const [resTime, setResTime] = useState(null);
   const [iFrame, setIFrame] = useState(null);
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState("All");
   const [showVenues, setShowVenues] = useState(false);
   const [singleVenue, setSingleVenue] = useState(true);
   const [neighborhoods, setNeighborhoods] = useState([]);
@@ -91,14 +102,14 @@ const AdminRequestShow = (props) => {
         setIsFetching(true);
         scrapeNames(
           userData,
-          moment(res.request.start_time).format('YYYY-MM-DD')
+          moment(res.request.start_time).format("YYYY-MM-DD")
         ).then((names) => {
           setScrapedNames(names);
           setIsFetching(false);
         });
       });
       fetchItineraryPackages(userData).then(setItinPackages);
-      fetchOptions('neighborhoods', userData).then((list) => {
+      fetchOptions("neighborhoods", userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
       });
@@ -135,24 +146,24 @@ const AdminRequestShow = (props) => {
   const openModal = () => {
     const neighborhood = modalInfo.neighborhood
       ? modalInfo.neighborhood
-      : 'Seattle';
+      : "Seattle";
     return (
       <QuestionModal
         startOpen={true}
-        acceptText='Add to Itinerary'
+        acceptText="Add to Itinerary"
         navigateAwayAction={() => {
           handleAddItinItem();
           setModalInfo(null);
         }}
-        declineText='Back'
+        declineText="Back"
         closeAction={() => setModalInfo(null)}
       >
         <h2>{modalInfo.name}</h2>
         <p>
-          {neighborhood + ' • ' + modalInfo.cuisine + ' • ' + modalInfo.price}
+          {neighborhood + " • " + modalInfo.cuisine + " • " + modalInfo.price}
         </p>
         <p>{modalInfo.blurb}</p>
-        <a href={modalInfo.make_res_link} target='_blank'>
+        <a href={modalInfo.make_res_link} target="_blank">
           Reservation Link
         </a>
         <div className={classes.timePicker}>
@@ -162,10 +173,10 @@ const AdminRequestShow = (props) => {
           >
             <KeyboardTimePicker
               disableToolbar
-              variant='inline'
+              variant="inline"
               minutesStep={15}
-              margin='normal'
-              label='Time'
+              margin="normal"
+              label="Time"
               value={resTime}
               onChange={(time) => setResTime(time)}
             />
@@ -176,7 +187,7 @@ const AdminRequestShow = (props) => {
   };
 
   const createMapUrl = (name, address) => {
-    const urlEscaped = encodeURI(name + ' ' + address);
+    const urlEscaped = encodeURI(name + " " + address);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     setIFrame(iFrameUrl);
   };
@@ -202,7 +213,7 @@ const AdminRequestShow = (props) => {
           setIsFetching(true);
           scrapeNames(
             userData,
-            moment(request.start_time).format('YYYY-MM-DD'),
+            moment(request.start_time).format("YYYY-MM-DD"),
             e.target.value
           ).then((json) => {
             setIsFetching(false);
@@ -210,7 +221,7 @@ const AdminRequestShow = (props) => {
           });
         }}
       >
-        <option value='All'>All</option>
+        <option value="All">All</option>
         {neighborhoods.map((n) => {
           return (
             <option key={n.id} value={n.name}>
@@ -227,9 +238,9 @@ const AdminRequestShow = (props) => {
       return (
         <li key={pkg.id}>
           <MyLink destination={`/admin/itinerary_packages/${pkg.id}`}>
-            {pkg.price_range.split(' ')[0]} - {pkg.neighborhood} - {pkg.title}
+            {pkg.price_range.split(" ")[0]} - {pkg.neighborhood} - {pkg.title}
           </MyLink>
-          <Button type='button' onClick={() => handleApplyPackage(pkg.id)}>
+          <Button type="button" onClick={() => handleApplyPackage(pkg.id)}>
             Apply
           </Button>
         </li>
@@ -269,10 +280,10 @@ const AdminRequestShow = (props) => {
   };
 
   const displayVenues = () => {
-    const buttonText = singleVenue ? 'Packages' : 'Single Venues';
+    const buttonText = singleVenue ? "Packages" : "Single Venues";
     const title = !singleVenue
-      ? 'Packages'
-      : `Venues for ${moment(request.start_time).format('MMMM Do YYYY')}`;
+      ? "Packages"
+      : `Venues for ${moment(request.start_time).format("MMMM Do YYYY")}`;
     return (
       <div className={classes.venueContainer}>
         <Button
@@ -297,20 +308,39 @@ const AdminRequestShow = (props) => {
 
   return request ? (
     <>
+      {request.cancelled &&
+      request.fulfilled &&
+      !request.admin_addressed_cancel ? (
+        <div className={classes.cancelText}>
+          <h2>Admin has addressed cancellation:</h2>
+          <Button
+            onClick={() =>
+              addressCancel(userData, request.id, new Date()).then(
+                props.history.push({
+                  pathname: "/admin",
+                  state: { id: request.id },
+                })
+              )
+            }
+          >
+            YES
+          </Button>
+        </div>
+      ) : null}
       <div className={classes.column}>
         <RequestContainer
           className={classes.requestContainer}
-          title='Request'
+          title="Request"
           request={request}
           admin={true}
         >
-          {new Date(request.start_time) >= new Date() ? (
+          {new Date(request.start_time) >= new Date() && !request.cancelled ? (
             <div className={classes.buttonDiv}>
-              <Button type='button' onClick={handleComplete}>
-                {request.fulfilled ? 'Mark as incomplete' : 'Mark as complete'}
+              <Button type="button" onClick={handleComplete}>
+                {request.fulfilled ? "Mark as incomplete" : "Mark as complete"}
               </Button>
               {request.fulfilled ? (
-                <Button type='button' onClick={handleMessage}>
+                <Button type="button" onClick={handleMessage}>
                   Alert (DEMO ONLY)
                 </Button>
               ) : null}
@@ -345,7 +375,7 @@ const AdminRequestShow = (props) => {
             {!request.fulfilled ? (
               <Button
                 styles={classes.addBtn}
-                type='button'
+                type="button"
                 onClick={() => setShowVenues(true)}
               >
                 Add to Itinerary
