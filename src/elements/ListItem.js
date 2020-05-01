@@ -1,29 +1,29 @@
-import React from 'react';
-import MyLink from './MyLink';
-import { createUseStyles } from 'react-jss';
+import React from "react";
+import MyLink from "./MyLink";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   listItem: {
-    display: 'grid',
-    gridTemplateRows: 'auto',
-    justifyItems: 'center',
-    textAlign: 'center'
+    display: "grid",
+    gridTemplateRows: "auto",
+    justifyItems: "center",
+    textAlign: "center",
   },
-  packages: {
+  fourColumns: {
     gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end]'
+      "[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end]",
   },
-  unfulfilledOnly: {
+  twoColumns: {
     gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end]'
+      "[col1-start] 1fr [col1-end col2-start] 1fr [col2-end]",
   },
-  upcomingPastDates: {
+  threeColumns: {
     gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]'
+      "[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]",
   },
   outerLi: {
-    width: '100%'
-  }
+    width: "100%",
+  },
 });
 
 const ListItem = ({ children, destination, id, styles }) => {
@@ -31,7 +31,9 @@ const ListItem = ({ children, destination, id, styles }) => {
   return (
     <li className={classes.outerLi} key={id}>
       <MyLink destination={destination}>
-        <span className={classes.listItem + ' ' + classes[`${styles}`]}>{children}</span>
+        <span className={classes.listItem + " " + classes[`${styles}`]}>
+          {children}
+        </span>
       </MyLink>
     </li>
   );
