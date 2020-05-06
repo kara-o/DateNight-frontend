@@ -41,7 +41,12 @@ const useStyles = createUseStyles({
   },
 });
 
-const Review = ({ admin = false, request: initialRequest, userData }) => {
+const Review = ({
+  admin = false,
+  request: initialRequest,
+  userData,
+  handleInvalidatedRequest = null,
+}) => {
   const classes = useStyles();
   const [review, setReview] = useState({
     rating: 0,
@@ -151,6 +156,7 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
                         ).then((json) => {
                           if (!json.errors) {
                             setRequest({ ...request, review: json });
+                            handleInvalidatedRequest(json.request.id);
                           } else {
                             console.log(
                               "There was an error updating the review"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import {
   Login,
@@ -17,7 +17,7 @@ import {
 } from "./admin/components";
 import { Navbar, Footer } from "./elements";
 import { logoutUser } from "./user/services/api";
-import { logoutAdmin } from "./admin/services/api-admin";
+import { logoutAdmin, fetchUpdatedRequest } from "./admin/services/api-admin";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -65,6 +65,8 @@ const App = () => {
   const classes = useStyles();
   const [userData, setUserData] = useState(getUserData());
   const loggedIn = !!userData;
+  const [allRequests, setAllRequests] = useState([]);
+  const [invalidatedRequest, setInvalidatedRequest] = useState(null);
 
   const loginUser = (userData) => {
     localStorage.setItem("userData", JSON.stringify(userData));
@@ -81,6 +83,42 @@ const App = () => {
     logoutAdmin(userData);
     localStorage.removeItem("userData");
     setUserData(null);
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    if (userData) {
+      fetchRequests(userData).then((json) => {
+        if (cancelled) {
+          return;
+        }
+
+        setAllRequests(json);
+      });
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [userData]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (invalidatedRequest) {
+      fetchUpdatedRequest(userData, invalidatedRequest).then((res) => {
+        if (cancelled) {
+          return;
+        }
+
+        const updatedRequests = allRequests.map((obj) => {
+          return obj.id === res.request.id ? res.request : obj;
+        });
+        setAllRequests(updatedRequests);
+      });
+    }
+  }, [invalidatedRequest]);
+
+  const handleInvalidatedRequest = (id) => {
+    setInvalidatedRequest(id);
   };
 
   return (
@@ -171,14 +209,22 @@ const App = () => {
           <Route
             path="/admin/requests/:id"
             render={(props) => (
-              <AdminRequestShow {...props} userData={userData} />
+              <AdminRequestShow
+                {...props}
+                userData={userData}
+                handleInvalidatedRequest={handleInvalidatedRequest}
+              />
             )}
           />
           <Route
             path="/admin"
             render={(props) =>
               loggedIn && userData.admin ? (
-                <AdminHome {...props} userData={userData} />
+                <AdminHome
+                  {...props}
+                  allRequests={allRequests}
+                  userData={userData}
+                />
               ) : (
                 <Redirect to="/admin/login" />
               )

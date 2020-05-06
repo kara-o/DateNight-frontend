@@ -209,3 +209,11 @@ export const addressCancel = (userData, requestId, datetime) => {
     body: JSON.stringify({ admin_addressed_cancel: datetime }),
   }).then((res) => res.json());
 };
+
+export const fetchUpdatedRequest = (userData, requestId) => {
+  const headers = tokenHeaders(userData);
+  return fetch(`${API_ROOT}/requests/${requestId}`, {
+    method: "GET",
+    headers: { ...jsonHeaders, ...headers },
+  }).then((res) => res.json());
+};

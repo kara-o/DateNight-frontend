@@ -82,7 +82,7 @@ const useStyles = createUseStyles({
 });
 
 const AdminRequestShow = (props) => {
-  const { userData } = props;
+  const { userData, handleInvalidatedRequest } = props;
   const [isFetching, setIsFetching] = useState(false);
   const requestId = props.match.params.id;
   const [request, setRequest] = useState(null);
@@ -123,6 +123,7 @@ const AdminRequestShow = (props) => {
     toggleRequestFulfilled(userData, requestId, !request.fulfilled).then(
       (respJson) => {
         setRequest(respJson.request);
+        handleInvalidatedRequest(respJson.request.id);
         setShowVenues(false);
       }
     );
@@ -320,6 +321,7 @@ const AdminRequestShow = (props) => {
             styles={classes.cancelBtn}
             onClick={() =>
               addressCancel(userData, request.id, new Date()).then((res) => {
+                handleInvalidatedRequest(res.request.id);
                 props.history.push({
                   pathname: "/admin",
                   state: { id: request.id },
@@ -352,7 +354,12 @@ const AdminRequestShow = (props) => {
           ) : null}
         </RequestContainer>
         {new Date(request.start_time) < new Date() ? (
-          <Review admin={true} request={request} userData={userData} />
+          <Review
+            admin={true}
+            request={request}
+            userData={userData}
+            handleInvalidatedRequest={handleInvalidatedRequest}
+          />
         ) : null}
         {showVenues ? (
           <ItineraryDisplay
