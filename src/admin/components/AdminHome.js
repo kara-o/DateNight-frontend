@@ -14,13 +14,15 @@ const useStyles = createUseStyles({
     alignItems: "center",
   },
   buttonsDiv: {
-    marginTop: "20px",
+    margin: "20px 0 20px 0",
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "space-evenly",
   },
   button: {
     flex: 1,
+    height: "40px",
+    width: "120px",
     padding: "5px",
   },
   filter: {
