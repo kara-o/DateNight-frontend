@@ -45,6 +45,12 @@ const AdminHome = (props) => {
     return requests.filter((r) => !r.fulfilled && !r.cancelled);
   };
 
+  const filterFulfilled = (requests) => {
+    return requests.filter(
+      (r) => r.fulfilled && !r.cancelled && new Date(r.start_time) >= new Date()
+    );
+  };
+
   const filterCancelled = (requests) => {
     return requests.filter(
       (r) => r.cancelled && r.fulfilled && !r.admin_addressed_cancel
@@ -66,6 +72,9 @@ const AdminHome = (props) => {
     if (selectedButton === "unfulfilled") {
       requests = filterUnfulfilled(allRequests);
       columns = "twoColumns";
+    } else if (selectedButton === "fulfilled") {
+      requests = filterFulfilled(allRequests);
+      columns = "twoColumns";
     } else if (selectedButton === "cancelled") {
       requests = filterCancelled(allRequests);
       columns = "twoColumns";
@@ -79,7 +88,7 @@ const AdminHome = (props) => {
       requests = allRequests;
       columns = "threeColumns";
     }
-    if (selectedButton === "1") {
+    if (selectedButton === "unfulfilled") {
       requests.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
     } else {
       requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
@@ -130,6 +139,15 @@ const AdminHome = (props) => {
           Unfulfilled{" "}
           <span className={classes.italicFont}>
             ({filterUnfulfilled(allRequests).length})
+          </span>
+        </Button>
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("fulfilled")}
+        >
+          Fulfilled{" "}
+          <span className={classes.italicFont}>
+            ({filterFulfilled(allRequests).length})
           </span>
         </Button>
         <Button
