@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { login } from '../services/api';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { login } from "../services/api";
+import { useLocation } from "react-router-dom";
 import {
   Button,
   LoginSignUpContainer,
@@ -8,7 +8,7 @@ import {
   MyLink,
   MyInput,
   Errors,
-} from '../../elements';
+} from "../../elements";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -16,15 +16,15 @@ const useQuery = () => {
 
 const Login = (props) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState(null);
   const query = useQuery();
   const isAccountConfirmationPending = !!query.get(
-    'account_confirmation_pending'
+    "account_confirmation_pending"
   );
-  const isAccountConfirmed = !!query.get('account_confirmation_success');
+  const isAccountConfirmed = !!query.get("account_confirmation_success");
 
   const handleChange = (e) => {
     setFormData({
@@ -38,10 +38,10 @@ const Login = (props) => {
     login(formData)
       .then((res) => {
         if (res.status < 400) {
-          const accessToken = res.headers.get('access-token');
-          const client = res.headers.get('client');
-          const uid = res.headers.get('uid');
-          const expiry = res.headers.get('expiry');
+          const accessToken = res.headers.get("access-token");
+          const client = res.headers.get("client");
+          const uid = res.headers.get("uid");
+          const expiry = res.headers.get("expiry");
           userData = { accessToken, client, expiry, uid };
         }
         return res.json();
@@ -50,20 +50,20 @@ const Login = (props) => {
         if (!json.errors) {
           userData = { ...userData, user: json.data, admin: false };
           props.handleLogin(userData);
-          props.history.push('/');
+          props.history.push("/");
         } else {
           setErrors(json.errors);
         }
       });
     setFormData({
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     });
   };
 
   return (
     <LoginSignUpContainer>
-      <h1>DateNight</h1>
+      <h1 className="title-fantasy-font">DateNight</h1>
       <>
         {isAccountConfirmationPending ? (
           <h3>Confirmation email sent - check your inbox!</h3>
@@ -74,22 +74,22 @@ const Login = (props) => {
         <Form>
           {errors ? <Errors errors={errors} /> : null}
           <MyInput
-            type='text'
-            name='email'
+            type="text"
+            name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder='Email'
+            placeholder="Email"
           />
           <MyInput
-            type='password'
-            name='password'
+            type="password"
+            name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder='Password'
+            placeholder="Password"
           />
           <Button onClick={handleSubmit}>Login</Button>
         </Form>
-        <MyLink destination='/signup'>New user? Sign up for an account</MyLink>
+        <MyLink destination="/signup">New user? Sign up for an account</MyLink>
       </>
     </LoginSignUpContainer>
   );

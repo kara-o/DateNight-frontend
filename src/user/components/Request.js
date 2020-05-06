@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   QuestionModal,
   Form,
@@ -8,60 +8,60 @@ import {
   SideDialog,
   Errors,
   Fieldset,
-} from '../../elements';
-import DateFnsUtils from '@date-io/date-fns';
+} from "../../elements";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import { fetchOptions, createRequest } from '../services/api';
-import * as moment from 'moment';
-import { createUseStyles } from 'react-jss';
+} from "@material-ui/pickers";
+import { fetchOptions, createRequest } from "../services/api";
+import * as moment from "moment";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   textArea: {
-    resize: 'none',
-    width: '100%',
-    border: 'none',
-    outline: 'none',
+    resize: "none",
+    width: "100%",
+    border: "none",
+    outline: "none",
   },
   requestTitle: {
-    marginBottom: '5px',
+    marginBottom: "5px",
   },
   requestContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   helpLink: {
-    fontStyle: 'italic',
-    margin: '0px',
-    '&:hover': {
-      color: 'turquoise',
-      cursor: 'pointer',
+    fontStyle: "italic",
+    margin: "0px",
+    "&:hover": {
+      color: "turquoise",
+      cursor: "pointer",
     },
   },
   column: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   noHelp: {
-    gridColumn: '1/3',
+    gridColumn: "1/3",
   },
   withHelp: {
-    gridColumn: '1/2',
+    gridColumn: "1/2",
   },
   filter: {
-    marginTop: '10px',
-    marginBottom: '10px',
+    marginTop: "10px",
+    marginBottom: "10px",
   },
   form: {
-    width: '500px',
+    width: "500px",
   },
 });
 
@@ -73,19 +73,19 @@ const thisFriday = () => {
 
   if (today < dayINeed) {
     return moment()
-      .add(dayINeed - today, 'days')
+      .add(dayINeed - today, "days")
       .toDate();
   } else if (today > dayINeed) {
     return moment()
-      .add(7 - today + dayINeed, 'days')
+      .add(7 - today + dayINeed, "days")
       .toDate();
   } else {
-    return moment().add(1, 'week').toDate();
+    return moment().add(1, "week").toDate();
   }
 };
 
 const tomorrow = () => {
-  return moment().add(1, 'days').toDate();
+  return moment().add(1, "days").toDate();
 };
 
 const defaulStartTime = () => {
@@ -97,8 +97,8 @@ const Request = (props) => {
   const [formData, setFormData] = useState({
     start_date: thisFriday(),
     start_time: defaulStartTime(),
-    party_size: '2',
-    notes: '',
+    party_size: "2",
+    notes: "",
   });
   const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
@@ -112,12 +112,12 @@ const Request = (props) => {
   //TODO add loading
   useEffect(() => {
     if (userData) {
-      fetchOptions('neighborhoods', userData).then((list) => {
+      fetchOptions("neighborhoods", userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then((list) => {
+      fetchOptions("price_ranges", userData).then((list) => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
@@ -140,7 +140,7 @@ const Request = (props) => {
       formData.start_time.getMinutes()
     );
     const endDate = moment(startDate)
-      .add(DEFAULT_DATE_LENGTH_HOURS, 'hours')
+      .add(DEFAULT_DATE_LENGTH_HOURS, "hours")
       .toDate();
     const data = {
       ...formData,
@@ -158,7 +158,7 @@ const Request = (props) => {
   };
 
   const handleClose = () => {
-    props.history.push('/');
+    props.history.push("/");
   };
 
   const handleSubmit = () => {
@@ -166,9 +166,9 @@ const Request = (props) => {
 
     return createRequest(data, userData).then((json) => {
       if (!json.errors) {
-        console.log('sucessfully created request!', json);
+        console.log("sucessfully created request!", json);
       } else {
-        console.log('errors creating request!');
+        console.log("errors creating request!");
         setErrors({
           errorObj: json.errors.error_obj,
           fullMessages: json.errors.full_messages,
@@ -247,103 +247,103 @@ const Request = (props) => {
     <>
       <div
         className={
-          (showHelp ? classes.withHelp : classes.noHelp) + ' ' + classes.column
+          (showHelp ? classes.withHelp : classes.noHelp) + " " + classes.column
         }
       >
         <div className={classes.requestContainer}>
-          <h2 className={classes.requestTitle}>
+          <h2 className={classes.requestTitle + " " + "title-fantasy-font"}>
             What kind of night do you want?
           </h2>
           {!showHelp ? (
             <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
-              {' '}
+              {" "}
               *Tell me more!
             </p>
           ) : null}
 
           <Form styles={classes.form}>
             {errors ? <Errors errors={errors} /> : null}
-            <Fieldset legend='Date and Time'>
+            <Fieldset legend="Date and Time">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
-                  variant='inline'
-                  format='MM/dd/yyyy'
-                  margin='normal'
-                  label='Date'
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="Date"
                   minDate={tomorrow()}
                   value={formData.start_date}
-                  onChange={(date) => handleChange(date, 'start_date')}
+                  onChange={(date) => handleChange(date, "start_date")}
                 />
                 <KeyboardTimePicker
                   disableToolbar
-                  variant='inline'
+                  variant="inline"
                   minutesStep={30}
-                  margin='normal'
-                  label='Time'
+                  margin="normal"
+                  label="Time"
                   value={formData.start_time}
-                  onChange={(time) => handleChange(time, 'start_time')}
+                  onChange={(time) => handleChange(time, "start_time")}
                 />
               </MuiPickersUtilsProvider>
             </Fieldset>
-            <Fieldset legend='Specifics'>
+            <Fieldset legend="Specifics">
               <Filter
-                title='Party Size: '
+                title="Party Size: "
                 value={formData.party_size}
-                onChange={(e) => handleChange(e.target.value, 'party_size')}
+                onChange={(e) => handleChange(e.target.value, "party_size")}
                 styles={classes.filter}
               >
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
               </Filter>
               <Filter
-                title='Neighborhood: '
+                title="Neighborhood: "
                 value={neighborhoodSelection}
                 onChange={(e) => setNeighborhoodSelection(e.target.value)}
               >
-                {renderOptions(neighborhoods, 'name')}
+                {renderOptions(neighborhoods, "name")}
               </Filter>
               <Filter
-                title='Price Range: '
+                title="Price Range: "
                 value={priceRangeSelection}
                 onChange={(e) => setPriceRangeSelection(e.target.value)}
                 styles={classes.filter}
               >
-                {renderOptions(priceRanges, 'max_amount')}
+                {renderOptions(priceRanges, "max_amount")}
               </Filter>
             </Fieldset>
             <Fieldset
-              legend='Contacts (up to 4)'
+              legend="Contacts (up to 4)"
               styles={classes.contactsContainer}
             >
               {contacts
-                .concat([''])
+                .concat([""])
                 .slice(0, 4) // limit to 4
                 .map((contact, i) => (
                   <MyInput
                     key={i}
                     placeholder={`Phone ${i + 1}`}
                     value={contact}
-                    type='tel'
+                    type="tel"
                     onChange={(e) => updateContactAt(e.target.value, i)}
                   />
                 ))}
             </Fieldset>
-            <Fieldset legend='Notes'>
+            <Fieldset legend="Notes">
               <textarea
-                placeholder='Any additional notes for us?'
+                placeholder="Any additional notes for us?"
                 className={classes.textArea}
                 rows={5}
                 value={formData.notes}
-                onChange={(e) => handleChange(e.target.value, 'notes')}
+                onChange={(e) => handleChange(e.target.value, "notes")}
               />
             </Fieldset>
             <QuestionModal
               acceptText="Can't Wait!"
               navigateAwayAction={handleClose}
-              buttonText='Submit Request'
+              buttonText="Submit Request"
               onClick={handleSubmit}
             >
               Success! We will get busy setting up your perfect night out! You

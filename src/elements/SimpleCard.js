@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { Button, QuestionModal } from '.';
-import { createUseStyles } from 'react-jss';
+import React, { useState } from "react";
+import { Button, QuestionModal } from ".";
+import { createUseStyles } from "react-jss";
+import { Card } from "@material-ui/core";
 
 const useStyles = createUseStyles({
   container: {
-    width: '200px',
-    height: '200px',
-    position: 'relative',
-    border: '1px solid black',
-    padding: '10px',
-    marginBottom: '10px',
+    width: "200px",
+    height: "200px",
+    position: "relative",
+    padding: "10px",
+    marginBottom: "10px",
   },
   details: {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    position: 'absolute',
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    position: "absolute",
   },
 });
 
@@ -28,7 +28,7 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
   };
 
   return (
-    <div key={pkgItem.id} className={classes.container}>
+    <Card elevation={5} key={pkgItem.id} className={classes.container}>
       <div className={classes.details}>
         <p onClick={handleClick}>{pkgItem.place}</p>
         <p>{pkgItem.duration} minutes</p>
@@ -36,7 +36,7 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
       </div>
       {openModal ? (
         <QuestionModal
-          acceptText='Back'
+          acceptText="Back"
           startOpen={true}
           navigateAwayAction={() => setOpenModal(false)}
         >
@@ -44,7 +44,7 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
           <p>{pkgItem.blurb}</p>
         </QuestionModal>
       ) : null}
-    </div>
+    </Card>
   );
 };
 

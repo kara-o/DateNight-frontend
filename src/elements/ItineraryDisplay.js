@@ -1,8 +1,16 @@
-import React from 'react';
-import { ListContainer } from '.';
-import ItineraryItem from './ItineraryItem';
+import React from "react";
+import ItineraryItem from "./ItineraryItem";
+import { createUseStyles } from "react-jss";
 
-const sortItinItemsByDate = items => {
+const useStyles = createUseStyles({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+});
+
+const sortItinItemsByDate = (items) => {
   return items.sort((item1, item2) => {
     const time1 = new Date(item1.arrival_time);
     const time2 = new Date(item2.arrival_time);
@@ -17,18 +25,17 @@ const sortItinItemsByDate = items => {
 };
 
 const renderItinerary = (items, admin, handleRemove) => {
+  console.log("here!", items);
   if (items.length) {
     const sortedItems = sortItinItemsByDate(items);
-    return sortedItems.map(item => {
+    return sortedItems.map((item) => {
       return (
-        <li key={item.id}>
-          <ItineraryItem
-            item={item}
-            index={sortedItems.indexOf(item)}
-            admin={admin}
-            handleRemove={handleRemove}
-          />
-        </li>
+        <ItineraryItem
+          item={item}
+          index={sortedItems.indexOf(item)}
+          admin={admin}
+          handleRemove={handleRemove}
+        />
       );
     });
   } else {
@@ -38,15 +45,17 @@ const renderItinerary = (items, admin, handleRemove) => {
 
 const ItineraryDisplay = ({
   items,
-  children,
   admin = false,
-  handleRemove = null
+  handleRemove = null,
+  children,
 }) => {
+  const classes = useStyles();
   return (
-    <ListContainer title='Itinerary'>
+    <div className={classes.container}>
+      <h2 className={classes.title + " " + "title-fantasy-font"}>Itinerary</h2>
       {children}
       {renderItinerary(items, admin, handleRemove)}
-    </ListContainer>
+    </div>
   );
 };
 
