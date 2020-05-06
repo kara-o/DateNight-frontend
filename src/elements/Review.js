@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createReview } from "../user/services/api";
 import { updateAdminReview } from "../admin/services/api-admin";
-import { Button, Stars, Fieldset } from ".";
+import { Button, Stars, Fieldset, MyPaper } from ".";
 import { createUseStyles } from "react-jss";
 import * as moment from "moment";
 
@@ -33,8 +33,8 @@ const useStyles = createUseStyles({
   },
   feedbackFieldSet: {
     textAlign: "center",
-    marginTop: "20px",
-    width: "50%",
+    margin: "20px auto 0px auto",
+    width: "100%",
   },
   italic: {
     fontStyle: "italic",
@@ -111,70 +111,76 @@ const Review = ({
   return (
     <div className={classes.reviewContainer}>
       {admin && !request.review ? (
-        <h2>Not yet reviewed.</h2>
+        <h2 className="title-fantasy-font">Not yet reviewed.</h2>
       ) : (
         <>
-          <h2>{admin ? "Review" : "Your Review"}</h2>
-          <div className={classes.starsContainer}>
-            <Stars
-              styles={classes.starsContainer}
-              review={request.review ? request.review : review}
-              onClick={handleClickStar}
-            />
-          </div>
-          {renderFeedback()}
-          {!admin && !request.review ? (
-            <Button onClick={handleSubmit}>Submit Review</Button>
-          ) : null}
-          {request.review ? (
-            <div>
-              <p className={classes.smallPrint}>
-                - Reviewed on{" "}
-                {moment(request.review.created_at).format(
-                  "MMMM Do YYYY, [at] h:mm:ss a"
-                )}
-              </p>
-              {request.review.admin_reviewed ? (
+          <h2 className="title-fantasy-font">
+            {admin ? "Review" : "Your Review"}
+          </h2>
+          <MyPaper>
+            <div className={classes.starsContainer}>
+              <Stars
+                styles={classes.starsContainer}
+                review={request.review ? request.review : review}
+                onClick={handleClickStar}
+              />
+            </div>
+
+            {renderFeedback()}
+
+            {!admin && !request.review ? (
+              <Button onClick={handleSubmit}>Submit Review</Button>
+            ) : null}
+            {request.review ? (
+              <div>
                 <p className={classes.smallPrint}>
-                  - Admin acknowledged on{" "}
-                  {moment(request.review.admin_reviewed).format(
+                  - Reviewed on{" "}
+                  {moment(request.review.created_at).format(
                     "MMMM Do YYYY, [at] h:mm:ss a"
                   )}
                 </p>
-              ) : admin ? (
-                <label className={classes.smallPrint}>
-                  Acknowledge{" "}
-                  <input
-                    className={classes.smallPrint}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        updateAdminReview(
-                          userData,
-                          request.id,
-                          request.review.id,
-                          new Date()
-                        ).then((json) => {
-                          if (!json.errors) {
-                            setRequest({ ...request, review: json });
-                            handleInvalidatedRequest(json.request.id);
-                          } else {
-                            console.log(
-                              "There was an error updating the review"
-                            );
-                          }
-                        });
-                      }
-                    }}
-                    type="checkbox"
-                  />
-                </label>
-              ) : (
-                <p className={classes.smallPrint + " " + classes.italic}>
-                  Admin has not yet seen your review
-                </p>
-              )}
-            </div>
-          ) : null}
+                {request.review.admin_reviewed ? (
+                  <p className={classes.smallPrint}>
+                    - Admin acknowledged on{" "}
+                    {moment(request.review.admin_reviewed).format(
+                      "MMMM Do YYYY, [at] h:mm:ss a"
+                    )}
+                  </p>
+                ) : admin ? (
+                  <label className={classes.smallPrint}>
+                    Acknowledge{" "}
+                    <input
+                      className={classes.smallPrint}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          updateAdminReview(
+                            userData,
+                            request.id,
+                            request.review.id,
+                            new Date()
+                          ).then((json) => {
+                            if (!json.errors) {
+                              setRequest({ ...request, review: json });
+                              handleInvalidatedRequest(json.request.id);
+                            } else {
+                              console.log(
+                                "There was an error updating the review"
+                              );
+                            }
+                          });
+                        }
+                      }}
+                      type="checkbox"
+                    />
+                  </label>
+                ) : (
+                  <p className={classes.smallPrint + " " + classes.italic}>
+                    Admin has not yet seen your review
+                  </p>
+                )}
+              </div>
+            ) : null}
+          </MyPaper>
         </>
       )}
     </div>

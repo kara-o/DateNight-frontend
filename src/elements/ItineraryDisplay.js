@@ -1,8 +1,8 @@
-import React from 'react';
-import { ListContainer } from '.';
-import ItineraryItem from './ItineraryItem';
+import React from "react";
+import { ListContainer } from ".";
+import ItineraryItem from "./ItineraryItem";
 
-const sortItinItemsByDate = items => {
+const sortItinItemsByDate = (items) => {
   return items.sort((item1, item2) => {
     const time1 = new Date(item1.arrival_time);
     const time2 = new Date(item2.arrival_time);
@@ -19,7 +19,7 @@ const sortItinItemsByDate = items => {
 const renderItinerary = (items, admin, handleRemove) => {
   if (items.length) {
     const sortedItems = sortItinItemsByDate(items);
-    return sortedItems.map(item => {
+    return sortedItems.map((item) => {
       return (
         <li key={item.id}>
           <ItineraryItem
@@ -40,10 +40,10 @@ const ItineraryDisplay = ({
   items,
   children,
   admin = false,
-  handleRemove = null
+  handleRemove = null,
 }) => {
   return (
-    <ListContainer title='Itinerary'>
+    <ListContainer title="Itinerary">
       {children}
       {renderItinerary(items, admin, handleRemove)}
     </ListContainer>

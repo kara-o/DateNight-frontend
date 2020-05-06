@@ -38,25 +38,8 @@ const useStyles = createUseStyles({
 
 const AdminHome = (props) => {
   const { allRequests } = props;
-  // const [allRequests, setAllRequests] = useState([]);
   const [selectedButton, setSelectedButton] = useState("unfulfilled");
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   let cancelled = false;
-  //   if (userData) {
-  //     fetchRequests(userData).then((json) => {
-  //       if (cancelled) {
-  //         return;
-  //       }
-
-  //       setAllRequests(json);
-  //     });
-  //   }
-  //   return () => {
-  //     cancelled = true;
-  //   };
-  // }, [userData]);
 
   const filterUnfulfilled = (requests) => {
     return requests.filter((r) => !r.fulfilled && !r.cancelled);

@@ -28,6 +28,7 @@ const useStyles = createUseStyles({
   "@global": {
     "*": {
       boxSizing: "border-box",
+      fontFamily: "Noto Sans, sans-serif",
     },
     body: {
       margin: "0px",
@@ -45,6 +46,9 @@ const useStyles = createUseStyles({
       'main'
       'footer'`,
       justifyItems: "center",
+    },
+    ".title-fantasy-font": {
+      fontFamily: "Chalkduster, fantasy",
     },
   },
   mainContainer: {
