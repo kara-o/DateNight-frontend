@@ -17,7 +17,11 @@ import {
 } from "./admin/components";
 import { Navbar, Footer } from "./elements";
 import { logoutUser } from "./user/services/api";
-import { logoutAdmin, fetchUpdatedRequest } from "./admin/services/api-admin";
+import {
+  logoutAdmin,
+  fetchRequests,
+  fetchUpdatedRequest,
+} from "./admin/services/api-admin";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
