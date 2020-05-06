@@ -21,6 +21,7 @@ const useStyles = createUseStyles({
   },
   button: {
     flex: 1,
+    padding: "5px",
   },
   filter: {
     padding: "20px 0px 20px 0px",
@@ -36,51 +37,58 @@ const useStyles = createUseStyles({
 const AdminHome = (props) => {
   const { userData } = props;
   const [allRequests, setAllRequests] = useState([]);
-  const [unfulfilledRequests, setUnfulfilledRequests] = useState([]);
-  const [cancelledRequests, setCancelledRequests] = useState([]);
-  const [newlyReviewed, setNewlyReviewed] = useState([]);
-  const [completedRequests, setCompletedRequests] = useState([]);
-  const [selectedButton, setSelectedButton] = useState("1");
+  const [selectedButton, setSelectedButton] = useState("unfulfilled");
   const classes = useStyles();
 
   useEffect(() => {
+    let cancelled = false;
     if (userData) {
       fetchRequests(userData).then((json) => {
+        if (cancelled) {
+          return;
+        }
+
         setAllRequests(json);
-        setUnfulfilledRequests(
-          json.filter((r) => !r.fulfilled && !r.cancelled)
-        );
-        setCancelledRequests(
-          json.filter(
-            (r) => r.cancelled && r.fulfilled && !r.admin_addressed_cancel
-          )
-        );
-        setNewlyReviewed(
-          json.filter((r) => r.review && !r.review.admin_reviewed)
-        );
-        setCompletedRequests(
-          json.filter(
-            (r) =>
-              r.fulfilled && !r.cancelled && new Date(r.start_time) < new Date()
-          )
-        );
       });
     }
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [userData]);
+
+  const filterUnfulfilled = (requests) => {
+    return requests.filter((r) => !r.fulfilled && !r.cancelled);
+  };
+
+  const filterCancelled = (requests) => {
+    return requests.filter(
+      (r) => r.cancelled && r.fulfilled && !r.admin_addressed_cancel
+    );
+  };
+
+  const filterNewReview = (requests) => {
+    return requests.filter((r) => r.review && !r.review.admin_reviewed);
+  };
+
+  const filterCompleted = (requests) => {
+    return requests.filter(
+      (r) => r.fulfilled && !r.cancelled && new Date(r.start_time) < new Date()
+    );
+  };
 
   const renderRequests = () => {
     let requests, columns;
-    if (selectedButton === "1") {
-      requests = unfulfilledRequests;
+    if (selectedButton === "unfulfilled") {
+      requests = filterUnfulfilled(allRequests);
       columns = "twoColumns";
-    } else if (selectedButton === "2") {
-      requests = cancelledRequests;
+    } else if (selectedButton === "cancelled") {
+      requests = filterCancelled(allRequests);
       columns = "twoColumns";
-    } else if (selectedButton === "3") {
-      requests = newlyReviewed;
+    } else if (selectedButton === "new review") {
+      requests = filterNewReview(allRequests);
       columns = "threeColumns";
-    } else if (selectedButton === "4") {
-      requests = completedRequests;
+    } else if (selectedButton === "completed") {
+      requests = filterCompleted(allRequests);
       columns = "threeColumns";
     } else {
       requests = allRequests;
@@ -130,30 +138,45 @@ const AdminHome = (props) => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.buttonsDiv}>
-        <Button styles={classes.button} onClick={() => setSelectedButton("1")}>
-          Unfulfilled
-        </Button>
-        <Button styles={classes.button} onClick={() => setSelectedButton("2")}>
-          Cancelled{" "}
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("unfulfilled")}
+        >
+          Unfulfilled{" "}
           <span className={classes.italicFont}>
-            ({cancelledRequests.length ? cancelledRequests.length : 0})
-          </span>
-        </Button>
-        <Button styles={classes.button} onClick={() => setSelectedButton("3")}>
-          Newly Reviewed{" "}
-          <span className={classes.italicFont}>
-            ({newlyReviewed.length ? newlyReviewed.length : 0})
-          </span>
-        </Button>
-        <Button styles={classes.button} onClick={() => setSelectedButton("4")}>
-          Completed{" "}
-          <span className={classes.italicFont}>
-            ({completedRequests.length ? completedRequests.length : 0})
+            ({filterUnfulfilled(allRequests).length})
           </span>
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("All")}
+          onClick={() => setSelectedButton("cancelled")}
+        >
+          Cancelled{" "}
+          <span className={classes.italicFont}>
+            ({filterCancelled(allRequests).length})
+          </span>
+        </Button>
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("new review")}
+        >
+          Newly Reviewed{" "}
+          <span className={classes.italicFont}>
+            ({filterNewReview(allRequests).length})
+          </span>
+        </Button>
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("completed")}
+        >
+          Completed{" "}
+          <span className={classes.italicFont}>
+            ({filterCompleted(allRequests).length})
+          </span>
+        </Button>
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("all")}
         >
           All
         </Button>

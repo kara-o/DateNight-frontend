@@ -319,12 +319,12 @@ const AdminRequestShow = (props) => {
           <Button
             styles={classes.cancelBtn}
             onClick={() =>
-              addressCancel(userData, request.id, new Date()).then(
+              addressCancel(userData, request.id, new Date()).then((res) => {
                 props.history.push({
                   pathname: "/admin",
                   state: { id: request.id },
-                })
-              )
+                });
+              })
             }
           >
             YES
@@ -350,7 +350,6 @@ const AdminRequestShow = (props) => {
               ) : null}
             </div>
           ) : null}
-          {/* <Button styles={classes.contactBtn} onClick={() => window.open(`mailto:${request.user.email}?subject=Message Regarding Your ${moment(request.start_time).format('MM/DD/YYYY')} Date`)}>Contact User</Button> */}
         </RequestContainer>
         {new Date(request.start_time) < new Date() ? (
           <Review admin={true} request={request} userData={userData} />

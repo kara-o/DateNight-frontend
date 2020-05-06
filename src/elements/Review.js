@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { createReview } from '../user/services/api';
-import { updateAdminReview } from '../admin/services/api-admin';
-import { Button, Stars, Fieldset } from '.';
-import { createUseStyles } from 'react-jss';
-import * as moment from 'moment';
+import React, { useState, useEffect } from "react";
+import { createReview } from "../user/services/api";
+import { updateAdminReview } from "../admin/services/api-admin";
+import { Button, Stars, Fieldset } from ".";
+import { createUseStyles } from "react-jss";
+import * as moment from "moment";
 
 const useStyles = createUseStyles({
   reviewContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '100%',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    width: "100%",
   },
   feedbackTextArea: {
-    resize: 'none',
-    width: '50%',
-    outline: 'none',
-    margin: '10px',
-    padding: '10px',
+    resize: "none",
+    width: "50%",
+    outline: "none",
+    margin: "10px",
+    padding: "10px",
   },
   starsContainer: {
-    fontSize: '24px',
+    fontSize: "24px",
   },
   smallPrint: {
-    fontSize: '10px',
-    margin: '0px',
+    fontSize: "10px",
+    margin: "0px",
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   feedbackFieldSet: {
-    textAlign: 'center',
-    marginTop: '20px',
-    width: '50%',
+    textAlign: "center",
+    marginTop: "20px",
+    width: "50%",
   },
   italic: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 });
 
@@ -45,7 +45,7 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
   const classes = useStyles();
   const [review, setReview] = useState({
     rating: 0,
-    feedback: '',
+    feedback: "",
   });
   const [request, setRequest] = useState(initialRequest);
 
@@ -86,14 +86,14 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
   const renderFeedback = () => {
     if (request.review) {
       return request.review.feedback ? (
-        <Fieldset styles={classes.feedbackFieldSet} legend='Feedback'>
+        <Fieldset styles={classes.feedbackFieldSet} legend="Feedback">
           <p>{request.review.feedback}</p>
         </Fieldset>
       ) : null;
     } else {
       return (
         <textarea
-          placeholder='Any additional feedback?'
+          placeholder="Any additional feedback?"
           className={classes.feedbackTextArea}
           rows={5}
           value={review.feedback}
@@ -109,7 +109,7 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
         <h2>Not yet reviewed.</h2>
       ) : (
         <>
-          <h2>{admin ? 'Review' : 'Your Review'}</h2>
+          <h2>{admin ? "Review" : "Your Review"}</h2>
           <div className={classes.starsContainer}>
             <Stars
               styles={classes.starsContainer}
@@ -124,21 +124,21 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
           {request.review ? (
             <div>
               <p className={classes.smallPrint}>
-                - Reviewed on{' '}
+                - Reviewed on{" "}
                 {moment(request.review.created_at).format(
-                  'MMMM Do YYYY, [at] h:mm:ss a'
+                  "MMMM Do YYYY, [at] h:mm:ss a"
                 )}
               </p>
               {request.review.admin_reviewed ? (
                 <p className={classes.smallPrint}>
-                  - Admin acknowledged on{' '}
+                  - Admin acknowledged on{" "}
                   {moment(request.review.admin_reviewed).format(
-                    'MMMM Do YYYY, [at] h:mm:ss a'
+                    "MMMM Do YYYY, [at] h:mm:ss a"
                   )}
                 </p>
               ) : admin ? (
                 <label className={classes.smallPrint}>
-                  Acknowledge{' '}
+                  Acknowledge{" "}
                   <input
                     className={classes.smallPrint}
                     onChange={(e) => {
@@ -148,20 +148,22 @@ const Review = ({ admin = false, request: initialRequest, userData }) => {
                           request.id,
                           request.review.id,
                           new Date()
-                        ).then((json) =>
-                          !json.errors
-                            ? setRequest({ ...request, review: json })
-                            : console.log(
-                                'There was an error updating the review'
-                              )
-                        );
+                        ).then((json) => {
+                          if (!json.errors) {
+                            setRequest({ ...request, review: json });
+                          } else {
+                            console.log(
+                              "There was an error updating the review"
+                            );
+                          }
+                        });
                       }
                     }}
-                    type='checkbox'
+                    type="checkbox"
                   />
                 </label>
               ) : (
-                <p className={classes.smallPrint + ' ' + classes.italic}>
+                <p className={classes.smallPrint + " " + classes.italic}>
                   Admin has not yet seen your review
                 </p>
               )}

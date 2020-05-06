@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import React, { useState } from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
 import {
   Login,
   SignUp,
   Request,
   RequestShow,
   UserHome,
-} from './user/components';
+} from "./user/components";
 import {
   AdminHome,
   AdminItineraryPackage,
@@ -14,49 +14,49 @@ import {
   AdminItineraryPackages,
   AdminLogin,
   AdminRequestShow,
-} from './admin/components';
-import { Navbar, Footer } from './elements';
-import { logoutUser } from './user/services/api';
-import { logoutAdmin } from './admin/services/api-admin';
-import { createUseStyles } from 'react-jss';
+} from "./admin/components";
+import { Navbar, Footer } from "./elements";
+import { logoutUser } from "./user/services/api";
+import { logoutAdmin } from "./admin/services/api-admin";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  '@global': {
-    '*': {
-      boxSizing: 'border-box',
+  "@global": {
+    "*": {
+      boxSizing: "border-box",
     },
     body: {
-      margin: '0px',
-      overflowX: 'hidden',
+      margin: "0px",
+      overflowX: "hidden",
     },
-    '#root': {
-      maxWidth: '1500px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      minHeight: '100vh',
-      display: 'grid',
-      gridTemplateRows: '50px auto 50px',
+    "#root": {
+      maxWidth: "1500px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      minHeight: "100vh",
+      display: "grid",
+      gridTemplateRows: "50px auto 50px",
       gridTemplateAreas: `
       'navbar'
       'main'
       'footer'`,
-      justifyItems: 'center',
+      justifyItems: "center",
     },
   },
   mainContainer: {
-    gridArea: 'main',
-    width: '100%',
-    padding: '0 20px 0 20px',
-    '@media all and (min-width: 900px)': {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      columnGap: '10px',
+    gridArea: "main",
+    width: "100%",
+    padding: "0 20px 0 20px",
+    "@media all and (min-width: 900px)": {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      columnGap: "10px",
     },
   },
 });
 
 const getUserData = () => {
-  const userDataStr = localStorage.getItem('userData');
+  const userDataStr = localStorage.getItem("userData");
   if (!userDataStr) return null;
   return JSON.parse(userDataStr);
 };
@@ -67,19 +67,19 @@ const App = () => {
   const loggedIn = !!userData;
 
   const loginUser = (userData) => {
-    localStorage.setItem('userData', JSON.stringify(userData));
+    localStorage.setItem("userData", JSON.stringify(userData));
     setUserData(userData);
   };
 
   const handleLogoutUser = () => {
     logoutUser(userData);
-    localStorage.removeItem('userData');
+    localStorage.removeItem("userData");
     setUserData(null);
   };
 
   const handleLogoutAdmin = () => {
     logoutAdmin(userData);
-    localStorage.removeItem('userData');
+    localStorage.removeItem("userData");
     setUserData(null);
   };
 
@@ -95,23 +95,23 @@ const App = () => {
       <div className={classes.mainContainer}>
         <Switch>
           <Route
-            path='/login'
+            path="/login"
             render={(props) =>
               !loggedIn ? (
                 <Login {...props} handleLogin={loginUser} />
               ) : (
-                <Redirect to='/' />
+                <Redirect to="/" />
               )
             }
           />
           <Route
-            path='/signup'
+            path="/signup"
             render={(props) =>
-              !loggedIn ? <SignUp {...props} /> : <Redirect to='/' />
+              !loggedIn ? <SignUp {...props} /> : <Redirect to="/" />
             }
           />
           <Route
-            path='/requests/:id/edit'
+            path="/requests/:id/edit"
             render={(props) =>
               loggedIn && !userData.admin ? (
                 <Request edit={true} {...props} userData={userData} />
@@ -119,7 +119,7 @@ const App = () => {
             }
           />
           <Route
-            path='/requests/new'
+            path="/requests/new"
             render={(props) =>
               loggedIn && !userData.admin ? (
                 <Request {...props} userData={userData} />
@@ -127,7 +127,7 @@ const App = () => {
             }
           />
           <Route
-            path='/requests/:id'
+            path="/requests/:id"
             render={(props) =>
               loggedIn && !userData.admin ? (
                 <RequestShow {...props} userData={userData} />
@@ -135,19 +135,19 @@ const App = () => {
             }
           />
           <Route
-            path='/admin/login'
+            path="/admin/login"
             render={(props) => (
               <AdminLogin {...props} handleLogin={loginUser} />
             )}
           />
           <Route
-            path='/admin/itinerary_packages/new'
+            path="/admin/itinerary_packages/new"
             render={(props) => (
               <AdminItineraryPackage {...props} userData={userData} />
             )}
           />
           <Route
-            path='/admin/itinerary_packages/:id/edit'
+            path="/admin/itinerary_packages/:id/edit"
             render={(props) => (
               <AdminItineraryPackage
                 {...props}
@@ -157,40 +157,40 @@ const App = () => {
             )}
           />
           <Route
-            path='/admin/itinerary_packages/:id'
+            path="/admin/itinerary_packages/:id"
             render={(props) => (
               <AdminItineraryPackageShow {...props} userData={userData} />
             )}
           />
           <Route
-            path='/admin/itinerary_packages'
+            path="/admin/itinerary_packages"
             render={(props) => (
               <AdminItineraryPackages {...props} userData={userData} />
             )}
           />
           <Route
-            path='/admin/requests/:id'
+            path="/admin/requests/:id"
             render={(props) => (
               <AdminRequestShow {...props} userData={userData} />
             )}
           />
           <Route
-            path='/admin'
+            path="/admin"
             render={(props) =>
               loggedIn && userData.admin ? (
                 <AdminHome {...props} userData={userData} />
               ) : (
-                <Redirect to='/admin/login' />
+                <Redirect to="/admin/login" />
               )
             }
           />
           <Route
-            path='/'
+            path="/"
             render={(props) =>
               loggedIn && !userData.admin ? (
                 <UserHome {...props} userData={userData} />
               ) : (
-                <Redirect to='/login' />
+                <Redirect to="/login" />
               )
             }
           />
