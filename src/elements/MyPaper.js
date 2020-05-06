@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
 const MyPaper = ({ children }) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.container} elevation={10}>
+    <Paper className={classes.container} elevation={5}>
       {children}
     </Paper>
   );

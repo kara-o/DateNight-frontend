@@ -5,9 +5,8 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   container: {
-    border: "1px solid lightgrey",
-    margin: "0px 20px 20px 20px",
-    padding: "20px 20px 20px 20px",
+    margin: "20px",
+    padding: "20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -25,6 +24,12 @@ const useStyles = createUseStyles({
       height: "850px",
     },
     position: "relative",
+    boxShadow:
+      "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)",
+    borderRadius: "4px",
+    color: "rgba(0, 0, 0, 0.87)",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    backgroundColor: "#fff",
   },
   title: {
     margin: "0px",
