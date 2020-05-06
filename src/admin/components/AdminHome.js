@@ -3,6 +3,7 @@ import { fetchRequests } from "../services/api-admin";
 import { ListContainer, ListItem, Stars, Button } from "../../elements";
 import * as moment from "moment";
 import { createUseStyles } from "react-jss";
+import { createPalette } from "@material-ui/core/styles";
 
 const useStyles = createUseStyles({
   mainContainer: {
@@ -14,6 +15,12 @@ const useStyles = createUseStyles({
   },
   buttonsDiv: {
     marginTop: "20px",
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
+  },
+  button: {
+    flex: 1,
   },
   filter: {
     padding: "20px 0px 20px 0px",
@@ -75,8 +82,16 @@ const AdminHome = (props) => {
     } else if (selectedButton === "4") {
       requests = completedRequests;
       columns = "threeColumns";
+    } else {
+      requests = allRequests;
+      columns = "threeColumns";
     }
-    requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
+    if (selectedButton === "1") {
+      requests.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+    } else {
+      requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
+    }
+
     return requests.length ? (
       requests.map((r) => {
         let status;
@@ -115,24 +130,32 @@ const AdminHome = (props) => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.buttonsDiv}>
-        <Button onClick={() => setSelectedButton("1")}>Unfulfilled</Button>
-        <Button onClick={() => setSelectedButton("2")}>
+        <Button styles={classes.button} onClick={() => setSelectedButton("1")}>
+          Unfulfilled
+        </Button>
+        <Button styles={classes.button} onClick={() => setSelectedButton("2")}>
           Cancelled{" "}
           <span className={classes.italicFont}>
             ({cancelledRequests.length ? cancelledRequests.length : 0})
           </span>
         </Button>
-        <Button onClick={() => setSelectedButton("3")}>
+        <Button styles={classes.button} onClick={() => setSelectedButton("3")}>
           Newly Reviewed{" "}
           <span className={classes.italicFont}>
             ({newlyReviewed.length ? newlyReviewed.length : 0})
           </span>
         </Button>
-        <Button onClick={() => setSelectedButton("4")}>
+        <Button styles={classes.button} onClick={() => setSelectedButton("4")}>
           Completed{" "}
           <span className={classes.italicFont}>
             ({completedRequests.length ? completedRequests.length : 0})
           </span>
+        </Button>
+        <Button
+          styles={classes.button}
+          onClick={() => setSelectedButton("All")}
+        >
+          All
         </Button>
       </div>
       <ListContainer>{renderRequests()}</ListContainer>

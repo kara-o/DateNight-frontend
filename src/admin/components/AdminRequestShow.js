@@ -70,11 +70,14 @@ const useStyles = createUseStyles({
     gridColumn: "1/3",
     margin: "0 auto 0 auto",
     padding: "10px",
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100px",
   },
-  cancelCheckbox: {
-    verticalAlign: "middle",
-    width: "20px",
-    height: "20px",
+  cancelBtn: {
+    height: "40px",
   },
 });
 
@@ -314,6 +317,7 @@ const AdminRequestShow = (props) => {
         <div className={classes.cancelText}>
           <h2>Admin has addressed cancellation:</h2>
           <Button
+            styles={classes.cancelBtn}
             onClick={() =>
               addressCancel(userData, request.id, new Date()).then(
                 props.history.push({

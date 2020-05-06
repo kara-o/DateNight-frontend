@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useDebugValue } from 'react';
-import { fetchRequests, cancelRequest } from '../services/api';
-import * as moment from 'moment';
-import { ListContainer, ListItem, Stars } from '../../elements';
-import { createUseStyles } from 'react-jss';
+import React, { useEffect, useState, useDebugValue } from "react";
+import { fetchRequests, cancelRequest } from "../services/api";
+import * as moment from "moment";
+import { ListContainer, ListItem, Stars } from "../../elements";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   italicFont: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   listContainer: {
-    gridColumn: '1/3',
+    gridColumn: "1/3",
   },
 });
 
@@ -20,7 +20,7 @@ const UserHome = (props) => {
 
   useEffect(() => {
     if (userData) {
-      console.log('fetching requests!', props.location.state);
+      console.log("fetching requests!", props.location.state);
       fetchRequests(userData).then((json) => setRequests(json));
     }
   }, [props.location.state, userData]); //TODO do I really need props.location.state
@@ -34,14 +34,14 @@ const UserHome = (props) => {
       return uncancelledReqs.map((r) => {
         return (
           <ListItem
-            styles='upcomingPastDates'
+            styles="threeColumns"
             key={r.id}
             id={r.id}
             destination={`/requests/${r.id}`}
           >
             <p>{moment(r.start_time).calendar()}</p>
             <p>{r.neighborhood}</p>
-            <p>{r.fulfilled ? 'ITINERARY IS READY' : 'ITINERARY PENDING'}</p>
+            <p>{r.fulfilled ? "ITINERARY IS READY" : "ITINERARY PENDING"}</p>
           </ListItem>
         );
       });
@@ -58,12 +58,12 @@ const UserHome = (props) => {
       return pastDates.map((r) => {
         return (
           <ListItem
-            styles='upcomingPastDates'
+            styles="threeColumns"
             key={r.id}
             id={r.id}
             destination={`/requests/${r.id}`}
           >
-            <p>{moment(r.start_time).format('MMMM Do YYYY')}</p>
+            <p>{moment(r.start_time).format("MMMM Do YYYY")}</p>
             <p>{placeNamesToString(r)}</p>
             <p>
               {r.review ? (
@@ -77,18 +77,18 @@ const UserHome = (props) => {
       });
     }
     return (
-      <p className={classes.italicFont}>{'Your past dates will go here!'}</p>
+      <p className={classes.italicFont}>{"Your past dates will go here!"}</p>
     );
   };
 
   const placeNamesToString = (request) => {
-    let stringOfNames = '';
+    let stringOfNames = "";
     const arrayOfNames = request.itinerary_items.map((item) => {
       return item.place;
     });
     for (let i = 0; i < arrayOfNames.length; i++) {
       if (i > 0) {
-        stringOfNames += ', ';
+        stringOfNames += ", ";
       }
       stringOfNames += arrayOfNames[i];
     }
@@ -97,10 +97,10 @@ const UserHome = (props) => {
 
   return requests ? (
     <>
-      <ListContainer styles={classes.listContainer} title='Upcoming Dates'>
+      <ListContainer styles={classes.listContainer} title="Upcoming Dates">
         {renderUncancelledRequests()}
       </ListContainer>
-      <ListContainer styles={classes.listContainer} title='Past Dates'>
+      <ListContainer styles={classes.listContainer} title="Past Dates">
         {renderPastDates()}
       </ListContainer>
     </>
