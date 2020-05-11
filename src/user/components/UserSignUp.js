@@ -9,11 +9,7 @@ import {
   Errors,
 } from "../../elements";
 
-<<<<<<< HEAD:src/user/components/UserSignUp.js
 const UserSignUp = (props) => {
-=======
-const SignUp = (props) => {
->>>>>>> 0afcdee7106953dde1a2592a68a99503f31af97b:src/user/components/Signup.js
   const [formData, setFormData] = useState({
     password: "",
     password_confirmation: "",
@@ -42,10 +38,6 @@ const SignUp = (props) => {
         });
       }
     });
-  };
-
-  const renderErrors = (errors) => {
-    return errors.fullMessages.map((error, idx) => <li key={idx}>{error}</li>);
   };
 
   return (
