@@ -1,57 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   fetchItineraryPackage,
   createItineraryPackageItem,
   deletePkgItem,
-} from '../services/api-admin';
-import { Button, SimpleCard, Map, Form, MyInput } from '../../elements';
-import { createUseStyles } from 'react-jss';
-import { useHistory } from 'react-router-dom';
+} from "../services/api-admin";
+import { Button, SimpleCard, Map, Form, MyInput } from "../../elements";
+import { createUseStyles } from "react-jss";
+import { useHistory } from "react-router-dom";
 
 const useStyles = createUseStyles({
   cardsContainer: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'space-evenly',
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
   },
   column: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   container: {
-    width: '100%',
-    textAlign: 'center',
+    width: "100%",
+    textAlign: "center",
   },
   italic: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   blurb: {
-    width: '50%',
-    resize: 'none',
-    margin: '10px',
+    width: "50%",
+    resize: "none",
+    margin: "10px",
   },
   buttons: {
-    width: '100%',
-    padding: '0 40px 0 40px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    width: "100%",
+    padding: "0 40px 0 40px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 
-const KEY = 'AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs'; //public Google API key, ok if here
+const KEY = "AIzaSyCOyujenXkNqsCLNFS0JJS7aZ36oaeUhWs"; //public Google API key, ok if here
 
 const ItineraryItemForm = (props) => {
   const { onSubmit } = props;
-  const [duration, setDuration] = useState('');
-  const [address, setAddress] = useState('');
-  const [place, setPlace] = useState('');
-  const [blurb, setBlurb] = useState('');
-  const [makeResLink, setMakeResLink] = useState('');
-  const [iFrame, setIFrame] = useState('');
-  const [mapUrl, setMapUrl] = useState('');
+  const [duration, setDuration] = useState("");
+  const [address, setAddress] = useState("");
+  const [place, setPlace] = useState("");
+  const [blurb, setBlurb] = useState("");
+  const [makeResLink, setMakeResLink] = useState("");
+  const [iFrame, setIFrame] = useState("");
+  const [mapUrl, setMapUrl] = useState("");
   const classes = useStyles();
 
   const handleClick = () => {
@@ -64,13 +64,13 @@ const ItineraryItemForm = (props) => {
       map_iframe_url: iFrame,
       map_url: mapUrl,
     });
-    setDuration('');
-    setAddress('');
-    setPlace('');
-    setBlurb('');
-    setMakeResLink('');
-    setIFrame('');
-    setMapUrl('');
+    setDuration("");
+    setAddress("");
+    setPlace("");
+    setBlurb("");
+    setMakeResLink("");
+    setIFrame("");
+    setMapUrl("");
   };
 
   const handleCreateMap = () => {
@@ -78,7 +78,7 @@ const ItineraryItemForm = (props) => {
   };
 
   const createMapUrl = (place, address) => {
-    const urlEscaped = encodeURI(place + ' ' + address);
+    const urlEscaped = encodeURI(place + " " + address);
     const iFrameUrl = `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${urlEscaped}`;
     return iFrameUrl;
   };
@@ -86,42 +86,42 @@ const ItineraryItemForm = (props) => {
   return (
     <Form>
       <MyInput
-        placeholder='Duration (minutes)'
+        placeholder="Duration (minutes)"
         value={duration}
         onChange={(e) => setDuration(e.target.value)}
       />
       <MyInput
-        placeholder='Venue Name'
+        placeholder="Venue Name"
         value={place}
         onChange={(e) => setPlace(e.target.value)}
       />
       <MyInput
-        placeholder='Address'
+        placeholder="Address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
       <textarea
         className={classes.blurb}
         rows={3}
-        placeholder='Blurb'
+        placeholder="Blurb"
         value={blurb}
         onChange={(e) => setBlurb(e.target.value)}
       />
       <div className={classes.links}>
         <MyInput
-          placeholder='Make reservation link'
+          placeholder="Make reservation link"
           value={makeResLink}
           onChange={(e) => setMakeResLink(e.target.value)}
         />
         <MyInput
-          placeholder='Map URL'
+          placeholder="Map URL"
           value={mapUrl}
           onChange={(e) => setMapUrl(e.target.value)}
         />
       </div>
       <div className={classes.buttons}>
         <Button onClick={handleCreateMap}>Generate Map</Button>
-        {iFrame ? <Map width='75%' height='300px' url={iFrame} /> : null}
+        {iFrame ? <Map width="75%" height="300px" url={iFrame} /> : null}
         <Button onClick={handleClick}>Add Item To Package</Button>
       </div>
     </Form>
@@ -198,9 +198,11 @@ const AdminItineraryPackageShow = (props) => {
     <>
       <div className={classes.column}>
         <div className={classes.container}>
-          <h1>Itinerary Package: {itinPackage.title}</h1>{' '}
+          <h1 className="title-fantasy-font">
+            Itinerary Package: {itinPackage.title}
+          </h1>{" "}
           <p>{displayItinPackage()}</p>
-          <h2>Package Items:</h2>
+          <h2 className="title-fantasy-font">Package Items:</h2>
           {itinPackageItems.length ? (
             <div className={classes.cardsContainer}>{renderPackageItems()}</div>
           ) : (
@@ -210,7 +212,7 @@ const AdminItineraryPackageShow = (props) => {
       </div>
       <div className={classes.column}>
         <div className={classes.container}>
-          <h2>Add Items</h2>
+          <h2 className="title-fantasy-font">Add Items</h2>
           <ItineraryItemForm onSubmit={handleItemSubmit} />
         </div>
       </div>

@@ -60,7 +60,7 @@ const useStyles = createUseStyles({
     },
   },
   buttonDiv: {
-    marginBottom: "16px",
+    margin: "10px 0 16px 0",
   },
   venueContainer: {
     width: "100%",
@@ -100,6 +100,7 @@ const AdminRequestShow = (props) => {
   useEffect(() => {
     //TODO add cleanup function?
     if (userData) {
+      debugger;
       fetchRequest(userData, requestId).then((res) => {
         setRequest(res.request);
         setIsFetching(true);

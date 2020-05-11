@@ -1,12 +1,12 @@
-import React from 'react';
-import { createUseStyles } from 'react-jss';
+import React from "react";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   input: {
-    padding: '10px',
-    margin: '10px',
+    padding: "10px",
+    margin: "10px",
     // minWidth: '200px', COMMENTED OUT
-    outline: 'none',
+    outline: "none",
   },
 });
 

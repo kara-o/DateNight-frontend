@@ -1,24 +1,25 @@
-import React from 'react';
-import * as moment from 'moment';
-import { createUseStyles } from 'react-jss';
+import React from "react";
+import * as moment from "moment";
+import { createUseStyles } from "react-jss";
+import { MyPaper } from "../elements";
 
 const useStyles = createUseStyles({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
   details: {
-    marginTop: '0px',
-    padding: '0px 10px 0px 10px',
+    marginTop: "0px",
+    padding: "10px",
   },
   italic: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
@@ -37,16 +38,16 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
 
   return (
     <div className={classes.container}>
-      <h2 className={classes.title}>{title}</h2>
-      <div className={classes.details}>
-        <p>Date: {moment(request.start_time).format('MMMM Do YYYY')}</p>
-        <p>Time: {moment(request.start_time).format('h:mm a')}</p>
+      <h2 className={classes.title + " " + "title-fantasy-font"}>{title}</h2>
+      <MyPaper className={classes.details}>
+        <p>Date: {moment(request.start_time).format("MMMM Do YYYY")}</p>
+        <p>Time: {moment(request.start_time).format("h:mm a")}</p>
         <p>Party: {request.party_size} people</p>
         <ul>{renderContacts(request)}</ul>
         <p>Neighborhood: {request.neighborhood}</p>
         <p>Price Range: {request.price_range}</p>
         <p>
-          Notes:{' '}
+          Notes:{" "}
           {request.notes ? (
             request.notes
           ) : (
@@ -55,15 +56,15 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
         </p>
         {admin ? (
           <p>
-            Fulfilled: {(!!request.fulfilled).toString()}{' '}
+            Fulfilled: {(!!request.fulfilled).toString()}{" "}
             {request.cancelled ? (
               <span>
-                <strong style={{ color: 'red' }}> - CANCELLED</strong>
+                <strong style={{ color: "red" }}> - CANCELLED</strong>
               </span>
             ) : null}
           </p>
         ) : null}
-      </div>
+      </MyPaper>
       {children}
     </div>
   );

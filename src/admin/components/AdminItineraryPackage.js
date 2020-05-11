@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Errors,
@@ -6,35 +6,35 @@ import {
   Filter,
   Form,
   LoadingScreen,
-} from '../../elements';
+} from "../../elements";
 import {
   createItineraryPackage,
   fetchItineraryPackage,
   updateItineraryPackage,
-} from '../services/api-admin';
-import { fetchOptions } from '../../user/services/api';
-import { createUseStyles } from 'react-jss';
+} from "../services/api-admin";
+import { fetchOptions } from "../../user/services/api";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   container: {
-    gridColumn: '1/3',
+    gridColumn: "1/3",
   },
   blurb: {
-    margin: '10px',
-    padding: '10px',
-    width: '75%',
-    outline: 'none',
-    resize: 'none',
+    margin: "10px",
+    padding: "10px",
+    width: "75%",
+    outline: "none",
+    resize: "none",
   },
   filter: {
-    margin: '10px',
+    margin: "10px",
   },
 });
 
 const AdminItineraryPackage = (props) => {
   const { userData } = props;
-  const [title, setTitle] = useState('');
-  const [blurb, setBlurb] = useState('');
+  const [title, setTitle] = useState("");
+  const [blurb, setBlurb] = useState("");
   const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
   const [priceRangeSelection, setPriceRangeSelection] = useState(null);
   const [neighborhoods, setNeighborhoods] = useState([]);
@@ -45,12 +45,12 @@ const AdminItineraryPackage = (props) => {
 
   useEffect(() => {
     if (userData) {
-      fetchOptions('neighborhoods', userData).then((list) => {
+      fetchOptions("neighborhoods", userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
         setNeighborhoodSelection(list[0].id);
       });
-      fetchOptions('price_ranges', userData).then((list) => {
+      fetchOptions("price_ranges", userData).then((list) => {
         setPriceRanges(list);
         setPriceRangeSelection(list[0].id);
       });
@@ -105,11 +105,11 @@ const AdminItineraryPackage = (props) => {
   return (
     <div className={classes.container}>
       <Form>
-        <h1>Create New Itinerary Package</h1>
+        <h1 className="title-fantasy-font">Create New Itinerary Package</h1>
         {errors ? <Errors errors={errors} /> : null}
 
         <MyInput
-          placeholder='Package title'
+          placeholder="Package title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -119,7 +119,7 @@ const AdminItineraryPackage = (props) => {
           onChange={(e) => setNeighborhoodSelection(e.target.value)}
           styles={classes.filter}
         >
-          {renderOptions(neighborhoods, 'name')}
+          {renderOptions(neighborhoods, "name")}
         </Filter>
 
         <Filter
@@ -127,13 +127,13 @@ const AdminItineraryPackage = (props) => {
           onChange={(e) => setPriceRangeSelection(e.target.value)}
           styles={classes.filter}
         >
-          {renderOptions(priceRanges, 'max_amount')}
+          {renderOptions(priceRanges, "max_amount")}
         </Filter>
 
         <textarea
           className={classes.blurb}
           rows={5}
-          placeholder='Write a blurb about this package...'
+          placeholder="Write a blurb about this package..."
           value={blurb}
           onChange={(e) => setBlurb(e.target.value)}
         />

@@ -9,7 +9,11 @@ import {
   Errors,
 } from "../../elements";
 
+<<<<<<< HEAD:src/user/components/UserSignUp.js
 const UserSignUp = (props) => {
+=======
+const SignUp = (props) => {
+>>>>>>> 0afcdee7106953dde1a2592a68a99503f31af97b:src/user/components/Signup.js
   const [formData, setFormData] = useState({
     password: "",
     password_confirmation: "",
@@ -46,7 +50,7 @@ const UserSignUp = (props) => {
 
   return (
     <LoginSignUpContainer>
-      <h1>Welcome</h1>
+      <h1 className="title-fantasy-font">Welcome</h1>
       <Form>
         {errors ? <Errors errors={errors} /> : null}
         <MyInput
