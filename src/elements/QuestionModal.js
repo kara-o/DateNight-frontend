@@ -1,36 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import Button from './Button';
-import { createUseStyles } from 'react-jss';
+import React, { useState, useEffect } from "react";
+import Button from "./Button";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   container: {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    background: 'rgba(0, 0, 0, 0.6)',
-    zIndex: '1',
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    background: "rgba(0, 0, 0, 0.6)",
+    zIndex: "1",
   },
   modal: {
-    position: 'fixed',
-    background: 'white',
-    width: 'auto',
-    maxWidth: '50%',
-    height: 'auto',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    padding: '30px',
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: '2',
+    position: "fixed",
+    background: "white",
+    width: "auto",
+    maxWidth: "50%",
+    height: "auto",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    padding: "30px",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "2",
+  },
+  button: {
+    margin: "20px 0 20px 0",
   },
   buttonDiv: {
-    margin: '30px 0px 0px 0px',
+    margin: "30px 0px 0px 0px",
   },
 });
 
@@ -62,7 +65,9 @@ const QuestionModal = ({
   return (
     <div>
       {buttonText ? (
-        <Button onClick={handleClickOpen}>{buttonText}</Button>
+        <Button styles={classes.button} onClick={handleClickOpen}>
+          {buttonText}
+        </Button>
       ) : null}
       {open ? (
         <div className={classes.container}>
@@ -79,7 +84,7 @@ const QuestionModal = ({
                         }
                       : handleClose
                   }
-                  color='primary'
+                  color="primary"
                 >
                   {declineText}
                 </Button>
@@ -89,7 +94,7 @@ const QuestionModal = ({
                   navigateAwayAction();
                   handleClose();
                 }}
-                color='primary'
+                color="primary"
               >
                 {acceptText}
               </Button>
