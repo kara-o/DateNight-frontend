@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   listItem: {
     display: "grid",
-    gridTemplateRows: "auto",
+    gridTemplateRows: "none",
     justifyItems: "center",
     textAlign: "center",
   },

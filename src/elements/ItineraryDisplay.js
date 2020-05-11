@@ -25,7 +25,6 @@ const sortItinItemsByDate = (items) => {
 };
 
 const renderItinerary = (items, admin, handleRemove) => {
-  console.log("here!", items);
   if (items.length) {
     const sortedItems = sortItinItemsByDate(items);
     return sortedItems.map((item) => {

@@ -54,7 +54,7 @@ const useStyles = createUseStyles({
   mainContainer: {
     gridArea: "main",
     width: "100%",
-    padding: "0 20px 0 20px",
+    padding: "0 20px 20px 20px",
     "@media all and (min-width: 900px)": {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",

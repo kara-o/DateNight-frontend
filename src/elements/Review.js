@@ -169,7 +169,7 @@ const Review = ({
                           ).then((json) => {
                             if (!json.errors) {
                               setRequest({ ...request, review: json });
-                              handleInvalidatedRequest(json.request.id);
+                              handleInvalidatedRequest(json.id);
                             } else {
                               console.log(
                                 "There was an error updating the review"
