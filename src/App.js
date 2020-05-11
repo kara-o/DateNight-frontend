@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import {
   Login,
-  SignUp,
+  UserSignUp,
   Request,
   RequestShow,
   UserHome,
@@ -149,7 +149,7 @@ const App = () => {
           <Route
             path="/signup"
             render={(props) =>
-              !loggedIn ? <SignUp {...props} /> : <Redirect to="/" />
+              !loggedIn ? <UserSignUp {...props} /> : <Redirect to="/" />
             }
           />
           <Route
