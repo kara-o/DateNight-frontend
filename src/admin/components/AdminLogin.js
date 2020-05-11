@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import { login } from "../services/api-admin";
-import { Button, Form, LoginSignUpContainer, MyInput } from "../../elements";
+import {
+  Button,
+  Form,
+  LoginSignUpContainer,
+  MyInput,
+  Errors,
+} from "../../elements";
 
 const AdminLogin = (props) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const handleChange = (e) => {
+    setErrors(null);
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -35,7 +42,7 @@ const AdminLogin = (props) => {
           props.handleLogin(userData);
           props.history.push("/admin");
         } else {
-          setError(json.errors);
+          setErrors(json.errors);
         }
       });
     setFormData({
@@ -45,10 +52,9 @@ const AdminLogin = (props) => {
   };
 
   return (
-    <LoginSignUpContainer>
-      <h1 className="title-fantasy-font">DateNight Admin Login</h1>
+    <LoginSignUpContainer title="DateNight Admin Login">
       <Form>
-        <ul>{error ? <li>{error}</li> : null}</ul>
+        {errors ? <Errors errors={errors} /> : null}
         <MyInput
           type="text"
           name="email"

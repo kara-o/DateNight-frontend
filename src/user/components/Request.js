@@ -8,6 +8,7 @@ import {
   SideDialog,
   Errors,
   Fieldset,
+  MyPaper,
 } from "../../elements";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -37,18 +38,18 @@ const useStyles = createUseStyles({
   },
   helpLink: {
     fontStyle: "italic",
-    margin: "0px",
     "&:hover": {
       color: "turquoise",
       cursor: "pointer",
     },
+    height: "18px",
   },
   column: {
     width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   noHelp: {
     gridColumn: "1/3",
@@ -60,8 +61,8 @@ const useStyles = createUseStyles({
     marginTop: "10px",
     marginBottom: "10px",
   },
-  form: {
-    width: "500px",
+  fieldset: {
+    marginBottom: "20px",
   },
 });
 
@@ -254,16 +255,14 @@ const Request = (props) => {
           <h2 className={classes.requestTitle + " " + "title-fantasy-font"}>
             What kind of night do you want?
           </h2>
-          {!showHelp ? (
-            <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
-              {" "}
-              *Tell me more!
-            </p>
-          ) : null}
 
-          <Form styles={classes.form}>
+          <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
+            {!showHelp ? "*Tell me more!" : null}
+          </p>
+
+          <Form>
             {errors ? <Errors errors={errors} /> : null}
-            <Fieldset legend="Date and Time">
+            <Fieldset styles={classes.fieldset} legend="Date and Time">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -286,7 +285,7 @@ const Request = (props) => {
                 />
               </MuiPickersUtilsProvider>
             </Fieldset>
-            <Fieldset legend="Specifics">
+            <Fieldset styles={classes.fieldset} legend="Specifics">
               <Filter
                 title="Party Size: "
                 value={formData.party_size}
@@ -299,6 +298,7 @@ const Request = (props) => {
                 <option value="4">4</option>
               </Filter>
               <Filter
+                styles={classes.fieldset}
                 title="Neighborhood: "
                 value={neighborhoodSelection}
                 onChange={(e) => setNeighborhoodSelection(e.target.value)}
@@ -306,6 +306,7 @@ const Request = (props) => {
                 {renderOptions(neighborhoods, "name")}
               </Filter>
               <Filter
+                styles={classes.fieldset}
                 title="Price Range: "
                 value={priceRangeSelection}
                 onChange={(e) => setPriceRangeSelection(e.target.value)}
@@ -314,10 +315,7 @@ const Request = (props) => {
                 {renderOptions(priceRanges, "max_amount")}
               </Filter>
             </Fieldset>
-            <Fieldset
-              legend="Contacts (up to 4)"
-              styles={classes.contactsContainer}
-            >
+            <Fieldset styles={classes.fieldset} legend="Contacts (up to 4)">
               {contacts
                 .concat([""])
                 .slice(0, 4) // limit to 4
@@ -340,16 +338,17 @@ const Request = (props) => {
                 onChange={(e) => handleChange(e.target.value, "notes")}
               />
             </Fieldset>
-            <QuestionModal
-              acceptText="Can't Wait!"
-              navigateAwayAction={handleClose}
-              buttonText="Submit Request"
-              onClick={handleSubmit}
-            >
-              Success! We will get busy setting up your perfect night out! You
-              will get your first text on the day of your date at 10 am!
-            </QuestionModal>
           </Form>
+
+          <QuestionModal
+            acceptText="Can't Wait!"
+            navigateAwayAction={handleClose}
+            buttonText="Submit Request"
+            onClick={handleSubmit}
+          >
+            Success! We will get busy setting up your perfect night out! You
+            will get your first text on the day of your date at 10 am!
+          </QuestionModal>
         </div>
       </div>
       {showHelp ? (

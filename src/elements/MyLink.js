@@ -12,11 +12,11 @@ const useStyles = createUseStyles({
   },
 });
 
-const MyLink = ({ children, destination, onClick, addressCancel }) => {
+const MyLink = ({ children, destination, onClick, addressCancel, styles }) => {
   const classes = useStyles();
   return (
     <Link
-      className={classes.link}
+      className={classes.link + " " + styles}
       to={{ pathname: destination, state: { addressCancel } }}
       onClick={onClick}
     >

@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
   },
   feedbackTextArea: {
     resize: "none",
-    width: "50%",
+    width: "100%",
     outline: "none",
     margin: "10px",
     padding: "10px",
@@ -28,6 +28,9 @@ const useStyles = createUseStyles({
     fontSize: "10px",
     margin: "0px",
   },
+  smallPrintDiv: {
+    marginTop: "5px",
+  },
   boldText: {
     fontWeight: "bold",
   },
@@ -38,6 +41,15 @@ const useStyles = createUseStyles({
   },
   italic: {
     fontStyle: "italic",
+  },
+  button: {
+    marginTop: "20px",
+  },
+  paper: {
+    width: "400px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 
@@ -117,7 +129,7 @@ const Review = ({
           <h2 className="title-fantasy-font">
             {admin ? "Review" : "Your Review"}
           </h2>
-          <MyPaper>
+          <MyPaper styles={classes.paper}>
             <div className={classes.starsContainer}>
               <Stars
                 styles={classes.starsContainer}
@@ -127,12 +139,8 @@ const Review = ({
             </div>
 
             {renderFeedback()}
-
-            {!admin && !request.review ? (
-              <Button onClick={handleSubmit}>Submit Review</Button>
-            ) : null}
             {request.review ? (
-              <div>
+              <div className={classes.smallPrintDiv}>
                 <p className={classes.smallPrint}>
                   - Reviewed on{" "}
                   {moment(request.review.created_at).format(
@@ -161,7 +169,7 @@ const Review = ({
                           ).then((json) => {
                             if (!json.errors) {
                               setRequest({ ...request, review: json });
-                              handleInvalidatedRequest(json.request.id);
+                              handleInvalidatedRequest(json.id);
                             } else {
                               console.log(
                                 "There was an error updating the review"
@@ -181,6 +189,11 @@ const Review = ({
               </div>
             ) : null}
           </MyPaper>
+          {!admin && !request.review ? (
+            <Button styles={classes.button} onClick={handleSubmit}>
+              Submit Review
+            </Button>
+          ) : null}
         </>
       )}
     </div>

@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
 
 const AdminHome = (props) => {
   const { allRequests } = props;
-  const [selectedButton, setSelectedButton] = useState("unfulfilled");
+  const [selectedButton, setSelectedButton] = useState("Unfulfilled");
   const classes = useStyles();
 
   const filterUnfulfilled = (requests) => {
@@ -69,26 +69,26 @@ const AdminHome = (props) => {
 
   const renderRequests = () => {
     let requests, columns;
-    if (selectedButton === "unfulfilled") {
+    if (selectedButton === "Unfulfilled") {
       requests = filterUnfulfilled(allRequests);
       columns = "twoColumns";
-    } else if (selectedButton === "fulfilled") {
+    } else if (selectedButton === "Fulfilled") {
       requests = filterFulfilled(allRequests);
       columns = "twoColumns";
-    } else if (selectedButton === "cancelled") {
+    } else if (selectedButton === "Cancelled") {
       requests = filterCancelled(allRequests);
       columns = "twoColumns";
-    } else if (selectedButton === "new review") {
+    } else if (selectedButton === "New Reviews") {
       requests = filterNewReview(allRequests);
       columns = "threeColumns";
-    } else if (selectedButton === "completed") {
+    } else if (selectedButton === "Completed") {
       requests = filterCompleted(allRequests);
       columns = "threeColumns";
     } else {
       requests = allRequests;
       columns = "threeColumns";
     }
-    if (selectedButton === "unfulfilled") {
+    if (selectedButton === "Unfulfilled") {
       requests.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
     } else {
       requests.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
@@ -120,7 +120,12 @@ const AdminHome = (props) => {
                 <span className={classes.redText}> - CANCELLED</span>
               ) : null}
             </p>
-            <p>{r.review ? <Stars review={r.review} /> : null}</p>
+            {r.review ? (
+              <p>
+                {" "}
+                <Stars review={r.review} />{" "}
+              </p>
+            ) : null}
           </ListItem>
         );
       })
@@ -134,7 +139,7 @@ const AdminHome = (props) => {
       <div className={classes.buttonsDiv}>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("unfulfilled")}
+          onClick={() => setSelectedButton("Unfulfilled")}
         >
           Unfulfilled{" "}
           <span className={classes.italicFont}>
@@ -143,7 +148,7 @@ const AdminHome = (props) => {
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("fulfilled")}
+          onClick={() => setSelectedButton("Fulfilled")}
         >
           Fulfilled{" "}
           <span className={classes.italicFont}>
@@ -152,7 +157,7 @@ const AdminHome = (props) => {
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("cancelled")}
+          onClick={() => setSelectedButton("Cancelled")}
         >
           Cancelled{" "}
           <span className={classes.italicFont}>
@@ -161,16 +166,16 @@ const AdminHome = (props) => {
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("new review")}
+          onClick={() => setSelectedButton("New Reviews")}
         >
-          Newly Reviewed{" "}
+          New Reviews{" "}
           <span className={classes.italicFont}>
             ({filterNewReview(allRequests).length})
           </span>
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("completed")}
+          onClick={() => setSelectedButton("Completed")}
         >
           Completed{" "}
           <span className={classes.italicFont}>
@@ -179,12 +184,12 @@ const AdminHome = (props) => {
         </Button>
         <Button
           styles={classes.button}
-          onClick={() => setSelectedButton("all")}
+          onClick={() => setSelectedButton("All")}
         >
           All
         </Button>
       </div>
-      <ListContainer>{renderRequests()}</ListContainer>
+      <ListContainer title={selectedButton}>{renderRequests()}</ListContainer>
     </div>
   );
 };

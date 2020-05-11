@@ -100,7 +100,6 @@ const AdminRequestShow = (props) => {
   useEffect(() => {
     //TODO add cleanup function?
     if (userData) {
-      debugger;
       fetchRequest(userData, requestId).then((res) => {
         setRequest(res.request);
         setIsFetching(true);
