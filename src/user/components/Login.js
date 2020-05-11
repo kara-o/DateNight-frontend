@@ -27,6 +27,7 @@ const Login = (props) => {
   const isAccountConfirmed = !!query.get("account_confirmation_success");
 
   const handleChange = (e) => {
+    setErrors(null);
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -62,8 +63,13 @@ const Login = (props) => {
   };
 
   return (
-    <LoginSignUpContainer>
-      <h1 className="title-fantasy-font">DateNight</h1>
+    <LoginSignUpContainer
+      title="DateNight"
+      link={{
+        text: "New user? Sign up for an account",
+        destination: "/signup",
+      }}
+    >
       <>
         {isAccountConfirmationPending ? (
           <h3>Confirmation email sent - check your inbox!</h3>
@@ -89,7 +95,6 @@ const Login = (props) => {
           />
           <Button onClick={handleSubmit}>Login</Button>
         </Form>
-        <MyLink destination="/signup">New user? Sign up for an account</MyLink>
       </>
     </LoginSignUpContainer>
   );

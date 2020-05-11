@@ -21,6 +21,7 @@ const UserSignUp = (props) => {
   const [errors, setErrors] = useState(null);
 
   const handleChange = (e) => {
+    setErrors(null);
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -41,8 +42,10 @@ const UserSignUp = (props) => {
   };
 
   return (
-    <LoginSignUpContainer>
-      <h1 className="title-fantasy-font">Welcome</h1>
+    <LoginSignUpContainer
+      title="Welcome"
+      link={{ text: "Back", destination: "/login" }}
+    >
       <Form>
         {errors ? <Errors errors={errors} /> : null}
         <MyInput
@@ -91,7 +94,6 @@ const UserSignUp = (props) => {
           Sign Up
         </Button>
       </Form>
-      <MyLink destination="/login">Back</MyLink>
     </LoginSignUpContainer>
   );
 };

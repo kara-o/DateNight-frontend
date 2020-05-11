@@ -61,9 +61,6 @@ const useStyles = createUseStyles({
     marginTop: "10px",
     marginBottom: "10px",
   },
-  form: {
-    padding: "0px",
-  },
   fieldset: {
     marginBottom: "20px",
   },
@@ -263,87 +260,86 @@ const Request = (props) => {
             {!showHelp ? "*Tell me more!" : null}
           </p>
 
-          <MyPaper>
-            <Form styles={classes.form}>
-              {errors ? <Errors errors={errors} /> : null}
-              <Fieldset styles={classes.fieldset} legend="Date and Time">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    label="Date"
-                    minDate={tomorrow()}
-                    value={formData.start_date}
-                    onChange={(date) => handleChange(date, "start_date")}
-                  />
-                  <KeyboardTimePicker
-                    disableToolbar
-                    variant="inline"
-                    minutesStep={30}
-                    margin="normal"
-                    label="Time"
-                    value={formData.start_time}
-                    onChange={(time) => handleChange(time, "start_time")}
-                  />
-                </MuiPickersUtilsProvider>
-              </Fieldset>
-              <Fieldset styles={classes.fieldset} legend="Specifics">
-                <Filter
-                  title="Party Size: "
-                  value={formData.party_size}
-                  onChange={(e) => handleChange(e.target.value, "party_size")}
-                  styles={classes.filter}
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </Filter>
-                <Filter
-                  styles={classes.fieldset}
-                  title="Neighborhood: "
-                  value={neighborhoodSelection}
-                  onChange={(e) => setNeighborhoodSelection(e.target.value)}
-                >
-                  {renderOptions(neighborhoods, "name")}
-                </Filter>
-                <Filter
-                  styles={classes.fieldset}
-                  title="Price Range: "
-                  value={priceRangeSelection}
-                  onChange={(e) => setPriceRangeSelection(e.target.value)}
-                  styles={classes.filter}
-                >
-                  {renderOptions(priceRanges, "max_amount")}
-                </Filter>
-              </Fieldset>
-              <Fieldset styles={classes.fieldset} legend="Contacts (up to 4)">
-                {contacts
-                  .concat([""])
-                  .slice(0, 4) // limit to 4
-                  .map((contact, i) => (
-                    <MyInput
-                      key={i}
-                      placeholder={`Phone ${i + 1}`}
-                      value={contact}
-                      type="tel"
-                      onChange={(e) => updateContactAt(e.target.value, i)}
-                    />
-                  ))}
-              </Fieldset>
-              <Fieldset legend="Notes">
-                <textarea
-                  placeholder="Any additional notes for us?"
-                  className={classes.textArea}
-                  rows={5}
-                  value={formData.notes}
-                  onChange={(e) => handleChange(e.target.value, "notes")}
+          <Form>
+            {errors ? <Errors errors={errors} /> : null}
+            <Fieldset styles={classes.fieldset} legend="Date and Time">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="Date"
+                  minDate={tomorrow()}
+                  value={formData.start_date}
+                  onChange={(date) => handleChange(date, "start_date")}
                 />
-              </Fieldset>
-            </Form>
-          </MyPaper>
+                <KeyboardTimePicker
+                  disableToolbar
+                  variant="inline"
+                  minutesStep={30}
+                  margin="normal"
+                  label="Time"
+                  value={formData.start_time}
+                  onChange={(time) => handleChange(time, "start_time")}
+                />
+              </MuiPickersUtilsProvider>
+            </Fieldset>
+            <Fieldset styles={classes.fieldset} legend="Specifics">
+              <Filter
+                title="Party Size: "
+                value={formData.party_size}
+                onChange={(e) => handleChange(e.target.value, "party_size")}
+                styles={classes.filter}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </Filter>
+              <Filter
+                styles={classes.fieldset}
+                title="Neighborhood: "
+                value={neighborhoodSelection}
+                onChange={(e) => setNeighborhoodSelection(e.target.value)}
+              >
+                {renderOptions(neighborhoods, "name")}
+              </Filter>
+              <Filter
+                styles={classes.fieldset}
+                title="Price Range: "
+                value={priceRangeSelection}
+                onChange={(e) => setPriceRangeSelection(e.target.value)}
+                styles={classes.filter}
+              >
+                {renderOptions(priceRanges, "max_amount")}
+              </Filter>
+            </Fieldset>
+            <Fieldset styles={classes.fieldset} legend="Contacts (up to 4)">
+              {contacts
+                .concat([""])
+                .slice(0, 4) // limit to 4
+                .map((contact, i) => (
+                  <MyInput
+                    key={i}
+                    placeholder={`Phone ${i + 1}`}
+                    value={contact}
+                    type="tel"
+                    onChange={(e) => updateContactAt(e.target.value, i)}
+                  />
+                ))}
+            </Fieldset>
+            <Fieldset legend="Notes">
+              <textarea
+                placeholder="Any additional notes for us?"
+                className={classes.textArea}
+                rows={5}
+                value={formData.notes}
+                onChange={(e) => handleChange(e.target.value, "notes")}
+              />
+            </Fieldset>
+          </Form>
+
           <QuestionModal
             acceptText="Can't Wait!"
             navigateAwayAction={handleClose}

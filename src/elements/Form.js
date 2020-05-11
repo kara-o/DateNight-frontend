@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { MyPaper } from ".";
 
 const useStyles = createUseStyles({
   form: {
@@ -7,7 +8,8 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     textAlign: "center",
     alignItems: "center",
-    padding: "10px",
+  },
+  formContainer: {
     "@media all and (max-width: 599px)": {
       width: "400px",
     },
@@ -19,7 +21,11 @@ const useStyles = createUseStyles({
 
 const Form = ({ children, styles }) => {
   const classes = useStyles();
-  return <form className={classes.form + " " + styles}>{children}</form>;
+  return (
+    <MyPaper styles={classes.formContainer + " " + styles}>
+      <form className={classes.form}>{children}</form>
+    </MyPaper>
+  );
 };
 
 export default Form;
