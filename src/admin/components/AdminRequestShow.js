@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
+  MyButton,
   MyLink,
   ItineraryDisplay,
   RequestContainer,
@@ -244,9 +244,9 @@ const AdminRequestShow = (props) => {
           <MyLink destination={`/admin/itinerary_packages/${pkg.id}`}>
             {pkg.price_range.split(" ")[0]} - {pkg.neighborhood} - {pkg.title}
           </MyLink>
-          <Button type="button" onClick={() => handleApplyPackage(pkg.id)}>
+          <MyButton type="button" onClick={() => handleApplyPackage(pkg.id)}>
             Apply
-          </Button>
+          </MyButton>
         </li>
       );
     });
@@ -290,12 +290,12 @@ const AdminRequestShow = (props) => {
       : `Venues for ${moment(request.start_time).format("MMMM Do YYYY")}`;
     return (
       <div className={classes.venueContainer}>
-        <Button
+        <MyButton
           styles={classes.button}
           onClick={() => setSingleVenue(!singleVenue)}
         >
           {buttonText}
-        </Button>
+        </MyButton>
         <ListContainer
           title={title}
           filter={singleVenue ? renderFilter() : null}
@@ -317,7 +317,7 @@ const AdminRequestShow = (props) => {
       !request.admin_addressed_cancel ? (
         <div className={classes.cancelText}>
           <h2>Admin has addressed cancellation:</h2>
-          <Button
+          <MyButton
             styles={classes.cancelBtn}
             onClick={() =>
               addressCancel(userData, request.id, new Date()).then((res) => {
@@ -330,7 +330,7 @@ const AdminRequestShow = (props) => {
             }
           >
             YES
-          </Button>
+          </MyButton>
         </div>
       ) : null}
       <div className={classes.column}>
@@ -342,13 +342,13 @@ const AdminRequestShow = (props) => {
         >
           {new Date(request.start_time) >= new Date() && !request.cancelled ? (
             <div className={classes.buttonDiv}>
-              <Button type="button" onClick={handleComplete}>
+              <MyButton type="button" onClick={handleComplete}>
                 {request.fulfilled ? "Mark as incomplete" : "Mark as complete"}
-              </Button>
+              </MyButton>
               {request.fulfilled ? (
-                <Button type="button" onClick={handleMessage}>
+                <MyButton type="button" onClick={handleMessage}>
                   Alert (DEMO ONLY)
-                </Button>
+                </MyButton>
               ) : null}
             </div>
           ) : null}
@@ -383,13 +383,13 @@ const AdminRequestShow = (props) => {
             handleRemove={handleRemove}
           >
             {!request.fulfilled ? (
-              <Button
+              <MyButton
                 styles={classes.addBtn}
                 type="button"
                 onClick={() => setShowVenues(true)}
               >
                 Add to Itinerary
-              </Button>
+              </MyButton>
             ) : null}
           </ItineraryDisplay>
         )}

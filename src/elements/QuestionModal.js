@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
+import { MyButton } from ".";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -65,9 +65,9 @@ const QuestionModal = ({
   return (
     <div>
       {buttonText ? (
-        <Button styles={classes.button} onClick={handleClickOpen}>
+        <MyButton styles={classes.button} onClick={handleClickOpen}>
           {buttonText}
-        </Button>
+        </MyButton>
       ) : null}
       {open ? (
         <div className={classes.container}>
@@ -75,7 +75,7 @@ const QuestionModal = ({
             {children}
             <div className={classes.buttonDiv}>
               {declineText ? (
-                <Button
+                <MyButton
                   onClick={
                     closeAction
                       ? () => {
@@ -87,9 +87,9 @@ const QuestionModal = ({
                   color="primary"
                 >
                   {declineText}
-                </Button>
+                </MyButton>
               ) : null}
-              <Button
+              <MyButton
                 onClick={() => {
                   navigateAwayAction();
                   handleClose();
@@ -97,7 +97,7 @@ const QuestionModal = ({
                 color="primary"
               >
                 {acceptText}
-              </Button>
+              </MyButton>
             </div>
           </div>
         </div>

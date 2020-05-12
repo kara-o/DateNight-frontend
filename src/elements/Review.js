@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createReview } from "../user/services/api";
 import { updateAdminReview } from "../admin/services/api-admin";
-import { Button, Stars, Fieldset, MyPaper } from ".";
+import { MyButton, Stars, Fieldset, MyPaper } from ".";
 import { createUseStyles } from "react-jss";
 import * as moment from "moment";
 
@@ -123,12 +123,12 @@ const Review = ({
   return (
     <div className={classes.reviewContainer}>
       {admin && !request.review ? (
-        <h2 className="title-fantasy-font">Not yet reviewed.</h2>
+        <h1 className="title-fantasy-font">Not yet reviewed.</h1>
       ) : (
         <>
-          <h2 className="title-fantasy-font">
+          <h1 className="title-fantasy-font">
             {admin ? "Review" : "Your Review"}
-          </h2>
+          </h1>
           <MyPaper styles={classes.paper}>
             <div className={classes.starsContainer}>
               <Stars
@@ -190,9 +190,9 @@ const Review = ({
             ) : null}
           </MyPaper>
           {!admin && !request.review ? (
-            <Button styles={classes.button} onClick={handleSubmit}>
+            <MyButton styles={classes.button} onClick={handleSubmit}>
               Submit Review
-            </Button>
+            </MyButton>
           ) : null}
         </>
       )}

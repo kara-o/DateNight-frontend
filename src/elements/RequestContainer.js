@@ -41,7 +41,7 @@ const RequestContainer = ({ title, request, children, admin = false }) => {
 
   return (
     <div className={classes.container}>
-      <h2 className={classes.title + " " + "title-fantasy-font"}>{title}</h2>
+      <h1 className={classes.title + " " + "title-fantasy-font"}>{title}</h1>
       <MyPaper styles={classes.paper}>
         <p>Date: {moment(request.start_time).format("MMMM Do YYYY")}</p>
         <p>Time: {moment(request.start_time).format("h:mm a")}</p>

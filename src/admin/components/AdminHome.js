@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchRequests } from "../services/api-admin";
-import { ListContainer, ListItem, Stars, Button } from "../../elements";
+import { ListContainer, ListItem, Stars, MyButton } from "../../elements";
 import * as moment from "moment";
 import { createUseStyles } from "react-jss";
 import { createPalette } from "@material-ui/core/styles";
@@ -18,12 +18,6 @@ const useStyles = createUseStyles({
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "space-evenly",
-  },
-  button: {
-    flex: 1,
-    height: "40px",
-    width: "120px",
-    padding: "5px",
   },
   filter: {
     padding: "20px 0px 20px 0px",
@@ -137,7 +131,7 @@ const AdminHome = (props) => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.buttonsDiv}>
-        <Button
+        <MyButton
           styles={classes.button}
           onClick={() => setSelectedButton("Unfulfilled")}
         >
@@ -145,17 +139,17 @@ const AdminHome = (props) => {
           <span className={classes.italicFont}>
             ({filterUnfulfilled(allRequests).length})
           </span>
-        </Button>
-        <Button
-          styles={classes.button}
+        </MyButton>
+        <MyButton
+          styles={classes.My}
           onClick={() => setSelectedButton("Fulfilled")}
         >
           Fulfilled{" "}
           <span className={classes.italicFont}>
             ({filterFulfilled(allRequests).length})
           </span>
-        </Button>
-        <Button
+        </MyButton>
+        <MyButton
           styles={classes.button}
           onClick={() => setSelectedButton("Cancelled")}
         >
@@ -163,8 +157,8 @@ const AdminHome = (props) => {
           <span className={classes.italicFont}>
             ({filterCancelled(allRequests).length})
           </span>
-        </Button>
-        <Button
+        </MyButton>
+        <MyButton
           styles={classes.button}
           onClick={() => setSelectedButton("New Reviews")}
         >
@@ -172,8 +166,8 @@ const AdminHome = (props) => {
           <span className={classes.italicFont}>
             ({filterNewReview(allRequests).length})
           </span>
-        </Button>
-        <Button
+        </MyButton>
+        <MyButton
           styles={classes.button}
           onClick={() => setSelectedButton("Completed")}
         >
@@ -181,13 +175,13 @@ const AdminHome = (props) => {
           <span className={classes.italicFont}>
             ({filterCompleted(allRequests).length})
           </span>
-        </Button>
-        <Button
+        </MyButton>
+        <MyButton
           styles={classes.button}
           onClick={() => setSelectedButton("All")}
         >
           All
-        </Button>
+        </MyButton>
       </div>
       <ListContainer title={selectedButton}>{renderRequests()}</ListContainer>
     </div>

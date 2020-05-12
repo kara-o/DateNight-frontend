@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createUser } from "../services/api";
 import {
-  Button,
+  MyButton,
   MyLink,
   Form,
   LoginSignUpContainer,
@@ -28,15 +28,12 @@ const UserSignUp = (props) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     createUser(formData).then((json) => {
       if (!json.errors) {
         props.history.push("/login?account_confirmation_pending=true");
       } else {
-        setErrors({
-          fullMessages: json.errors.full_messages,
-        });
+        setErrors(json.errors.full_messages);
       }
     });
   };
@@ -90,9 +87,9 @@ const UserSignUp = (props) => {
           onChange={handleChange}
           placeholder="Phone Number"
         />
-        <Button type="submit" onClick={handleSubmit}>
+        <MyButton type="button" onClick={handleSubmit}>
           Sign Up
-        </Button>
+        </MyButton>
       </Form>
     </LoginSignUpContainer>
   );

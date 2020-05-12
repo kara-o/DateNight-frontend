@@ -7,7 +7,8 @@ const useStyles = createUseStyles({
     textDecoration: "none",
     color: "black",
     "&:hover": {
-      color: "turquoise",
+      color: "#533747",
+      fontWeight: "bold",
     },
   },
 });

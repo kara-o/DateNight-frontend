@@ -8,6 +8,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     textAlign: "center",
     alignItems: "center",
+    justifyContent: "space-evenly",
   },
   formContainer: {
     "@media all and (max-width: 599px)": {

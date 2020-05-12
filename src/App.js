@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
       marginRight: "auto",
       minHeight: "100vh",
       display: "grid",
-      gridTemplateRows: "50px auto 50px",
+      gridTemplateRows: "50px auto 200px",
       gridTemplateAreas: `
       'navbar'
       'main'

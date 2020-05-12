@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { login } from "../services/api";
 import { useLocation } from "react-router-dom";
 import {
-  Button,
+  MyButton,
   LoginSignUpContainer,
   Form,
   MyInput,
@@ -92,7 +92,7 @@ const Login = (props) => {
             onChange={handleChange}
             placeholder="Password"
           />
-          <Button onClick={handleSubmit}>Login</Button>
+          <MyButton onClick={handleSubmit}>Login</MyButton>
         </Form>
       </>
     </LoginSignUpContainer>

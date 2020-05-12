@@ -1,20 +1,19 @@
-import React from 'react';
-import { MyLink, ExtendedBackground } from '.';
-import { createUseStyles } from 'react-jss';
+import React from "react";
+import { MyLink, ExtendedBackground } from ".";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   navbar: {
-    gridArea: 'navbar',
-    display: 'grid',
+    gridArea: "navbar",
+    display: "grid",
     gridTemplateColumns:
-      '[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]',
-    gridTemplateRows: 'auto',
-    justifyItems: 'center',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: '#E8E8E8',
-    position: 'relative'
-  }
+      "[col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end]",
+    gridTemplateRows: "auto",
+    justifyItems: "center",
+    alignItems: "center",
+    width: "100%",
+    position: "relative",
+  },
 });
 
 const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
@@ -22,7 +21,7 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
 
   return (
     <nav className={classes.navbar}>
-      <ExtendedBackground />
+      {/* <ExtendedBackground /> */}
       {userData && !userData.admin ? (
         <>
           <MyLink destination={`/`}>Home</MyLink>
@@ -31,12 +30,12 @@ const Navbar = ({ logoutUser, logoutAdmin, userData }) => {
       ) : null}
       {userData && userData.admin ? (
         <>
-          <MyLink destination='/admin/'>Requests</MyLink>
-          <MyLink destination='/admin/itinerary_packages'>Packages</MyLink>
+          <MyLink destination="/admin/">Requests</MyLink>
+          <MyLink destination="/admin/itinerary_packages">Packages</MyLink>
         </>
       ) : null}
       <MyLink
-        destination={userData.admin ? '/admin/login' : '/login'}
+        destination={userData.admin ? "/admin/login" : "/login"}
         onClick={() => {
           userData.admin ? logoutAdmin() : logoutUser();
         }}
