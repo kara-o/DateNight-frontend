@@ -1,4 +1,4 @@
-import Button from "./Button";
+import MyButton from "./MyButton";
 import Form from "./Form";
 import ListContainer from "./ListContainer";
 import ListItem from "./ListItem";
@@ -25,7 +25,7 @@ import Stars from "./Stars";
 import MyPaper from "./MyPaper";
 
 export {
-  Button,
+  MyButton,
   Form,
   ListContainer,
   ListItem,

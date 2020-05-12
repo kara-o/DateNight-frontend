@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { createUseStyles } from 'react-jss';
+import React, { useState } from "react";
+import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   background: {
-    position: 'absolute',
-    zIndex: '-1',
-    width: '200vw',
-    left: '-100vw',
-    height: '50px',
-    backgroundColor: '#E8E8E8'
-  }
+    position: "absolute",
+    zIndex: "-1",
+    width: "200vw",
+    left: "-100vw",
+    height: "200px",
+    backgroundColor: "#533747",
+  },
 });
 
 const ExtendedBackground = () => {

@@ -1,21 +1,24 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
+import { TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = createUseStyles({
-  input: {
-    padding: "10px",
+const useStyles = makeStyles({
+  root: {
     margin: "10px",
-    // minWidth: '200px', COMMENTED OUT
-    outline: "none",
+    width: "75%",
   },
 });
 
 const MyInput = ({ type, name, value, onChange, placeholder }) => {
   const classes = useStyles();
   return (
-    <input
-      className={classes.input}
-      placeholder={placeholder}
+    <TextField
+      classes={{
+        root: classes.root,
+      }}
+      id="outlined-basic"
+      label={placeholder}
+      variant="outlined"
       type={type}
       name={name}
       value={value}

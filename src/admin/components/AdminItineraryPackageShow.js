@@ -4,7 +4,7 @@ import {
   createItineraryPackageItem,
   deletePkgItem,
 } from "../services/api-admin";
-import { Button, SimpleCard, Map, Form, MyInput } from "../../elements";
+import { MyButton, SimpleCard, Map, Form, MyInput } from "../../elements";
 import { createUseStyles } from "react-jss";
 import { useHistory } from "react-router-dom";
 
@@ -120,9 +120,9 @@ const ItineraryItemForm = (props) => {
         />
       </div>
       <div className={classes.buttons}>
-        <Button onClick={handleCreateMap}>Generate Map</Button>
+        <MyButton onClick={handleCreateMap}>Generate Map</MyButton>
         {iFrame ? <Map width="75%" height="300px" url={iFrame} /> : null}
-        <Button onClick={handleClick}>Add Item To Package</Button>
+        <MyButton onClick={handleClick}>Add Item To Package</MyButton>
       </div>
     </Form>
   );
@@ -158,13 +158,13 @@ const AdminItineraryPackageShow = (props) => {
           >
             Edit
           </MyLink> */}
-          <Button
+          <MyButton
             onClick={() =>
               history.push(`/admin/itinerary_packages/${itinPackage.id}/edit`)
             }
           >
             Edit
-          </Button>
+          </MyButton>
         </div>
       );
     }

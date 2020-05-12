@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../services/api-admin";
 import {
-  Button,
+  MyButton,
   Form,
   LoginSignUpContainer,
   MyInput,
@@ -69,7 +69,7 @@ const AdminLogin = (props) => {
           onChange={handleChange}
           placeholder="Password"
         />
-        <Button onClick={handleSubmit}>Login</Button>
+        <MyButton onClick={handleSubmit}>Login</MyButton>
       </Form>
     </LoginSignUpContainer>
   );

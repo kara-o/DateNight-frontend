@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, Button, MyPaper } from ".";
+import { Map, MyButton, MyPaper } from ".";
 import * as moment from "moment";
 import { createUseStyles } from "react-jss";
 
@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
     textAlign: "center",
   },
   button: {
-    // margin: '16px 0px 0px 0px',
+    margin: "5px",
     // height: '50px',
     top: "0px",
     right: "0px",
@@ -56,9 +56,13 @@ const ItineraryItem = (props) => {
   return (
     <MyPaper styles={classes.container}>
       {admin ? (
-        <Button styles={classes.button} onClick={() => handleRemove(item)}>
+        <button
+          className={classes.button}
+          type="button"
+          onClick={() => handleRemove(item)}
+        >
           X
-        </Button>
+        </button>
       ) : null}
       <h3 className={classes.title}>{getNumberWithOrdinal(index + 1)} Stop</h3>
       <div className={classes.details}>

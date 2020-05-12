@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, QuestionModal } from ".";
+import { MyButton, QuestionModal } from ".";
 import { createUseStyles } from "react-jss";
 import { Card } from "@material-ui/core";
 
@@ -32,7 +32,7 @@ const SimpleCard = ({ pkgItem, handleDelete }) => {
       <div className={classes.details}>
         <p onClick={handleClick}>{pkgItem.place}</p>
         <p>{pkgItem.duration} minutes</p>
-        <Button onClick={() => handleDelete(pkgItem.id)}>Remove</Button>
+        <MyButton onClick={() => handleDelete(pkgItem.id)}>Remove</MyButton>
       </div>
       {openModal ? (
         <QuestionModal

@@ -4,11 +4,10 @@ import {
   Form,
   MyInput,
   Filter,
-  Button,
+  MyButton,
   SideDialog,
   Errors,
   Fieldset,
-  MyPaper,
 } from "../../elements";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -49,7 +48,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "center",
+    justifyContent: "center",
   },
   noHelp: {
     gridColumn: "1/3",
@@ -239,7 +238,7 @@ const Request = (props) => {
           </p>
         </div>
         <h3>Press submit when you're done!</h3>
-        <Button onClick={() => setShowHelp(false)}>Got it!</Button>
+        <MyButton onClick={() => setShowHelp(false)}>Got it!</MyButton>
       </SideDialog>
     );
   };
@@ -252,9 +251,9 @@ const Request = (props) => {
         }
       >
         <div className={classes.requestContainer}>
-          <h2 className={classes.requestTitle + " " + "title-fantasy-font"}>
+          <h1 className={classes.requestTitle + " " + "title-fantasy-font"}>
             What kind of night do you want?
-          </h2>
+          </h1>
 
           <p className={classes.helpLink} onClick={() => setShowHelp(true)}>
             {!showHelp ? "*Tell me more!" : null}

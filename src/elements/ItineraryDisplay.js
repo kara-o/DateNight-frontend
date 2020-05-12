@@ -51,7 +51,7 @@ const ItineraryDisplay = ({
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <h2 className={classes.title + " " + "title-fantasy-font"}>Itinerary</h2>
+      <h1 className={classes.title + " " + "title-fantasy-font"}>Itinerary</h1>
       {children}
       {renderItinerary(items, admin, handleRemove)}
     </div>

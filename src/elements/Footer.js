@@ -1,5 +1,5 @@
 import React from "react";
-import { ExtendedBackground } from ".";
+import { ExtendedBackground, MyLink } from ".";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -9,10 +9,27 @@ const useStyles = createUseStyles({
     justifyItems: "center",
     alignItems: "center",
     width: "100%",
-    backgroundColor: "#E8E8E8",
+    backgroundColor: "#533747",
   },
-  text: {
-    margin: "0px",
+  flex: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: "100%",
+  },
+  title: {
+    fontSize: "48px",
+    marginBottom: "0px",
+  },
+  copyright: {
+    fontSize: "12px",
+  },
+  link: {
+    "&:hover": {
+      fontWeight: "bold",
+      color: "black",
+    },
   },
 });
 
@@ -22,9 +39,14 @@ const Footer = () => {
   return (
     <footer className={classes.container}>
       <ExtendedBackground />
-      <p className={classes.text + " " + "title-fantasy-font"}>
-        DateNight ♥ 2020
-      </p>
+
+      <h1 className={classes.title + " " + "title-fantasy-font"}>DateNight</h1>
+      <div>
+        <MyLink styles={classes.link}>About</MyLink> •{" "}
+        <MyLink styles={classes.link}>Contact</MyLink>
+      </div>
+
+      <p className={classes.copyright}>Established ♥ 2020</p>
     </footer>
   );
 };

@@ -8,6 +8,9 @@ const useStyles = createUseStyles({
     gridTemplateRows: "none",
     justifyItems: "center",
     textAlign: "center",
+    "&:hover": {
+      backgroundColor: "#F0F7F4",
+    },
   },
   fourColumns: {
     gridTemplateColumns:

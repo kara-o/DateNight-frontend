@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  Button,
+  MyButton,
   Errors,
   MyInput,
   Filter,
@@ -138,7 +138,7 @@ const AdminItineraryPackage = (props) => {
           onChange={(e) => setBlurb(e.target.value)}
         />
 
-        <Button onClick={handleSubmit}>Submit</Button>
+        <MyButton onClick={handleSubmit}>Submit</MyButton>
       </Form>
     </div>
   );
