@@ -110,6 +110,7 @@ const Request = (props) => {
   const [contacts, setContacts] = useState([userData.user.phone]);
   const [errors, setErrors] = useState(null);
   const [showHelp, setShowHelp] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const classes = useStyles();
 
   //TODO add loading
@@ -163,13 +164,14 @@ const Request = (props) => {
   };
 
   const handleSubmit = () => {
+    setErrors(null);
     const data = getPostData();
 
-    return createRequest(data, userData).then((json) => {
+    createRequest(data, userData).then((json) => {
       if (!json.errors) {
-        console.log("sucessfully created request!", json);
+        setShowModal(true);
       } else {
-        console.log("errors creating request!");
+        console.log("errors creating request!", json.errors);
         setErrors({
           errorObj: json.errors.error_obj,
           fullMessages: json.errors.full_messages,
@@ -261,7 +263,7 @@ const Request = (props) => {
           </p>
 
           <Form>
-            {errors ? <Errors errors={errors} /> : null}
+            {errors ? <Errors errors={errors.fullMessages} /> : null}
             <Fieldset legend="Date and Time">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
@@ -345,16 +347,19 @@ const Request = (props) => {
               />
             </Fieldset>
           </Form>
-
-          <QuestionModal
-            acceptText="Can't Wait!"
-            navigateAwayAction={handleClose}
-            buttonText="Submit Request"
-            onClick={handleSubmit}
-          >
-            Success! We will get busy setting up your perfect night out! You
-            will get your first text on the day of your date at 10 am!
-          </QuestionModal>
+          <MyButton onClick={handleSubmit}>Submit Request</MyButton>
+          {showModal ? (
+            <QuestionModal
+              acceptText="Can't Wait!"
+              navigateAwayAction={handleClose}
+              // buttonText="Submit Request"
+              // onClick={handleSubmit}
+              startOpen={true}
+            >
+              Success! We will get busy setting up your perfect night out! You
+              will get your first text on the day of your date at 10 am!
+            </QuestionModal>
+          ) : null}
         </div>
       </div>
       {showHelp ? (

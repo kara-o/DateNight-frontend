@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
     margin: "0px 0px 20px 0px",
   },
   timePicker: {
-    maxWidth: "25%",
+    width: "100%",
   },
   emptyItin: {
     fontStyle: "italic",
@@ -83,6 +83,10 @@ const useStyles = createUseStyles({
   },
   cancelBtn: {
     height: "40px",
+  },
+  modalBlurb: {
+    height: "50%",
+    overflow: "scroll",
   },
 });
 
@@ -171,7 +175,7 @@ const AdminRequestShow = (props) => {
         <p>
           {neighborhood + " • " + modalInfo.cuisine + " • " + modalInfo.price}
         </p>
-        <p>{modalInfo.blurb}</p>
+        <p className={classes.modalBlurb}>{modalInfo.blurb}</p>
         <a href={modalInfo.make_res_link} target="_blank">
           Reservation Link
         </a>

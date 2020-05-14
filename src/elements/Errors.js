@@ -7,7 +7,7 @@ import { createUseStyles } from "react-jss";
 
 const Errors = ({ errors }) => {
   // const classes = useStyles();
-  console.log(errors);
+  console.log("errors: ", errors);
   const renderErrors = (errors) => {
     return errors.map((error, idx) => <li key={idx}>{error}</li>);
   };

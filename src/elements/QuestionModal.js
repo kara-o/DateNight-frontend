@@ -15,9 +15,10 @@ const useStyles = createUseStyles({
   modal: {
     position: "fixed",
     background: "white",
-    width: "auto",
-    maxWidth: "50%",
+    width: "50%",
     height: "auto",
+    maxHeight: "75%",
+    overflow: "scroll",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
@@ -30,10 +31,11 @@ const useStyles = createUseStyles({
     zIndex: "2",
   },
   button: {
-    margin: "20px 0 20px 0",
+    margin: "20px",
   },
   buttonDiv: {
     margin: "30px 0px 0px 0px",
+    width: "100%",
   },
 });
 

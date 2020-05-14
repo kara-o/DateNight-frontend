@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     border: 0,
     height: 48,
     padding: "0 30px",
-    margin: "20px 0px 0px 0px",
+    margin: "20px 10px 0px 10px",
     color: "black",
     "&:hover": {
       background: "#5D737E",
