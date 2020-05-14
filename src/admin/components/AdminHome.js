@@ -14,6 +14,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
   },
   buttonsDiv: {
+    width: "100%",
     margin: "20px 0 20px 0",
     display: "flex",
     flexFlow: "row wrap",

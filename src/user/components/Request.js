@@ -9,6 +9,7 @@ import {
   Errors,
   Fieldset,
 } from "../../elements";
+import { MenuItem } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -25,6 +26,7 @@ const useStyles = createUseStyles({
     width: "100%",
     border: "none",
     outline: "none",
+    fontSize: "16px",
   },
   requestTitle: {
     marginBottom: "5px",
@@ -38,7 +40,8 @@ const useStyles = createUseStyles({
   helpLink: {
     fontStyle: "italic",
     "&:hover": {
-      color: "turquoise",
+      color: "#533747",
+      fontWeight: "bold",
       cursor: "pointer",
     },
     height: "18px",
@@ -57,12 +60,12 @@ const useStyles = createUseStyles({
     gridColumn: "1/2",
   },
   filter: {
-    marginTop: "10px",
-    marginBottom: "10px",
-  },
-  fieldset: {
+    marginTop: "20px",
     marginBottom: "20px",
   },
+  // fieldset: {
+  //   marginBottom: "20px",
+  // },
 });
 
 const DEFAULT_DATE_LENGTH_HOURS = 4;
@@ -97,11 +100,11 @@ const Request = (props) => {
   const [formData, setFormData] = useState({
     start_date: thisFriday(),
     start_time: defaulStartTime(),
-    party_size: "2",
+    party_size: "",
     notes: "",
   });
-  const [neighborhoodSelection, setNeighborhoodSelection] = useState(null);
-  const [priceRangeSelection, setPriceRangeSelection] = useState(null);
+  const [neighborhoodSelection, setNeighborhoodSelection] = useState("");
+  const [priceRangeSelection, setPriceRangeSelection] = useState("");
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [priceRanges, setPriceRanges] = useState([]);
   const [contacts, setContacts] = useState([userData.user.phone]);
@@ -115,11 +118,9 @@ const Request = (props) => {
       fetchOptions("neighborhoods", userData).then((list) => {
         list.sort((a, b) => a.name.localeCompare(b.name));
         setNeighborhoods(list);
-        setNeighborhoodSelection(list[0].id);
       });
       fetchOptions("price_ranges", userData).then((list) => {
         setPriceRanges(list);
-        setPriceRangeSelection(list[0].id);
       });
     }
   }, [userData]);
@@ -194,9 +195,9 @@ const Request = (props) => {
   const renderOptions = (array, attribute) => {
     return array.map((o) => {
       return (
-        <option key={o.id} value={o.id}>
+        <MenuItem key={o.id} value={o.id}>
           {o[`${attribute}`]}
-        </option>
+        </MenuItem>
       );
     });
   };
@@ -261,7 +262,7 @@ const Request = (props) => {
 
           <Form>
             {errors ? <Errors errors={errors} /> : null}
-            <Fieldset styles={classes.fieldset} legend="Date and Time">
+            <Fieldset legend="Date and Time">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -284,43 +285,49 @@ const Request = (props) => {
                 />
               </MuiPickersUtilsProvider>
             </Fieldset>
-            <Fieldset styles={classes.fieldset} legend="Specifics">
+            <Fieldset legend="Specifics">
               <Filter
-                title="Party Size: "
                 value={formData.party_size}
                 onChange={(e) => handleChange(e.target.value, "party_size")}
                 styles={classes.filter}
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+                <MenuItem value="" disabled>
+                  Party Size
+                </MenuItem>
+                <MenuItem value="1">1 person</MenuItem>
+                <MenuItem value="2">2 people</MenuItem>
+                <MenuItem value="3">3 people</MenuItem>
+                <MenuItem value="4">4 people</MenuItem>
               </Filter>
               <Filter
-                styles={classes.fieldset}
-                title="Neighborhood: "
                 value={neighborhoodSelection}
                 onChange={(e) => setNeighborhoodSelection(e.target.value)}
+                styles={classes.filter}
               >
+                <MenuItem value="" disabled>
+                  Neighborhood
+                </MenuItem>
                 {renderOptions(neighborhoods, "name")}
               </Filter>
               <Filter
-                styles={classes.fieldset}
-                title="Price Range: "
                 value={priceRangeSelection}
                 onChange={(e) => setPriceRangeSelection(e.target.value)}
                 styles={classes.filter}
               >
+                <MenuItem value="" disabled>
+                  Price Range
+                </MenuItem>
                 {renderOptions(priceRanges, "max_amount")}
               </Filter>
             </Fieldset>
-            <Fieldset styles={classes.fieldset} legend="Contacts (up to 4)">
+            <Fieldset legend="Contacts (up to 4)">
               {contacts
                 .concat([""])
                 .slice(0, 4) // limit to 4
                 .map((contact, i) => (
                   <MyInput
                     key={i}
+                    width={"100px"}
                     placeholder={`Phone ${i + 1}`}
                     value={contact}
                     type="tel"

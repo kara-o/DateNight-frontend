@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { fetchItineraryPackages } from "../services/api-admin";
 import { MyLink, ListContainer, ListItem, Filter } from "../../elements";
+import { MenuItem } from "@material-ui/core";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   packages: {
     gridColumn: "1/3",
-    gridRow: "auto",
+  },
+  details: {
+    gridColumn: "1/3",
+    textAlign: "center",
   },
   filter: {
     padding: "20px 0px 20px 0px",
@@ -68,7 +72,7 @@ const AdminItineraryPackages = (props) => {
       const neighborhoods = allPackages.map((p) => p.neighborhood);
       const uniques = neighborhoods.filter((v, i, a) => a.indexOf(v) === i);
       return uniques.map((n) => {
-        return <option value={n}>{n}</option>;
+        return <MenuItem value={n}>{n}</MenuItem>;
       });
     }
   };
@@ -81,7 +85,7 @@ const AdminItineraryPackages = (props) => {
         value={filter}
         onChange={handleChange}
       >
-        <option value={"All"}>All</option>
+        <MenuItem value={"All"}>All</MenuItem>
         {renderMenuItems()}
       </Filter>
     );
@@ -95,11 +99,14 @@ const AdminItineraryPackages = (props) => {
     <>
       {allPackages.length > 0 ? (
         <>
-          <ListContainer title="Itinerary Packages" styles={classes.packages}>
+          <div className={classes.details}>
+            <h1 className="title-fantasy-font">Itinerary Packages</h1>
             <MyLink destination="/admin/itinerary_packages/new">
               Make a New Package
             </MyLink>
             {renderFilter()}
+          </div>
+          <ListContainer styles={classes.packages}>
             {renderPackages()}
           </ListContainer>
         </>

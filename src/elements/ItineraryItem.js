@@ -31,7 +31,6 @@ const useStyles = createUseStyles({
   },
   button: {
     margin: "5px",
-    // height: '50px',
     top: "0px",
     right: "0px",
     position: "absolute",

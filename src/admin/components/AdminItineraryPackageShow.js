@@ -4,12 +4,21 @@ import {
   createItineraryPackageItem,
   deletePkgItem,
 } from "../services/api-admin";
-import { MyButton, SimpleCard, Map, Form, MyInput } from "../../elements";
+import {
+  MyButton,
+  MyLink,
+  SimpleCard,
+  Map,
+  Form,
+  MyInput,
+  MyPaper,
+} from "../../elements";
 import { createUseStyles } from "react-jss";
 import { useHistory } from "react-router-dom";
 
 const useStyles = createUseStyles({
   cardsContainer: {
+    width: "100%",
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "space-evenly",
@@ -23,6 +32,9 @@ const useStyles = createUseStyles({
   container: {
     width: "100%",
     textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   italic: {
     fontStyle: "italic",
@@ -38,6 +50,12 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  link: {
+    margin: "10px",
+  },
+  title: {
+    marginBottom: "0px",
   },
 });
 
@@ -153,18 +171,6 @@ const AdminItineraryPackageShow = (props) => {
           <p>Neighborhood: {i.neighborhood}</p>
           <p>Blurb: {i.blurb}</p>
           <p>Price Range: {i.price_range}</p>
-          {/* <MyLink
-            destination={`/admin/itinerary_packages/${itinPackage.id}/edit`}
-          >
-            Edit
-          </MyLink> */}
-          <MyButton
-            onClick={() =>
-              history.push(`/admin/itinerary_packages/${itinPackage.id}/edit`)
-            }
-          >
-            Edit
-          </MyButton>
         </div>
       );
     }
@@ -198,10 +204,16 @@ const AdminItineraryPackageShow = (props) => {
     <>
       <div className={classes.column}>
         <div className={classes.container}>
-          <h1 className="title-fantasy-font">
+          <h1 className={classes.title + " " + "title-fantasy-font"}>
             Itinerary Package: {itinPackage.title}
           </h1>{" "}
-          <p>{displayItinPackage()}</p>
+          <MyLink
+            styles={classes.link}
+            destination={`/admin/itinerary_packages/${itinPackage.id}/edit`}
+          >
+            Edit
+          </MyLink>
+          <MyPaper>{displayItinPackage()}</MyPaper>
           <h2 className="title-fantasy-font">Package Items:</h2>
           {itinPackageItems.length ? (
             <div className={classes.cardsContainer}>{renderPackageItems()}</div>

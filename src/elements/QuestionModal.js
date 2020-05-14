@@ -95,6 +95,7 @@ const QuestionModal = ({
                   handleClose();
                 }}
                 color="primary"
+                styles={classes.button}
               >
                 {acceptText}
               </MyButton>

@@ -9,6 +9,7 @@ import {
   QuestionModal,
   Review,
 } from "../../elements";
+import { MenuItem } from "@material-ui/core";
 import { fetchRequest, fetchOptions } from "../../user/services/api";
 import {
   toggleRequestFulfilled,
@@ -60,6 +61,10 @@ const useStyles = createUseStyles({
     },
   },
   buttonDiv: {
+    width: "400px",
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
     margin: "10px 0 16px 0",
   },
   venueContainer: {
@@ -225,12 +230,12 @@ const AdminRequestShow = (props) => {
           });
         }}
       >
-        <option value="All">All</option>
+        <MenuItem value="All">All</MenuItem>
         {neighborhoods.map((n) => {
           return (
-            <option key={n.id} value={n.name}>
+            <MenuItem key={n.id} value={n.name}>
               {n.name}
-            </option>
+            </MenuItem>
           );
         })}
       </Filter>
@@ -350,6 +355,15 @@ const AdminRequestShow = (props) => {
                   Alert (DEMO ONLY)
                 </MyButton>
               ) : null}
+              {!request.fulfilled && !showVenues ? (
+                <MyButton
+                  styles={classes.addBtn}
+                  type="button"
+                  onClick={() => setShowVenues(true)}
+                >
+                  Add to Itinerary
+                </MyButton>
+              ) : null}
             </div>
           ) : null}
         </RequestContainer>
@@ -381,17 +395,7 @@ const AdminRequestShow = (props) => {
             items={request.itinerary_items}
             admin={true}
             handleRemove={handleRemove}
-          >
-            {!request.fulfilled ? (
-              <MyButton
-                styles={classes.addBtn}
-                type="button"
-                onClick={() => setShowVenues(true)}
-              >
-                Add to Itinerary
-              </MyButton>
-            ) : null}
-          </ItineraryDisplay>
+          />
         )}
       </div>
       {modalInfo ? openModal() : null}
